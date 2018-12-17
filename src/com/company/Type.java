@@ -17,9 +17,25 @@ enum Type{
         /*Rock  */{ 2,    1,   1,  2,   1,  .5,   1,   2,   1,   2,  1,   1,   2,  1,  1,  .5,   1,   1},
         /*ground*/{ 2,    1,   2,  1,   2,   1,  .5,  .5,   1,   0,  1,   1,   1,  1,  1,   2,   2,   1},
         /*Grass */{.5,    1,   1, .5,   2,   2,  .5,  .5,  .5,  .5,  1,   1,   1,  1,  1,  .5,  .5,   1},
+        /*Bug   */{.5,    1,   1,  1,   2,   1,   2,   1,   1,  .5,  2,   2,   1,  1, .5,  .5,  .5,   1},
+        /*Dragon*/{ 1,    1,   1,  1,   1,   1,   1,   1,   2,   1,  1,   1,   1,  1,  1,  .5,   1,   1},
+        /*flying*/{ 1,    1,  .5,  1,  .5,   1,   2,   2,   1,   1,  1,   1,   2,  1,  1,  .5,   1,   1},
+        /*Psych */{ 1,    1,   1,  1,   1,   1,   1,   1,   1,   1, .5,   1,   2,  1,  1,  .5,   2,   1},
+        /*Dark  */{ 1,    1,   1,  1,   1,   1,   1,   1,   1,   1,  2,  .5,  .5,  1,  2,  .5,   1,   1},
+        /*fight */{ 1,    1,   1,  2,   2,   1,   1,  .5,   1,  .5, .5,   2,   1,  2,  0,   2,  .5,   1},
+        /*Normal*/{ 1,    1,   1,  1,  .5,   1,   1,   1,   1,   1,  1,   1,   1,  1,  0,  .5,   1,   1},
+        /*Ghost */{ 1,    1,   1,  1,   1,   1,   1,   1,   1,   1,  2,  .5,   1,  0,  2,   1,   1,   1},
+        /*Steel */{.5,   .5,  .5,  2,   2,   1,   1,   1,   1,   1,  1,   1,   1,  1,  1,  .5,   1,   1},
+        /*Poison*/{ 1,    1,   1,  1,  .5,  .5,   2,   2,   1,   1,  1,   1,   2,  1, .5,   0,  .5,   1},
+        /*None  */{ 1,    1,   1,  1,   1,   1,   1,   1,   1,   1,  1,   1,   1,  1,  1,   1,   1,   1},
     };
 
-    //incomplete, replace with a completed static array or a spreadsheet or just complete this
+    public Double getModifier(Type other) {
+        return weaknessTable[other.ordinal()][this.ordinal()];
+    }
+
+    //old method,In case we want to compare
+    /*
     public Double getModifier(Type other){
         double retVal = 1;
         switch(this){
@@ -29,38 +45,6 @@ enum Type{
                 else if(other == Grass || other == Fire || other == Bug)
                     retVal = .5;
                 break;
-            case Water:
-                if(other == Grass || other == Electric )
-                    retVal = 2;
-                else if(other == Ice || other == Water || other == Fire)
-                    retVal = .5;
-                break;
-            case Grass:
-                if(other == Fire || other == Bug || other == Poison || other  == Flying || other == Ice)
-                    retVal = 2;
-                else if(other == Grass || other == Electric || other == Ground)
-                    retVal = .5;
-                break;
-            case Electric:
-                if(other == Ground)
-                    retVal = 2;
-                else if(other == Electric || other == Flying || other == Steel)
-                    retVal = .5;
-                break;
-            case Poison:
-                if(other == Ground || other == Psychic)
-                    retVal = 2;
-                else if(other == Bug || other == Grass || other == Fighting || other == Poison)
-                    retVal = .5;
-                break;
-            case Flying:
-                if(other == Electric )
-                    retVal = 2;
-                else if(other == Bug || other == Grass || other == Fighting )
-                    retVal = .5;
-                else if(other == Ground)
-                    retVal = 0;
-                break;
             default:
                 System.out.println("I'm too lazy to implement " + this);
                 retVal = 1;
@@ -68,7 +52,7 @@ enum Type{
         }
         return retVal;
     }
-
+    */
 
 
 }
