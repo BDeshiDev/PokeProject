@@ -7,10 +7,11 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     private final Pokemon target;
     private final Move move;
 
-    public Attack(Pokemon user, Pokemon target, Move m) {
+    public Attack(Pokemon user, Pokemon target, Move m) {//used for holding move data once moves are finalized
         this.user = user;
         this.target = target;
         this.move = m;
+
     }
 
     public int compareTo(Attack other){// for sorting
