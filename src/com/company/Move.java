@@ -29,7 +29,7 @@ class  Move{
 
 
     public void use(Pokemon user,Pokemon target){
-        System.out.println(user.name + " used " + this.name + " on " + target.name +". " );
+        System.out.println(user.name + " used " + this.name);
         curPp--;
         double stabBonus = user.getStabBoost(this);
         target.takeHit(this,user.attack,stabBonus);//#UNIMPLEMENTED certain moves should use sp attack instead of attack
