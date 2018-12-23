@@ -13,7 +13,7 @@ public class Main {
             thunder = new Move("Thunder", Type.Electric, 100,0,100,5),
             quickAttack = new Move("Quick Attack", Type.Normal, 40,1,100,20),
             flameThrower = new Move("FlameThrower",Type.Fire,80,0,100,15)
-        ;//commit test
+        ;//I'm deleting something so red mark should occure.
         Pokemon pidgeot = new Pokemon("Pidgeot",240,100,80,70,80,100,
                 Type.Normal, Type.Flying,
                 aerialAce,quickAttack);
