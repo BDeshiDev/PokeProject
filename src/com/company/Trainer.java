@@ -3,11 +3,21 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Trainer{
-    private  ArrayList<Pokemon> party = new ArrayList<>();
-    private int curPokeIndex;//index in party of the current pokemon
-    private Pokemon curPokemon;
+public abstract class Trainer {
+    protected ArrayList<Pokemon> party = new ArrayList<>();
+    protected int curPokeIndex;//index in party of the current pokemon
+    protected Pokemon curPokemon;
     String name;
+
+    protected Trainer(String _name,Pokemon[] pokemons) {
+        curPokeIndex = 0;
+        name = _name;
+        for (Pokemon p:pokemons) {
+            party.add(p);
+        }
+
+        curPokemon = pokemons[0];
+    }
 
     public boolean canFight() {
         for (Pokemon p:party) {
@@ -29,6 +39,7 @@ class Trainer{
     public Pokemon swapPokemon(){//simply swaps with next pokemon
         return swapPokemon(curPokeIndex+1);
     }
+
     public Pokemon swapPokemon(int newIndex){
            newIndex = newIndex % party.size();
            if(!party.get(newIndex).isDead()){
@@ -39,26 +50,9 @@ class Trainer{
            return curPokemon;
     }
 
-    public Trainer(String _name, Pokemon... pokemons){//... used for quickness,use list or something better
-        name = _name;
-        curPokeIndex = 0;
-        curPokemon = null;
-        for (Pokemon p:pokemons) {
-            party.add(p);
-        }
-        if(party.size() > 0)
-            curPokemon = party.get(curPokeIndex);
-    }
+    //abstract funcs go here
+    public abstract Attack getCommand(Pokemon target);
+    public abstract Boolean hasCommand();
+    public abstract void prepTurn();
 
-    //needs a better name
-    public Attack takeTurn(Scanner cin, Pokemon target){//returns the attack chosen this turn
-        if(curPokemon.isDead())
-            curPokemon = swapPokemon();
-
-        curPokemon.printTurn();
-        System.out.println("enter command: ");
-        int command=cin.nextInt();
-
-        return curPokemon.receiveCommand(command,target);
-    }
 }

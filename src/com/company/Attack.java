@@ -16,6 +16,11 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
 
     public int compareTo(Attack other){// for sorting
         int retVal;
+        if(move==null)
+            System.out.println(this.user.name+ " is null");
+        if(other.move==null)
+            System.out.println(other.user.name+ " is null");
+
         if(move.priority != other.move.priority)
             return (other.move.priority - move.priority);
         else

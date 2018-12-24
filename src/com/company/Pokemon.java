@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 class Pokemon{
     String name;
@@ -15,20 +16,25 @@ class Pokemon{
     public final int spDefence;
     public final int speed;
 
+    public final String frontImage;
+    public final String backImage;
 
     List<Move> moves;
 
     public boolean isDead(){
         return curHp <=0;
     }
+    public double getHpRaio(){return  curHp / maxHp;}
+    public int getCurHp(){return curHp;}
+    public int getLevel(){return 100;}//add proper levels later
 
-    public Pokemon(String _name,int _maxHP, int _att, int _def, int _spAtt, int _spdef,int _spd, Type _t1,Move..._moves){
+    public Pokemon(String _name,int _maxHP, int _att, int _def, int _spAtt, int _spdef,int _spd, Type _t1,String _frontImg,String _backImg,ArrayList<Move> moves){
 
-        this(_name,_maxHP,_att,_def, _spAtt, _spdef,_spd,_t1, Type.None);
+        this(_name,_maxHP,_att,_def, _spAtt, _spdef,_spd,_t1, Type.None,_frontImg,_backImg,moves);
     }
 
 
-    public Pokemon(String _name,int _maxHP, int _att, int _def, int _spAtt, int _spdef,int _spd, Type _t1, Type _t2 ,Move... _moves){
+    public Pokemon(String _name,int _maxHP, int _att, int _def, int _spAtt, int _spdef,int _spd, Type _t1, Type _t2,String _frontImg,String _backImg ,ArrayList<Move> _moves){
         name = _name;
 
         curHp = maxHp = _maxHP;
@@ -41,10 +47,10 @@ class Pokemon{
         t1 = _t1;
         t2 = _t2;
 
-        moves = new ArrayList<>();
-        for (Move m:_moves) {
-            moves.add(m);
-        }
+        moves = _moves;
+
+        frontImage =_frontImg;
+        backImage = _backImg;
     }
 
     public void printTurn(){
@@ -56,11 +62,15 @@ class Pokemon{
         }
     }
 
-    public Attack receiveCommand(int moveNo,Pokemon target){
+    public Move getMove(int moveNo){
         if(moveNo > moves.size() || moveNo <1)
             moveNo = 1;
+        return  moves.get(moveNo-1);
+    }
 
-        return  new Attack(this,target,moves.get(moveNo-1));
+    public Move getRandomMove(Random rng){
+        int randomIndex = rng.nextInt(moves.size());//0 =min to move.size-1 = max no mod necessary
+        return  moves.get(randomIndex);
     }
 
     public void takeHit(Move m,int damageBonus,double stabBonus){
