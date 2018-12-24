@@ -19,7 +19,7 @@ class Pokemon{
     public final String frontImage;
     public final String backImage;
 
-    List<Move> moves;
+    ArrayList<Move> moves;
 
     public boolean isDead(){
         return curHp <=0;
@@ -71,6 +71,10 @@ class Pokemon{
     public Move getRandomMove(Random rng){
         int randomIndex = rng.nextInt(moves.size());//0 =min to move.size-1 = max no mod necessary
         return  moves.get(randomIndex);
+    }
+
+    public final ArrayList<Move> getMoves(){
+        return moves;
     }
 
     public void takeHit(Move m,int damageBonus,double stabBonus){
