@@ -21,7 +21,7 @@ class Pokemon{
     public boolean isDead(){
         return curHp <=0;
     }
-    public double getHpRatio(){return  (double)(curHp / stats.maxHp.getCurVal());}
+    public double getHpRatio(){return  ((double)(curHp)) / stats.maxHp.getCurVal();}
     public int getCurHp(){return curHp;}
     public int getLevel(){return stats.level.getCurLevel();}
 

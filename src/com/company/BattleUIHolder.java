@@ -33,5 +33,15 @@ public class BattleUIHolder {
         NameLabel.setText(pokemon.name);
     }
 
+    public void setHealth(int curHealth, int maxHealth){
+        if(curHealth > 0) {
+            HpLabel.setText(curHealth + " / " + maxHealth);
+            HpBar.setProgress(((double) curHealth) / maxHealth);
+        }else{
+            HpLabel.setText(0 + " / " + maxHealth);
+            HpBar.setProgress(((double) 0) / maxHealth);
+        }
+    }
+
 }
 

@@ -23,6 +23,11 @@ public class BattleSlot {
         return pokemon == null;
     }
 
+    public void takeHit(Move m , int userAttack, double stabBonus){
+        pokemon.takeHit(m,userAttack,stabBonus);
+        slotUI.setHealth(pokemon.getCurHp(),pokemon.stats.maxHp.getCurVal());
+    }
+
     public BattleSlot(Pokemon pokemon) {
         setPokemon(pokemon);
     }

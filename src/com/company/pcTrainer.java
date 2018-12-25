@@ -13,14 +13,9 @@ class pcTrainer extends Trainer {
         return selectedMoves.size()>0;//return true we have selected a move
     }
 
-
     public void setCommand(Move m,Pokemon user){
         selectedMoves.add(new Attack(user,m,enemySlot));
     }
-    //implement if needed hint: make selected moves a stack, convert it to list in getCommands();
-    /*
-    public void undoCommand(){
-    }*/
 
     public void setMovesListUI(MovesListUI movesListUI) {
         this.movesListUI = movesListUI;
@@ -34,10 +29,6 @@ class pcTrainer extends Trainer {
     public void prepTurn() {
         canCancelSwap = true;
         if (ownedSlot.getCurPokemon().isDead()){
-            /*
-            Pokemon newlyStagedMon = stageFirstAvailablePokemon();
-            ownedSlot.setPokemon(newlyStagedMon);
-            */
             canCancelSwap = false;
             swapUI.toggle(true);
         }else if(ownedSlot.getCurPokemon().isDead()){

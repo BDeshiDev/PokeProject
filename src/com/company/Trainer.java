@@ -54,8 +54,6 @@ public abstract class Trainer {
         }
     }
 
-
-
     public Pokemon sendOutFirstAvailablePokemon(){//get first not dead pokemon that's not already sent out or return null,
         for (Pokemon p :party) {
             if(!p.isDead() && stagedPokemon != p) {
@@ -85,20 +83,6 @@ public abstract class Trainer {
         enemySlot = null;
     }
 
-    /*
-    public Pokemon swapPokemon(){//simply swaps with next pokemon
-        return swapPokemon(curPokeIndex+1);
-    }
-
-    public Pokemon swapPokemon(int newIndex){
-           newIndex = newIndex % party.size();
-           if(!party.get(newIndex).isDead()){
-               System.out.println(this.name+" recalled " + curPokemon.name +"!" );
-               setCurPokemon(newIndex);
-               System.out.println(this.name+" sent out " + curPokemon.name +"!" );
-           }
-           return curPokemon;
-    }*/
 
     //abstract funcs go here
     public abstract ArrayList<Attack> getCommands();

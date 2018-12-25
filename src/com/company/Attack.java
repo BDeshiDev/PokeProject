@@ -30,7 +30,7 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     //I am changing in test purpose to learn github commit
     public void execute(){
         if(!user.isDead())
-            move.use(user,targettedSlot.getCurPokemon());
+            move.use(user,targettedSlot);
     }
 
     @Override
