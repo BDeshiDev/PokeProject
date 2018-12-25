@@ -1,21 +1,41 @@
 package com.company;
 
+import java.util.*;
+
 class pcTrainer extends Trainer {
 
-    private Move selectedMove = null;
+    private ArrayList<Attack> selectedMoves = new ArrayList<>();
 
     @Override
-    public Boolean hasCommand() {
-        return selectedMove != null;
+    public Boolean hasFinalizedCommands() {
+        return selectedMoves.size()>0;//return true we have selected a move
     }
 
-    public void setCommand(int index){
-        selectedMove = curPokemon.getMove(index) ;
+
+    public void setCommand(Move m,Pokemon user){
+        selectedMoves.add(new Attack(user,m,enemySlot));
     }
+    //implement if needed hint: make selected moves a stack, convert it to list in getCommands();
+    /*
+    public void undoCommand(){
+    }*/
+
+    public void updateMoveUI(BattleController.MovesListUI moveUI){
+        moveUI.load(getStagedPokemon(),this);
+    }
+
 
     @Override
     public void prepTurn() {
-        selectedMove = null;
+        if (ownedSlot.isEmpty()){
+            Pokemon newlyStagedMon = stageFirstAvailablePokemon();
+            ownedSlot.setPokemon(newlyStagedMon);
+        }
+        selectedMoves.clear();
+    }
+
+    public ArrayList<Attack> getCommands() {
+        return selectedMoves;
     }
 
     public pcTrainer(String _name, Pokemon... pokemons){
@@ -23,8 +43,5 @@ class pcTrainer extends Trainer {
     }
 
     //needs a better name
-    @Override
-    public Attack getCommand( Pokemon target){//returns the attack chosen this turn
-        return new Attack(curPokemon,target,selectedMove);
-    }
+
 }

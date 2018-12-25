@@ -4,15 +4,16 @@ import java.util.*;
 
 public class Attack implements Comparable<Attack> {//so that we can sort easily
     private final Pokemon user;
-    private final Pokemon target;
+    private BattleSlot targettedSlot;
+    private int targetIndex;
     private final Move move;
 
-    public Attack(Pokemon user, Pokemon target, Move m) {//used for holding move data once moves are finalized
+    public Attack(Pokemon user, Move m,BattleSlot targetedSlot) {//used for holding move data once moves are finalized
         this.user = user;
-        this.target = target;
+        this.targettedSlot = targetedSlot;
         this.move = m;
-
     }
+
 
     public int compareTo(Attack other){// for sorting
         int retVal;
@@ -29,6 +30,14 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     //I am changing in test purpose to learn github commit
     public void execute(){
         if(!user.isDead())
-            move.use(user,target);
+            move.use(user,targettedSlot.getCurPokemon());
+    }
+
+    @Override
+    public String toString() {
+        return "Attack{" +
+                "user=" + user.name +
+                ", move=" + move.getName() +
+                '}';
     }
 }

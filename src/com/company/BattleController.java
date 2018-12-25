@@ -2,18 +2,18 @@ package com.company;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
+
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -50,43 +50,54 @@ class BattleController {
     private GridPane playerMoveGrid;
     @FXML
     private Button playerFightButton;
+    @FXML
+    private  Button targetMoveButton;
 
-    public class BattleUIHolder {
-        //helper class so that I don't have to mention playerNameLabel by Name
-        private Label NameLabel;
-        private ProgressBar HpBar;
-        private Label HpLabel;
-        private Label LvLabel;
-        private Rectangle Indicator;
-        private ImageView imageView;
-
-        public BattleUIHolder(Label nameLabel, ProgressBar hpBar, Label hpLabel, Label lvLabel, Rectangle indicator, ImageView imageView) {
-            NameLabel = nameLabel;
-            HpBar = hpBar;
-            HpLabel = hpLabel;
-            LvLabel = lvLabel;
-            Indicator = indicator;
-            this.imageView = imageView;
-
-            Indicator.setVisible(false);
-        }
-        public void load(Pokemon pokemon,boolean shouldUseFrontImage){
-            HpBar.setProgress(pokemon.getHpRaio());
-            HpLabel.setText(pokemon.getCurHp() + " / " + pokemon.maxHp);
-            imageView.setImage( new Image(shouldUseFrontImage?pokemon.frontImage:pokemon.backImage));
-            LvLabel.setText("LV. "+ pokemon.getLevel());
-            NameLabel.setText(pokemon.name);
-        }
-
-        public void setIndicatorVisible(boolean shouldBeVisible){
-            Indicator.setVisible(shouldBeVisible);
-        }
-    }
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
 
+    public class MovesListUI{//for easily setting moves
+        private final int maxRowOrCol = 2;//maximum 4 moves but this shouldn't even come in to play normally
+        private int row=0,col=0;
+        private GridPane grid;
+        public MovesListUI(GridPane grid){
+            this.grid = grid;
+        }
+        public void add(Move move,pcTrainer player,Pokemon moveOwnerMon){
+            if((row+1) >=maxRowOrCol && (col+1) >=maxRowOrCol){
+                System.out.println("failed to add move: " + move.getName()+ " since move grid is full");
+                return;
+            }
 
-    Trainer t1,t2;
+            Button mButton = new Button(move.getName());
+            playerMoveGrid.add(mButton,col,row);//event handler requires constant variable
+            mButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    player.setCommand(move,moveOwnerMon);
+                }
+            });
+
+            col++;
+            if(row>maxRowOrCol){
+                row++;
+                col =0;
+            }
+        }
+
+        public void load(Pokemon pokemonToLoad,pcTrainer player){
+            final ArrayList<Move> moves = pokemonToLoad.getMoves();
+            for (Move m :moves) {
+                add(m,player,pokemonToLoad);
+            }
+        }
+    }
+    BattleController.MovesListUI movesUI;
+
+    pcTrainer player;
+    aiTrainer enemy;
+    BattleSlot playerSlot;
+    BattleSlot enemySlot;
 
     boolean canRun = true;
     boolean canUseItems = true;
@@ -94,29 +105,10 @@ class BattleController {
     Parent newRoot;
 
     public BattleController(pcTrainer player, aiTrainer enemy){
-        t1 = player;
-        t2 = enemy;
+        this.player = player;
+        this.enemy = enemy;
+
         setFxml(player,enemy);
-        
-        final ArrayList<Move> availableMoves = player.curPokemon.getMoves();
-        int r=0,c=0;
-        for (int i = 0; i < availableMoves.size();i++){
-            Move m = availableMoves.get(i);
-            Button mButton = new Button(m.getName());
-            playerMoveGrid.add(mButton,c,r);
-            c++;
-            if(c>1){
-                c = 0;
-                r++;
-            }
-            final int moveIndex = i;//event handler requires constant variable
-            mButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    player.setCommand(moveIndex);
-                }
-            });
-        }
     }
 
     private void setFxml(pcTrainer player,aiTrainer enemy){
@@ -125,10 +117,15 @@ class BattleController {
         loader.setController(this);
         try {
             newRoot = loader.load();
-            enemyUI = new BattleUIHolder(enemyNameLabel,enemyHpBar,enemyHpLabel,enemyLvLabel,enemyTargetIndicator,enemyImageView);
-            playerUI = new BattleUIHolder(playerNameLabel,playerHpBar,playerHpLabel,playerLvLabel,playerTargetIndicator,playerImageView);
-            playerUI.load(player.getCurPokemon(),false);
-            enemyUI.load(enemy.getCurPokemon(),true);
+            enemyUI = new BattleUIHolder(enemyNameLabel,enemyHpBar,enemyHpLabel,enemyLvLabel,enemyTargetIndicator,enemyImageView,true);
+            playerUI = new BattleUIHolder(playerNameLabel,playerHpBar,playerHpLabel,playerLvLabel,playerTargetIndicator,playerImageView,false);
+
+            playerSlot = new BattleSlot();
+            playerSlot.setSlotUI(playerUI);
+            enemySlot = new BattleSlot();
+            enemySlot.setSlotUI(enemyUI);
+
+            movesUI = new MovesListUI(playerMoveGrid);
         }catch (IOException ioe){
             System.out.println("battlefxml load fail");
             System.exit(-1);
@@ -137,31 +134,47 @@ class BattleController {
     }
 
     public boolean isOver(){
-        return !t1.canFight() || !t2.canFight();
+        return !player.canFight() || !enemy.canFight();
     }
 
     public void begin(Stage curStage) {
         curStage.setScene(new Scene(newRoot, Settings.windowWidth, Settings.windowLength));
 
-        System.out.println(t1.name + "  VS  " + t2.name + "!!!");//#unimplimented show this in battle transition animation
+        System.out.println(player.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
 
         AnimationTimer battleLoop = new AnimationTimer() {
             ArrayList<Attack> attacksList;
             ArrayList<Trainer> waitList;
+            ArrayList<Trainer> trainers;
 
             @Override
             public void start() {
                 super.start();
                 attacksList = new ArrayList<>();
                 waitList = new ArrayList<>();
+                trainers = new ArrayList<>();
+                trainers.add(player);
+                trainers.add(enemy);
 
+                player.setOwnedSlots(playerSlot);
+                player.setEnemySlots(enemySlot);
+                enemy.setOwnedSlots(enemySlot);
+                enemy.setEnemySlots(playerSlot);
+                prepareTurns();
+
+                player.updateMoveUI(movesUI);
                 refreshWaitList();
+            }
+
+            void prepareTurns(){
+                for (Trainer t:trainers) {
+                    t.prepTurn();
+                }
             }
 
             void refreshWaitList() {
                 waitList.clear();
-                waitList.add(t1);
-                waitList.add(t2);
+                waitList.addAll(trainers);
             }
 
             void executeAttacks() {
@@ -177,34 +190,38 @@ class BattleController {
                     stop();
                 }
 
-                if (waitList.contains(t1)&& t1.hasCommand()) {//temp fix until we implement targeting logic to set move target outside
-                    attacksList.add(t1.getCommand(t2.getCurPokemon()));
-                    waitList.remove(t1);
-                }
-                if (waitList.contains(t2) && t2.hasCommand()) {//temp fix until we implement targeting logic to set move target outside
-                    attacksList.add(t2.getCommand(t1.getCurPokemon()));
-                    waitList.remove(t2);
+                for(int i = waitList.size() -1; i >= 0 ;i--){
+                    Trainer t = waitList.get(i);
+                    if(t.hasFinalizedCommands()){
+                        attacksList.addAll(t.getCommands());
+                        waitList.remove(t) ;
+                    }
                 }
 
                 if (waitList.isEmpty()) {
                     executeAttacks();
-                    refreshWaitList();
-                    t1.prepTurn();
-                    t2.prepTurn();
+                    if(!isOver()) {
+                        refreshWaitList();
+                        attacksList.clear();
+                        prepareTurns();
+                    }else{
+                        stop();
+                    }
                 }
-
             }
-
             @Override
             public void stop() {
                 super.stop();
+                for (Trainer t: trainers) {
+                    t.endBattle();
+                }
                 //calc results
-                if (!t1.canFight() && !t2.canFight())
+                if (!player.canFight() && !enemy.canFight())
                     System.out.println("result: Draw");
-                else if (!t2.canFight())
-                    System.out.println("Result: " + t1.name + " wins");
+                else if (!player.canFight())
+                    System.out.println("Result: " + player.name + " wins");
                 else
-                    System.out.println("Result: " + t2.name + " wins");
+                    System.out.println("Result: " + enemy.name + " wins");
             }
         };
         battleLoop.start();

@@ -29,7 +29,7 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
         moves.add(MoveFactory.getSlam());
 
         return  new Pokemon("Blastoise",280,85,90,105,90,70,
-                Type.Grass, Type.Poison,"Assets/BlastoiseFront.png","Assets/BlastoiseBack.png",
+                Type.Water, Type.None,"Assets/BlastoiseFront.png","Assets/BlastoiseBack.png",
                 moves);
     }
 }

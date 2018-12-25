@@ -1,17 +1,31 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class aiTrainer extends Trainer {
+
     Random rand;
     @Override
-    public Attack getCommand(Pokemon target) {
-        return  new Attack(curPokemon,target,curPokemon.getRandomMove(rand));
+    public ArrayList<Attack> getCommands() {
+        ArrayList<Attack> commandsList = new ArrayList<>();
+
+        Pokemon pokeInSlot = ownedSlot.getCurPokemon();
+        Attack newCommmand =new Attack(pokeInSlot,pokeInSlot.getRandomMove(rand),enemySlot);
+        commandsList.add(newCommmand);
+
+        return  commandsList;
     }
+
+
 
     @Override
     public void prepTurn() {
-        //no need to do anything yet
+        if(ownedSlot.isEmpty()){
+            Pokemon newlyStagedMon = stageFirstAvailablePokemon();
+            ownedSlot.setPokemon(newlyStagedMon);
+        }
     }
 
     public aiTrainer(String _name, Pokemon... pokemons) {
@@ -20,7 +34,7 @@ public class aiTrainer extends Trainer {
     }
 
     @Override
-    public Boolean hasCommand() {
+    public Boolean hasFinalizedCommands() {
         return true;//always true since our ai doesn't need to think
     }
 }
