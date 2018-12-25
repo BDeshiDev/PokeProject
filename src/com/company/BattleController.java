@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 
+import com.sun.org.apache.bcel.internal.generic.SWAP;
+import com.sun.org.apache.xpath.internal.axes.RTFIterator;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 
@@ -52,6 +55,10 @@ class BattleController {
     private Button playerFightButton;
     @FXML
     private Button pokemonSwapButton;
+    @FXML
+    private FlowPane PartySwapPane;
+    @FXML
+    private Button swapCancelButton;
 
 
     private BattleUIHolder playerUI;
@@ -98,6 +105,37 @@ class BattleController {
     }
     BattleController.MovesListUI movesUI;
 
+    public class SwapUI{
+        FlowPane pane;
+        int buttonWidth = 300;
+        int buttonheight = 100;
+        public SwapUI(FlowPane pane) {
+            this.pane = pane;
+        }
+
+        public void clear(){
+            pane.getChildren().clear();
+        }
+
+        public  void addPokemon(pcTrainer player,Pokemon pokeToAdd){
+            Button b = new Button(pokeToAdd.name);
+            b.setPrefWidth(buttonWidth);
+            b.setPrefHeight(buttonheight);
+            b.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    player.tryToSwap(pokeToAdd);
+                }
+            });
+            pane.getChildren().add(b);
+        }
+
+        public void toggle(boolean shouldBeOn){
+            toggleSwapMenu(shouldBeOn);
+        }
+    }
+    SwapUI swapUI;
+
     pcTrainer player;
     aiTrainer enemy;
     BattleSlot playerSlot;
@@ -129,6 +167,7 @@ class BattleController {
             enemySlot = new BattleSlot();
             enemySlot.setSlotUI(enemyUI);
 
+            swapUI = new SwapUI(PartySwapPane);
             movesUI = new MovesListUI(playerMoveGrid);
             pokemonSwapButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -137,11 +176,17 @@ class BattleController {
                     //player.swapPokemon();
                 }
             });
+            swapCancelButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    toggleSwapMenu(false);
+                }
+            });
+
         }catch (IOException ioe){
             System.out.println("battlefxml load fail");
             System.exit(-1);
         }
-
     }
 
     public boolean isOver(){
@@ -149,7 +194,17 @@ class BattleController {
     }
 
     public void toggleSwapMenu(boolean isSwapEnabled){
-
+        if(isSwapEnabled){
+            PartySwapPane.setVisible(true);
+            PartySwapPane.setDisable(false);
+            swapCancelButton.setVisible(true);
+            swapCancelButton.setDisable(false);
+        }else{
+            PartySwapPane.setVisible(false);
+            PartySwapPane.setDisable(true);
+            swapCancelButton.setVisible(false);
+            swapCancelButton.setDisable(true);
+        }
     }
 
     public void begin(Stage curStage) {
@@ -177,6 +232,8 @@ class BattleController {
 
                 player.setMovesListUI(movesUI);
                 player.updateMoveUI();
+                player.setSwapUI(swapUI);
+                player.updateSwapUI();
                 refreshWaitList();
             }
 

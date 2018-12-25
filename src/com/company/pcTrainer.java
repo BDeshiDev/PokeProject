@@ -1,11 +1,11 @@
 package com.company;
-
 import java.util.*;
 
 class pcTrainer extends Trainer {
 
     private ArrayList<Attack> selectedMoves = new ArrayList<>();
     private BattleController.MovesListUI movesListUI;
+    private BattleController.SwapUI swapUI;
 
     @Override
     public Boolean hasFinalizedCommands() {
@@ -55,5 +55,33 @@ class pcTrainer extends Trainer {
     public void swapPokemon(Pokemon pokemonToSwapWith) {
         super.swapPokemon(pokemonToSwapWith);
         movesListUI.load(getStagedPokemon(),this);
+    }
+
+    public void tryToSwap(Pokemon pokeToSwapWith){
+        if(canSwap()){
+            if(getStagedPokemon() != pokeToSwapWith){
+                swapPokemon(pokeToSwapWith);
+                updateSwapUI();
+            }
+        }
+    }
+
+    public void setSwapUI(BattleController.SwapUI swapUI) {
+        this.swapUI = swapUI;
+    }
+
+    public void updateSwapUI(){
+        swapUI.clear();
+        for (Pokemon p : party) {
+            swapUI.addPokemon(this,p);
+        }
+        swapUI.toggle(false);
+    }
+
+    @Override
+    public void endBattle() {
+        super.endBattle();
+        swapUI = null;
+        movesListUI = null;
     }
 }
