@@ -25,7 +25,7 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
         if(move.priority != other.move.priority)
             return (other.move.priority - move.priority);
         else
-            return ( other.user.speed - this.user.speed);
+            return ( other.user.stats.speed.getCurVal() - this.user.stats.speed.getCurVal());
     }
     //I am changing in test purpose to learn github commit
     public void execute(){

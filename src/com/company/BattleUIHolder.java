@@ -5,7 +5,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
-import jdk.nashorn.internal.runtime.Source;
 
 public class BattleUIHolder {
     private Label NameLabel;
@@ -27,8 +26,8 @@ public class BattleUIHolder {
     public void load(Pokemon pokemon){
         if(pokemon == null)
             System.out.println("poke null");
-        HpBar.setProgress(pokemon.getHpRaio());
-        HpLabel.setText(pokemon.getCurHp() + " / " + pokemon.maxHp);
+        HpBar.setProgress(pokemon.getHpRatio());
+        HpLabel.setText(pokemon.getCurHp() + " / " + pokemon.stats.maxHp.getCurVal());
         imageView.setImage( new Image(shoudUseFrontImage?pokemon.frontImage:pokemon.backImage));
         LvLabel.setText("LV. "+ pokemon.getLevel());
         NameLabel.setText(pokemon.name);

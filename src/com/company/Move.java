@@ -32,7 +32,7 @@ class  Move{
         System.out.println(user.name + " used " + this.name);
         curPp--;
         double stabBonus = user.getStabBoost(this);
-        target.takeHit(this,user.attack,stabBonus);//#UNIMPLEMENTED certain moves should use sp attack instead of attack
+        target.takeHit(this,user.stats.attack.getCurVal(),stabBonus);//#UNIMPLEMENTED certain moves should use sp attack instead of attack
     }
 
 }

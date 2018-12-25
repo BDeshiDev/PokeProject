@@ -4,7 +4,7 @@ import java.util.*;
 class pcTrainer extends Trainer {
 
     private ArrayList<Attack> selectedMoves = new ArrayList<>();
-    private BattleController.MovesListUI movesListUI;
+    private MovesListUI movesListUI;
     private BattleController.SwapUI swapUI;
     private boolean canCancelSwap = true;
 
@@ -22,7 +22,7 @@ class pcTrainer extends Trainer {
     public void undoCommand(){
     }*/
 
-    public void setMovesListUI(BattleController.MovesListUI movesListUI) {
+    public void setMovesListUI(MovesListUI movesListUI) {
         this.movesListUI = movesListUI;
     }
 

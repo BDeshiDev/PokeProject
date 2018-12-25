@@ -64,46 +64,8 @@ class BattleController {
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
 
-    public class MovesListUI{//for easily setting moves
-        private final int maxRowOrCol = 2;//maximum 4 moves but this shouldn't even come in to play normally
-        private int row=0,col=0;
-        private GridPane grid;
 
-        public MovesListUI(GridPane grid){
-            this.grid = grid;
-        }
-
-        public void add(Move move,pcTrainer player,Pokemon moveOwnerMon){
-            if((row+1) >=maxRowOrCol && (col+1) >=maxRowOrCol){
-                System.out.println("failed to add move: " + move.getName()+ " since move grid is full");
-                return;
-            }
-
-            Button mButton = new Button(move.getName());
-            playerMoveGrid.add(mButton,col,row);//event handler requires constant variable
-            mButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    player.setCommand(move,moveOwnerMon);
-                }
-            });
-
-            col++;
-            if(row>maxRowOrCol){
-                row++;
-                col =0;
-            }
-        }
-
-        public void load(Pokemon pokemonToLoad,pcTrainer player){
-            final ArrayList<Move> moves = pokemonToLoad.getMoves();
-            grid.getChildren().clear();//messes up the grid. change later
-            for (Move m :moves) {
-                add(m,player,pokemonToLoad);
-            }
-        }
-    }
-    BattleController.MovesListUI movesUI;
+    MovesListUI movesUI;
 
     public class SwapUI{
         FlowPane pane;
@@ -169,22 +131,18 @@ class BattleController {
 
             swapUI = new SwapUI(PartySwapPane);
             movesUI = new MovesListUI(playerMoveGrid);
-            pokemonSwapButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    toggleSwapMenu(true);
-                    //player.swapPokemon();
-                }
+
+            pokemonSwapButton.setOnAction(event -> {
+                toggleSwapMenu(true);
             });
-            swapCancelButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if(player.canCancelSwap())
-                        toggleSwapMenu(false);
-                    else
-                        System.out.println("You must swap");
-                }
-            });
+            swapCancelButton.setOnAction(event -> {
+                if(player.canCancelSwap())
+                    toggleSwapMenu(false);
+                else
+                    System.out.println("You must swap");
+            }
+            );
+
 
         }catch (IOException ioe){
             System.out.println("battlefxml load fail");
@@ -239,7 +197,6 @@ class BattleController {
                 player.setSwapUI(swapUI);
                 player.updateSwapUI();
                 refreshWaitList();
-
             }
 
             void prepareTurns(){

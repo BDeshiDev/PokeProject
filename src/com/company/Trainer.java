@@ -57,7 +57,6 @@ public abstract class Trainer {
 
 
     public Pokemon sendOutFirstAvailablePokemon(){//get first not dead pokemon that's not already sent out or return null,
-        System.out.println("seinding first poke");
         for (Pokemon p :party) {
             if(!p.isDead() && stagedPokemon != p) {
                 return p;
@@ -65,10 +64,11 @@ public abstract class Trainer {
         }
         return  null;
     }
+
     public Pokemon stageFirstAvailablePokemon(){// used for getting pokemon to send out first in battle//also stages the mon
         Pokemon p = sendOutFirstAvailablePokemon();
-        System.out.println(name+" sending poke "+ p.name);
         stagedPokemon = p;
+        System.out.println(name+"sending poke "+ p.name);
         return stagedPokemon;
     }
 
