@@ -32,7 +32,6 @@ class Pokemon{
                    int spDefAtMaxLevel, int spDefBase,
                    int speedAtMaxLevel, int speedBase,
                    Type _t1,String _frontImg,String _backImg ,ArrayList<Move> _moves){
-
         this(_name,level,hpBase,hpAtMaxLevel,attAtMaxLevel,attBase, defAtMaxLevel, defBase,
                 spAttAtMaxLevel,spAttBase, spDefAtMaxLevel,spDefBase, speedAtMaxLevel,speedBase
                 ,_t1, Type.None,_frontImg,_backImg,_moves);
@@ -113,6 +112,4 @@ class Pokemon{
             retVal *=1.5;
         return  retVal;
     }
-
-
 }

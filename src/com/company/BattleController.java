@@ -14,6 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
@@ -59,11 +61,13 @@ class BattleController {
     private FlowPane PartySwapPane;
     @FXML
     private Button swapCancelButton;
-
+    @FXML
+    private Pane dialogBox;
+    @FXML
+    private Text DialogText;
 
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
-
 
     MovesListUI movesUI;
 
@@ -179,9 +183,13 @@ class BattleController {
             ArrayList<Trainer> waitList;
             ArrayList<Trainer> trainers;
 
+            BattleState curState;
+
             @Override
             public void start() {
                 super.start();
+                curState = BattleState.turnPreparing;
+
                 attacksList = new ArrayList<>();
                 waitList = new ArrayList<>();
                 trainers = new ArrayList<>();
@@ -219,31 +227,42 @@ class BattleController {
 
             @Override
             public void handle(long now) {//essentially a infinite loop
-                if (isOver()) {
-                    stop();
-                }
-
-                for(int i = waitList.size() -1; i >= 0 ;i--){
-                    Trainer t = waitList.get(i);
-                    if(t.hasFinalizedCommands()){
-                        attacksList.addAll(t.getCommands());
-                        waitList.remove(t) ;
-                    }
-                }
-
-                if (waitList.isEmpty()) {
-                    executeAttacks();
-                    if(!isOver()) {
-                        refreshWaitList();
-                        attacksList.clear();
+                switch (curState){
+                    case turnPreparing:
                         prepareTurns();
-                    }else{
+                        curState = BattleState.waiting;
+                        break;
+                    case waiting:
+                        for(int i = waitList.size() -1; i >= 0 ;i--){
+                            Trainer t = waitList.get(i);
+                            if(t.hasFinalizedCommands()){
+                                attacksList.addAll(t.getCommands());
+                                waitList.remove(t) ;
+                            }
+                        }
+                        if(waitList.isEmpty())
+                            curState = BattleState.executing;
+                        break;
+                    case executing:
+                        executeAttacks();
+                        curState = BattleState.endingTurn;
+                        break;
+                    case endingTurn:
+                        if(!isOver()) {
+                            refreshWaitList();
+                            attacksList.clear();
+                            curState = BattleState.turnPreparing;
+                        }else
+                            curState = BattleState.finishing;
+                        break;
+                    case finishing:
                         stop();
-                    }
+                        break;
                 }
+
             }
             @Override
-            public void stop() {
+            public void stop(){
                 super.stop();
                 for (Trainer t: trainers) {
                     t.endBattle();
@@ -259,7 +278,9 @@ class BattleController {
             }
         };
         battleLoop.start();
-
     }
+}
 
+enum BattleState{
+    waiting,executing,finishing,endingTurn,turnPreparing
 }
