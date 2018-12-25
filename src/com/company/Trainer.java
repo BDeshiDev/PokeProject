@@ -9,7 +9,6 @@ public abstract class Trainer {
     private Pokemon stagedPokemon = null;
     protected  BattleSlot ownedSlot;
     protected BattleSlot enemySlot;
-    BattleUIHolder ownedUI;
     String name;
 
     protected Trainer(String _name,Pokemon[] pokemons) {
@@ -18,15 +17,6 @@ public abstract class Trainer {
             party.add(p);
         }
     }
-
-    public void setOwnedSlots( BattleSlot newSlot){
-        ownedSlot= newSlot;
-    }
-
-    public void setEnemySlots(BattleSlot enemySlot) {
-        this.enemySlot = enemySlot;
-    }
-
     public  Pokemon getStagedPokemon(){
         return  stagedPokemon;
     }
@@ -38,6 +28,30 @@ public abstract class Trainer {
         }
         return false;
     }
+
+    public boolean canSwap(){
+        for (Pokemon p:party) {
+            if(!p.isDead() && p != getStagedPokemon())
+                return  true;
+        }
+        return  false;
+    }
+    public void swapPokemon(){
+        System.out.println(getStagedPokemon().name + " was recalled");
+        Pokemon pokemonToSwapWith = sendOutFirstAvailablePokemon();
+        swapPokemon(pokemonToSwapWith);
+    }
+
+    public void swapPokemon(Pokemon pokemonToSwapWith ){
+        if(pokemonToSwapWith == null)
+            System.out.println("swap failed");
+        else{
+            stagedPokemon = pokemonToSwapWith;//no need to add the previous staged pokemon to party again
+            ownedSlot.setPokemon(stagedPokemon);
+        }
+    }
+
+
 
     public Pokemon sendOutFirstAvailablePokemon(){//get first not dead pokemon that's not already sent out or return null,
         System.out.println("seinding first poke");
@@ -55,11 +69,17 @@ public abstract class Trainer {
         return stagedPokemon;
     }
 
+    public void prepareForBattle(BattleSlot ownedSlot,BattleSlot enemySlot){
+        this.ownedSlot = ownedSlot;
+        this.enemySlot = enemySlot;
+
+        ownedSlot.setPokemon(stageFirstAvailablePokemon());
+    }
+
     public void endBattle(){
         stagedPokemon = null;
         ownedSlot = null;
         enemySlot = null;
-        ownedUI = null;
     }
 
     /*

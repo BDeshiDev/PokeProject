@@ -5,6 +5,7 @@ import java.util.*;
 class pcTrainer extends Trainer {
 
     private ArrayList<Attack> selectedMoves = new ArrayList<>();
+    private BattleController.MovesListUI movesListUI;
 
     @Override
     public Boolean hasFinalizedCommands() {
@@ -20,19 +21,26 @@ class pcTrainer extends Trainer {
     public void undoCommand(){
     }*/
 
-    public void updateMoveUI(BattleController.MovesListUI moveUI){
-        moveUI.load(getStagedPokemon(),this);
+    public void setMovesListUI(BattleController.MovesListUI movesListUI) {
+        this.movesListUI = movesListUI;
     }
 
+    public void updateMoveUI(){
+        movesListUI.load(getStagedPokemon(),this);
+    }
 
     @Override
     public void prepTurn() {
         if (ownedSlot.isEmpty()){
             Pokemon newlyStagedMon = stageFirstAvailablePokemon();
             ownedSlot.setPokemon(newlyStagedMon);
+        }else if(ownedSlot.getCurPokemon().isDead()){
+            swapPokemon();
         }
         selectedMoves.clear();
     }
+
+
 
     public ArrayList<Attack> getCommands() {
         return selectedMoves;
@@ -42,6 +50,10 @@ class pcTrainer extends Trainer {
         super(_name,pokemons);//... used for quickness,use list or something better
     }
 
-    //needs a better name
 
+    @Override
+    public void swapPokemon(Pokemon pokemonToSwapWith) {
+        super.swapPokemon(pokemonToSwapWith);
+        movesListUI.load(getStagedPokemon(),this);
+    }
 }

@@ -5,10 +5,11 @@ import javafx.stage.Stage;
 public class Main extends  Application {
     @Override
     public void start(Stage primaryStage) {
-        Pokemon poke1 =PokemonFactory.getBlastoise();
-        Pokemon poke2  =PokemonFactory.getCharizard();
+        Pokemon poke1 = PokemonFactory.getBlastoise();
+        Pokemon poke2 = PokemonFactory.getCharizard();
+        Pokemon poke3 = PokemonFactory.getVenasaur();
 
-        pcTrainer ash = new pcTrainer("Ash",poke1);
+        pcTrainer ash = new pcTrainer("Ash",poke3,poke1);
         aiTrainer gary = new aiTrainer("Gary",poke2);
 
         BattleController battle = new BattleController(ash,gary);

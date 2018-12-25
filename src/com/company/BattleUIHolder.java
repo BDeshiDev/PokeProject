@@ -15,16 +15,14 @@ public class BattleUIHolder {
     private Rectangle Indicator;
     private ImageView imageView;
     private boolean shoudUseFrontImage;
-    public BattleUIHolder(Label nameLabel, ProgressBar hpBar, Label hpLabel, Label lvLabel, Rectangle indicator, ImageView imageView,boolean shoudUseFrontImage) {
+    public BattleUIHolder(Label nameLabel, ProgressBar hpBar, Label hpLabel, Label lvLabel, ImageView imageView,boolean shoudUseFrontImage) {
         NameLabel = nameLabel;
         HpBar = hpBar;
         HpLabel = hpLabel;
         LvLabel = lvLabel;
-        Indicator = indicator;
         this.imageView = imageView;
         this.shoudUseFrontImage = shoudUseFrontImage;
 
-        Indicator.setVisible(false);
     }
     public void load(Pokemon pokemon){
         if(pokemon == null)
@@ -36,8 +34,5 @@ public class BattleUIHolder {
         NameLabel.setText(pokemon.name);
     }
 
-    public void setIndicatorVisible(boolean shouldBeVisible){
-        Indicator.setVisible(shouldBeVisible);
-    }
 }
 

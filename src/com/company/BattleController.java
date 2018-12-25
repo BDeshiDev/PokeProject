@@ -51,7 +51,8 @@ class BattleController {
     @FXML
     private Button playerFightButton;
     @FXML
-    private  Button targetMoveButton;
+    private Button pokemonSwapButton;
+
 
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
@@ -60,9 +61,11 @@ class BattleController {
         private final int maxRowOrCol = 2;//maximum 4 moves but this shouldn't even come in to play normally
         private int row=0,col=0;
         private GridPane grid;
+
         public MovesListUI(GridPane grid){
             this.grid = grid;
         }
+
         public void add(Move move,pcTrainer player,Pokemon moveOwnerMon){
             if((row+1) >=maxRowOrCol && (col+1) >=maxRowOrCol){
                 System.out.println("failed to add move: " + move.getName()+ " since move grid is full");
@@ -87,6 +90,7 @@ class BattleController {
 
         public void load(Pokemon pokemonToLoad,pcTrainer player){
             final ArrayList<Move> moves = pokemonToLoad.getMoves();
+            grid.getChildren().clear();//messes up the grid. change later
             for (Move m :moves) {
                 add(m,player,pokemonToLoad);
             }
@@ -117,8 +121,8 @@ class BattleController {
         loader.setController(this);
         try {
             newRoot = loader.load();
-            enemyUI = new BattleUIHolder(enemyNameLabel,enemyHpBar,enemyHpLabel,enemyLvLabel,enemyTargetIndicator,enemyImageView,true);
-            playerUI = new BattleUIHolder(playerNameLabel,playerHpBar,playerHpLabel,playerLvLabel,playerTargetIndicator,playerImageView,false);
+            enemyUI = new BattleUIHolder(enemyNameLabel,enemyHpBar,enemyHpLabel,enemyLvLabel,enemyImageView,true);
+            playerUI = new BattleUIHolder(playerNameLabel,playerHpBar,playerHpLabel,playerLvLabel,playerImageView,false);
 
             playerSlot = new BattleSlot();
             playerSlot.setSlotUI(playerUI);
@@ -126,6 +130,13 @@ class BattleController {
             enemySlot.setSlotUI(enemyUI);
 
             movesUI = new MovesListUI(playerMoveGrid);
+            pokemonSwapButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    toggleSwapMenu(true);
+                    //player.swapPokemon();
+                }
+            });
         }catch (IOException ioe){
             System.out.println("battlefxml load fail");
             System.exit(-1);
@@ -135,6 +146,10 @@ class BattleController {
 
     public boolean isOver(){
         return !player.canFight() || !enemy.canFight();
+    }
+
+    public void toggleSwapMenu(boolean isSwapEnabled){
+
     }
 
     public void begin(Stage curStage) {
@@ -156,13 +171,12 @@ class BattleController {
                 trainers.add(player);
                 trainers.add(enemy);
 
-                player.setOwnedSlots(playerSlot);
-                player.setEnemySlots(enemySlot);
-                enemy.setOwnedSlots(enemySlot);
-                enemy.setEnemySlots(playerSlot);
+                player.prepareForBattle(playerSlot,enemySlot);
+                enemy.prepareForBattle(enemySlot,playerSlot);
                 prepareTurns();
 
-                player.updateMoveUI(movesUI);
+                player.setMovesListUI(movesUI);
+                player.updateMoveUI();
                 refreshWaitList();
             }
 
@@ -218,7 +232,7 @@ class BattleController {
                 //calc results
                 if (!player.canFight() && !enemy.canFight())
                     System.out.println("result: Draw");
-                else if (!player.canFight())
+                else if (!enemy.canFight())
                     System.out.println("Result: " + player.name + " wins");
                 else
                     System.out.println("Result: " + enemy.name + " wins");

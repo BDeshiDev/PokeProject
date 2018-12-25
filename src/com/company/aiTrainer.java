@@ -19,7 +19,6 @@ public class aiTrainer extends Trainer {
     }
 
 
-
     @Override
     public void prepTurn() {
         if(ownedSlot.isEmpty()){
