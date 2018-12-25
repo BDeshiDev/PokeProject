@@ -6,6 +6,7 @@ class pcTrainer extends Trainer {
     private ArrayList<Attack> selectedMoves = new ArrayList<>();
     private BattleController.MovesListUI movesListUI;
     private BattleController.SwapUI swapUI;
+    private boolean canCancelSwap = true;
 
     @Override
     public Boolean hasFinalizedCommands() {
@@ -31,9 +32,14 @@ class pcTrainer extends Trainer {
 
     @Override
     public void prepTurn() {
-        if (ownedSlot.isEmpty()){
+        canCancelSwap = true;
+        if (ownedSlot.getCurPokemon().isDead()){
+            /*
             Pokemon newlyStagedMon = stageFirstAvailablePokemon();
             ownedSlot.setPokemon(newlyStagedMon);
+            */
+            canCancelSwap = false;
+            swapUI.toggle(true);
         }else if(ownedSlot.getCurPokemon().isDead()){
             swapPokemon();
         }
@@ -62,8 +68,16 @@ class pcTrainer extends Trainer {
             if(getStagedPokemon() != pokeToSwapWith){
                 swapPokemon(pokeToSwapWith);
                 updateSwapUI();
+            }else{
+                System.out.println(pokeToSwapWith.name + " has already been sent out");
             }
+        }else{
+            System.out.println( name+" can't swap");
         }
+    }
+
+    public boolean canCancelSwap(){
+        return canCancelSwap;
     }
 
     public void setSwapUI(BattleController.SwapUI swapUI) {

@@ -21,7 +21,7 @@ public class aiTrainer extends Trainer {
 
     @Override
     public void prepTurn() {
-        if(ownedSlot.isEmpty()){
+        if(ownedSlot.getCurPokemon().isDead()){
             Pokemon newlyStagedMon = stageFirstAvailablePokemon();
             ownedSlot.setPokemon(newlyStagedMon);
         }

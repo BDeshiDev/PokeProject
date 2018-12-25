@@ -122,12 +122,12 @@
             </HBox>
             <FlowPane fx:id="PartySwapPane" disable="true" prefHeight="200.0" prefWidth="719.0" visible="false">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
-                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
-                  <Button layoutX="310.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
-                  <Button layoutX="610.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
-                  <Button layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
-                  <Button layoutX="310.0" layoutY="110.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
+                  <Button disable="true" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
+                  <Button disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
+                  <Button disable="true" layoutX="310.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
+                  <Button disable="true" layoutX="610.0" layoutY="10.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
+                  <Button disable="true" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
+                  <Button disable="true" layoutX="310.0" layoutY="110.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="300.0" text="Button" />
                </children>
             </FlowPane>
          </children>

@@ -32,4 +32,14 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
                 Type.Water, Type.None,"Assets/BlastoiseFront.png","Assets/BlastoiseBack.png",
                 moves);
     }
+
+    public static Pokemon getPidgeot(){
+        ArrayList<Move> moves = new ArrayList<>();
+        moves.add(MoveFactory.getAerialAce());
+        moves.add(MoveFactory.getSlam());
+
+        return  new Pokemon("Pidgeot",220,100,80,75,70,100,
+                Type.Normal, Type.Flying,"Assets/pidgeotFront.png","Assets/pidgeotBack.png",
+                moves);
+    }
 }

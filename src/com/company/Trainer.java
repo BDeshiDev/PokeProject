@@ -33,6 +33,9 @@ public abstract class Trainer {
         for (Pokemon p:party) {
             if(!p.isDead() && p != getStagedPokemon())
                 return  true;
+            else{
+                System.out.println(p.name + " is fainted and can't battle now");
+            }
         }
         return  false;
     }

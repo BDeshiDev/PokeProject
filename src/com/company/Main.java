@@ -1,19 +1,23 @@
 package com.company;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Main extends  Application {
     @Override
-    public void start(Stage primaryStage) {
-        Pokemon poke1 = PokemonFactory.getBlastoise();
-        Pokemon poke2 = PokemonFactory.getCharizard();
-        Pokemon poke3 = PokemonFactory.getVenasaur();
+    public void start(Stage primaryStage) throws  Exception{
 
-        pcTrainer ash = new pcTrainer("Ash",poke3,poke1);
-        aiTrainer gary = new aiTrainer("Gary",poke2);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StartScreen.fxml"));
+        Parent root =loader.load();
+        TitleController titleController =loader.getController();
+        titleController.setCurStage(primaryStage);
 
-        BattleController battle = new BattleController(ash,gary);
-        battle.begin(primaryStage);
+        primaryStage.setScene(new Scene(root,Settings.windowWidth,Settings.windowLength));
         primaryStage.show();
     }
 

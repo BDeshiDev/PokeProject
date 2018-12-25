@@ -179,7 +179,10 @@ class BattleController {
             swapCancelButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    toggleSwapMenu(false);
+                    if(player.canCancelSwap())
+                        toggleSwapMenu(false);
+                    else
+                        System.out.println("You must swap");
                 }
             });
 
@@ -208,6 +211,7 @@ class BattleController {
     }
 
     public void begin(Stage curStage) {
+        prevScene = curStage.getScene();
         curStage.setScene(new Scene(newRoot, Settings.windowWidth, Settings.windowLength));
 
         System.out.println(player.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
@@ -235,6 +239,7 @@ class BattleController {
                 player.setSwapUI(swapUI);
                 player.updateSwapUI();
                 refreshWaitList();
+
             }
 
             void prepareTurns(){
@@ -293,9 +298,11 @@ class BattleController {
                     System.out.println("Result: " + player.name + " wins");
                 else
                     System.out.println("Result: " + enemy.name + " wins");
+                curStage.setScene(prevScene);
             }
         };
         battleLoop.start();
+
     }
 
 }
