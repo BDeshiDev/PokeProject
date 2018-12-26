@@ -2,11 +2,13 @@ package com.company.Utilities.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public abstract class SpriteAnimation extends Transition {
 
+    private Image spriteSheet;
     private final ImageView imageView;
     private final int count;
     private int loopCount;
@@ -23,12 +25,13 @@ public abstract class SpriteAnimation extends Transition {
 
     private int lastIndex;
     public SpriteAnimation(
-            ImageView imageView, 
+            ImageView imageView, String imagePath,
             Duration duration,int maxLoops,
             int count,   int columns,
             int offsetX, int offsetY,
             int width,   int height) {
         this.imageView = imageView;
+        this.spriteSheet = new Image(imagePath);
         this.maxLoops = maxLoops;
         this.setCycleCount(maxLoops);
         this.count     = count;
@@ -39,6 +42,15 @@ public abstract class SpriteAnimation extends Transition {
         this.height    = height;
         setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
+    }
+    public SpriteAnimation(ImageView imageView,AnimationData data){
+        this(imageView,data.imagePath,data.duration,data.maxLoops,data.count,data.columns,data.offsetX,data.offsetY,data.width,data.height);
+    }
+
+    @Override
+    public void play() {
+        imageView.setImage(spriteSheet);
+        super.play();
     }
 
     public int getLoopCount() {

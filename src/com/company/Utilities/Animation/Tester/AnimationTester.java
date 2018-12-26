@@ -1,9 +1,8 @@
 package com.company.Utilities.Animation.Tester;
 
-import com.company.AnimationFactory;
-import com.company.Utilities.Animation.InfinteLoopingAnimation;
+import com.company.Utilities.Animation.AnimationFactory;
+import com.company.Utilities.Animation.InfiniteLoopingAnimation;
 import com.company.Utilities.Animation.SpriteAnimation;
-import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -26,21 +25,23 @@ public class AnimationTester extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Pane p = new  Pane();
-        ImageView animationViewer = new ImageView(spriteSheet);
+        ImageView animationViewer = new ImageView();
+
 
         animationViewer.setViewport(new Rectangle2D(xOffset,yOffset,width,height));
         p.getChildren().add(animationViewer);
-
-        SpriteAnimation animation = new InfinteLoopingAnimation(
+        /*
+        SpriteAnimation animation = new InfiniteLoopingAnimation(
                 animationViewer,testDuration,count,columns,
                 xOffset,yOffset,width,height
         );
         animation.play();
-
+        */
 
         /*
-        SpriteAnimation animation = AnimationFactory.getSlashAnimation(animationViewer);
-        animation.play();*/
+        SpriteAnimation animation = AnimationFactory.getSlashAnimation().toInfiniteLoop(animationViewer);
+        animation.play();
+        */
 
         primaryStage.setScene(new Scene(p,900,600));
         primaryStage.show();;

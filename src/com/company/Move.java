@@ -1,5 +1,7 @@
 package com.company;
 
+import javafx.animation.Animation;
+
 class  Move{
     private String name;
     public final Type type;

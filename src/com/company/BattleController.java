@@ -62,7 +62,6 @@ class BattleController {
     private Pane dialogBox;
     @FXML
     private Text DialogText;
-
     @FXML
     private ImageView enemySideAnimationView;
     @FXML
@@ -233,25 +232,17 @@ class BattleController {
                 dialogBox.setDisable(false);
                 playerMoveGrid.setDisable(true);
 
-                if(attacksList.isEmpty() && linesSource.streamComplete())
-                    curState = BattleState.endingTurn;
-
-                else{
-                    if(!linesSource.streamComplete()){//if we have lines to show, do that first or do else statement
-                        linesSource.addDelta(delta);//update timer on lineSource
-                        if(linesSource.hasLine()){
-                            String s= linesSource.pop();
-                            //System.out.println(s);
-                            DialogText.setText(s);
-                        }
-                    }else {
-                        if (curExecutingAttack == null)
+                if(curExecutingAttack == null || curExecutingAttack.isExecutionComplete()){
+                    if(attacksList.isEmpty()) {
+                        curState = BattleState.endingTurn;
+                        return;
+                    }
+                    else{
                             curExecutingAttack = attacksList.poll();
-                        System.out.println();
-                        curExecutingAttack.execute(linesSource);
-                        curExecutingAttack = null;
+                            curExecutingAttack.startExectution();
                     }
                 }
+                curExecutingAttack.continueExecution(delta,DialogText);
             }
 
             @Override

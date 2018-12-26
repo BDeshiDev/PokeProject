@@ -1,5 +1,7 @@
 package com.company;
 
+import javafx.scene.text.Text;
+
 import java.util.*;
 
 public class Attack implements Comparable<Attack> {//so that we can sort easily
@@ -7,11 +9,13 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     private BattleSlot targettedSlot;
     private int targetIndex;
     private final Move move;
+    private LineStream linesSource;
 
     public Attack(Pokemon user, Move m,BattleSlot targetedSlot) {//used for holding move data once moves are finalized
         this.user = user;
         this.targettedSlot = targetedSlot;
         this.move = m;
+        linesSource = new LineStream();
     }
 
     public int compareTo(Attack other){// for sorting
@@ -26,11 +30,35 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
         else
             return ( other.user.stats.speed.getCurVal() - this.user.stats.speed.getCurVal());
     }
-    //I am changing in test purpose to learn github commit
+
     public void execute(LineStream streamToAppendTo){
         if(!user.isDead())
             move.use(user,targettedSlot,streamToAppendTo);
     }
+
+    public void startExectution(){
+        if(!user.isDead())
+            move.use(user,targettedSlot,linesSource);
+    }
+    public void continueExecution(double delta, Text dialogueTarget){
+        if(isExecutionComplete())
+            return;
+        else{
+            if(!linesSource.streamComplete()){//if we have lines to show, do that first or do else statement
+                linesSource.addDelta(delta);//update timer on lineSource
+                if(linesSource.hasLine()){
+                    String s= linesSource.pop();
+                    //System.out.println(s);
+                    dialogueTarget.setText(s);
+                }
+            }
+        }
+    }
+
+    public boolean isExecutionComplete(){
+        return  linesSource.streamComplete();//add animation check later
+    }
+
 
     @Override
     public String toString() {
