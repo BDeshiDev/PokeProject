@@ -83,20 +83,22 @@ class Pokemon{
         return moves;
     }
 
-    public void takeHit(Move m,int damageBonus,double stabBonus){
+    public void takeHit(Move m,int damageBonus,double stabBonus,LineStream streamToAppendTo){
         double moveMod = getMoveModifier(m);
+        String effectString;
         if(moveMod > 1)
-            System.out.println("It's SUPER effective!");
+            effectString ="It's SUPER effective!";
         else if(moveMod < 1)
-            System.out.println("It's not very effective... ");
+            effectString ="It's not very effective... ";
         else
-            System.out.println( "... ");
-
+            effectString =  "... ";
+        streamToAppendTo.push(effectString);
         int damage = Math.max((int)((m.power + damageBonus - stats.defence.getCurVal())*moveMod * stabBonus),0);
         curHp -= damage;
-        System.out.println(name + " took " +damage + " damage");
+        //System.out.println(name + " took " +damage + " damage");
+        streamToAppendTo.push(name + " took " +damage + " damage");
         if(curHp <= 0)
-            System.out.println(name + " has fainted...");
+            streamToAppendTo.push(name + " has fainted...");
     }
 
     public double getMoveModifier(Move move){

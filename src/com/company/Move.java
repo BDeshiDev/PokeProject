@@ -27,10 +27,11 @@ class  Move{
         return  curPp>0;
     }
 
-    public void use(Pokemon user, BattleSlot target){
-        System.out.println(user.name + " used " + this.name);
+    public void use(Pokemon user, BattleSlot target,LineStream streamToAppendTo){
+        //System.out.println(user.name + " used " + this.name);
+        streamToAppendTo.push(user.name + " used " + this.name);
         curPp--;
         double stabBonus = user.getStabBoost(this);
-        target.takeHit(this,user.stats.attack.getCurVal(),stabBonus);//#UNIMPLEMENTED certain moves should use sp attack in
+        target.takeHit(this,user.stats.attack.getCurVal(),stabBonus,streamToAppendTo);//#UNIMPLEMENTED certain moves should use sp attack in
     }
 }

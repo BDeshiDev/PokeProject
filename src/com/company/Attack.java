@@ -28,9 +28,9 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
             return ( other.user.stats.speed.getCurVal() - this.user.stats.speed.getCurVal());
     }
     //I am changing in test purpose to learn github commit
-    public void execute(){
+    public void execute(LineStream streamToAppendTo){
         if(!user.isDead())
-            move.use(user,targettedSlot);
+            move.use(user,targettedSlot,streamToAppendTo);
     }
 
     @Override

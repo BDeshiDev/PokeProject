@@ -31,7 +31,6 @@ public class Stat {
     }
     public Stat(int _baseVal, int maxVal,Level lvl) {
         this(_baseVal,maxVal);
-        System.out.println(this);
         this.lerp(lvl);
     }
 

@@ -1,11 +1,8 @@
 package com.company;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
+import java.util.PriorityQueue;
 
-import com.sun.org.apache.bcel.internal.generic.SWAP;
-import com.sun.org.apache.xpath.internal.axes.RTFIterator;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -179,20 +176,28 @@ class BattleController {
         System.out.println(player.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
 
         AnimationTimer battleLoop = new AnimationTimer() {
-            ArrayList<Attack> attacksList;
+            PriorityQueue<Attack> attacksList;
             ArrayList<Trainer> waitList;
             ArrayList<Trainer> trainers;
+            Attack curExecutingAttack = null;
+            LineStream linesSource;
 
             BattleState curState;
+
+            double timePrev;
+            double timeNow;
 
             @Override
             public void start() {
                 super.start();
                 curState = BattleState.turnPreparing;
+                timeNow = timePrev = System.nanoTime();
 
-                attacksList = new ArrayList<>();
+                attacksList = new PriorityQueue<>();
                 waitList = new ArrayList<>();
                 trainers = new ArrayList<>();
+                linesSource = new LineStream();
+
                 trainers.add(player);
                 trainers.add(enemy);
 
@@ -218,15 +223,39 @@ class BattleController {
                 waitList.addAll(trainers);
             }
 
-            void executeAttacks() {
-                Collections.sort(attacksList);
-                for (Attack a : attacksList) {
-                    a.execute();
+            void executeAttacks(double delta) {
+                dialogBox.setVisible(true);
+                dialogBox.setDisable(false);
+                playerMoveGrid.setDisable(true);
+
+                if(attacksList.isEmpty() && linesSource.streamComplete())
+                    curState = BattleState.endingTurn;
+
+                else{
+                    if(!linesSource.streamComplete()){//if we have lines to show, do that first or do else statement
+                        linesSource.addDelta(delta);//update timer on lineSource
+                        if(linesSource.hasLine()){
+                            String s= linesSource.pop();
+                            //System.out.println(s);
+                            DialogText.setText(s);
+                        }
+                    }else {
+                        if (curExecutingAttack == null)
+                            curExecutingAttack = attacksList.poll();
+                        System.out.println();
+                        curExecutingAttack.execute(linesSource);
+                        curExecutingAttack = null;
+                    }
                 }
             }
 
             @Override
             public void handle(long now) {//essentially a infinite loop
+                //deltatime calc
+                timeNow = System.nanoTime();
+                double delta = (timeNow - timePrev) / 1e9;
+                timePrev = timeNow;
+
                 switch (curState){
                     case turnPreparing:
                         prepareTurns();
@@ -240,20 +269,25 @@ class BattleController {
                                 waitList.remove(t) ;
                             }
                         }
-                        if(waitList.isEmpty())
+                        if(waitList.isEmpty()) {
                             curState = BattleState.executing;
+                        }
                         break;
                     case executing:
-                        executeAttacks();
-                        curState = BattleState.endingTurn;
+                        executeAttacks(delta);
                         break;
                     case endingTurn:
+                        System.out.println("ending turn");
                         if(!isOver()) {
                             refreshWaitList();
                             attacksList.clear();
                             curState = BattleState.turnPreparing;
                         }else
                             curState = BattleState.finishing;
+
+                        dialogBox.setVisible(false);
+                        dialogBox.setDisable(true);
+                        playerMoveGrid.setDisable(false);
                         break;
                     case finishing:
                         stop();

@@ -9,7 +9,6 @@ public class Level {
 
     public Level(int Level) {
         this.curLevel = Level > maxLevel? maxLevel:Level;
-        System.out.println("level set to " + this.curLevel);
         xpToNext = xpReqForLevel(Level);
     }
 
