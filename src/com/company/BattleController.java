@@ -129,10 +129,8 @@ class BattleController {
             enemyUI = new BattleUIHolder(enemyNameLabel,enemyHpBar,enemyHpLabel,enemyLvLabel,enemyImageView,true);
             playerUI = new BattleUIHolder(playerNameLabel,playerHpBar,playerHpLabel,playerLvLabel,playerImageView,false);
 
-            playerSlot = new BattleSlot();
-            playerSlot.setSlotUI(playerUI);
-            enemySlot = new BattleSlot();
-            enemySlot.setSlotUI(enemyUI);
+            playerSlot = new BattleSlot(playerUI,playerSideAnimationView);
+            enemySlot = new BattleSlot(enemyUI,enemySideAnimationView);
 
             swapUI = new SwapUI(PartySwapPane);
             movesUI = new MovesListUI(playerMoveGrid);
@@ -289,7 +287,6 @@ class BattleController {
                         stop();
                         break;
                 }
-
             }
             @Override
             public void stop(){

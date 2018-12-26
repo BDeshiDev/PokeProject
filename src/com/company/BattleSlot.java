@@ -1,8 +1,11 @@
 package com.company;
 
-public class BattleSlot {
+import javafx.scene.image.ImageView;
+
+public class BattleSlot{
     private Pokemon pokemon=null;
     private BattleUIHolder slotUI=null;
+    private ImageView animationViewer=null;
 
     public Pokemon getCurPokemon(){
         return pokemon;
@@ -19,6 +22,15 @@ public class BattleSlot {
         System.out.println("slot ui set");
         this.slotUI = slotUI;
     }
+
+    public ImageView getAnimationViewer() {
+        return animationViewer;
+    }
+
+    public void setAnimationViewer(ImageView animationViewer) {
+        this.animationViewer = animationViewer;
+    }
+
     public  boolean isEmpty(){
         return pokemon == null;
     }
@@ -31,7 +43,11 @@ public class BattleSlot {
     public BattleSlot(Pokemon pokemon) {
         setPokemon(pokemon);
     }
-    public BattleSlot(){
-        //everything is set to null alreadu
+
+    public BattleSlot(BattleUIHolder slotUI, ImageView animationViewer) {
+        this.slotUI = slotUI;
+        this.animationViewer = animationViewer;
     }
+
+
 }

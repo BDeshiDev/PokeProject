@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.Utilities.Animation.SingleLoopAnimation;
+import com.company.Utilities.Animation.SpriteAnimation;
 import javafx.scene.text.Text;
 
 import java.util.*;
@@ -10,6 +12,7 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     private int targetIndex;
     private final Move move;
     private LineStream linesSource;
+    private SingleLoopAnimation animation;
 
     public Attack(Pokemon user, Move m,BattleSlot targetedSlot) {//used for holding move data once moves are finalized
         this.user = user;
@@ -37,8 +40,11 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     }
 
     public void startExectution(){
-        if(!user.isDead())
-            move.use(user,targettedSlot,linesSource);
+        if(user.isDead())
+            return;
+        move.use(user,targettedSlot,linesSource);
+        animation = move.animationData.toSingleLoop(targettedSlot.getAnimationViewer());
+        animation.play();
     }
     public void continueExecution(double delta, Text dialogueTarget){
         if(isExecutionComplete())
@@ -56,7 +62,11 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     }
 
     public boolean isExecutionComplete(){
-        return  linesSource.streamComplete();//add animation check later
+        if(animation == null) {
+            System.out.println("anim null");// temporary fix
+            return  true;
+        }
+        return  linesSource.streamComplete() && animation.ShouldEnd();//add animation check later
     }
 
 

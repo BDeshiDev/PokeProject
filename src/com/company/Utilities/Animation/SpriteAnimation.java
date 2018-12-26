@@ -43,6 +43,7 @@ public abstract class SpriteAnimation extends Transition {
         setCycleDuration(duration);
         setInterpolator(Interpolator.LINEAR);
     }
+
     public SpriteAnimation(ImageView imageView,AnimationData data){
         this(imageView,data.imagePath,data.duration,data.maxLoops,data.count,data.columns,data.offsetX,data.offsetY,data.width,data.height);
     }

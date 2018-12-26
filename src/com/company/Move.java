@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Utilities.Animation.AnimationData;
 import javafx.animation.Animation;
 
 class  Move{
@@ -12,17 +13,20 @@ class  Move{
     public final int maxPp;
     private int curPp;
     //unused end
+    public AnimationData animationData;
 
     public String getName(){
         return name;
     }
-    public Move(String _name, Type _type, int _power, int _priority, int _accuracy,int _maxPp){
-        name = _name;
-        type = _type;
-        power = _power;
-        priority = _priority;
-        accuracy = _accuracy;
-        curPp = maxPp = _maxPp;
+
+    public Move(String name, Type type, int power, int priority, int accuracy, int maxPp, AnimationData animationData) {
+        this.name = name;
+        this.type = type;
+        this.power = power;
+        this.priority = priority;
+        this.accuracy = accuracy;
+        this.curPp = this.maxPp = maxPp;
+        this.animationData = animationData;
     }
 
     public boolean canBeUsed(){
