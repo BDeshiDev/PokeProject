@@ -63,6 +63,11 @@ class BattleController {
     @FXML
     private Text DialogText;
 
+    @FXML
+    private ImageView enemySideAnimationView;
+    @FXML
+    private ImageView playerSideAnimationView;
+
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
 

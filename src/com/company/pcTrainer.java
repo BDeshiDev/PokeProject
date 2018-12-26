@@ -10,7 +10,7 @@ class pcTrainer extends Trainer {
 
     @Override
     public Boolean hasFinalizedCommands() {
-        return selectedMoves.size()>0;//return true we have selected a move
+        return selectedMoves.size()>0;//return true if we have selected a move
     }
 
     public void setCommand(Move m,Pokemon user){
