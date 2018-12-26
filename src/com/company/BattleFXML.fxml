@@ -98,7 +98,7 @@
          <children>
             <HBox fx:id="playerFIghtBox" prefHeight="180.0" prefWidth="900.0">
                <children>
-                  <GridPane fx:id="playerMoveGrid" prefHeight="180.0" prefWidth="630.0" style="-fx-background-color: #e8edd6;">
+                  <GridPane fx:id="playerMoveGrid" gridLinesVisible="true" prefHeight="180.0" prefWidth="630.0" style="-fx-background-color: #e8edd6;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

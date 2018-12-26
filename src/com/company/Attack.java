@@ -14,7 +14,6 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
         this.move = m;
     }
 
-
     public int compareTo(Attack other){// for sorting
         int retVal;
         if(move==null)
