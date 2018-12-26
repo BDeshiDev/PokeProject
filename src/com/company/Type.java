@@ -31,6 +31,7 @@ enum Type{
     };
 
     public Double getModifier(Type other) {
+        //System.out.println(other+" against "+ this);
         return weaknessTable[other.ordinal()][this.ordinal()];
     }
 

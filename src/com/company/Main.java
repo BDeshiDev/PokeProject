@@ -1,34 +1,29 @@
 package com.company;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import java.net.SocketTimeoutException;
-import java.util.*;
+import java.io.IOException;
 
-public class Main {
+public class Main extends  Application {
+    @Override
+    public void start(Stage primaryStage) throws  Exception{
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StartScreen.fxml"));
+        Parent root =loader.load();
+        TitleController titleController =loader.getController();
+        titleController.setCurStage(primaryStage);
+
+        primaryStage.setScene(new Scene(root,Settings.windowWidth,Settings.windowLength));
+        primaryStage.show();
+    }
 
     public static void main(String[] args) {
-
-        //move and pokemon decalrations for testing data should be moved to a database later on
-        Move aerialAce = new Move("Aerial ace", Type.Flying, 70,0,100,15),
-            bolttackle = new Move("Bolt Tackle", Type.Electric, 100,0,100,5),
-            thunder = new Move("Thunder", Type.Electric, 100,0,100,5),
-            quickAttack = new Move("Quick Attack", Type.Normal, 40,1,100,20),
-            flameThrower = new Move("FlameThrower",Type.Fire,80,0,100,15)
-        ;//commit test
-        Pokemon pidgeot = new Pokemon("Pidgeot",240,100,80,70,80,100,
-                Type.Normal, Type.Flying,
-                aerialAce,quickAttack);
-        Pokemon pikachu = new Pokemon("Pikachu",120,50,60,80,65,110,
-                Type.Electric, Type.None,
-                bolttackle , thunder);
-        Pokemon charizard  = new Pokemon("Charizard",220,80,80,110,80,100,
-                Type.Fire, Type.Flying,
-                aerialAce, flameThrower
-                );
-        Trainer ash = new Trainer("Ash",pikachu,charizard);
-        Trainer gary = new Trainer("Gary",pidgeot);
-
-        Battle battle = new Battle(ash,gary);
-        battle.resolve();
+        launch(args);
     }
 }
+
 
