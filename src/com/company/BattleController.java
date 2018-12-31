@@ -281,6 +281,7 @@ class BattleController {
 
                         dialogBox.setVisible(false);
                         dialogBox.setDisable(true);
+                        DialogText.setText("");
                         playerMoveGrid.setDisable(false);
                         break;
                     case finishing:

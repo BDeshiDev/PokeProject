@@ -139,7 +139,7 @@
                <children>
                   <TextFlow prefHeight="200.0" prefWidth="900.0">
                      <children>
-                        <Text fx:id="DialogText" strokeType="OUTSIDE" strokeWidth="0.0" text="Blastoise used surf. It's super effective!" wrappingWidth="892.05859375">
+                        <Text fx:id="DialogText" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="892.05859375">
                            <font>
                               <Font name="Corbel" size="49.0" />
                            </font>
