@@ -33,7 +33,6 @@ public abstract class SpriteAnimation extends Transition {
         this.imageView = imageView;
         this.spriteSheet = new Image(imagePath);
         this.maxLoops = maxLoops;
-        this.setCycleCount(maxLoops);
         this.count     = count;
         this.columns   = columns;
         this.offsetX   = offsetX;

@@ -72,7 +72,7 @@ class AnimatedCallBack implements BattleExecutable {
     }
 
     public boolean animFinished(){
-        return  animToPlay != null && animToPlay.ShouldEnd();
+        return  animToPlay != null && animToPlay.isComplete();
     }
 
     @Override

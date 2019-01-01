@@ -15,4 +15,9 @@ public class AnimationFactory {
         return  new AnimationData(new String("Assets/Animations/4.png"), new Duration(500),
                 5 ,1, 5, 0, 0,102, 100);
     }
+
+    public static AnimationData getPokeChangeAnim(){
+        return  new AnimationData(new String("Assets/Animations/1-b.png"), new Duration(500),
+                5 ,1, 5, 0, 0,102, 100);
+    }
 }

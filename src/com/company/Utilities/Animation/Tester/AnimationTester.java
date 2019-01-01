@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import javafx.util.Duration;
 public class AnimationTester extends Application {
-    Image spriteSheet = new Image("Assets/Animations/4.png");
+    String spriteSheetPath = new String("Assets/Animations/1-b.png");
     final Duration testDuration = new Duration(700);
     final int count = 5;
     final int columns = 5;
@@ -30,13 +30,14 @@ public class AnimationTester extends Application {
 
         animationViewer.setViewport(new Rectangle2D(xOffset,yOffset,width,height));
         p.getChildren().add(animationViewer);
-        /*
+        primaryStage.setTitle("Animation test Screen");
+
         SpriteAnimation animation = new InfiniteLoopingAnimation(
-                animationViewer,testDuration,count,columns,
+                animationViewer,spriteSheetPath,testDuration,count,columns,
                 xOffset,yOffset,width,height
         );
         animation.play();
-        */
+
 
         /*
         SpriteAnimation animation = AnimationFactory.getSlashAnimation().toInfiniteLoop(animationViewer);

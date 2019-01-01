@@ -236,7 +236,8 @@ class BattleController {
                 dialogBox.setDisable(false);
                 playerMoveGrid.setDisable(true);
 
-                if(curExecutingAttack == null || curExecutingAttack.isExecutionComplete()){
+                if(curExecutingAttack == null){
+                    System.out.println("null");
                     if(attacksList.isEmpty()) {
                         for (Trainer t :trainers) {
                             t.endTurn();
@@ -247,11 +248,17 @@ class BattleController {
                         return;
                     }
                     else{
-                            curExecutingAttack = attacksList.poll();
-                            curExecutingAttack.startExectution();
+                        System.out.println("getting next attack");
+                        curExecutingAttack = attacksList.poll();
+                        curExecutingAttack.startExectution();
                     }
                 }
                 curExecutingAttack.continueExecution(delta,DialogText);
+                if(curExecutingAttack.isExecutionComplete()){
+                    curExecutingAttack.end();
+                    System.out.println("nulling attack" + curExecutingAttack);
+                    curExecutingAttack = null;
+                }
             }
 
             @Override

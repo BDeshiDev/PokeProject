@@ -13,6 +13,7 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     private final Move move;
     private LineStream linesSource;
     private SingleLoopAnimation animation;
+    private boolean executionFailed = false;
 
     public Attack(Pokemon user, Move m,BattleSlot targetedSlot) {//used for holding move data once moves are finalized
         this.user = user;
@@ -40,13 +41,16 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     }
 
     public void startExectution(){
-        if(user.isDead())
-            return;
-        move.use(user,targettedSlot,linesSource);
         animation = move.animationData.toSingleLoop(targettedSlot.getAnimationViewer());
-        animation.play();
+        if(user.isDead()){
+            executionFailed = true;
+        }else {
+            move.use(user, targettedSlot, linesSource);
+            animation.play();
+        }
     }
     public void continueExecution(double delta, Text dialogueTarget){
+        System.out.println("continue execution" + this);
         if(isExecutionComplete())
             return;
         else{
@@ -62,11 +66,15 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     }
 
     public boolean isExecutionComplete(){
-        if(animation == null) {
+        if(animation == null || executionFailed) {
             System.out.println("anim null");// temporary fix
             return  true;
         }
-        return  linesSource.streamComplete() && animation.ShouldEnd();//add animation check later
+        return  linesSource.streamComplete() && animation.isComplete();//add animation check later
+    }
+
+    public void end(){
+        animation.end();
     }
 
 
