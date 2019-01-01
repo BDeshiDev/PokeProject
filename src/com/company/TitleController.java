@@ -21,7 +21,7 @@ public class TitleController {
         Pokemon poke3 = PokemonFactory.getVenasaur();
         Pokemon poke4 = PokemonFactory.getPidgeot();
 
-        pcTrainer ash = new pcTrainer("Ash",poke1,poke3);
+        pcTrainer ash = new pcTrainer("Ash",poke3,poke1);
         aiTrainer gary = new aiTrainer("Gary",poke2,poke4);
 
         BattleController battle = new BattleController(ash,gary);

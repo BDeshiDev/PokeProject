@@ -9,6 +9,7 @@ public abstract class Trainer {
     private Pokemon stagedPokemon = null;
     protected  BattleSlot ownedSlot;
     protected BattleSlot enemySlot;
+    private BattleExecutable commandToExecuteAtTurnEnd =null;
     String name;
 
     protected Trainer(String _name,Pokemon[] pokemons) {
@@ -29,16 +30,7 @@ public abstract class Trainer {
         return false;
     }
 
-    public boolean canSwap(){
-        for (Pokemon p:party) {
-            if(!p.isDead() && p != getStagedPokemon())
-                return  true;
-            else{
-                System.out.println(p.name + " is fainted and can't battle now");
-            }
-        }
-        return  false;
-    }
+
     public void swapPokemon(){
         System.out.println(getStagedPokemon().name + " was recalled");
         Pokemon pokemonToSwapWith = sendOutFirstAvailablePokemon();
@@ -82,10 +74,23 @@ public abstract class Trainer {
         ownedSlot = null;
         enemySlot = null;
     }
+    public void prepTurn(){
+        commandToExecuteAtTurnEnd = null;
+    }
+    public boolean hasCommandBeforeTurnEnd(){
+        return commandToExecuteAtTurnEnd != null;
+    }
+    public  BattleExecutable getCommandToExecuteBeforeTurnEnd(){
+        return  commandToExecuteAtTurnEnd;
+    }
 
+    public void setCommandToExecuteAtTurnEnd(BattleExecutable commandToExecuteAtTurnEnd) {
+        this.commandToExecuteAtTurnEnd = commandToExecuteAtTurnEnd;
+    }
 
     //abstract funcs go here
     public abstract ArrayList<Attack> getCommands();
     public abstract Boolean hasFinalizedCommands();
-    public abstract void prepTurn();
+    public abstract void endTurn();
+    public abstract boolean canEndTurn();
 }

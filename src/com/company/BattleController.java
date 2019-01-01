@@ -2,6 +2,7 @@ package com.company;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.Stack;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
@@ -184,6 +185,9 @@ class BattleController {
             Attack curExecutingAttack = null;
             LineStream linesSource;
 
+            Stack<BattleExecutable> CommandsAtTurnEnd = new Stack<>();
+            BattleExecutable curTurnEndCommand =null;
+
             BattleState curState;
 
             double timePrev;
@@ -215,6 +219,8 @@ class BattleController {
             }
 
             void prepareTurns(){
+                curExecutingAttack = null;
+                curTurnEndCommand = null;
                 for (Trainer t:trainers) {
                     t.prepTurn();
                 }
@@ -232,6 +238,11 @@ class BattleController {
 
                 if(curExecutingAttack == null || curExecutingAttack.isExecutionComplete()){
                     if(attacksList.isEmpty()) {
+                        for (Trainer t :trainers) {
+                            t.endTurn();
+                            waitList.add(t);
+                        }
+                        CommandsAtTurnEnd.clear();
                         curState = BattleState.endingTurn;
                         return;
                     }
@@ -271,18 +282,45 @@ class BattleController {
                         executeAttacks(delta);
                         break;
                     case endingTurn:
-                        System.out.println("ending turn");
-                        if(!isOver()) {
-                            refreshWaitList();
-                            attacksList.clear();
-                            curState = BattleState.turnPreparing;
-                        }else
+                        if (isOver())
                             curState = BattleState.finishing;
+                        else {
+                            System.out.println("trying to end turn");
+                            for (int i = waitList.size() - 1; i >= 0; i--) {
+                                Trainer t = waitList.get(i);
+                                if (t.canEndTurn()) {
+                                    waitList.remove(t);
+                                } else if (t.hasCommandBeforeTurnEnd()) {
+                                    CommandsAtTurnEnd.add(t.getCommandToExecuteBeforeTurnEnd());
+                                    waitList.remove(t);
+                                }
+                            }
 
-                        dialogBox.setVisible(false);
-                        dialogBox.setDisable(true);
-                        DialogText.setText("");
-                        playerMoveGrid.setDisable(false);
+                            if (waitList.isEmpty()) {
+                                if(curTurnEndCommand == null){
+                                    if(CommandsAtTurnEnd.isEmpty()) {
+                                        System.out.println("ending turn");
+                                        refreshWaitList();
+                                        attacksList.clear();
+                                        dialogBox.setVisible(false);
+                                        dialogBox.setDisable(true);
+                                        DialogText.setText("");
+                                        playerMoveGrid.setDisable(false);
+                                        curState = BattleState.turnPreparing;
+                                        return;
+                                    }
+                                    else{
+                                        curTurnEndCommand = CommandsAtTurnEnd.pop();
+                                        curTurnEndCommand.start();
+                                    }
+                                }
+                                curTurnEndCommand.continueExecution(delta);
+                                if(curTurnEndCommand.isComplete()){
+                                    curTurnEndCommand.end();
+                                    curTurnEndCommand = null;
+                                }
+                            }
+                        }
                         break;
                     case finishing:
                         stop();
