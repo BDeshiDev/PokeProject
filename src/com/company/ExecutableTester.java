@@ -25,20 +25,7 @@ public class ExecutableTester extends Application{
         primaryStage.setScene(new Scene(root,900,600));
         primaryStage.setTitle("Executable interface TEST ver 0.666");
 
-        ArrayList<CommandPriority> priorities = new ArrayList<>();
 
-        CommandPriority c1 = CommandPriority.PokemonAttack;
-        priorities.add(CommandPriority.PokemonAttack);
-        priorities.add(CommandPriority.TrainerCommand);
-        priorities.add(CommandPriority.TrainerCommand);
-        priorities.add(CommandPriority.TrainerCommand);
-        priorities.add(CommandPriority.PokemonAttack);
-        Collections.sort(priorities);
-        for (CommandPriority cp:
-             priorities) {
-            System.out.println(cp);
-        }
-        /*
         BattleExecutable executable = new DelayedCallBack(AnimationFactory.getSlashAnimation().toSingleLoop(view),()-> System.out.println("done"));
         new AnimationTimer(){
 
@@ -61,11 +48,14 @@ public class ExecutableTester extends Application{
                 super.stop();
                 System.out.println("IT WORKS DAMMIT");
             }
-        }.start();*/
+        }.start();
         primaryStage.show();
     }
 }
-
+/*
+* these are helper classes thta have not been used in code yet.
+* The battlcommand class will be implemented using these in the next refactoring phase if I have time to do so
+* */
 class DelayedCallBack implements BattleExecutable {
     BattleExecutable whatToExecute;
     private MyCallBack FuncToCallAtEnd;

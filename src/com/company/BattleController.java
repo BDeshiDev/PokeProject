@@ -179,10 +179,10 @@ class BattleController {
         System.out.println(player.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
 
         AnimationTimer battleLoop = new AnimationTimer() {
-            PriorityQueue<Attack> attacksList;
+            PriorityQueue<BattleCommand> CommandList;
             ArrayList<Trainer> waitList;
             ArrayList<Trainer> trainers;
-            Attack curExecutingAttack = null;
+            BattleCommand curExecutingCommand = null;
             LineStream linesSource;
 
             Stack<BattleExecutable> CommandsAtTurnEnd = new Stack<>();
@@ -199,7 +199,7 @@ class BattleController {
                 curState = BattleState.turnPreparing;
                 timeNow = timePrev = System.nanoTime();
 
-                attacksList = new PriorityQueue<>();
+                CommandList = new PriorityQueue<>();
                 waitList = new ArrayList<>();
                 trainers = new ArrayList<>();
                 linesSource = new LineStream();
@@ -219,7 +219,7 @@ class BattleController {
             }
 
             void prepareTurns(){
-                curExecutingAttack = null;
+                curExecutingCommand = null;
                 curTurnEndCommand = null;
                 for (Trainer t:trainers) {
                     t.prepTurn();
@@ -236,9 +236,9 @@ class BattleController {
                 dialogBox.setDisable(false);
                 playerMoveGrid.setDisable(true);
 
-                if(curExecutingAttack == null){
+                if(curExecutingCommand == null){
                     System.out.println("null");
-                    if(attacksList.isEmpty()) {
+                    if(CommandList.isEmpty()) {
                         for (Trainer t :trainers) {
                             t.endTurn();
                             waitList.add(t);
@@ -249,15 +249,15 @@ class BattleController {
                     }
                     else{
                         System.out.println("getting next attack");
-                        curExecutingAttack = attacksList.poll();
-                        curExecutingAttack.startExecution();
+                        curExecutingCommand = CommandList.poll();
+                        curExecutingCommand.start();
                     }
                 }
-                curExecutingAttack.continueExecution(delta,DialogText);
-                if(curExecutingAttack.isExecutionComplete()){
-                    curExecutingAttack.end();
-                    System.out.println("nulling attack" + curExecutingAttack);
-                    curExecutingAttack = null;
+                curExecutingCommand.continueExecution(delta,DialogText);
+                if(curExecutingCommand.isComplete()){
+                    curExecutingCommand.end();
+                    System.out.println("nulling attack" + curExecutingCommand);
+                    curExecutingCommand = null;
                 }
             }
 
@@ -277,7 +277,7 @@ class BattleController {
                         for(int i = waitList.size() -1; i >= 0 ;i--){
                             Trainer t = waitList.get(i);//get commands until all trainers have given commands
                             if(t.hasFinalizedCommands()){
-                                attacksList.addAll(t.getCommands());
+                                CommandList.addAll(t.getCommands());
                                 waitList.remove(t) ;
                             }
                         }
@@ -307,7 +307,7 @@ class BattleController {
                                     if(CommandsAtTurnEnd.isEmpty()) {
                                         System.out.println("ending turn");
                                         refreshWaitList();
-                                        attacksList.clear();
+                                        CommandList.clear();
                                         dialogBox.setVisible(false);
                                         dialogBox.setDisable(true);
                                         DialogText.setText("");

@@ -8,6 +8,7 @@ public class LineStreamExecutable implements BattleExecutable ,LineHolder{
 
     public LineStreamExecutable(String... stringsToPush) {
         this();
+        lineStream.push("");//so that dialog box is clear at end
         for (String s:stringsToPush) {
             lineStream.push(s);
         }

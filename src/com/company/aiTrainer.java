@@ -9,11 +9,11 @@ public class aiTrainer extends Trainer {
 
     Random rand;
     @Override
-    public ArrayList<Attack> getCommands() {
-        ArrayList<Attack> commandsList = new ArrayList<>();
+    public ArrayList<BattleCommand> getCommands() {
+        ArrayList<BattleCommand> commandsList = new ArrayList<>();
 
         Pokemon pokeInSlot = ownedSlot.getCurPokemon();
-        Attack newCommmand =new Attack(pokeInSlot,pokeInSlot.getRandomMove(rand),enemySlot);
+        BattleCommand newCommmand =new AttackCommand(pokeInSlot,pokeInSlot.getRandomMove(rand),enemySlot);
         commandsList.add(newCommmand);
 
         return  commandsList;
@@ -38,8 +38,8 @@ public class aiTrainer extends Trainer {
     @Override
     public void endTurn() {
         if(ownedSlot.getCurPokemon().isDead()){
-            setCommandToExecuteAtTurnEnd(new DelayedCallBack(
-                    AnimationFactory.getPokeChangeAnim().toSingleLoop(ownedSlot.getAnimationViewer())
+            setCommandToExecuteAtTurnEnd(new TrainerCommand(this,
+                    AnimationFactory.getPokeChangeAnim()
                     ,()->{
                 Pokemon newlyStagedMon = stageFirstAvailablePokemon();
                 ownedSlot.setPokemon(newlyStagedMon);

@@ -9,7 +9,7 @@ public abstract class Trainer {
     private Pokemon stagedPokemon = null;
     protected  BattleSlot ownedSlot;
     protected BattleSlot enemySlot;
-    private BattleExecutable commandToExecuteAtTurnEnd =null;
+    private BattleCommand commandToExecuteAtTurnEnd =null;
     String name;
 
     protected Trainer(String _name,Pokemon[] pokemons) {
@@ -80,16 +80,16 @@ public abstract class Trainer {
     public boolean hasCommandBeforeTurnEnd(){
         return commandToExecuteAtTurnEnd != null;
     }
-    public  BattleExecutable getCommandToExecuteBeforeTurnEnd(){
+    public  BattleCommand getCommandToExecuteBeforeTurnEnd(){
         return  commandToExecuteAtTurnEnd;
     }
 
-    public void setCommandToExecuteAtTurnEnd(BattleExecutable commandToExecuteAtTurnEnd) {
+    public void setCommandToExecuteAtTurnEnd(BattleCommand commandToExecuteAtTurnEnd) {
         this.commandToExecuteAtTurnEnd = commandToExecuteAtTurnEnd;
     }
 
     //abstract funcs go here
-    public abstract ArrayList<Attack> getCommands();
+    public abstract ArrayList<BattleCommand> getCommands();
     public abstract Boolean hasFinalizedCommands();
     public abstract void endTurn();
     public abstract boolean canEndTurn();
