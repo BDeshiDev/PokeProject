@@ -44,7 +44,7 @@ public class aiTrainer extends Trainer {
                 Pokemon newlyStagedMon = stageFirstAvailablePokemon();
                 ownedSlot.setPokemon(newlyStagedMon);
 
-            }));
+            },name+" sent out another pokemon"));
         }
         System.out.println("ai turn end");
     }

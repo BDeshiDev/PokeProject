@@ -55,7 +55,7 @@ class pcTrainer extends Trainer {
     }
 
     public void tryToSwap(Pokemon pokeToSwapWith){
-        if(getStagedPokemon() != pokeToSwapWith){
+        if(getStagedPokemon() != pokeToSwapWith && !pokeToSwapWith.isDead()){
             setCommandToExecuteAtTurnEnd(new TrainerCommand(this, AnimationFactory.getPokeChangeAnim(),
                     ()-> {
                     updateSwapUI();
@@ -63,7 +63,7 @@ class pcTrainer extends Trainer {
                     waitingForSwap = false;
                     System.out.println("swap success");
                 }
-            ));
+            ,name+" sent out another pokemon"));
             swapUI.toggle(false);
             selectedMoves.add(getCommandToExecuteBeforeTurnEnd());
         }else{
