@@ -54,8 +54,8 @@ class pcTrainer extends Trainer {
 
     public void tryToSwap(Pokemon pokeToSwapWith){
         if(getStagedPokemon() != pokeToSwapWith){
-            setCommandToExecuteAtTurnEnd(new AnimatedCallBack(
-                    AnimationFactory.getSlashAnimation().toSingleLoop(ownedSlot.getAnimationViewer())
+            setCommandToExecuteAtTurnEnd(new DelayedCallBack(
+                    AnimationFactory.getPokeChangeAnim().toSingleLoop(ownedSlot.getAnimationViewer())
                     ,()-> {
                 updateSwapUI();
                 swapPokemon(pokeToSwapWith);

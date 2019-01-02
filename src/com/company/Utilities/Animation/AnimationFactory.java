@@ -1,9 +1,5 @@
 package com.company.Utilities.Animation;
 
-import com.company.Utilities.Animation.SingleLoopAnimation;
-import javafx.animation.Animation;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class AnimationFactory {
@@ -17,7 +13,9 @@ public class AnimationFactory {
     }
 
     public static AnimationData getPokeChangeAnim(){
-        return  new AnimationData(new String("Assets/Animations/1-b.png"), new Duration(500),
-                5 ,1, 5, 0, 0,102, 100);
+        return  new AnimationData(new String("Assets/Animations/blueExplosion.png"), new Duration(700),
+                6 ,1, 6, 0, 0,113, 100);
+
     }
+
 }

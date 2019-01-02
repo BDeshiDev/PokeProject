@@ -3,7 +3,6 @@ package com.company;
 import com.company.Utilities.Animation.AnimationFactory;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class aiTrainer extends Trainer {
@@ -39,8 +38,8 @@ public class aiTrainer extends Trainer {
     @Override
     public void endTurn() {
         if(ownedSlot.getCurPokemon().isDead()){
-            setCommandToExecuteAtTurnEnd(new AnimatedCallBack(
-                    AnimationFactory.getSlashAnimation().toSingleLoop(ownedSlot.getAnimationViewer())
+            setCommandToExecuteAtTurnEnd(new DelayedCallBack(
+                    AnimationFactory.getPokeChangeAnim().toSingleLoop(ownedSlot.getAnimationViewer())
                     ,()->{
                 Pokemon newlyStagedMon = stageFirstAvailablePokemon();
                 ownedSlot.setPokemon(newlyStagedMon);

@@ -2,6 +2,7 @@ package com.company.Utilities.Animation;
 
 import com.company.BattleExecutable;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class SingleLoopAnimation extends  SpriteAnimation  implements BattleExecutable {
@@ -25,7 +26,7 @@ public class SingleLoopAnimation extends  SpriteAnimation  implements BattleExec
 
 
     @Override
-    public void continueExecution(double delta) {
+    public void continueExecution(double delta, Text dialogText) {
 //do nothing
     }
 

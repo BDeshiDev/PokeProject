@@ -14,13 +14,13 @@ import javafx.stage.Stage;
 
 import javafx.util.Duration;
 public class AnimationTester extends Application {
-    String spriteSheetPath = new String("Assets/Animations/1-b.png");
+    String spriteSheetPath = new String("Assets/Animations/blueExplosion.png");
     final Duration testDuration = new Duration(700);
-    final int count = 5;
-    final int columns = 5;
+    final int count = 6;
+    final int columns = 6;
     final int xOffset = 0;
     final int yOffset = 0;
-    final int width = 102;
+    final int width = 113;
     final int height =100;
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -31,18 +31,18 @@ public class AnimationTester extends Application {
         animationViewer.setViewport(new Rectangle2D(xOffset,yOffset,width,height));
         p.getChildren().add(animationViewer);
         primaryStage.setTitle("Animation test Screen");
-
+        /*
         SpriteAnimation animation = new InfiniteLoopingAnimation(
                 animationViewer,spriteSheetPath,testDuration,count,columns,
                 xOffset,yOffset,width,height
         );
         animation.play();
-
-
-        /*
-        SpriteAnimation animation = AnimationFactory.getSlashAnimation().toInfiniteLoop(animationViewer);
-        animation.play();
         */
+
+
+        SpriteAnimation animation = AnimationFactory.getPokeChangeAnim().toInfiniteLoop(animationViewer);
+        animation.play();
+
 
         primaryStage.setScene(new Scene(p,900,600));
         primaryStage.show();;

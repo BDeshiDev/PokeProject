@@ -83,7 +83,7 @@ class Pokemon{
         return moves;
     }
 
-    public void takeHit(Move m,int damageBonus,double stabBonus,LineStream streamToAppendTo){
+    public void takeHit(Move m,int damageBonus,double stabBonus,LineHolder streamToAppendTo){
         double moveMod = getMoveModifier(m);
         String effectString;
         if(moveMod > 1)

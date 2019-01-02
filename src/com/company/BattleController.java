@@ -250,7 +250,7 @@ class BattleController {
                     else{
                         System.out.println("getting next attack");
                         curExecutingAttack = attacksList.poll();
-                        curExecutingAttack.startExectution();
+                        curExecutingAttack.startExecution();
                     }
                 }
                 curExecutingAttack.continueExecution(delta,DialogText);
@@ -267,7 +267,7 @@ class BattleController {
                 timeNow = System.nanoTime();
                 double delta = (timeNow - timePrev) / 1e9;
                 timePrev = timeNow;
-
+                //actual loo
                 switch (curState){
                     case turnPreparing:
                         prepareTurns();
@@ -275,14 +275,14 @@ class BattleController {
                         break;
                     case waiting:
                         for(int i = waitList.size() -1; i >= 0 ;i--){
-                            Trainer t = waitList.get(i);
+                            Trainer t = waitList.get(i);//get commands until all trainers have given commands
                             if(t.hasFinalizedCommands()){
                                 attacksList.addAll(t.getCommands());
                                 waitList.remove(t) ;
                             }
                         }
                         if(waitList.isEmpty()) {
-                            curState = BattleState.executing;
+                            curState = BattleState.executing;//everyone hgave commands so execute()
                         }
                         break;
                     case executing:
@@ -290,10 +290,10 @@ class BattleController {
                         break;
                     case endingTurn:
                         if (isOver())
-                            curState = BattleState.finishing;
+                            curState = BattleState.finishing;//if no one can fight then don't bother handling turn end
                         else {
                             System.out.println("trying to end turn");
-                            for (int i = waitList.size() - 1; i >= 0; i--) {
+                            for (int i = waitList.size() - 1; i >= 0; i--) {//ask for turnEndCommands and add them to the stack
                                 Trainer t = waitList.get(i);
                                 if (t.canEndTurn()) {
                                     waitList.remove(t);
@@ -302,8 +302,7 @@ class BattleController {
                                     waitList.remove(t);
                                 }
                             }
-
-                            if (waitList.isEmpty()) {
+                            if (waitList.isEmpty()) {//
                                 if(curTurnEndCommand == null){
                                     if(CommandsAtTurnEnd.isEmpty()) {
                                         System.out.println("ending turn");
@@ -321,7 +320,7 @@ class BattleController {
                                         curTurnEndCommand.start();
                                     }
                                 }
-                                curTurnEndCommand.continueExecution(delta);
+                                curTurnEndCommand.continueExecution(delta,DialogText);
                                 if(curTurnEndCommand.isComplete()){
                                     curTurnEndCommand.end();
                                     curTurnEndCommand = null;

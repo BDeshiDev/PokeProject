@@ -35,7 +35,7 @@ public class BattleSlot{
         return pokemon == null;
     }
 
-    public void takeHit(Move m , int userAttack, double stabBonus,LineStream streamToAppendTo){
+    public void takeHit(Move m , int userAttack, double stabBonus,LineHolder streamToAppendTo){
         pokemon.takeHit(m,userAttack,stabBonus,streamToAppendTo);
         slotUI.setHealth(pokemon.getCurHp(),pokemon.stats.maxHp.getCurVal());
     }

@@ -33,7 +33,7 @@ class  Move{
         return  curPp>0;
     }
 
-    public void use(Pokemon user, BattleSlot target,LineStream streamToAppendTo){
+    public void use(Pokemon user, BattleSlot target,LineHolder streamToAppendTo){
         //System.out.println(user.name + " used " + this.name);
         streamToAppendTo.push(user.name + " used " + this.name);
         curPp--;

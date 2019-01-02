@@ -11,15 +11,16 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
     private BattleSlot targettedSlot;
     private int targetIndex;
     private final Move move;
-    private LineStream linesSource;
+    //private LineStream linesSource;
     private SingleLoopAnimation animation;
     private boolean executionFailed = false;
+    private LineStreamExecutable lineSetter;
 
     public Attack(Pokemon user, Move m,BattleSlot targetedSlot) {//used for holding move data once moves are finalized
         this.user = user;
         this.targettedSlot = targetedSlot;
         this.move = m;
-        linesSource = new LineStream();
+        lineSetter = new LineStreamExecutable();
     }
 
     public int compareTo(Attack other){// for sorting
@@ -40,12 +41,12 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
             move.use(user,targettedSlot,streamToAppendTo);
     }
 
-    public void startExectution(){
+    public void startExecution(){
         animation = move.animationData.toSingleLoop(targettedSlot.getAnimationViewer());
         if(user.isDead()){
             executionFailed = true;
         }else {
-            move.use(user, targettedSlot, linesSource);
+            move.use(user, targettedSlot, lineSetter);
             animation.play();
         }
     }
@@ -54,13 +55,8 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
         if(isExecutionComplete())
             return;
         else{
-            if(!linesSource.streamComplete()){//if we have lines to show, do that first or do else statement
-                linesSource.addDelta(delta);//update timer on lineSource
-                if(linesSource.hasLine()){
-                    String s= linesSource.pop();
-                    //System.out.println(s);
-                    dialogueTarget.setText(s);
-                }
+            if(!lineSetter.isComplete()){
+                lineSetter.continueExecution(delta,dialogueTarget);
             }
         }
     }
@@ -70,7 +66,7 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
             System.out.println("anim null");// temporary fix
             return  true;
         }
-        return  linesSource.streamComplete() && animation.isComplete();//add animation check later
+        return  lineSetter.isComplete() && animation.isComplete();//add animation check later
     }
 
     public void end(){
@@ -86,3 +82,5 @@ public class Attack implements Comparable<Attack> {//so that we can sort easily
                 '}';
     }
 }
+
+
