@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Utilities.Debug.Debugger;
 import javafx.scene.image.ImageView;
 
 public class BattleSlot{
@@ -15,11 +16,11 @@ public class BattleSlot{
         if(slotUI != null){
             slotUI.load(pokemon);
         }else{
-            System.out.println("slot ui is null for" + pokemon.name);
+            Debugger.out("slot ui is null for" + pokemon.name);
         }
     }
     public void setSlotUI(BattleUIHolder slotUI){
-        System.out.println("slot ui set");
+        Debugger.out("slot ui set");
         this.slotUI = slotUI;
     }
 

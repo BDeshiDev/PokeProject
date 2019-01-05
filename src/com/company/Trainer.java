@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.Utilities.Debug.Debugger;
+
 import java.util.ArrayList;
 
 public abstract class Trainer {
@@ -31,7 +33,7 @@ public abstract class Trainer {
 
     public void swapPokemon(Pokemon pokemonToSwapWith ){
         if(pokemonToSwapWith == null)
-            System.out.println("swap failed");
+            Debugger.out("swap failed");
         else{
             stagedPokemon = pokemonToSwapWith;//no need to add the previous staged pokemon to party again
             ownedSlot.setPokemon(stagedPokemon);
@@ -50,7 +52,7 @@ public abstract class Trainer {
     public Pokemon stageFirstAvailablePokemon(){// used for getting pokemon to send out first in battle//also stages the mon
         Pokemon p = getFirstAvailablePokemon();
         stagedPokemon = p;
-        System.out.println(name+"sending poke "+ p.name);
+        Debugger.out(name+"sending poke "+ p.name);
         return stagedPokemon;
     }
 

@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Utilities.Debug.Debugger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -18,7 +19,7 @@ public class MovesListUI {
 
     public void add(Move move,pcTrainer player,Pokemon moveOwnerMon){
         if((row+1) >=maxRowOrCol && (col+1) >=maxRowOrCol){
-            System.out.println("failed to add move: " + move.getName()+ " since move grid is full");
+            Debugger.out("failed to add move: " + move.getName()+ " since move grid is full");
             return;
         }
 

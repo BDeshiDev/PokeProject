@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Utilities.Animation.SingleLoopAnimation;
+import com.company.Utilities.Debug.Debugger;
 import javafx.scene.text.Text;
 
 class AttackCommand extends  BattleCommand{
@@ -33,7 +34,7 @@ class AttackCommand extends  BattleCommand{
     @Override
     public boolean isComplete() {
         if(animation == null || executionFailed) {
-            System.out.println("anim null");// temporary fix
+            Debugger.out("anim null");// temporary fix
             return  true;
         }
         return  lineSetter.isComplete() && animation.isComplete();//add animation check later

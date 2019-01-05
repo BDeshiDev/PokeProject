@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
+import com.company.Utilities.Debug.Debugger;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -318,7 +319,7 @@ class BattleController {
                                     }
                                     else{
                                         curTurnEndCommand = CommandsAtTurnEnd.pop();
-                                        System.out.println("getting another turn end command" );
+                                        Debugger.out("getting another turn end command" );
                                         curTurnEndCommand.start();
                                     }
                                 }

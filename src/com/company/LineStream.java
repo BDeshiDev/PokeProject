@@ -1,6 +1,8 @@
 package com.company;
 import java.util.ArrayDeque;
-
+/*
+* Class to get strings after time delay, use for dialog
+* */
 public class LineStream implements LineHolder {
     private ArrayDeque<String> remainingLines = new ArrayDeque<>();
     private double delayPerLine;

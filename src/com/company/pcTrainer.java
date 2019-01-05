@@ -1,5 +1,6 @@
 package com.company;
 import com.company.Utilities.Animation.AnimationFactory;
+import com.company.Utilities.Debug.Debugger;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ class pcTrainer extends Trainer {
     @Override
     public void prepTurn() {
         super.prepTurn();
-        System.out.println("player turn start");
+        Debugger.out("player turn start");
         canCancelSwap = true;
         waitingForSwap = false;
 
@@ -55,12 +56,12 @@ class pcTrainer extends Trainer {
     }
 
     public void tryToSwap(Pokemon pokeToSwapWith){
-        System.out.println("swapping between" +  ownedSlot.getCurPokemon().name + " and " + pokeToSwapWith.name);
+        Debugger.out("swapping between" +  ownedSlot.getCurPokemon().name + " and " + pokeToSwapWith.name);
         if(getStagedPokemon() != pokeToSwapWith && !pokeToSwapWith.isDead()){
             setCommandToExecuteAtTurnEnd(new TrainerCommand(this, AnimationFactory.getPokeChangeAnim(),"swap",
                     ()-> {
                     updateSwapUI();
-                    System.out.println("swap success " + ownedSlot.getCurPokemon().name + "," + getFirstAvailablePokemon().name);
+                        Debugger.out("swap success " + ownedSlot.getCurPokemon().name + "," + getFirstAvailablePokemon().name);
                     swapPokemon(pokeToSwapWith);
                     waitingForSwap = false;
                 }
@@ -70,7 +71,7 @@ class pcTrainer extends Trainer {
             swapUI.toggle(false);
             selectedMoves.add(getCommandToExecuteBeforeTurnEnd());
         }else{
-            System.out.println(pokeToSwapWith.name + " has already been sent out");
+            Debugger.out(pokeToSwapWith.name + " has already been sent out");
         }
     }
 
@@ -99,7 +100,7 @@ class pcTrainer extends Trainer {
 
     @Override
     public void endTurnPrep() {
-        System.out.println("player turn end");
+        Debugger.out("player turn end");
         setCommandToExecuteAtTurnEnd(null);
         selectedMoves.clear();
 
@@ -107,7 +108,7 @@ class pcTrainer extends Trainer {
             canCancelSwap = false;
             waitingForSwap = true;
             swapUI.toggle(true);
-            System.out.println("player needs to swap");
+            Debugger.out("player needs to swap");
         }
     }
 

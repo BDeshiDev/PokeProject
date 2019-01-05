@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Utilities.Debug.Debugger;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -25,7 +26,7 @@ public class BattleUIHolder {
     }
     public void load(Pokemon pokemon){
         if(pokemon == null)
-            System.out.println("poke null");
+            Debugger.out("poke null when loading UI");
         HpBar.setProgress(pokemon.getHpRatio());
         HpLabel.setText(pokemon.getCurHp() + " / " + pokemon.stats.maxHp.getCurVal());
         imageView.setImage( new Image(shoudUseFrontImage?pokemon.frontImage:pokemon.backImage));

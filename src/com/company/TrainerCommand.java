@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.Utilities.Animation.AnimationData;
 import com.company.Utilities.Animation.SingleLoopAnimation;
+import com.company.Utilities.Debug.Debugger;
 import javafx.scene.text.Text;
 
 
@@ -14,6 +15,7 @@ class TrainerCommand extends BattleCommand{
     private boolean hasCalled = false;
     private final MyCallBack actualCommand;
     public final String commandDesc;
+
 
     public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc, MyCallBack actualCommand) {
         this.animDataToUse = animDataToUse;
@@ -35,7 +37,7 @@ class TrainerCommand extends BattleCommand{
     public void start() {
         animation = animDataToUse.toSingleLoop(commandUser.ownedSlot.getAnimationViewer());
         animation.play();
-        System.out.println(commandDesc + " trainer command from " + commandUser.name + " started");
+        Debugger.out(commandDesc + " trainer command from " + commandUser.name + " started");
     }
 
     @Override
@@ -46,7 +48,7 @@ class TrainerCommand extends BattleCommand{
     public void call(){
         actualCommand.call();
         hasCalled = true;
-        System.out.println(commandDesc + " trainer command from " + commandUser.name + " activate callback");
+        Debugger.out(commandDesc + " trainer command from " + commandUser.name + " activate callback");
     }
 
 

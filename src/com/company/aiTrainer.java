@@ -1,13 +1,15 @@
 package com.company;
 
 import com.company.Utilities.Animation.AnimationFactory;
-
+import com.company.Utilities.Debug.Debugger;
 import java.util.ArrayList;
 import java.util.Random;
-
+/*
+* Computer controlled trainer class that behaves like an idiot
+* */
 public class aiTrainer extends Trainer {
 
-    Random rand;
+    Random rand;//I don't actually know if keeping the same rand has any side effects
     @Override
     public ArrayList<BattleCommand> getCommands() {
         ArrayList<BattleCommand> commandsList = new ArrayList<>();
@@ -49,7 +51,7 @@ public class aiTrainer extends Trainer {
                     (ownedSlot.isEmpty()?"":"Come back, "+ ownedSlot.getCurPokemon().name +"."),
                     "Go ! " + getFirstAvailablePokemon().name+ "!!!"));
         }
-        System.out.println("AI turn end");
+        Debugger.out("AI turn end");
     }
 
 

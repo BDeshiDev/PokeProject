@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Animation.SingleLoopAnimation;
+import com.company.Utilities.Debug.Debugger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -46,7 +47,7 @@ public class ExecutableTester extends Application{
             @Override
             public void stop() {
                 super.stop();
-                System.out.println("IT WORKS DAMMIT");
+                Debugger.out("IT WORKS DAMMIT");
             }
         }.start();
         primaryStage.show();
@@ -118,7 +119,7 @@ class SimultaneousMultiExecute implements BattleExecutable{
     }
 
     public void activateCallBack(){
-        System.out.println("calling");
+        Debugger.out("calling");
         FuncToCallAtEnd.call();
         hasCalled = true;
     }

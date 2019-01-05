@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Utilities.Debug.Debugger;
 import com.sun.org.glassfish.external.statistics.Stats;
 
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ class Pokemon{
         streamToAppendTo.push(effectString);
         int damage = Math.max((int)((m.power + damageBonus - stats.defence.getCurVal())*moveMod * stabBonus),0);
         curHp -= damage;
-        //System.out.println(name + " took " +damage + " damage");
+        Debugger.out(name + " took " +damage + " damage");
         streamToAppendTo.push(name + " took " +damage + " damage");
         if(curHp <= 0)
             streamToAppendTo.push(name + " has fainted...");

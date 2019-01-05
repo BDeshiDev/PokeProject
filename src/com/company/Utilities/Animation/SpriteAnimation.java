@@ -24,9 +24,7 @@ public abstract class SpriteAnimation extends Transition {
     }
 
     private int lastIndex;
-    public SpriteAnimation(
-            ImageView imageView, String imagePath,
-            Duration duration,int maxLoops,
+    public SpriteAnimation(ImageView imageView, String imagePath, Duration duration,int maxLoops,
             int count,   int columns,
             int offsetX, int offsetY,
             int width,   int height) {
