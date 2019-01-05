@@ -1,8 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public abstract class Trainer {
     protected ArrayList<Pokemon> party = new ArrayList<>();
@@ -31,12 +29,6 @@ public abstract class Trainer {
     }
 
 
-    public void swapPokemon(){
-        System.out.println(getStagedPokemon().name + " was recalled");
-        Pokemon pokemonToSwapWith = sendOutFirstAvailablePokemon();
-        swapPokemon(pokemonToSwapWith);
-    }
-
     public void swapPokemon(Pokemon pokemonToSwapWith ){
         if(pokemonToSwapWith == null)
             System.out.println("swap failed");
@@ -46,7 +38,7 @@ public abstract class Trainer {
         }
     }
 
-    public Pokemon sendOutFirstAvailablePokemon(){//get first not dead pokemon that's not already sent out or return null,
+    public Pokemon getFirstAvailablePokemon(){//get first not dead pokemon that's not already sent out or return null,
         for (Pokemon p :party) {
             if(!p.isDead() && stagedPokemon != p) {
                 return p;
@@ -56,7 +48,7 @@ public abstract class Trainer {
     }
 
     public Pokemon stageFirstAvailablePokemon(){// used for getting pokemon to send out first in battle//also stages the mon
-        Pokemon p = sendOutFirstAvailablePokemon();
+        Pokemon p = getFirstAvailablePokemon();
         stagedPokemon = p;
         System.out.println(name+"sending poke "+ p.name);
         return stagedPokemon;
@@ -91,6 +83,6 @@ public abstract class Trainer {
     //abstract funcs go here
     public abstract ArrayList<BattleCommand> getCommands();
     public abstract Boolean hasFinalizedCommands();
-    public abstract void endTurn();
+    public abstract void endTurnPrep();
     public abstract boolean canEndTurn();
 }

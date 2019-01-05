@@ -50,7 +50,7 @@ class AttackCommand extends  BattleCommand{
     }
 
     public void continueExecution(double delta, Text dialogueTarget){
-        System.out.println("continue execution" + this);
+       // System.out.println("continue execution" + this);
         if(isComplete())
             return;
         else{

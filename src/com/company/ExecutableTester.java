@@ -118,6 +118,7 @@ class SimultaneousMultiExecute implements BattleExecutable{
     }
 
     public void activateCallBack(){
+        System.out.println("calling");
         FuncToCallAtEnd.call();
         hasCalled = true;
     }
@@ -132,7 +133,7 @@ class SimultaneousMultiExecute implements BattleExecutable{
 
     public boolean executionComplete(){
         for (BattleExecutable be:stuffToExecute) {
-            if(be!= null|| !be.isComplete())
+            if(be!= null && !be.isComplete())
                 return false;
         }
         return true;

@@ -36,17 +36,20 @@ public class aiTrainer extends Trainer {
     }
 
     @Override
-    public void endTurn() {
+    public void endTurnPrep() {
+        setCommandToExecuteAtTurnEnd(null);
         if(ownedSlot.getCurPokemon().isDead()){
             setCommandToExecuteAtTurnEnd(new TrainerCommand(this,
-                    AnimationFactory.getPokeChangeAnim()
-                    ,()->{
+                    AnimationFactory.getPokeChangeAnim(),"swap",
+                    ()->{
                 Pokemon newlyStagedMon = stageFirstAvailablePokemon();
                 ownedSlot.setPokemon(newlyStagedMon);
 
-            },name+" sent out another pokemon"));
+            },name+" :" +
+                    (ownedSlot.isEmpty()?"":"Come back, "+ ownedSlot.getCurPokemon().name +"."),
+                    "Go ! " + getFirstAvailablePokemon().name+ "!!!"));
         }
-        System.out.println("ai turn end");
+        System.out.println("AI turn end");
     }
 
 

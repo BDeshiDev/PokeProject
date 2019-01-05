@@ -55,20 +55,22 @@ class pcTrainer extends Trainer {
     }
 
     public void tryToSwap(Pokemon pokeToSwapWith){
+        System.out.println("swapping between" +  ownedSlot.getCurPokemon().name + " and " + pokeToSwapWith.name);
         if(getStagedPokemon() != pokeToSwapWith && !pokeToSwapWith.isDead()){
-            setCommandToExecuteAtTurnEnd(new TrainerCommand(this, AnimationFactory.getPokeChangeAnim(),
+            setCommandToExecuteAtTurnEnd(new TrainerCommand(this, AnimationFactory.getPokeChangeAnim(),"swap",
                     ()-> {
                     updateSwapUI();
+                    System.out.println("swap success " + ownedSlot.getCurPokemon().name + "," + getFirstAvailablePokemon().name);
                     swapPokemon(pokeToSwapWith);
                     waitingForSwap = false;
-                    System.out.println("swap success");
                 }
-            ,name+" sent out another pokemon"));
+            ,name+" :" +
+                    (ownedSlot.isEmpty()?"":"Come back, "+ ownedSlot.getCurPokemon().name +"."),
+                    "Go ! " + pokeToSwapWith.name+ "!!!"));
             swapUI.toggle(false);
             selectedMoves.add(getCommandToExecuteBeforeTurnEnd());
         }else{
             System.out.println(pokeToSwapWith.name + " has already been sent out");
-
         }
     }
 
@@ -96,8 +98,9 @@ class pcTrainer extends Trainer {
     }
 
     @Override
-    public void endTurn() {
+    public void endTurnPrep() {
         System.out.println("player turn end");
+        setCommandToExecuteAtTurnEnd(null);
         selectedMoves.clear();
 
         if (ownedSlot.getCurPokemon().isDead()){

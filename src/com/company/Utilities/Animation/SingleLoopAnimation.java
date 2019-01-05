@@ -33,7 +33,7 @@ public class SingleLoopAnimation extends  SpriteAnimation  implements BattleExec
     @Override
     public void end() {
         stop();
-        System.out.println("stopping anim");
+        //System.out.println("stopping anim");
     }
 
     @Override

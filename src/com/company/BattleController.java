@@ -237,10 +237,9 @@ class BattleController {
                 playerMoveGrid.setDisable(true);
 
                 if(curExecutingCommand == null){
-                    System.out.println("null");
                     if(CommandList.isEmpty()) {
                         for (Trainer t :trainers) {
-                            t.endTurn();
+                            t.endTurnPrep();
                             waitList.add(t);
                         }
                         CommandsAtTurnEnd.clear();
@@ -248,7 +247,7 @@ class BattleController {
                         return;
                     }
                     else{
-                        System.out.println("getting next attack");
+                       // System.out.println("getting next attack");
                         curExecutingCommand = CommandList.poll();
                         curExecutingCommand.start();
                     }
@@ -256,7 +255,7 @@ class BattleController {
                 curExecutingCommand.continueExecution(delta,DialogText);
                 if(curExecutingCommand.isComplete()){
                     curExecutingCommand.end();
-                    System.out.println("nulling attack" + curExecutingCommand);
+                    //System.out.println("nulling attack" + curExecutingCommand);
                     curExecutingCommand = null;
                 }
             }
@@ -292,12 +291,14 @@ class BattleController {
                         if (isOver())
                             curState = BattleState.finishing;//if no one can fight then don't bother handling turn end
                         else {
-                            System.out.println("trying to end turn");
+                            //System.out.println("trying to end turn");
                             for (int i = waitList.size() - 1; i >= 0; i--) {//ask for turnEndCommands and add them to the stack
                                 Trainer t = waitList.get(i);
                                 if (t.canEndTurn()) {
                                     waitList.remove(t);
+                                    System.out.println("removing " + t.name);
                                 } else if (t.hasCommandBeforeTurnEnd()) {
+                                    BattleCommand c= t.getCommandToExecuteBeforeTurnEnd();
                                     CommandsAtTurnEnd.add(t.getCommandToExecuteBeforeTurnEnd());
                                     waitList.remove(t);
                                 }
@@ -317,6 +318,7 @@ class BattleController {
                                     }
                                     else{
                                         curTurnEndCommand = CommandsAtTurnEnd.pop();
+                                        System.out.println("getting another turn end command" );
                                         curTurnEndCommand.start();
                                     }
                                 }

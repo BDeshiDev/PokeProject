@@ -13,16 +13,19 @@ class TrainerCommand extends BattleCommand{
     private final LineStreamExecutable lineSetter;
     private boolean hasCalled = false;
     private final MyCallBack actualCommand;
+    public final String commandDesc;
 
-    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse, MyCallBack actualCommand) {
+    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc, MyCallBack actualCommand) {
         this.animDataToUse = animDataToUse;
         this.actualCommand = actualCommand;
         this.commandUser = commandUser;
+        this.commandDesc = commandDesc;
         lineSetter = new LineStreamExecutable();
+        hasCalled = false;
     }
 
-    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse, MyCallBack actualCommand,String... strings) {
-        this(commandUser, animDataToUse, actualCommand);
+    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc, MyCallBack actualCommand,String... strings) {
+        this(commandUser, animDataToUse, commandDesc,actualCommand);
         for (String s:strings) {
             lineSetter.push(s);
         }
@@ -32,6 +35,7 @@ class TrainerCommand extends BattleCommand{
     public void start() {
         animation = animDataToUse.toSingleLoop(commandUser.ownedSlot.getAnimationViewer());
         animation.play();
+        System.out.println(commandDesc + " trainer command from " + commandUser.name + " started");
     }
 
     @Override
@@ -39,14 +43,24 @@ class TrainerCommand extends BattleCommand{
         return  lineSetter.isComplete() && animation.isComplete() && hasCalled;//add animation check later
     }
 
+    public void call(){
+        actualCommand.call();
+        hasCalled = true;
+        System.out.println(commandDesc + " trainer command from " + commandUser.name + " activate callback");
+    }
 
 
     public void continueExecution(double delta, Text dialogueTarget){
+        /*
+        System.out.println("trainer command from " + commandUser.name +
+                            "line" + lineSetter.isComplete()+
+                            "anim" + animation.isComplete()+
+                            "call " + hasCalled
+        );*/
         if(isComplete())
             return;
         if(lineSetter.isComplete() && animation.isComplete()){
-            actualCommand.call();
-            hasCalled = true;
+            call();
         }
         else{
             if(!lineSetter.isComplete()){
@@ -58,6 +72,7 @@ class TrainerCommand extends BattleCommand{
     @Override
     public void end() {
         animation.end();
+        System.out.println(commandDesc + "trainer command from " + commandUser.name + " ended" + " and " + isComplete());
     }
 
     @Override

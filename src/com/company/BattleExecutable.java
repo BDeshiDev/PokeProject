@@ -4,8 +4,7 @@ import javafx.scene.text.Text;
 
 /*
 * Essentially a couroutine interface
-*
-* */
+*/
 public interface BattleExecutable {
     //interface for anything that needs to be executed over multiple frames in battle with commentary support
     void start();

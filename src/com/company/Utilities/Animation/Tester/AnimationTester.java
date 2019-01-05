@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import javafx.util.Duration;
 public class AnimationTester extends Application {
-    String spriteSheetPath = new String("Assets/Animations/blueExplosion.png");
+    String spriteSheetPath = "Assets/Animations/blueExplosion.png";
     final Duration testDuration = new Duration(700);
     final int count = 6;
     final int columns = 6;
@@ -45,7 +45,7 @@ public class AnimationTester extends Application {
 
 
         primaryStage.setScene(new Scene(p,900,600));
-        primaryStage.show();;
+        primaryStage.show();
     }
 
 
