@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Utilities.Debug.Debugger;
+import com.company.Utilities.TextHandler.LineHolder;
 import javafx.scene.image.ImageView;
 
 public class BattleSlot{
@@ -36,8 +37,9 @@ public class BattleSlot{
         return pokemon == null;
     }
 
-    public void takeHit(Move m , int userAttack, double stabBonus,LineHolder streamToAppendTo){
-        pokemon.takeHit(m,userAttack,stabBonus,streamToAppendTo);
+
+    public void takehit(int damage, LineHolder lineStreamToAppendTo){
+        pokemon.takeDamage(damage,lineStreamToAppendTo);
         slotUI.setHealth(pokemon.getCurHp(),pokemon.stats.maxHp.getCurVal());
     }
 

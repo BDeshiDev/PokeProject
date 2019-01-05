@@ -8,7 +8,7 @@ class pcTrainer extends Trainer {
 
     private ArrayList<BattleCommand> selectedMoves = new ArrayList<>();
     private MovesListUI movesListUI;
-    private BattleController.SwapUI swapUI;
+    private BattleController.SwapUI swapUI;//#refactor the ui stuff shouldn't really be here
     private boolean canCancelSwap = true;
     private boolean waitingForSwap = false;
     private boolean hasSwapped = false;

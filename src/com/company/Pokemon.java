@@ -1,13 +1,12 @@
 package com.company;
 
 import com.company.Utilities.Debug.Debugger;
-import com.sun.org.glassfish.external.statistics.Stats;
+import com.company.Utilities.TextHandler.LineHolder;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-class Pokemon{
+public class Pokemon{
     String name;
     Type t1,t2;
 
@@ -84,17 +83,7 @@ class Pokemon{
         return moves;
     }
 
-    public void takeHit(Move m,int damageBonus,double stabBonus,LineHolder streamToAppendTo){
-        double moveMod = getMoveModifier(m);
-        String effectString;
-        if(moveMod > 1)
-            effectString ="It's SUPER effective!";
-        else if(moveMod < 1)
-            effectString ="It's not very effective... ";
-        else
-            effectString =  "... ";
-        streamToAppendTo.push(effectString);
-        int damage = Math.max((int)((m.power + damageBonus - stats.defence.getCurVal())*moveMod * stabBonus),0);
+    public void takeDamage(int damage, LineHolder streamToAppendTo){
         curHp -= damage;
         Debugger.out(name + " took " +damage + " damage");
         streamToAppendTo.push(name + " took " +damage + " damage");

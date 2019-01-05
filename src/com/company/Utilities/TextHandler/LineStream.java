@@ -1,4 +1,6 @@
-package com.company;
+package com.company.Utilities.TextHandler;
+import com.company.Settings;
+
 import java.util.ArrayDeque;
 /*
 * Class to get strings after time delay, use for dialog

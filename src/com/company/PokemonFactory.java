@@ -1,9 +1,6 @@
 package com.company;
 
-import com.sun.org.glassfish.external.statistics.Stats;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class PokemonFactory {//temp class for producing pokemon for testing replace with database
     public static Pokemon getCharizard(){
@@ -15,7 +12,7 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
                 6,104,6,98,
                 7,128,7,128,
                 7,120,
-                Type.Fire, Type.Flying,"Assets/charz3.png","Assets/backCharz.png",
+                Type.Fire, Type.Flying, "Assets/PokemonImages/charz3.png", "Assets/PokemonImages/backCharz.png",
                 moves);
 
     }
@@ -27,7 +24,7 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
                 6,102,6,103,
                 7,120,7,120,
                 6,100,
-                Type.Grass, Type.Poison,"Assets/venasaurFront.png","Assets/venasaurBack.png",
+                Type.Grass, Type.Poison, "Assets/PokemonImages/venasaurFront.png", "Assets/PokemonImages/venasaurBack.png",
                 moves);
     }
 
@@ -40,7 +37,7 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
                 6,103,7,120,
                 7,105,7,125,
                 6,98,
-                Type.Water, Type.None,"Assets/BlastoiseFront.png","Assets/BlastoiseBack.png",
+                Type.Water, Type.None, "Assets/PokemonImages/BlastoiseFront.png", "Assets/PokemonImages/BlastoiseBack.png",
                 moves);
     }
 
@@ -53,7 +50,7 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
                 6,100,6,95,
                 3,90,6,90,
                 7,121,
-                Type.Normal, Type.Flying,"Assets/pidgeotFront.png","Assets/pidgeotBack.png",
+                Type.Normal, Type.Flying, "Assets/PokemonImages/pidgeotFront.png", "Assets/PokemonImages/pidgeotBack.png",
                 moves);
     }
 }

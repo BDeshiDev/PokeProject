@@ -79,7 +79,7 @@
          <children>
             <ImageView fx:id="enemyImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Assets/charz3.png" />
+                  <Image url="@../../Assets/PokemonImages/charz3.png" />
                </image>
             </ImageView>
             <ImageView fx:id="enemySideAnimationView" fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
@@ -89,7 +89,7 @@
          <children>
             <ImageView fx:id="playerImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Assets/backCharz.png" />
+                  <Image url="@../../Assets/PokemonImages/backCharz.png" />
                </image>
             </ImageView>
             <ImageView fx:id="playerSideAnimationView" fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />

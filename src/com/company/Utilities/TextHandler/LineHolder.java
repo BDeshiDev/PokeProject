@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Utilities.TextHandler;
 
 public interface LineHolder {
     boolean streamComplete();

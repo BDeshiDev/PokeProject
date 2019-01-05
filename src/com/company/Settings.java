@@ -5,6 +5,5 @@ public class Settings {
     public static final int windowWidth = 900;
     public static int maxLevel = 50;
     public static double timeBetweenLines = .25;
-    public static  boolean IsDebugOn = false;
-
+    public static  boolean IsDebugOn = true;
 }

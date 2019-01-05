@@ -2,7 +2,7 @@ package com.company;
 
 import javax.swing.text.StyledEditorKit;
 
-enum Type{
+public enum Type{
     Fire,Water,Electric,Ice,Rock,Ground,Grass,Bug,Dragon,
     Flying,Psychic,Dark,Fighting,Normal,Ghost,Steel,Poison,
     None;//dummy for single type mons.Always put this at the end since that's how the array is structured

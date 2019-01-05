@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 import com.company.Utilities.Debug.Debugger;
+import com.company.Utilities.TextHandler.LineStream;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -239,13 +240,19 @@ class BattleController {
 
                 if(curExecutingCommand == null){
                     if(CommandList.isEmpty()) {
-                        for (Trainer t :trainers) {
-                            t.endTurnPrep();
-                            waitList.add(t);
+                        if(isOver()){
+                            curState = BattleState.finishing;
+                            return;
                         }
-                        CommandsAtTurnEnd.clear();
-                        curState = BattleState.endingTurn;
-                        return;
+                        else {
+                            for (Trainer t : trainers) {
+                                t.endTurnPrep();
+                                waitList.add(t);
+                            }
+                            CommandsAtTurnEnd.clear();
+                            curState = BattleState.endingTurn;
+                            return;
+                        }
                     }
                     else{
                        // System.out.println("getting next attack");

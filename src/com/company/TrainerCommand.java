@@ -3,6 +3,7 @@ package com.company;
 import com.company.Utilities.Animation.AnimationData;
 import com.company.Utilities.Animation.SingleLoopAnimation;
 import com.company.Utilities.Debug.Debugger;
+import com.company.Utilities.TextHandler.LineStreamExecutable;
 import javafx.scene.text.Text;
 
 
@@ -74,7 +75,7 @@ class TrainerCommand extends BattleCommand{
     @Override
     public void end() {
         animation.end();
-        System.out.println(commandDesc + "trainer command from " + commandUser.name + " ended" + " and " + isComplete());
+        System.out.println(commandDesc + "trainer command from " + commandUser.name + " ended" + " and isComplete = " + isComplete());
     }
 
     @Override

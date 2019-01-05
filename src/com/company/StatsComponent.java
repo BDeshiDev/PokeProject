@@ -2,7 +2,7 @@ package com.company;
 
 import java.sql.SQLOutput;
 
-public class StatsComponent {//data holder for storing all stats necessary fot a pokemon
+public class StatsComponent {//data holder for storing all stats necessary for a pokemon
     Level level;
     public final Stat maxHp;
     public final Stat attack;

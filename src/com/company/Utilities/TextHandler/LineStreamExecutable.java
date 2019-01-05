@@ -1,8 +1,9 @@
-package com.company;
+package com.company.Utilities.TextHandler;
 
+import com.company.BattleExecutable;
 import javafx.scene.text.Text;
 
-public class LineStreamExecutable implements BattleExecutable ,LineHolder{
+public class LineStreamExecutable implements BattleExecutable,LineHolder{
 //helper class to handle line streams over time by implementing the interface
     LineHolder lineStream;
 

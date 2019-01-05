@@ -1,11 +1,12 @@
 package com.company;
 
 import com.company.Utilities.Animation.AnimationData;
-import javafx.animation.Animation;
+import com.company.Utilities.TextHandler.LineHolder;
 
-class  Move{
+public class  Move{
     private String name;
     public final Type type;
+    public final DamageType damageType;
     public final int power;
     public final int priority;
     //currently unused
@@ -19,9 +20,10 @@ class  Move{
         return name;
     }
 
-    public Move(String name, Type type, int power, int priority, int accuracy, int maxPp, AnimationData animationData) {
+    public Move(String name, Type type,DamageType damageType, int power, int priority, int accuracy, int maxPp, AnimationData animationData) {
         this.name = name;
         this.type = type;
+        this.damageType = damageType;
         this.power = power;
         this.priority = priority;
         this.accuracy = accuracy;
@@ -33,11 +35,27 @@ class  Move{
         return  curPp>0;
     }
 
-    public void use(Pokemon user, BattleSlot target,LineHolder streamToAppendTo){
+    public void use(Pokemon user, BattleSlot target, LineHolder streamToAppendTo){
         //System.out.println(user.name + " used " + this.name);
         streamToAppendTo.push(user.name + " used " + this.name);
         curPp--;
         double stabBonus = user.getStabBoost(this);
-        target.takeHit(this,user.stats.attack.getCurVal(),stabBonus,streamToAppendTo);//#UNIMPLEMENTED certain moves should use sp attack in
+
+        Pokemon targetMon = target.getCurPokemon();
+
+        double moveMod = targetMon.getMoveModifier(this);
+        String effectString;
+        if(moveMod > 1)
+            effectString ="It's SUPER effective!";
+        else if(moveMod < 1)
+            effectString ="It's not very effective... ";
+        else
+            effectString =  "... ";
+        streamToAppendTo.push(effectString);
+        //actual formula
+        int damage = Math.max((int)(((2*user.stats.level.getCurLevel()/5.0+2) * power
+                * user.stats.attack.getCurVal()/targetMon.stats.defence.getCurVal() /50.0+2)*moveMod*stabBonus),0);
+        //((m.power + damageBonus - stats.defence.getCurVal())*moveMod * stabBonus),0);
+        target.takehit(damage,streamToAppendTo);
     }
 }
