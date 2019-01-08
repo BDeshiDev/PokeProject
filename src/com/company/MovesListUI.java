@@ -20,6 +20,7 @@ public class MovesListUI {
     public void add(Move move,pcTrainer player,Pokemon moveOwnerMon){
         if((row+1) >=maxRowOrCol && (col+1) >=maxRowOrCol){
             Debugger.out("failed to add move: " + move.getName()+ " since move grid is full");
+
             return;
         }
 
@@ -35,7 +36,7 @@ public class MovesListUI {
         col++;
         if(row>maxRowOrCol){
             row++;
-            col =0;
+            col = 0;
         }
     }
 
