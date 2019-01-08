@@ -8,39 +8,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.Exploration.ExplorationController">
-   <top>
-      <TextFlow prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Trainers Remaining:">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-            <Label fx:id="RemainingTrainerCountLabel" text="000">
-               <font>
-                  <Font size="48.0" />
-               </font>
-            </Label>
-         </children>
-      </TextFlow>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.Exploration.ExplorationController">
    <bottom>
-      <HBox prefHeight="100.0" prefWidth="200.0" spacing="180.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="StatusButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="313.0" text="Status">
                <font>
-                  <Font size="33.0" />
+                  <Font size="24.0" />
                </font>
             </Button>
             <Button fx:id="fightButton" mnemonicParsing="false" prefHeight="107.0" prefWidth="313.0" text="Fight Next Trainer">
                <font>
-                  <Font size="33.0" />
+                  <Font size="24.0" />
                </font>
             </Button>
             <Button fx:id="nextStageButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="313.0" text="Go To Next Stage">
                <font>
-                  <Font size="33.0" />
+                  <Font size="24.0" />
                </font>
             </Button>
          </children>
@@ -62,4 +46,31 @@
          </children>
       </Pane>
    </center>
+   <top>
+      <VBox>
+         <children>
+            <Label fx:id="StageTitleLabel" alignment="TOP_LEFT" prefHeight="107.0" prefWidth="675.0" text="Stage Title">
+               <font>
+                  <Font size="65.0" />
+               </font>
+            </Label>
+            <TextFlow prefHeight="0.0" prefWidth="1280.0">
+               <children>
+                  <Label fx:id="RemainingTrainerCountLabel" text="000">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                     <graphic>
+                        <Label text="Trainers Remaining:">
+                           <font>
+                              <Font size="48.0" />
+                           </font>
+                        </Label>
+                     </graphic>
+                  </Label>
+               </children>
+            </TextFlow>
+         </children>
+      </VBox>
+   </top>
 </BorderPane>
