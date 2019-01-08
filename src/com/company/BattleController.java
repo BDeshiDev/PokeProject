@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
+import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
 import javafx.animation.AnimationTimer;
@@ -87,7 +88,7 @@ class BattleController {
             pane.getChildren().clear();
         }
 
-        public  void addPokemon(pcTrainer player,Pokemon pokeToAdd){
+        public  void addPokemon(pcTrainer player, Pokemon pokeToAdd){
             Button b = new Button(pokeToAdd.name);
             b.setPrefWidth(buttonWidth);
             b.setPrefHeight(buttonheight);

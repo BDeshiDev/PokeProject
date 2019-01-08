@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Pokemon;
 
 import com.company.Utilities.Animation.AnimationFactory;
 

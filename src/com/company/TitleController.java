@@ -1,8 +1,7 @@
 package com.company;
 
+import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class TitleController {

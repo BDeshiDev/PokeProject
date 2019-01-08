@@ -1,6 +1,4 @@
-package com.company;
-
-import javax.swing.text.StyledEditorKit;
+package com.company.Pokemon;
 
 public enum Type{
     Fire,Water,Electric,Ice,Rock,Ground,Grass,Bug,Dragon,

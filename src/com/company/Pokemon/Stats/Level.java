@@ -1,5 +1,7 @@
-package com.company;
+package com.company.Pokemon.Stats;
 
+
+import com.company.Settings;
 
 public class Level {
     private int curLevel;

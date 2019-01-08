@@ -1,5 +1,6 @@
-package com.company;
+package com.company.Pokemon;
 
+import com.company.BattleSlot;
 import com.company.Utilities.Animation.AnimationData;
 import com.company.Utilities.TextHandler.LineHolder;
 

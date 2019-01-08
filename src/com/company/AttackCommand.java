@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.Pokemon.Move;
+import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.SingleLoopAnimation;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStreamExecutable;
