@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.PokeTab">
+  <tabs>
+    <Tab fx:id="pokeInfo" text="Pokemon Info" >
+        <fx:include fx:id="pokeInfoPage" source="PokeInfo.fxml"/>
+    </Tab>
+    <Tab fx:id="pokeSkill" text="Pokemon Skill" >
+        <fx:include fx:id="pokeSkillPage" source="PokeSkill.fxml"/>
+    </Tab>
+      <Tab fx:id="pokeMove" text="Pokemon Move" >
+          <fx:include fx:id="pokeMovePage" source="PokeMove.fxml"/>
+      </Tab>
+  </tabs>
+</TabPane>

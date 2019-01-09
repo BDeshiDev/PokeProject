@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.PokeInfo">
+   <children>
+      <ImageView fx:id="pokemonImage" fitHeight="161.0" fitWidth="212.0" layoutX="19.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="24.0" layoutY="31.0" text="Pokemon Informations:   ">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="RED" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label fx:id="nameAndLevel" layoutX="24.0" layoutY="61.0" text="Pokemon name and level" />
+      <Label fx:id="pokemonName" layoutX="331.0" layoutY="105.0" text="Name" />
+      <Label fx:id="pokemonType" layoutX="331.0" layoutY="151.0" text="Type" />
+      <Label fx:id="pokemonNo" layoutX="334.0" layoutY="61.0" text="Pokemon No:" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00f0004d" height="149.0" layoutX="5.0" layoutY="263.0" stroke="BLACK" strokeType="INSIDE" width="590.0" />
+      <Text fx:id="memo" layoutX="24.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trainer Memo:" wrappingWidth="444.205078125">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="BLACK" />
+                  <Stop color="BLACK" offset="0.00625" />
+                  <Stop color="MAGENTA" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Text>
+   </children>
+</AnchorPane>
