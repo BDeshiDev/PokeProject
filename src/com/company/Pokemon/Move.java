@@ -16,6 +16,9 @@ public class  Move{
     private int curPp;
     //unused end
     public AnimationData animationData;
+    public int getCurPp() {
+        return curPp;
+    }
 
     public String getName(){
         return name;
