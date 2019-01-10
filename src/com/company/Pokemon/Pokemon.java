@@ -25,6 +25,15 @@ public class Pokemon{
     public double getHpRatio(){return  ((double)(curHp)) / stats.maxHp.getCurVal();}
     public int getCurHp(){return curHp;}
     public int getLevel(){return stats.level.getCurLevel();}
+    public int getAtt(){return stats.attack.getCurVal();}
+    public int getDef(){return stats.defence.getCurVal();}
+    public int getSpAtt(){return stats.spAttack.getCurVal();}
+    public int getSpDef(){return stats.spDefence.getCurVal();}
+    public int getSpeed(){return stats.speed.getCurVal();}
+    public int getMaxHp(){return stats.maxHp.getCurVal();}
+    public int getCurXp(){return  stats.level.getCurXP();}
+    public int getCurLevel(){return  stats.level.getCurLevel();}
+    public int getXpRatio(){return  stats.level.getCurXP()/stats.level.getXpToNext();}
 
     public Pokemon(String _name,int level, int hpAtMaxLevel, int hpBase,
                    int attAtMaxLevel, int attBase,
