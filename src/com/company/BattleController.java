@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
 
 
-class BattleController {
+public class BattleController {
 
     @FXML
     private Label enemyNameLabel;
@@ -113,6 +113,7 @@ class BattleController {
 
     boolean canRun = true;
     boolean canUseItems = true;
+    private boolean isComplete =false;
     Scene prevScene;
     Parent newRoot;
 
@@ -159,6 +160,9 @@ class BattleController {
     public boolean isOver(){
         return !player.canFight() || !enemy.canFight();
     }
+    public boolean isComplete(){
+        return isComplete;
+    }
 
     public void toggleSwapMenu(boolean isSwapEnabled){
         if(isSwapEnabled){
@@ -176,6 +180,7 @@ class BattleController {
 
     public void begin(Stage curStage) {
         prevScene = curStage.getScene();
+        isComplete = false;
         curStage.setScene(new Scene(newRoot, Settings.windowWidth, Settings.windowLength));
 
         System.out.println(player.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
@@ -357,6 +362,7 @@ class BattleController {
                 else
                     System.out.println("Result: " + enemy.name + " wins");
                 curStage.setScene(prevScene);
+                isComplete = true;
             }
         };
         battleLoop.start();

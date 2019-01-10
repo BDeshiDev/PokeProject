@@ -1,4 +1,5 @@
 package com.company;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,6 +17,7 @@ public class Main extends  Application {
         Parent root =loader.load();
         TitleController titleController =loader.getController();
         titleController.setCurStage(primaryStage);
+
 
         primaryStage.setScene(new Scene(root,Settings.windowWidth,Settings.windowLength));
         primaryStage.show();

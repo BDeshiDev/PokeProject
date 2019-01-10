@@ -4,7 +4,7 @@ import com.company.Utilities.Debug.Debugger;
 
 import java.util.*;
 
-class pcTrainer extends Trainer {
+public class pcTrainer extends Trainer {
 
     private ArrayList<BattleCommand> selectedMoves = new ArrayList<>();
     private MovesListUI movesListUI;

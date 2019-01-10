@@ -30,16 +30,10 @@ public class ExplorationController {
         StageTitleLabel.setText(stageToLoad.stageName);
     }
 
+    public void update(){
 
-}
-
-class stageData{
-    Trainer[] challengers;
-    String stageName;
-    //private stageData nextStage; add later
-
-    public stageData(String stageName,Trainer... challengers) {
-        this.challengers = challengers;
-        this.stageName = stageName;
     }
+
+
 }
+
