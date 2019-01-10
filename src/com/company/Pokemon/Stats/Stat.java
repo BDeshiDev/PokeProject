@@ -1,4 +1,6 @@
-package com.company;
+package com.company.Pokemon.Stats;
+
+import com.company.Pokemon.Stats.Level;
 
 public class Stat {
     private double realVal;

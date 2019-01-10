@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.Pokemon.*;
+import com.company.Pokemon.Stats.Level;
+
 import java.util.ArrayList;
 
 public class PokemonFactory {//temp class for producing pokemon for testing replace with database

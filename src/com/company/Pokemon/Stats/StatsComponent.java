@@ -1,9 +1,10 @@
-package com.company;
+package com.company.Pokemon.Stats;
 
-import java.sql.SQLOutput;
+import com.company.Pokemon.Stats.Level;
+import com.company.Pokemon.Stats.Stat;
 
 public class StatsComponent {//data holder for storing all stats necessary for a pokemon
-    Level level;
+    public final Level level;
     public final Stat maxHp;
     public final Stat attack;
     public final Stat defence;

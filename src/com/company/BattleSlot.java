@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
 import javafx.scene.image.ImageView;

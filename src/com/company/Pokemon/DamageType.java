@@ -1,4 +1,4 @@
-package com.company;
+package com.company.Pokemon;
 /*
 * used to determine which stat gives bonus power
 * */

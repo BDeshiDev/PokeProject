@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;

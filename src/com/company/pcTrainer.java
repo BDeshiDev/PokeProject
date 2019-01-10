@@ -1,4 +1,6 @@
 package com.company;
+import com.company.Pokemon.Move;
+import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;
 
@@ -18,7 +20,7 @@ public class pcTrainer extends Trainer {
         return selectedMoves.size()>0;//return true if we have selected a move
     }
 
-    public void setCommand(Move m,Pokemon user){
+    public void setCommand(Move m, Pokemon user){
         selectedMoves.add(new AttackCommand(user,m,enemySlot));
     }
 

@@ -1,5 +1,6 @@
-package com.company;
+package com.company.Pokemon;
 
+import com.company.Pokemon.Stats.StatsComponent;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
 
@@ -7,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Pokemon{
-    String name;
-    Type t1,t2;
+    public final String name;
+    public final Type t1,t2;
 
     private int curHp ;
     public final StatsComponent stats;
