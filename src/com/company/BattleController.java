@@ -75,6 +75,8 @@ public class BattleController {
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
     private BattleResult result = new BattleResult();
+    private  Scene battleScene;
+    private Stage curStage;
 
     MovesListUI movesUI;
 
@@ -120,14 +122,12 @@ public class BattleController {
     Scene prevScene;
     Parent newRoot;
 
-    public BattleController(pcTrainer player, aiTrainer enemy){
-        this.player = player;
-        this.enemy = enemy;
-
-        setFxml(player,enemy);
+    public BattleController(){
+        setFxml();
+        battleScene = new Scene(newRoot, Settings.windowWidth, Settings.windowLength);
     }
 
-    private void setFxml(pcTrainer player,aiTrainer enemy){
+    private void setFxml(){
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("BattleFXML.fxml"));
         loader.setController(this);
@@ -181,196 +181,203 @@ public class BattleController {
         }
     }
 
-    public void begin(Stage curStage) {
+    class  BattleLoop extends  AnimationTimer{
+        PriorityQueue<BattleCommand> CommandList = new PriorityQueue<>();
+        ArrayList<Battler> waitList = new ArrayList<>();;
+        ArrayList<Battler> trainers = new ArrayList<>();;
+        BattleCommand curExecutingCommand = null;
+        LineStream linesSource = new LineStream();;
+
+        Stack<BattleExecutable> CommandsAtTurnEnd = new Stack<>();
+        BattleExecutable curTurnEndCommand =null;
+
+        BattleState curState;
+
+        double timePrev;
+        double timeNow;
+
+        BattleLoop(Trainer player , Trainer enemy){
+            trainers.add(player);
+            trainers.add(enemy);
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            curState = BattleState.turnPreparing;
+            timeNow = timePrev = System.nanoTime();
+            refreshWaitList();
+        }
+
+        void prepareTurns(){
+            curExecutingCommand = null;
+            curTurnEndCommand = null;
+            for (Battler t:trainers) {
+                t.prepTurn();
+            }
+        }
+
+        void refreshWaitList() {
+            waitList.clear();
+            waitList.addAll(trainers);
+        }
+
+        void executeAttacks(double delta) {
+            dialogBox.setVisible(true);
+            dialogBox.setDisable(false);
+            playerMoveGrid.setDisable(true);
+
+            if(curExecutingCommand == null){
+                if(CommandList.isEmpty()) {
+                    if(isOver()){
+                        curState = BattleState.finishing;
+                        return;
+                    }
+                    else {
+                        for (Battler t : trainers) {
+                            t.endTurnPrep();
+                            waitList.add(t);
+                        }
+                        CommandsAtTurnEnd.clear();
+                        curState = BattleState.endingTurn;
+                        return;
+                    }
+                }
+                else{
+                    // System.out.println("getting next attack");
+                    curExecutingCommand = CommandList.poll();
+                    curExecutingCommand.start();
+                }
+            }
+            curExecutingCommand.continueExecution(delta,DialogText);
+            if(curExecutingCommand.isComplete()){
+                curExecutingCommand.end();
+                //System.out.println("nulling attack" + curExecutingCommand);
+                curExecutingCommand = null;
+            }
+        }
+
+        @Override
+        public void handle(long now) {//essentially a infinite loop
+            //deltatime calc
+            timeNow = System.nanoTime();
+            double delta = (timeNow - timePrev) / 1e9;
+            timePrev = timeNow;
+            //actual loop
+            switch (curState){
+                case turnPreparing:
+                    prepareTurns();
+                    curState = BattleState.waiting;
+                    break;
+                case waiting:
+                    for(int i = waitList.size() -1; i >= 0 ;i--){
+                        Battler t = waitList.get(i);//get commands until all trainers have given commands
+                        if(t.hasFinalizedCommands()){
+                            CommandList.addAll(t.getCommands());
+                            waitList.remove(t) ;
+                        }
+                    }
+                    if(waitList.isEmpty()) {
+                        curState = BattleState.executing;//everyone hgave commands so execute()
+                    }
+                    break;
+                case executing:
+                    executeAttacks(delta);
+                    break;
+                case endingTurn:
+                    if (isOver())
+                        curState = BattleState.finishing;//if no one can fight then don't bother handling turn end
+                    else {
+                        //System.out.println("trying to end turn");
+                        for (int i = waitList.size() - 1; i >= 0; i--) {//ask for turnEndCommands and add them to the stack
+                            Battler t = waitList.get(i);
+                            if (t.canEndTurn()) {
+                                waitList.remove(t);
+                                System.out.println("removing " + t.getName());
+                            } else if (t.hasCommandBeforeTurnEnd()) {
+                                BattleCommand c= t.getCommandToExecuteBeforeTurnEnd();
+                                CommandsAtTurnEnd.add(t.getCommandToExecuteBeforeTurnEnd());
+                                waitList.remove(t);
+                            }
+                        }
+                        if (waitList.isEmpty()) {
+                            if(curTurnEndCommand == null){
+                                if(CommandsAtTurnEnd.isEmpty()) {
+                                    System.out.println("ending turn");
+                                    refreshWaitList();
+                                    CommandList.clear();
+                                    dialogBox.setVisible(false);
+                                    dialogBox.setDisable(true);
+                                    DialogText.setText("");
+                                    playerMoveGrid.setDisable(false);
+                                    curState = BattleState.turnPreparing;
+                                    return;
+                                }
+                                else{
+                                    curTurnEndCommand = CommandsAtTurnEnd.pop();
+                                    Debugger.out("getting another turn end command" );
+                                    curTurnEndCommand.start();
+                                }
+                            }
+                            curTurnEndCommand.continueExecution(delta,DialogText);
+                            if(curTurnEndCommand.isComplete()){
+                                curTurnEndCommand.end();
+                                curTurnEndCommand = null;
+                            }
+                        }
+                    }
+                    break;
+                case finishing:
+                    stop();
+                    break;
+            }
+        }
+        @Override
+        public void stop(){
+            super.stop();
+            for (Battler t: trainers) {
+                t.endBattle();
+            }
+            //calc results
+            if (!player.canFight() && !enemy.canFight())
+                System.out.println("result: Draw");
+            else if (!enemy.canFight()) {
+                System.out.println("Result: " + player.name + " wins");
+                result.playerWon = true;
+                result.totalXp += enemy.getDefeatXp();
+            }
+            else
+                System.out.println("Result: " + enemy.name + " wins");
+            curStage.setScene(prevScene);
+            isComplete = true;
+        }
+    };
+
+    BattleLoop battleLoop;
+
+    public void begin(Stage curStage,pcTrainer pcTrainer,aiTrainer enemy) {
+        this.player = pcTrainer;
+        this.enemy = enemy;
+        this.curStage = curStage;
+
+        pcTrainer.prepTurn();
+        enemy.prepTurn();
+
+        pcTrainer.prepareForBattle(playerSlot,enemySlot);
+        enemy.prepareForBattle(enemySlot,playerSlot);
+
+        pcTrainer.setMovesListUI(movesUI);
+        pcTrainer.updateMoveUI();
+        pcTrainer.setSwapUI(swapUI);
+        pcTrainer.updateSwapUI();
+
         result.reset();
         prevScene = curStage.getScene();
         isComplete = false;
-        curStage.setScene(new Scene(newRoot, Settings.windowWidth, Settings.windowLength));
+        curStage.setScene(battleScene);
 
-        System.out.println(player.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
-
-        AnimationTimer battleLoop = new AnimationTimer() {
-            PriorityQueue<BattleCommand> CommandList;
-            ArrayList<Trainer> waitList;
-            ArrayList<Trainer> trainers;
-            BattleCommand curExecutingCommand = null;
-            LineStream linesSource;
-
-            Stack<BattleExecutable> CommandsAtTurnEnd = new Stack<>();
-            BattleExecutable curTurnEndCommand =null;
-
-            BattleState curState;
-
-            double timePrev;
-            double timeNow;
-
-            @Override
-            public void start() {
-                super.start();
-                curState = BattleState.turnPreparing;
-                timeNow = timePrev = System.nanoTime();
-
-                CommandList = new PriorityQueue<>();
-                waitList = new ArrayList<>();
-                trainers = new ArrayList<>();
-                linesSource = new LineStream();
-
-                trainers.add(player);
-                trainers.add(enemy);
-
-                player.prepareForBattle(playerSlot,enemySlot);
-                enemy.prepareForBattle(enemySlot,playerSlot);
-                prepareTurns();
-
-                player.setMovesListUI(movesUI);
-                player.updateMoveUI();
-                player.setSwapUI(swapUI);
-                player.updateSwapUI();
-                refreshWaitList();
-            }
-
-            void prepareTurns(){
-                curExecutingCommand = null;
-                curTurnEndCommand = null;
-                for (Trainer t:trainers) {
-                    t.prepTurn();
-                }
-            }
-
-            void refreshWaitList() {
-                waitList.clear();
-                waitList.addAll(trainers);
-            }
-
-            void executeAttacks(double delta) {
-                dialogBox.setVisible(true);
-                dialogBox.setDisable(false);
-                playerMoveGrid.setDisable(true);
-
-                if(curExecutingCommand == null){
-                    if(CommandList.isEmpty()) {
-                        if(isOver()){
-                            curState = BattleState.finishing;
-                            return;
-                        }
-                        else {
-                            for (Trainer t : trainers) {
-                                t.endTurnPrep();
-                                waitList.add(t);
-                            }
-                            CommandsAtTurnEnd.clear();
-                            curState = BattleState.endingTurn;
-                            return;
-                        }
-                    }
-                    else{
-                       // System.out.println("getting next attack");
-                        curExecutingCommand = CommandList.poll();
-                        curExecutingCommand.start();
-                    }
-                }
-                curExecutingCommand.continueExecution(delta,DialogText);
-                if(curExecutingCommand.isComplete()){
-                    curExecutingCommand.end();
-                    //System.out.println("nulling attack" + curExecutingCommand);
-                    curExecutingCommand = null;
-                }
-            }
-
-            @Override
-            public void handle(long now) {//essentially a infinite loop
-                //deltatime calc
-                timeNow = System.nanoTime();
-                double delta = (timeNow - timePrev) / 1e9;
-                timePrev = timeNow;
-                //actual loo
-                switch (curState){
-                    case turnPreparing:
-                        prepareTurns();
-                        curState = BattleState.waiting;
-                        break;
-                    case waiting:
-                        for(int i = waitList.size() -1; i >= 0 ;i--){
-                            Trainer t = waitList.get(i);//get commands until all trainers have given commands
-                            if(t.hasFinalizedCommands()){
-                                CommandList.addAll(t.getCommands());
-                                waitList.remove(t) ;
-                            }
-                        }
-                        if(waitList.isEmpty()) {
-                            curState = BattleState.executing;//everyone hgave commands so execute()
-                        }
-                        break;
-                    case executing:
-                        executeAttacks(delta);
-                        break;
-                    case endingTurn:
-                        if (isOver())
-                            curState = BattleState.finishing;//if no one can fight then don't bother handling turn end
-                        else {
-                            //System.out.println("trying to end turn");
-                            for (int i = waitList.size() - 1; i >= 0; i--) {//ask for turnEndCommands and add them to the stack
-                                Trainer t = waitList.get(i);
-                                if (t.canEndTurn()) {
-                                    waitList.remove(t);
-                                    System.out.println("removing " + t.name);
-                                } else if (t.hasCommandBeforeTurnEnd()) {
-                                    BattleCommand c= t.getCommandToExecuteBeforeTurnEnd();
-                                    CommandsAtTurnEnd.add(t.getCommandToExecuteBeforeTurnEnd());
-                                    waitList.remove(t);
-                                }
-                            }
-                            if (waitList.isEmpty()) {//
-                                if(curTurnEndCommand == null){
-                                    if(CommandsAtTurnEnd.isEmpty()) {
-                                        System.out.println("ending turn");
-                                        refreshWaitList();
-                                        CommandList.clear();
-                                        dialogBox.setVisible(false);
-                                        dialogBox.setDisable(true);
-                                        DialogText.setText("");
-                                        playerMoveGrid.setDisable(false);
-                                        curState = BattleState.turnPreparing;
-                                        return;
-                                    }
-                                    else{
-                                        curTurnEndCommand = CommandsAtTurnEnd.pop();
-                                        Debugger.out("getting another turn end command" );
-                                        curTurnEndCommand.start();
-                                    }
-                                }
-                                curTurnEndCommand.continueExecution(delta,DialogText);
-                                if(curTurnEndCommand.isComplete()){
-                                    curTurnEndCommand.end();
-                                    curTurnEndCommand = null;
-                                }
-                            }
-                        }
-                        break;
-                    case finishing:
-                        stop();
-                        break;
-                }
-            }
-            @Override
-            public void stop(){
-                super.stop();
-                for (Trainer t: trainers) {
-                    t.endBattle();
-                }
-                //calc results
-                if (!player.canFight() && !enemy.canFight())
-                    System.out.println("result: Draw");
-                else if (!enemy.canFight()) {
-                    System.out.println("Result: " + player.name + " wins");
-                    result.playerWon = true;
-                }
-                else
-                    System.out.println("Result: " + enemy.name + " wins");
-                curStage.setScene(prevScene);
-                isComplete = true;
-            }
-        };
+        System.out.println(pcTrainer.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
+        battleLoop = new BattleLoop(player,enemy);
         battleLoop.start();
     }
 

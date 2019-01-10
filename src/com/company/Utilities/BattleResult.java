@@ -10,4 +10,12 @@ public class BattleResult {
         totalXp = 0;
         playerWon = false;
     }
+
+    @Override
+    public String toString() {
+        return "BattleResult{" +
+                "totalXp=" + totalXp +
+                ", playerWon=" + playerWon +
+                '}';
+    }
 }

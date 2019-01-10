@@ -5,7 +5,7 @@ import com.company.Utilities.Debug.Debugger;
 
 import java.util.ArrayList;
 
-public abstract class Trainer {
+public abstract class Trainer implements Battler {
     protected ArrayList<Pokemon> party = new ArrayList<>();
     private Pokemon stagedPokemon = null;
     protected  BattleSlot ownedSlot;
@@ -13,10 +13,26 @@ public abstract class Trainer {
     private BattleCommand commandToExecuteAtTurnEnd =null;
     public final String name;
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public void heal(){
         for (Pokemon p :party) {
             p.heal();
         }
+    }
+
+    @Override
+    public int getDefeatXp(){
+        int retVal =0;
+        for (Pokemon p :party) {
+            retVal +=p.getDefeatXp();
+        }
+        return  retVal;
+
     }
 
     protected Trainer(String _name,Pokemon[] pokemons) {
@@ -25,10 +41,12 @@ public abstract class Trainer {
             party.add(p);
         }
     }
+    @Override
     public  Pokemon getStagedPokemon(){
         return  stagedPokemon;
     }
 
+    @Override
     public boolean canFight() {
         for (Pokemon p:party) {
             if(!p.isDead())
@@ -63,24 +81,29 @@ public abstract class Trainer {
         return stagedPokemon;
     }
 
-    public void prepareForBattle(BattleSlot ownedSlot,BattleSlot enemySlot){
+    @Override
+    public void prepareForBattle(BattleSlot ownedSlot, BattleSlot enemySlot){
         this.ownedSlot = ownedSlot;
         this.enemySlot = enemySlot;
 
         ownedSlot.setPokemon(stageFirstAvailablePokemon());
     }
 
+    @Override
     public void endBattle(){
         stagedPokemon = null;
         ownedSlot = null;
         enemySlot = null;
     }
+    @Override
     public void prepTurn(){
         commandToExecuteAtTurnEnd = null;
     }
+    @Override
     public boolean hasCommandBeforeTurnEnd(){
         return commandToExecuteAtTurnEnd != null;
     }
+    @Override
     public  BattleCommand getCommandToExecuteBeforeTurnEnd(){
         return  commandToExecuteAtTurnEnd;
     }
@@ -89,9 +112,4 @@ public abstract class Trainer {
         this.commandToExecuteAtTurnEnd = commandToExecuteAtTurnEnd;
     }
 
-    //abstract funcs go here
-    public abstract ArrayList<BattleCommand> getCommands();
-    public abstract Boolean hasFinalizedCommands();
-    public abstract void endTurnPrep();
-    public abstract boolean canEndTurn();
 }

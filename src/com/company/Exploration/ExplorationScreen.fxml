@@ -22,7 +22,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="nextStageButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#startNextBattle" prefHeight="107.0" prefWidth="313.0" text="Go To Next Stage">
+            <Button fx:id="nextStageButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#goToNextStage" prefHeight="107.0" prefWidth="313.0" text="Go To Next Stage">
                <font>
                   <Font size="24.0" />
                </font>

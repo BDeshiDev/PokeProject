@@ -14,7 +14,6 @@ public interface BattleExecutable {
 }
 /*
 * Extended version with sorting capability specifically for commands in case we want to reuse executables some where.
-* Also, interfaces seem to support multi inheritance/ consider it as extending
 * */
 abstract class BattleCommand implements BattleExecutable, Comparable<BattleCommand>{
     public abstract int getPriority();

@@ -24,7 +24,7 @@ public class TitleController {
         pcTrainer ash = new pcTrainer("Ash",poke3,poke1);
         aiTrainer gary = new aiTrainer("Gary",poke2,poke4);
 
-        BattleController battle = new BattleController(ash,gary);
-        battle.begin(curStage);
+        BattleController battle = new BattleController();
+        battle.begin(curStage,ash,gary);
     }
 }

@@ -35,6 +35,8 @@ public class Pokemon{
     public int getCurLevel(){return  stats.level.getCurLevel();}
     public int getXpRatio(){return  stats.level.getCurXP()/stats.level.getXpToNext();}
 
+    public int getDefeatXp(){return  10*stats.level.getCurLevel();}//test value for level up screen
+
     public Pokemon(String _name,int level, int hpAtMaxLevel, int hpBase,
                    int attAtMaxLevel, int attBase,
                    int defAtMaxLevel, int defBase,
