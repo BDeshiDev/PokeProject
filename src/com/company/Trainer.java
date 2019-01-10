@@ -11,7 +11,13 @@ public abstract class Trainer {
     protected  BattleSlot ownedSlot;
     protected BattleSlot enemySlot;
     private BattleCommand commandToExecuteAtTurnEnd =null;
-    String name;
+    public final String name;
+
+    public void heal(){
+        for (Pokemon p :party) {
+            p.heal();
+        }
+    }
 
     protected Trainer(String _name,Pokemon[] pokemons) {
         name = _name;

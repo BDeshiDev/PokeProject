@@ -114,4 +114,11 @@ public class Pokemon{
             retVal *=1.5;
         return  retVal;
     }
+
+    public void heal(){
+        curHp = stats.maxHp.getCurVal();
+        for (Move m:moves) {
+            m.resetPp();
+        }
+    }
 }

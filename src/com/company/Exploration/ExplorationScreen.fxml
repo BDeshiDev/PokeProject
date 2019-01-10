@@ -12,17 +12,17 @@
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="StatusButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="313.0" text="Status">
+            <Button fx:id="StatusButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#goToStatus" prefHeight="107.0" prefWidth="313.0" text="Status">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="fightButton" mnemonicParsing="false" prefHeight="107.0" prefWidth="313.0" text="Fight Next Trainer">
+            <Button fx:id="fightButton" mnemonicParsing="false" onAction="#startNextBattle" prefHeight="107.0" prefWidth="313.0" text="Fight Next Trainer">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="nextStageButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="107.0" prefWidth="313.0" text="Go To Next Stage">
+            <Button fx:id="nextStageButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#startNextBattle" prefHeight="107.0" prefWidth="313.0" text="Go To Next Stage">
                <font>
                   <Font size="24.0" />
                </font>

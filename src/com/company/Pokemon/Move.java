@@ -62,4 +62,8 @@ public class  Move{
         //((m.power + damageBonus - stats.defence.getCurVal())*moveMod * stabBonus),0);
         target.takehit(damage,streamToAppendTo);
     }
+
+    public  void resetPp(){
+        curPp = maxPp;
+    }
 }

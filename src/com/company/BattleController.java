@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 import com.company.Pokemon.Pokemon;
+import com.company.Utilities.BattleResult;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
 import javafx.animation.AnimationTimer;
@@ -73,6 +74,7 @@ public class BattleController {
 
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
+    private BattleResult result = new BattleResult();
 
     MovesListUI movesUI;
 
@@ -180,6 +182,7 @@ public class BattleController {
     }
 
     public void begin(Stage curStage) {
+        result.reset();
         prevScene = curStage.getScene();
         isComplete = false;
         curStage.setScene(new Scene(newRoot, Settings.windowWidth, Settings.windowLength));
@@ -358,8 +361,10 @@ public class BattleController {
                 //calc results
                 if (!player.canFight() && !enemy.canFight())
                     System.out.println("result: Draw");
-                else if (!enemy.canFight())
+                else if (!enemy.canFight()) {
                     System.out.println("Result: " + player.name + " wins");
+                    result.playerWon = true;
+                }
                 else
                     System.out.println("Result: " + enemy.name + " wins");
                 curStage.setScene(prevScene);
@@ -368,8 +373,14 @@ public class BattleController {
         };
         battleLoop.start();
     }
+
+    public BattleResult getResult(){
+        return  result;
+    }
 }
 
 enum BattleState{
     waiting,executing,finishing,endingTurn,turnPreparing
 }
+
+
