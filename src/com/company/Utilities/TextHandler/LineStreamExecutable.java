@@ -7,6 +7,7 @@ public class LineStreamExecutable implements BattleExecutable,LineHolder{
 //helper class to handle line streams over time by implementing the interface
     LineHolder lineStream;
 
+
     public LineStreamExecutable(String... stringsToPush) {
         this();
         lineStream.push("");//so that dialog box is clear at end
@@ -28,9 +29,10 @@ public class LineStreamExecutable implements BattleExecutable,LineHolder{
     public void continueExecution(double delta, Text executionOutputText) {
         if(!lineStream.streamComplete()){//if we have lines to show, do that first or do else statement
             lineStream.addDelta(delta);//update timer on lineSource
+
             if(lineStream.hasLine()){
                 String s= lineStream.pop();
-                //System.out.println(s);
+               // System.out.println(s);
                 executionOutputText.setText(s);
             }
         }

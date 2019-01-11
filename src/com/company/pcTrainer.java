@@ -2,7 +2,9 @@ package com.company;
 import com.company.Pokemon.Move;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.AnimationFactory;
+import com.company.Utilities.BattleResult;
 import com.company.Utilities.Debug.Debugger;
+import com.company.Utilities.TextHandler.LineHolder;
 
 import java.util.*;
 
@@ -55,6 +57,12 @@ public class pcTrainer extends Trainer {
     public void swapPokemon(Pokemon pokemonToSwapWith) {
         super.swapPokemon(pokemonToSwapWith);
         movesListUI.load(getStagedPokemon(),this);
+    }
+
+    public void applyXp(BattleResult br, LineHolder lineHolder){
+        for (Pokemon p:party) {
+            p.applyXp(br.totalXp,lineHolder);
+        }
     }
 
     public void tryToSwap(Pokemon pokeToSwapWith){

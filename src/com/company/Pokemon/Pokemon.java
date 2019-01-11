@@ -3,7 +3,9 @@ package com.company.Pokemon;
 import com.company.Pokemon.Stats.StatsComponent;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
+import com.sun.org.glassfish.external.statistics.Stats;
 
+import java.net.StandardSocketOptions;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,6 +38,16 @@ public class Pokemon{
     public int getXpRatio(){return  stats.level.getCurXP()/stats.level.getXpToNext();}
 
     public int getDefeatXp(){return  10*stats.level.getCurLevel();}//test value for level up screen
+
+    public void applyXp(int amount, LineHolder lineHolder){
+        lineHolder.push(name + " has received " + amount + " Xp." );
+        int prevLevel = stats.level.getCurLevel();
+        stats.addXp(amount);
+        if(prevLevel != stats.level.getCurLevel()){
+            lineHolder.push(name + " has reached LV." + getCurLevel() + " !!!");
+        }
+    }
+
 
     public Pokemon(String _name,int level, int hpAtMaxLevel, int hpBase,
                    int attAtMaxLevel, int attBase,

@@ -360,6 +360,12 @@ public class BattleController {
         this.enemy = enemy;
         this.curStage = curStage;
 
+        swapUI.toggle(false);
+        dialogBox.setVisible(false);
+        dialogBox.setDisable(true);
+        playerMoveGrid.setDisable(false);
+
+
         pcTrainer.prepTurn();
         enemy.prepTurn();
 
