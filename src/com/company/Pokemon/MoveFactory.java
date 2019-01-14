@@ -22,4 +22,7 @@ public class MoveFactory {
     public static Move getSlam(){
         return new Move("Slam", Type.Normal,DamageType.Physical,75,0,80,10,AnimationFactory.getSlashAnimation());
     }
+    public static Move getDebugKo(){
+        return new Move("DebugKO", Type.Normal,DamageType.None,9999,6,100,10,AnimationFactory.getSlashAnimation());
+    }
 }

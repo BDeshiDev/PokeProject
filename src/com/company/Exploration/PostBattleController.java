@@ -1,10 +1,9 @@
 package com.company.Exploration;
 
 import com.company.*;
+import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
-import com.company.Utilities.BattleResult;
-import com.company.Utilities.TextHandler.LineHolder;
-import com.company.Utilities.TextHandler.LineStream;
+import com.company.BattleResult;
 import com.company.Utilities.TextHandler.LineStreamExecutable;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
@@ -41,18 +40,29 @@ public class PostBattleController {
         try {
             Parent root = loader.load();
             myScene = new Scene(root,Settings.windowWidth,Settings.windowLength);
+            BackButton.setOnAction(event -> readyToExit = true);
         }catch (IOException ioe){
             System.out.println("post battle Screen load fail");
             System.exit(-1);
         }
     }
 
-    public void begin(Stage primaryStage,BattleResult battleResult, pcTrainer xpReciever) {
+    public void begin(Stage primaryStage,BattleResult battleResult, pcTrainer player) {
         //continue here
         readyToExit = false;
         DisplayText.setText("");
-        xpReciever.applyXp(battleResult,lineSource);
+        player.applyXp(battleResult,lineSource);
 
+
+        for (Pokemon p : battleResult.caughtMons) {
+            lineSource.push(p.name + " was caught");
+            if(player.isPartyFull()){
+                lineSource.push("party full " + p.name + " was released...");
+            }else {
+                player.addMonToParty(p);
+                lineSource.push(p.name + " was added to "+player.name+"'s party.");
+            }
+        }
         primaryStage.setScene(myScene);
 
         new AnimationTimer(){
@@ -70,7 +80,7 @@ public class PostBattleController {
                 prevNow = now;
                 if(lineSource.isComplete()){
                     Debugger.out("Ready to exit post battle screen");
-                    readyToExit = true;
+                    //readyToExit = true;
                     stop();
                 }
                 lineSource.continueExecution(delta,DisplayText);

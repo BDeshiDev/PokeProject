@@ -43,6 +43,7 @@
                   <Font size="23.0" />
                </font>
             </Label>
+            <Button fx:id="wildMonButton" layoutX="14.0" layoutY="87.0" mnemonicParsing="false" onAction="#fightWildMons" prefHeight="57.0" prefWidth="157.0" text="Fight wild pokemon" />
          </children>
       </Pane>
    </center>

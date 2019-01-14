@@ -28,7 +28,7 @@ public interface Battler {
 
     BattleCommand getCommandToExecuteBeforeTurnEnd();
 
-    ArrayList<BattleCommand> getCommands();
+    BattleCommand getCommand();
 
     Boolean hasFinalizedCommands();
 

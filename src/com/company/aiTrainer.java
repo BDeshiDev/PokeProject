@@ -12,14 +12,10 @@ public class aiTrainer extends Trainer {
 
     Random rand;//I don't actually know if keeping the same rand has any side effects
     @Override
-    public ArrayList<BattleCommand> getCommands() {
-        ArrayList<BattleCommand> commandsList = new ArrayList<>();
+    public BattleCommand getCommand() {
 
         Pokemon pokeInSlot = ownedSlot.getCurPokemon();
-        BattleCommand newCommmand =new AttackCommand(pokeInSlot,pokeInSlot.getRandomMove(rand),enemySlot);
-        commandsList.add(newCommmand);
-
-        return  commandsList;
+        return new AttackCommand(pokeInSlot,pokeInSlot.getRandomMove(rand),enemySlot);
     }
 
 
@@ -46,7 +42,7 @@ public class aiTrainer extends Trainer {
                     AnimationFactory.getPokeChangeAnim(),"swap",
                     ()->{
                 Pokemon newlyStagedMon = stageFirstAvailablePokemon();
-                ownedSlot.setPokemon(newlyStagedMon);
+                ownedSlot.setPokemon(newlyStagedMon,false);
 
             },name+" :" +
                     (ownedSlot.isEmpty()?"":"Come back, "+ ownedSlot.getCurPokemon().name +"."),

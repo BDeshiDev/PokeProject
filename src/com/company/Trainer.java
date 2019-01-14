@@ -61,7 +61,7 @@ public abstract class Trainer implements Battler {
             Debugger.out("swap failed");
         else{
             stagedPokemon = pokemonToSwapWith;//no need to add the previous staged pokemon to party again
-            ownedSlot.setPokemon(stagedPokemon);
+            ownedSlot.setPokemon(stagedPokemon,true);
         }
     }
 
@@ -86,7 +86,7 @@ public abstract class Trainer implements Battler {
         this.ownedSlot = ownedSlot;
         this.enemySlot = enemySlot;
 
-        ownedSlot.setPokemon(stageFirstAvailablePokemon());
+        ownedSlot.setPokemon(stageFirstAvailablePokemon(),true);
     }
 
     @Override

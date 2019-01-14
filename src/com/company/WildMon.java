@@ -50,7 +50,7 @@ public class WildMon implements  Battler{
         this.ownedSlot =ownedSlot;
         this.targetSlot = enemySlot;
 
-        ownedSlot.setPokemon(fighter);
+        ownedSlot.setPokemon(fighter,false);
     }
 
     @Override
@@ -75,11 +75,8 @@ public class WildMon implements  Battler{
     }
 
     @Override
-    public ArrayList<BattleCommand> getCommands() {
-       ArrayList<BattleCommand> retval =new ArrayList<>();
-       retval.add(new AttackCommand(fighter,fighter.getRandomMove(rand),targetSlot));
-
-       return  retval;
+    public BattleCommand getCommand() {
+       return new AttackCommand(fighter,fighter.getRandomMove(rand),targetSlot);
     }
 
     @Override

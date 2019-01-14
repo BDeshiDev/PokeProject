@@ -5,7 +5,6 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 import com.company.Pokemon.Pokemon;
-import com.company.Utilities.BattleResult;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
 import javafx.animation.AnimationTimer;
@@ -71,6 +70,10 @@ public class BattleController {
     private ImageView enemySideAnimationView;
     @FXML
     private ImageView playerSideAnimationView;
+    @FXML
+    private Button RunButton;
+    @FXML
+    private Button catchButton;
 
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
@@ -112,7 +115,7 @@ public class BattleController {
     SwapUI swapUI;
 
     pcTrainer player;
-    aiTrainer enemy;
+    Battler enemy;
     BattleSlot playerSlot;
     BattleSlot enemySlot;
 
@@ -153,6 +156,26 @@ public class BattleController {
             }
             );
 
+            RunButton.setOnAction(event -> {
+                if(canRun)
+                    System.out.println("running");
+                else
+                    System.out.println("can't run from this battle");
+            });
+            catchButton.setOnAction(event -> {
+                if(canRun) {
+                    if(player.hasPokeBalls()) {
+                        System.out.println("catching");
+                        player.skipTurn();
+                        Pokemon catchResult = enemySlot.tryCatch();
+                        if(catchResult != null)
+                            result.addCaughtMon(catchResult);
+                    }else
+                        Debugger.out("insufficent pokeBalls");
+                }
+                else
+                    System.out.println("can't catch in this battle");
+            });
 
         }catch (IOException ioe){
             System.out.println("battlefxml load fail");
@@ -196,7 +219,7 @@ public class BattleController {
         double timePrev;
         double timeNow;
 
-        BattleLoop(Trainer player , Trainer enemy){
+        BattleLoop(Trainer player , Battler enemy){
             trainers.add(player);
             trainers.add(enemy);
         }
@@ -273,7 +296,9 @@ public class BattleController {
                     for(int i = waitList.size() -1; i >= 0 ;i--){
                         Battler t = waitList.get(i);//get commands until all trainers have given commands
                         if(t.hasFinalizedCommands()){
-                            CommandList.addAll(t.getCommands());
+                            BattleCommand newCommand = t.getCommand();
+                            if(newCommand != null)
+                                CommandList.add(newCommand);
                             waitList.remove(t) ;
                         }
                     }
@@ -347,7 +372,7 @@ public class BattleController {
                 result.totalXp += enemy.getDefeatXp();
             }
             else
-                System.out.println("Result: " + enemy.name + " wins");
+                System.out.println("Result: " + enemy.getName() + " wins");
             curStage.setScene(prevScene);
             isComplete = true;
         }
@@ -356,6 +381,19 @@ public class BattleController {
     BattleLoop battleLoop;
 
     public void begin(Stage curStage,pcTrainer pcTrainer,aiTrainer enemy) {
+        beginPrep(curStage,pcTrainer,enemy);
+        canRun = canUseItems = false;
+    }
+
+
+    public void begin(Stage curStage,pcTrainer pcTrainer,WildMon enemy){
+        beginPrep(curStage,pcTrainer,enemy);
+        canRun = canUseItems = true;
+        RunButton.setDisable(false);
+        catchButton.setDisable(false);
+    }
+
+    private void beginPrep(Stage curStage,pcTrainer pcTrainer,Battler enemy){
         this.player = pcTrainer;
         this.enemy = enemy;
         this.curStage = curStage;
@@ -364,13 +402,12 @@ public class BattleController {
         dialogBox.setVisible(false);
         dialogBox.setDisable(true);
         playerMoveGrid.setDisable(false);
-
-
         pcTrainer.prepTurn();
         enemy.prepTurn();
 
         pcTrainer.prepareForBattle(playerSlot,enemySlot);
         enemy.prepareForBattle(enemySlot,playerSlot);
+
 
         pcTrainer.setMovesListUI(movesUI);
         pcTrainer.updateMoveUI();
@@ -378,11 +415,12 @@ public class BattleController {
         pcTrainer.updateSwapUI();
 
         result.reset();
+        DialogText.setText("");
         prevScene = curStage.getScene();
         isComplete = false;
         curStage.setScene(battleScene);
 
-        System.out.println(pcTrainer.name + "  VS  " + enemy.name + "!!!");//#unimplimented show this in battle transition animation
+        System.out.println(pcTrainer.getName() + "  VS  " + enemy.getName() + "!!!");//#unimplimented show this in battle transition animation
         battleLoop = new BattleLoop(player,enemy);
         battleLoop.start();
     }

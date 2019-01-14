@@ -127,6 +127,8 @@
                      <children>
                         <Button fx:id="playerFightButton" mnemonicParsing="false" prefHeight="147.0" prefWidth="180.0" text="Fight" />
                         <Button fx:id="pokemonSwapButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="180.0" text="Pokemon" GridPane.columnIndex="1" />
+                        <Button fx:id="RunButton" disable="true" mnemonicParsing="false" prefHeight="137.0" prefWidth="206.0" text="Run" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="catchButton" disable="true" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" prefHeight="137.0" prefWidth="206.0" text="Catch" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>

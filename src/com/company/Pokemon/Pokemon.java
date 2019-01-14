@@ -13,16 +13,18 @@ public class Pokemon{
     public final String name;
     public final Type t1,t2;
 
-    private int curHp ;
+    private int curHp;
     public final StatsComponent stats;
 
     public final String frontImage;
     public final String backImage;
 
+    private boolean canFight = true;
+
     ArrayList<Move> moves;
 
     public boolean isDead(){
-        return curHp <=0;
+        return curHp <=0 || !canFight;
     }
     public double getHpRatio(){return  ((double)(curHp)) / stats.maxHp.getCurVal();}
     public int getCurHp(){return curHp;}
@@ -48,6 +50,12 @@ public class Pokemon{
         }
     }
 
+    public void forceKo (){
+        canFight = false;
+    }
+    public boolean canCatch(){
+        return true;//modify calculation later
+    }
 
     public Pokemon(String _name,int level, int hpAtMaxLevel, int hpBase,
                    int attAtMaxLevel, int attBase,
@@ -103,7 +111,7 @@ public class Pokemon{
         return  moves.get(randomIndex);
     }
 
-    public final ArrayList<Move> getMoves(){
+    public  ArrayList<Move> getMoves(){
         return moves;
     }
 
@@ -130,6 +138,7 @@ public class Pokemon{
     }
 
     public void heal(){
+        canFight = true;
         curHp = stats.maxHp.getCurVal();
         for (Move m:moves) {
             m.resetPp();

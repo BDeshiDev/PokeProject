@@ -1,7 +1,7 @@
 package com.company.Exploration;
 
 import com.company.*;
-import com.company.Utilities.BattleResult;
+import com.company.BattleResult;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +12,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 public class ExplorationController {
@@ -37,6 +34,10 @@ public class ExplorationController {
     @FXML
     private Button nextStageButton;
 
+    @FXML
+    private Button wildMonButton;
+
+
     private List<WildMon> possibleEncounters = new ArrayList<>();//#TODO implement tomorrow
     private Stack<aiTrainer> remainingChallengers = new Stack<>();
     private aiTrainer curChallenger;
@@ -50,6 +51,7 @@ public class ExplorationController {
 
     private boolean wantsToBattle;
     private boolean wantsToSeeStatus;
+    private boolean wantsToFightWildMon;
     private boolean wantsToGoToNextLevel;
 
     ExplorationState explorationState;
@@ -58,8 +60,10 @@ public class ExplorationController {
     public void loadLevel(LevelData stageToLoad){
         remainingChallengers.clear();
         remainingChallengers.addAll(stageToLoad.challengers);
+        possibleEncounters.clear();
+        possibleEncounters.addAll(stageToLoad.possibleEncounters);
         updateChallengerText();
-        StageTitleLabel.setText(stageToLoad.stageName);;
+        StageTitleLabel.setText(stageToLoad.stageName);
     }
 
     public void loadLevelFromStack(){
@@ -72,6 +76,18 @@ public class ExplorationController {
             LevelData nextStageData = levelsLeft.pop();
             loadLevel(nextStageData);
         }
+    }
+
+    public void fightWildMons(){
+        wantsToFightWildMon = true;
+    }
+
+    public void startWildMonBattle(){
+        System.out.println("getting next wild mon...");
+        int monIndex = new Random().nextInt(possibleEncounters.size());
+        Battler newWildmon =  possibleEncounters.get(monIndex);
+        newWildmon.heal();
+        curBattle.begin(primaryStage,player, possibleEncounters.get(monIndex));
     }
 
     public void onExplorationComplete(){
@@ -101,6 +117,10 @@ public class ExplorationController {
                         wantsToBattle = false;
                         explorationState = ExplorationState.WaitingForBattleEnd;
                         getNextChallenger();
+                    }if(wantsToFightWildMon){
+                        wantsToFightWildMon = false;
+                        explorationState = ExplorationState.WaitingForBattleEnd;
+                        startWildMonBattle();
                     } else if(wantsToGoToNextLevel){
                         wantsToGoToNextLevel = false;
                         loadLevelFromStack();
@@ -124,55 +144,18 @@ public class ExplorationController {
                     break;
                 case WaitingForExpScreen:
                     if(xpScreenController.readyToExit){
-                        curChallenger.heal();
                         updateChallengerText();
                         player.heal();
                         if(remainingChallengers.isEmpty()) {
                             nextStageButton.setDisable(false);
                             fightButton.setDisable(true);
                         }
-
                         primaryStage.setScene(myScene);
                         primaryStage.setTitle("Exploration Test");
                         explorationState = ExplorationState.Exploring;
                     }
                     break;
             }
-            /*
-            if(curChallenger == null){
-                if(remainingChallengers.isEmpty()){
-                    System.out.println("to be continued...");
-                    if(wantsToGoToNextLevel) {
-                        wantsToGoToNextLevel = false;
-                        loadLevelFromStack();
-                    }
-                }else{
-                    if(wantsToBattle) {
-                        wantsToBattle = false;
-                        getNextChallenger();
-                    }
-                }
-            }else{
-                    if( curBattle.isComplete()){
-                        curChallenger.heal();
-                        player.heal();
-                        BattleResult newResult = curBattle.getResult();
-                        if(newResult.playerWon) {
-                            System.out.println("player won");
-
-                        }
-                        else {
-                            remainingChallengers.push(curChallenger);//if we don't win we fight the same trainer again
-                            System.out.println("player lost");
-                        }
-                        curChallenger.heal();
-                        curChallenger = null;
-                        updateChallengerText();
-                        System.out.println(newResult);
-                        if(remainingChallengers.isEmpty())
-                            nextStageButton.setDisable(false);
-                    }
-            }*/
         }
 
         @Override
@@ -206,6 +189,7 @@ public class ExplorationController {
     public void getNextChallenger(){
         System.out.println("getting next challenger...");
         curChallenger = remainingChallengers.pop();
+        curChallenger.heal();
         curBattle.begin(primaryStage,player, curChallenger);
     }
 

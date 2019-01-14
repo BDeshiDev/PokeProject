@@ -1,14 +1,13 @@
 package com.company.Exploration;
 
 import com.company.*;
-import com.company.Utilities.BattleResult;
+import com.company.Pokemon.MoveFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +32,8 @@ public class ExplorationTester extends Application {
         Collections.addAll(possibleEncounters, new WildMon(PokemonFactory.getBlastoise()), new WildMon(PokemonFactory.getPidgeot()));
 
         pcTrainer player = new pcTrainer("Ash",PokemonFactory.getVenasaur(),PokemonFactory.getCharizard(), PokemonFactory.getBlastoise() );
+
+        player.addMoveToAllInParty(MoveFactory.getDebugKo());//add this to test easily
 
         explorationController.init(player,primaryStage,new Scene(root, Settings.windowWidth,Settings.windowLength),
                 new LevelData("Vermillion Path",challengers,possibleEncounters),
