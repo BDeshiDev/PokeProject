@@ -13,7 +13,6 @@ public class pcTrainer extends Trainer {
     private boolean canCancelSwap = true;
     private boolean waitingForSwap = false;
     private boolean hasSwapped = false;
-    private boolean shouldSkipTurn = false;
 
     public void addMoveToAllInParty(Move m){
         for (Pokemon p :party) {
@@ -29,13 +28,14 @@ public class pcTrainer extends Trainer {
         party.add(newMon);
     }
 
-    public void skipTurn(){
-        shouldSkipTurn = true;
+
+    public void setCommand(BattleCommand battleCommand){
+        selectedMove = battleCommand;
     }
 
     @Override
     public Boolean hasFinalizedCommands() {
-        return shouldSkipTurn || selectedMove != null;//return true if we have selected a move or we need to skip turn
+        return selectedMove != null;//return true if we have selected a move or we need to skip turn
     }
 
     public boolean hasPokeBalls(){
@@ -58,7 +58,6 @@ public class pcTrainer extends Trainer {
     public void prepTurn() {
         super.prepTurn();
         Debugger.out("player turn start");
-        shouldSkipTurn = false;
         canCancelSwap = true;
         waitingForSwap = false;
 
@@ -89,7 +88,7 @@ public class pcTrainer extends Trainer {
     public void tryToSwap(Pokemon pokeToSwapWith){
         Debugger.out("swapping between" +  ownedSlot.getCurPokemon().name + " and " + pokeToSwapWith.name);
         if(getStagedPokemon() != pokeToSwapWith && !pokeToSwapWith.isDead()){
-            setCommandToExecuteAtTurnEnd(new TrainerCommand(this, AnimationFactory.getPokeChangeAnim(),"swap",
+            setCommandToExecuteAtTurnEnd(new TrainerCommand(this, AnimationFactory.getPokeChangeAnim(),"swap",true,
                     ()-> {
                     updateSwapUI();
                         Debugger.out("swap success " + ownedSlot.getCurPokemon().name + "," + getFirstAvailablePokemon().name);

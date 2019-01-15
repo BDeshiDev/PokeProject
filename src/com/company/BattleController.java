@@ -5,6 +5,8 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 import com.company.Pokemon.Pokemon;
+import com.company.Utilities.Animation.AnimationFactory;
+import com.company.Utilities.Animation.Tester.AnimationTester;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
 import javafx.animation.AnimationTimer;
@@ -86,7 +88,7 @@ public class BattleController {
     public class SwapUI{
         FlowPane pane;
         int buttonWidth = 300;
-        int buttonheight = 100;
+        int buttonHeight = 100;
         public SwapUI(FlowPane pane) {
             this.pane = pane;
         }
@@ -98,7 +100,7 @@ public class BattleController {
         public  void addPokemon(pcTrainer player, Pokemon pokeToAdd){
             Button b = new Button(pokeToAdd.name);
             b.setPrefWidth(buttonWidth);
-            b.setPrefHeight(buttonheight);
+            b.setPrefHeight(buttonHeight);
             b.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -107,7 +109,6 @@ public class BattleController {
             });
             pane.getChildren().add(b);
         }
-
         public void toggle(boolean shouldBeOn){
             toggleSwapMenu(shouldBeOn);
         }
@@ -121,6 +122,7 @@ public class BattleController {
 
     boolean canRun = true;
     boolean canUseItems = true;
+    boolean hasRun = false;
     private boolean isComplete =false;
     Scene prevScene;
     Parent newRoot;
@@ -157,8 +159,10 @@ public class BattleController {
             );
 
             RunButton.setOnAction(event -> {
-                if(canRun)
+                if(canRun) {
                     System.out.println("running");
+                    hasRun = true;
+                }
                 else
                     System.out.println("can't run from this battle");
             });
@@ -166,12 +170,13 @@ public class BattleController {
                 if(canRun) {
                     if(player.hasPokeBalls()) {
                         System.out.println("catching");
-                        player.skipTurn();
-                        Pokemon catchResult = enemySlot.tryCatch();
-                        if(catchResult != null)
-                            result.addCaughtMon(catchResult);
+                        player.setCommand(new TrainerCommand(player, AnimationFactory.getPokeChangeAnim(),"CatchCommand", false,()->{
+                            Pokemon catchResult = enemySlot.tryCatch();
+                            if(catchResult != null)
+                                result.addCaughtMon(catchResult);
+                        }));
                     }else
-                        Debugger.out("insufficent pokeBalls");
+                        Debugger.out("insufficent pokeBalls");//shouldn't happen really
                 }
                 else
                     System.out.println("can't catch in this battle");
@@ -282,10 +287,13 @@ public class BattleController {
 
         @Override
         public void handle(long now) {//essentially a infinite loop
-            //deltatime calc
+            //delta time calc
             timeNow = System.nanoTime();
             double delta = (timeNow - timePrev) / 1e9;
             timePrev = timeNow;
+
+            if(hasRun)
+                stop();
             //actual loop
             switch (curState){
                 case turnPreparing:
@@ -303,7 +311,7 @@ public class BattleController {
                         }
                     }
                     if(waitList.isEmpty()) {
-                        curState = BattleState.executing;//everyone hgave commands so execute()
+                        curState = BattleState.executing;//everyone gave commands so execute()
                     }
                     break;
                 case executing:
@@ -313,7 +321,6 @@ public class BattleController {
                     if (isOver())
                         curState = BattleState.finishing;//if no one can fight then don't bother handling turn end
                     else {
-                        //System.out.println("trying to end turn");
                         for (int i = waitList.size() - 1; i >= 0; i--) {//ask for turnEndCommands and add them to the stack
                             Battler t = waitList.get(i);
                             if (t.canEndTurn()) {
@@ -364,7 +371,11 @@ public class BattleController {
                 t.endBattle();
             }
             //calc results
-            if (!player.canFight() && !enemy.canFight())
+            if(hasRun) {
+                System.out.println("ran from battle");
+                result.hasRun = true;
+            }
+            else if (!player.canFight() && !enemy.canFight())
                 System.out.println("result: Draw");
             else if (!enemy.canFight()) {
                 System.out.println("Result: " + player.name + " wins");
@@ -398,6 +409,8 @@ public class BattleController {
         this.enemy = enemy;
         this.curStage = curStage;
 
+        hasRun = false;
+
         swapUI.toggle(false);
         dialogBox.setVisible(false);
         dialogBox.setDisable(true);
@@ -407,7 +420,6 @@ public class BattleController {
 
         pcTrainer.prepareForBattle(playerSlot,enemySlot);
         enemy.prepareForBattle(enemySlot,playerSlot);
-
 
         pcTrainer.setMovesListUI(movesUI);
         pcTrainer.updateMoveUI();

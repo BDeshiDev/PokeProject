@@ -51,13 +51,16 @@ public class PostBattleController {
         //continue here
         readyToExit = false;
         DisplayText.setText("");
-        player.applyXp(battleResult,lineSource);
-
+        if(battleResult.hasRun)
+            lineSource.push("Successfully ran from battle");
+        else
+            player.applyXp(battleResult,lineSource);//cowards don't get xp
 
         for (Pokemon p : battleResult.caughtMons) {
             lineSource.push(p.name + " was caught");
             if(player.isPartyFull()){
-                lineSource.push("party full " + p.name + " was released...");
+                lineSource.push("Party full. " + p.name + " was sent to storage...");
+                PokemonStorage.addMon(p);
             }else {
                 player.addMonToParty(p);
                 lineSource.push(p.name + " was added to "+player.name+"'s party.");

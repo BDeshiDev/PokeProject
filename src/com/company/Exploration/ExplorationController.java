@@ -110,7 +110,6 @@ public class ExplorationController {
     class  ExplorationLoop extends  AnimationTimer{
         @Override
         public void handle(long now) {
-
             switch (explorationState){
                 case Exploring:
                     if(wantsToBattle){
@@ -133,7 +132,8 @@ public class ExplorationController {
                             System.out.println("player won");
                         }
                         else{
-                            remainingChallengers.push(curChallenger);//if we don't win we fight the same trainer again
+                            if(curChallenger != null)
+                                remainingChallengers.push(curChallenger);//if we don't win we fight the same trainer again
                             System.out.println("player lost");
                         }
                         System.out.println(newResult);

@@ -15,11 +15,13 @@ class TrainerCommand extends BattleCommand{
     private final LineStreamExecutable lineSetter;
     private boolean hasCalled = false;
     private final MyCallBack actualCommand;
+    private  boolean playAnimOnPlayer = true;
     public final String commandDesc;
 
 
-    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc, MyCallBack actualCommand) {
+    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc,boolean playAnimOnPlayer, MyCallBack actualCommand) {
         this.animDataToUse = animDataToUse;
+        this.playAnimOnPlayer = playAnimOnPlayer;
         this.actualCommand = actualCommand;
         this.commandUser = commandUser;
         this.commandDesc = commandDesc;
@@ -27,8 +29,8 @@ class TrainerCommand extends BattleCommand{
         hasCalled = false;
     }
 
-    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc, MyCallBack actualCommand,String... strings) {
-        this(commandUser, animDataToUse, commandDesc,actualCommand);
+    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc,boolean playAnimOnPlayer, MyCallBack actualCommand,String... strings) {
+        this(commandUser, animDataToUse, commandDesc,playAnimOnPlayer,actualCommand);
         for (String s:strings) {
             lineSetter.push(s);
         }
@@ -36,7 +38,8 @@ class TrainerCommand extends BattleCommand{
 
     @Override
     public void start() {
-        animation = animDataToUse.toSingleLoop(commandUser.ownedSlot.getAnimationViewer());
+        animation = animDataToUse.toSingleLoop(playAnimOnPlayer?
+                commandUser.ownedSlot.getAnimationViewer():commandUser.enemySlot.getAnimationViewer());
         animation.play();
         Debugger.out(commandDesc + " trainer command from " + commandUser.name + " started");
     }
@@ -54,12 +57,6 @@ class TrainerCommand extends BattleCommand{
 
 
     public void continueExecution(double delta, Text dialogueTarget){
-        /*
-        System.out.println("trainer command from " + commandUser.name +
-                            "line" + lineSetter.isComplete()+
-                            "anim" + animation.isComplete()+
-                            "call " + hasCalled
-        );*/
         if(isComplete())
             return;
         if(lineSetter.isComplete() && animation.isComplete()){

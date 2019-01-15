@@ -11,11 +11,12 @@ import java.util.List;
 public class BattleResult {
     public int totalXp = 0;
     public boolean playerWon = false;
+    public boolean hasRun = false;
     public List<Pokemon> caughtMons = new ArrayList<>();
 
     public void reset(){
         totalXp = 0;
-        playerWon = false;
+        playerWon = hasRun =false;
         caughtMons.clear();
     }
 

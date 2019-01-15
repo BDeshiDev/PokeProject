@@ -39,7 +39,7 @@ public class aiTrainer extends Trainer {
         setCommandToExecuteAtTurnEnd(null);
         if(ownedSlot.getCurPokemon().isDead()){
             setCommandToExecuteAtTurnEnd(new TrainerCommand(this,
-                    AnimationFactory.getPokeChangeAnim(),"swap",
+                    AnimationFactory.getPokeChangeAnim(),"swap",true,
                     ()->{
                 Pokemon newlyStagedMon = stageFirstAvailablePokemon();
                 ownedSlot.setPokemon(newlyStagedMon,false);
