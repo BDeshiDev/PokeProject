@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class ExplorationController {
     private aiTrainer curChallenger;
     private BattleController curBattle;
     private PostBattleController xpScreenController;
+    private PokemonStorageController storageController;
     private Stack<LevelData> levelsLeft =new Stack<>();
 
     private pcTrainer player;
@@ -56,6 +58,11 @@ public class ExplorationController {
 
     ExplorationState explorationState;
 
+
+    public ExplorationController() {
+        curBattle = new BattleController();
+        xpScreenController = new PostBattleController();
+    }
 
     public void loadLevel(LevelData stageToLoad){
         remainingChallengers.clear();
@@ -116,13 +123,17 @@ public class ExplorationController {
                         wantsToBattle = false;
                         explorationState = ExplorationState.WaitingForBattleEnd;
                         getNextChallenger();
-                    }if(wantsToFightWildMon){
+                    }else if(wantsToFightWildMon){
                         wantsToFightWildMon = false;
                         explorationState = ExplorationState.WaitingForBattleEnd;
                         startWildMonBattle();
                     } else if(wantsToGoToNextLevel){
                         wantsToGoToNextLevel = false;
                         loadLevelFromStack();
+                    }else if(wantsToSeeStatus){
+                        wantsToSeeStatus= false;
+                        explorationState = ExplorationState.waitingForStatusScreen;
+                        loadStatusScreen();
                     }
                     break;
                 case WaitingForBattleEnd:
@@ -155,6 +166,13 @@ public class ExplorationController {
                         explorationState = ExplorationState.Exploring;
                     }
                     break;
+                case waitingForStatusScreen:
+                    if(storageController.readyToExit()){
+                        primaryStage.setScene(myScene);
+                        primaryStage.setTitle("Exploration Test");
+                        explorationState = ExplorationState.Exploring;
+                    }
+                    break;
             }
         }
 
@@ -168,8 +186,6 @@ public class ExplorationController {
 
 
     public void init(pcTrainer player,Stage primaryStage,Scene sceneToUse, LevelData... stagesToLoad){
-        curBattle = new BattleController();
-        xpScreenController = new PostBattleController();
         explorationState = ExplorationState.Exploring;
 
         this.player = player;
@@ -207,7 +223,24 @@ public class ExplorationController {
 
     public void goToStatus(){
         wantsToSeeStatus = true;
-        System.out.println("status not ready yet");
+    }
+
+    public void loadStatusScreen(){
+        try {
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("PokemonStorageScreen.fxml"));
+            Scene scene=new Scene(new Pane(), Settings.windowWidth,Settings.windowLength);
+            scene.setRoot(loader.load());
+            storageController=loader.getController();
+            storageController.begin(primaryStage,player.getParty());
+
+            primaryStage.setTitle("Storage");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }catch(IOException ioe){
+            ioe.printStackTrace();
+            System.out.println("failed to load storage Screen");
+            System.exit(-1);
+        }
     }
 
     enum  ExplorationState{

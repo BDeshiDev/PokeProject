@@ -5,6 +5,8 @@ import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
 
+import java.util.List;
+
 public class pcTrainer extends Trainer {
 
     private BattleCommand selectedMove = null;
@@ -103,6 +105,9 @@ public class pcTrainer extends Trainer {
         }else{
             Debugger.out(pokeToSwapWith.name + " has already been sent out");
         }
+    }
+    public List<Pokemon> getParty(){
+        return  party;
     }
 
     public boolean canCancelSwap(){

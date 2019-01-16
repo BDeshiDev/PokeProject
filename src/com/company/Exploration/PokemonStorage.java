@@ -1,19 +1,18 @@
-package com.company;
+package com.company.Exploration;
 
 import com.company.Pokemon.Pokemon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PokemonStorage {
 
-    private static List<Pokemon> storedMonList = new ArrayList<>();
+    public static final List<Pokemon> storedMonList = new ArrayList<>();
 
     private  PokemonStorage(){};//To prevent instantiation
 
-    public static void addMon(Pokemon p){
-        storedMonList.add(p);
-    }
+    public static void addMon(Pokemon... p){ Collections.addAll(storedMonList,p); }
 
     public static Pokemon getMon(int monIndex){
         if(monIndex >= storedMonList.size()){
