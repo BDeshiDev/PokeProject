@@ -69,10 +69,14 @@ public class PokemonStorageController {
 
     public void withDrawMonFromStorage(List<Pokemon> party, Pokemon monToWithDraw){
         if(PokemonStorage.storedMonList.contains(monToWithDraw)){
-            PokemonStorage.storedMonList.remove( monToWithDraw);
-            updateStoragePane();
-            party.add(monToWithDraw);
-            updatePartyPane();
+            if(party.size() >=Settings.maxPartySize){
+                System.out.println("party full");
+            }else {
+                PokemonStorage.storedMonList.remove(monToWithDraw);
+                updateStoragePane();
+                party.add(monToWithDraw);
+                updatePartyPane();
+            }
         }else{
             Debugger.out("Storage does not contain " + monToWithDraw.name);
         }
