@@ -1,7 +1,7 @@
 package com.company.Exploration;
 
 import com.company.*;
-import com.company.Pokemon.MoveFactory;
+import com.company.Pokemon.Moves.MoveFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

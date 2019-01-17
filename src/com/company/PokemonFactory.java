@@ -1,6 +1,8 @@
 package com.company;
 
 import com.company.Pokemon.*;
+import com.company.Pokemon.Moves.Move;
+import com.company.Pokemon.Moves.MoveFactory;
 import com.company.Pokemon.Stats.Level;
 
 import java.util.ArrayList;

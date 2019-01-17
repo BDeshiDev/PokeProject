@@ -1,6 +1,8 @@
-package com.company.Pokemon;
+package com.company.Pokemon.Moves;
 
 import com.company.BattleSlot;
+import com.company.Pokemon.Pokemon;
+import com.company.Pokemon.Type;
 import com.company.Utilities.Animation.AnimationData;
 import com.company.Utilities.TextHandler.LineHolder;
 

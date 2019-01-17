@@ -1,5 +1,5 @@
 package com.company;
-import com.company.Pokemon.Move;
+import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;

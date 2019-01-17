@@ -1,11 +1,10 @@
 package com.company.Pokemon;
 
+import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Stats.StatsComponent;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
-import com.sun.org.glassfish.external.statistics.Stats;
 
-import java.net.StandardSocketOptions;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -56,7 +55,6 @@ public class Pokemon{
     public boolean canCatch(){
         return true;//modify calculation later
     }
-
     public Pokemon(String _name,int level, int hpAtMaxLevel, int hpBase,
                    int attAtMaxLevel, int attBase,
                    int defAtMaxLevel, int defBase,

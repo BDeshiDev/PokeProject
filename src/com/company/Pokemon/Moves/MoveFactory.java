@@ -1,5 +1,6 @@
-package com.company.Pokemon;
+package com.company.Pokemon.Moves;
 
+import com.company.Pokemon.Type;
 import com.company.Utilities.Animation.AnimationFactory;
 
 //#optimize cache the moves once instantiated and return them

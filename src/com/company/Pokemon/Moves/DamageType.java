@@ -1,4 +1,7 @@
-package com.company.Pokemon;
+package com.company.Pokemon.Moves;
+
+import com.company.Pokemon.Pokemon;
+
 /*
 * used to determine which stat gives bonus power
 * */
