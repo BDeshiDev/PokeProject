@@ -1,6 +1,7 @@
 package com.company.Exploration;
 
 import com.company.Settings;
+import com.company.TitleController;
 import com.company.Utilities.Debug.Debugger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +30,10 @@ public class CreditsController {
         }
         try {
             //#TODO create a resource folder and write a class t odo all this instead of copy Paste
-            Parent root =FXMLLoader.load(getClass().getResource("../StartScreen.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../StartScreen.fxml"));
+            Parent root =loader.load();
+            TitleController tc =  loader.getController();
+            tc.setCurStage(primaryStage);
             primaryStage.setScene(new Scene(root, Settings.windowWidth, Settings.windowLength));
             primaryStage.setTitle("Start Screen");
             primaryStage.show();
