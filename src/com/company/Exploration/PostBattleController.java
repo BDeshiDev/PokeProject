@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ import java.io.IOException;
 public class PostBattleController {
 
     @FXML
-    private Text DisplayText;
+    private VBox TextParentPane;
     @FXML
     private Button BackButton;
 
@@ -50,7 +51,8 @@ public class PostBattleController {
     public void begin(Stage primaryStage,BattleResult battleResult, pcTrainer player) {
         //continue here
         readyToExit = false;
-        DisplayText.setText("");
+        TextParentPane.getChildren().clear();
+
         if(battleResult.hasRun)
             lineSource.push("Successfully ran from battle");
         else
@@ -86,7 +88,7 @@ public class PostBattleController {
                     //readyToExit = true;
                     stop();
                 }
-                lineSource.continueExecution(delta,DisplayText);
+                lineSource.continueExecution(delta,TextParentPane);
             }
         }.start();
     }

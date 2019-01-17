@@ -14,15 +14,23 @@
             <Font size="46.0" />
          </font>
       </Label>
-      <TextFlow layoutX="15.0" layoutY="125.0" prefHeight="110.0" prefWidth="571.0">
-         <children>
-            <Text fx:id="DisplayText" strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard gained 500 xp. Charizard levelled up!" wrappingWidth="557.58447265625">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Text>
-         </children>
-      </TextFlow>
+      <ScrollPane layoutX="15.0" layoutY="125.0" prefHeight="192.0" prefViewportHeight="110.0" prefViewportWidth="571.0" prefWidth="573.0">
+         <content>
+            <TextFlow layoutX="15.0" layoutY="125.0" prefHeight="187.0" prefWidth="571.0">
+               <children>
+                  <VBox fx:id="TextParentPane" prefHeight="36.0" prefWidth="571.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard gained 500 xp. Charizard levelled up!" wrappingWidth="557.58447265625">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
+            </TextFlow>
+         </content>
+      </ScrollPane>
       <Button fx:id="BackButton" layoutX="227.0" layoutY="323.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="148.0" text="Back to Exploration">
          <font>
             <Font size="15.0" />

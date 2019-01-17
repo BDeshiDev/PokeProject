@@ -1,6 +1,10 @@
 package com.company.Utilities.TextHandler;
 
 import com.company.BattleExecutable;
+import com.company.Settings;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class LineStreamExecutable implements BattleExecutable,LineHolder{
@@ -21,22 +25,30 @@ public class LineStreamExecutable implements BattleExecutable,LineHolder{
     }
 
     @Override
-    public void start() {
-
-    }
+    public void start() { }
 
     @Override
     public void continueExecution(double delta, Text executionOutputText) {
         if(!lineStream.streamComplete()){//if we have lines to show, do that first or do else statement
-            lineStream.addDelta(delta);//update timer on lineSource
-
-            if(lineStream.hasLine()){
-                String s= lineStream.pop();
-               // System.out.println(s);
-                executionOutputText.setText(s);
+            String newString = tryGetLine(delta);//update timer on lineSource
+            if(newString != null){
+                executionOutputText.setText(newString);
             }
         }
     }
+
+    public void continueExecution(double delta, Pane TextParentPane) {
+        if(!lineStream.streamComplete()){//if we have lines to show, do that first or do else statement
+            String newString = tryGetLine(delta);//update timer on lineSource
+            if(newString != null){
+                Text newText = new Text(newString);
+                newText.setFont(Settings.defFont);
+                TextParentPane.getChildren().add(newText);
+            }
+        }
+    }
+
+
     //annoying interface implementations go here
     @Override
     public boolean streamComplete() {
@@ -49,8 +61,8 @@ public class LineStreamExecutable implements BattleExecutable,LineHolder{
     }
 
     @Override
-    public void addDelta(double delta) {
-        lineStream.addDelta(delta);
+    public String tryGetLine(double delta) {
+        return lineStream.tryGetLine(delta);
     }
 
     @Override

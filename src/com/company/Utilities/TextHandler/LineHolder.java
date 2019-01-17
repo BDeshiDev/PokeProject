@@ -5,7 +5,7 @@ public interface LineHolder {
 
     boolean hasLine();
 
-    void addDelta(double delta);
+    String tryGetLine(double delta);
 
     String pop();
 
