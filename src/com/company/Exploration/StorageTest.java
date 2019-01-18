@@ -20,13 +20,13 @@ public class StorageTest extends Application {
         FXMLLoader loader=new FXMLLoader(getClass().getResource("PokemonStorageScreen.fxml"));
         Scene scene=new Scene(new Pane(), Settings.windowWidth,Settings.windowLength);
 
-        PokemonStorage.addMon(PokemonFactory.getBlastoise(),PokemonFactory.getCharizard());
+        PokemonStorage.addMon(PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getCharizard().toPokemon());
         scene.setRoot(loader.load());
         PokemonStorageController controller=loader.getController();
 
         List<Pokemon> testParty = new ArrayList<>();
-        testParty.add(PokemonFactory.getBlastoise());
-        testParty.add(PokemonFactory.getCharizard());
+        testParty.add(PokemonFactory.getBlastoise().toPokemon());
+        testParty.add(PokemonFactory.getCharizard().toPokemon());
         controller.begin(primaryStage,testParty);
 
         primaryStage.setTitle("StorageTest");

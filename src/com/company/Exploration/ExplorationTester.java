@@ -22,16 +22,17 @@ public class ExplorationTester extends Application {
         Parent root =loader.load();
         ExplorationController explorationController =loader.getController();
 
-        aiTrainer merry= new aiTrainer("Merry", PokemonFactory.getBlastoise());
-        aiTrainer sherry = new aiTrainer("Sherry",PokemonFactory.getPidgeot());
+        aiTrainer merry= new aiTrainer("Merry", PokemonFactory.getBlastoise().toPokemon());
+        aiTrainer sherry = new aiTrainer("Sherry",PokemonFactory.getPidgeot().toPokemon());
 
         List<aiTrainer> challengers = new ArrayList<>();
         Collections.addAll(challengers,merry,sherry);
 
         List<WildMon> possibleEncounters = new ArrayList<>();
-        Collections.addAll(possibleEncounters, new WildMon(PokemonFactory.getBlastoise()), new WildMon(PokemonFactory.getPidgeot()));
+        Collections.addAll(possibleEncounters, new WildMon(PokemonFactory.getBlastoise().toPokemon()), new WildMon(PokemonFactory.getPidgeot().toPokemon()));
 
-        pcTrainer player = new pcTrainer("Ash",PokemonFactory.getVenasaur(),PokemonFactory.getCharizard(), PokemonFactory.getBlastoise() );
+        pcTrainer player = new pcTrainer("Ash",PokemonFactory.getVenasaur().toPokemon(),PokemonFactory.getCharizard().toPokemon(),
+                PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getCharmander().toPokemon(36) );
 
         player.addMoveToAllInParty(MoveFactory.getDebugKo());//add this to test easily
 

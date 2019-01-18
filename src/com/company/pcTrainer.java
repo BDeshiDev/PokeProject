@@ -82,8 +82,8 @@ public class pcTrainer extends Trainer {
     }
 
     public void applyXp(BattleResult br, LineHolder lineHolder){
-        for (Pokemon p:party) {
-            p.applyXp(br.totalXp,lineHolder);
+        for (int i = party.size()-1; i>=0 ; i--) {
+            party.set(i , party.get(i).applyXp(br.totalXp,lineHolder));// handle evolution logic lazily
         }
     }
 

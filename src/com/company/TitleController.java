@@ -16,10 +16,10 @@ public class TitleController {
     }
 
     public void Start(){
-        Pokemon poke1 = PokemonFactory.getBlastoise();
-        Pokemon poke2 = PokemonFactory.getCharizard();
-        Pokemon poke3 = PokemonFactory.getVenasaur();
-        Pokemon poke4 = PokemonFactory.getPidgeot();
+        Pokemon poke1 = PokemonFactory.getBlastoise().toPokemon();
+        Pokemon poke2 = PokemonFactory.getCharizard().toPokemon();
+        Pokemon poke3 = PokemonFactory.getVenasaur().toPokemon();
+        Pokemon poke4 = PokemonFactory.getPidgeot().toPokemon();
 
         pcTrainer ash = new pcTrainer("Ash",poke3,poke1);
         aiTrainer gary = new aiTrainer("Gary",poke2,poke4);

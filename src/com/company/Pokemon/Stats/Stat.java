@@ -36,6 +36,10 @@ public class Stat {
         this.lerp(lvl);
     }
 
+    public Stat(Stat statToCopy,Level lvl){
+        this(statToCopy.baseVal,statToCopy.MaxVal,lvl);
+    }
+
     @Override
     public String toString() {
         return "Stat{" +

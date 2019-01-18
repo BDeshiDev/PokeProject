@@ -38,6 +38,25 @@ public class StatsComponent {//data holder for storing all stats necessary for a
         this.speed = new Stat(baseSpeed,speedAtMaxLvl,this.level);
     }
 
+    public StatsComponent(StatsComponent statsToCopy) {
+        this.level = new Level(statsToCopy.level.getCurLevel());
+        this.maxHp = new Stat(statsToCopy.maxHp,this.level);
+        this.attack = new Stat(statsToCopy.attack,this.level);
+        this.defence = new Stat(statsToCopy.defence,this.level);
+        this.spAttack = new Stat(statsToCopy.spAttack,this.level);
+        this.spDefence = new Stat(statsToCopy.spDefence,this.level);
+        this.speed = new Stat(statsToCopy.speed,this.level);
+    }
+    public StatsComponent(StatsComponent statsToCopy,int level) {
+        this.level = new Level(level);
+        this.maxHp = new Stat(statsToCopy.maxHp,this.level);
+        this.attack = new Stat(statsToCopy.attack,this.level);
+        this.defence = new Stat(statsToCopy.defence,this.level);
+        this.spAttack = new Stat(statsToCopy.spAttack,this.level);
+        this.spDefence = new Stat(statsToCopy.spDefence,this.level);
+        this.speed = new Stat(statsToCopy.speed,this.level);
+    }
+
     public void  addXp(int amount){
         level.addXP(amount);
         attack.lerp(level);

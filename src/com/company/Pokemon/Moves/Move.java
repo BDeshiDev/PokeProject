@@ -59,8 +59,8 @@ public class  Move{
             effectString =  "... ";
         streamToAppendTo.push(effectString);
         //actual formula
-        int damage = Math.max((int)(((2*user.stats.level.getCurLevel()/5.0+2) * power
-                * user.stats.attack.getCurVal()/targetMon.stats.defence.getCurVal() /50.0+2)*moveMod*stabBonus),0);
+        int damage = Math.max((int)(((2*user.getLevel()/5.0+2) * power
+                * this .damageType.getAttackBonus(user)/this .damageType.getDefenceBonus(targetMon) /50.0+2)*moveMod*stabBonus),0);
         //((m.power + damageBonus - stats.defence.getCurVal())*moveMod * stabBonus),0);
         target.takehit(damage,streamToAppendTo);
     }
