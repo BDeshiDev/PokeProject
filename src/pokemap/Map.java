@@ -67,10 +67,11 @@ public class Map {
     }
 
     public boolean isMoveValid(Position position,int dx,int dy){
-        int row =getRow(position.getY() + dy);
-        int col = getCol(position.getX() + dx);
+        int row =getRow(position.getY() + dy+8);
+        int col = getCol(position.getX() + dx+8);
+        System.out.println("Row="+row+"  Col="+col);
         if(mapAra[row][col] == 'T'){
-            System.out.println("Row="+row+"  Col="+col);
+//            System.out.println("Row="+row+"  Col="+col);
             return false;
         }
         return true;
@@ -85,6 +86,7 @@ public class Map {
             System.out.println("In map");
             return true;
         }
+        System.out.println("out of map");
         return false;
     }
 
