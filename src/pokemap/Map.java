@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -77,10 +78,11 @@ public class Map {
 
     public boolean isInMap(Position position)
     {
-        if (mapAra.length*tileSize>position.getY()&&
+        if ((mapAra.length-1)*tileSize>position.getY()&&
                 mapAra[0].length*tileSize>position.getX()&&
         position.getY()>0&&position.getY()>0){
 //            System.out.println(mapAra.length+" "+mapAra[0].length);
+            System.out.println("In map");
             return true;
         }
         return false;
@@ -92,13 +94,18 @@ public class Map {
         System.out.println(mapAra[0].length);
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
+                ImageView imageView=new ImageView();
                 String url;
                 if(mapAra[row][col]=='T') {
-                    url = "Assets/MapImages/tile_0001.png";
+                    url = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\MapImages\\tile_0001.png";
                 }
                 else
-                   url ="Assets/MapImages/tile_0041.png";
-                ImageView imageView=new ImageView(new Image(new File(url).toURI().toString()));
+                   url ="C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\MapImages\\tile_0041.png";
+                try {
+                    imageView.setImage(new Image(new FileInputStream(url)));
+                } catch (FileNotFoundException e) {
+                    System.out.println("Load hero image fail");
+                }
                 imageView.relocate(col*tileSize,row*tileSize);
                 group.getChildren().add(imageView);
             }
