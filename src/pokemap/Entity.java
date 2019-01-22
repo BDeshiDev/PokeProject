@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 public class Entity {
     private Position entityPosition;
     private ImageView imageOfEntity;
+    public static int entityImageSize=16;
     private Image front,back,left,right;
 
     public Entity(Position entityPosition, ImageView imageOfEntity) {

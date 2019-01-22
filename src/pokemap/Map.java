@@ -67,8 +67,8 @@ public class Map {
     }
 
     public boolean isMoveValid(Position position,int dx,int dy){
-        int row =getRow(position.getY() + dy+8);
-        int col = getCol(position.getX() + dx+8);
+        int row =getRow(position.getY() + dy+Entity.entityImageSize/2);
+        int col = getCol(position.getX() + dx+Entity.entityImageSize/2);
         System.out.println("Row="+row+"  Col="+col);
         if(mapAra[row][col] == 'T'){
 //            System.out.println("Row="+row+"  Col="+col);
