@@ -1,0 +1,17 @@
+{
+"tileSize":16,
+"mapAra":
+
+        [
+        [T,T,T,T,X,X,T,T],
+        [T,X,X,X,X,X,T,T],
+        [T,X,x,X,X,X,X,X],
+        [T,X,X,X,X,X,T,T],
+        [T,T,T,T,T,T,T,T]
+        ],
+"startPosition":
+         {
+            "x":16,
+            "y":16
+         }
+}
