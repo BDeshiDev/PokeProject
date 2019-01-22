@@ -11,6 +11,7 @@ public class Entity {
     public Entity(Position entityPosition, ImageView imageOfEntity) {
         this.entityPosition = entityPosition;
         this.imageOfEntity = imageOfEntity;
+        this.imageOfEntity.relocate(entityPosition.getX(),entityPosition.getY());
     }
 
     public Position getEntityPosition() {

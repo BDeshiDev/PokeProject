@@ -16,7 +16,7 @@ import java.io.File;
 
 public class ExicuteMap extends Application {
     Map forestMap=new Map(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt"));
-    Entity player=new Entity(forestMap.getStartPosition(),
+    Entity player=new Entity(new Position(36,36),
             new ImageView("Assets/MapImages/heroleft.png"));
 
     boolean run,up,down,left,right;

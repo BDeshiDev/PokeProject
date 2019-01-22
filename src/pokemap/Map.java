@@ -67,8 +67,8 @@ public class Map {
     }
 
     public boolean isMoveValid(Position position,int dx,int dy){
-        int row =getRow(position.getX() + dx);
-        int col = getCol(position.getY() + dy);
+        int row =getRow(position.getY() + dy);
+        int col = getCol(position.getX() + dx);
         if(mapAra[row][col] == 'T'){
             System.out.println("Row="+row+"  Col="+col);
             return false;
@@ -79,7 +79,7 @@ public class Map {
     public boolean isInMap(Position position)
     {
         if ((mapAra.length-1)*tileSize>position.getY()&&
-                mapAra[0].length*tileSize>position.getX()&&
+                (mapAra[0].length-1)*tileSize>position.getX()&&
         position.getY()>0&&position.getY()>0){
 //            System.out.println(mapAra.length+" "+mapAra[0].length);
             System.out.println("In map");
