@@ -26,7 +26,7 @@ public class MovesListUI {
             return;
         }
 
-        Button mButton = new Button(move.getName());
+        Button mButton =  ButtonFactory.getMoveButton(300,80,move);
         grid.add(mButton,col,row);
         mButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -36,7 +36,7 @@ public class MovesListUI {
         });
 
         col++;
-        if(row>maxRowOrCol){
+        if(col>=maxRowOrCol){
             row++;
             col = 0;
         }

@@ -98,15 +98,8 @@ public class BattleController {
         }
 
         public  void addPokemon(pcTrainer player, Pokemon pokeToAdd){
-            Button b = new Button(pokeToAdd.name);
-            b.setPrefWidth(buttonWidth);
-            b.setPrefHeight(buttonHeight);
-            b.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    player.tryToSwap(pokeToAdd);
-                }
-            });
+            Button b = ButtonFactory.getSwapButton(buttonWidth,buttonHeight,pokeToAdd);
+            b.setOnAction(event -> player.tryToSwap(pokeToAdd));
             pane.getChildren().add(b);
         }
         public void toggle(boolean shouldBeOn){
