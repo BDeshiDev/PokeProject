@@ -20,6 +20,7 @@ public class ExicuteMap extends Application {
             new ImageView("Assets/MapImages/heroleft.png"));
 
     boolean run,up,down,left,right;
+    Directions direction;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Group group=forestMap.setMap();
@@ -42,10 +43,10 @@ public class ExicuteMap extends Application {
         public void handle(KeyEvent event) {
             switch (event.getCode()){
                 case R: run=true;  break;
-                case UP: {up=true; break;}
-                case DOWN:{ down=true; break;}
-                case LEFT:{ left=true; break;}
-                case RIGHT:{ right=true; break;}
+                case UP: {up=true;direction=Directions.UP; break;}
+                case DOWN:{ down=true;direction=Directions.DOWN; break;}
+                case LEFT:{ left=true;direction=Directions.LEFT; break;}
+                case RIGHT:{ right=true;direction=Directions.RIGHT; break;}
             }
 //                System.out.println("key pressed");
         }
@@ -83,7 +84,7 @@ public class ExicuteMap extends Application {
                     dy *= 3;
                 }
 
-            player.Shift(forestMap,dx,dy,Directions.UP);
+            player.Shift(forestMap,dx,dy,direction);
             }
         };
 

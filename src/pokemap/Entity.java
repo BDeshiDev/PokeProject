@@ -41,12 +41,12 @@ public class Entity {
 
         Image direction;
 
-        if(dir==Directions.RIGHT) direction=right;
-        else if(dir==Directions.LEFT) direction=left;
-        else if(dir==Directions.UP) direction=front;
-        else direction=back;
+        if(dir==Directions.RIGHT) direction=new Image("Assets/MapImages/heroright.png");
+        else if(dir==Directions.LEFT) direction=new Image("Assets/MapImages/heroleft.png");
+        else if(dir==Directions.UP) direction=new Image("Assets/MapImages/herodown.png");
+        else direction=new Image("Assets/MapImages/heroup.png");
 
-        //this.getImageOfEntity().setImage(direction);
+        this.getImageOfEntity().setImage(direction);
         if(map.isMoveValid(this.getEntityPosition(),dx,dy)&&
         map.isInMap(new Position(posX+dx,posY+dy))) {
             this.getImageOfEntity().relocate(posX + dx, posY + dy);
