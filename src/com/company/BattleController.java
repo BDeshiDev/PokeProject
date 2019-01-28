@@ -1,6 +1,7 @@
 package com.company;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
@@ -102,6 +103,8 @@ public class BattleController {
             b.setOnAction(event -> player.tryToSwap(pokeToAdd));
             pane.getChildren().add(b);
         }
+
+        
         public void toggle(boolean shouldBeOn){
             toggleSwapMenu(shouldBeOn);
         }
@@ -189,17 +192,10 @@ public class BattleController {
     }
 
     public void toggleSwapMenu(boolean isSwapEnabled){
-        if(isSwapEnabled){
-            PartySwapPane.setVisible(true);
-            PartySwapPane.setDisable(false);
-            swapCancelButton.setVisible(true);
-            swapCancelButton.setDisable(false);
-        }else{
-            PartySwapPane.setVisible(false);
-            PartySwapPane.setDisable(true);
-            swapCancelButton.setVisible(false);
-            swapCancelButton.setDisable(true);
-        }
+        PartySwapPane.setVisible(isSwapEnabled);
+        PartySwapPane.setDisable(!isSwapEnabled);
+        swapCancelButton.setVisible(isSwapEnabled);
+        swapCancelButton.setDisable(!isSwapEnabled);
     }
 
     class  BattleLoop extends  AnimationTimer{
