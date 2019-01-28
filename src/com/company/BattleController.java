@@ -10,6 +10,8 @@ import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Animation.Tester.AnimationTester;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
+import com.company.networking.NetworkedEnemy;
+import com.company.networking.NetworkedPlayer;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -98,13 +100,19 @@ public class BattleController {
             pane.getChildren().clear();
         }
 
-        public  void addPokemon(pcTrainer player, Pokemon pokeToAdd){
+        public  void addPokemon(pcTrainer player,Pokemon pokeToAdd,int pokeIndex){
             Button b = ButtonFactory.getSwapButton(buttonWidth,buttonHeight,pokeToAdd);
-            b.setOnAction(event -> player.tryToSwap(pokeToAdd));
+            b.setOnAction(event -> player.tryToSwap(pokeIndex));
             pane.getChildren().add(b);
         }
 
-        
+        public void addParty(pcTrainer player,List<Pokemon> party){
+            swapUI.clear();
+            for(int i = 0 ; i< party.size();i++){
+                swapUI.addPokemon(player,party.get(i),i);
+            }
+            swapUI.toggle(false);
+        }
         public void toggle(boolean shouldBeOn){
             toggleSwapMenu(shouldBeOn);
         }
@@ -163,16 +171,8 @@ public class BattleController {
                     System.out.println("can't run from this battle");
             });
             catchButton.setOnAction(event -> {
-                if(canRun) {
-                    if(player.hasPokeBalls()) {
-                        System.out.println("catching");
-                        player.setCommand(new TrainerCommand(player, AnimationFactory.getPokeChangeAnim(),"CatchCommand", false,()->{
-                            Pokemon catchResult = enemySlot.tryCatch();
-                            if(catchResult != null)
-                                result.addCaughtMon(catchResult);
-                        }));
-                    }else
-                        Debugger.out("insufficent pokeBalls");//shouldn't happen really
+                if(canUseItems) {
+                    player.setCommand(new CatchCommand(player,result));
                 }
                 else
                     System.out.println("can't catch in this battle");
@@ -240,10 +240,6 @@ public class BattleController {
         }
 
         void executeAttacks(double delta) {
-            dialogBox.setVisible(true);
-            dialogBox.setDisable(false);
-            playerMoveGrid.setDisable(true);
-
             if(curExecutingCommand == null){
                 if(CommandList.isEmpty()) {
                     if(isOver()){
@@ -300,6 +296,9 @@ public class BattleController {
                         }
                     }
                     if(waitList.isEmpty()) {
+                        dialogBox.setVisible(true);
+                        dialogBox.setDisable(false);
+                        playerMoveGrid.setDisable(true);
                         curState = BattleState.executing;//everyone gave commands so execute()
                     }
                     break;
@@ -384,6 +383,10 @@ public class BattleController {
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = false;
     }
+    public void begin(Stage curStage, NetworkedPlayer pcTrainer, NetworkedEnemy enemy) {
+        beginPrep(curStage,pcTrainer,enemy);
+        canRun = canUseItems = false;
+    }
 
 
     public void begin(Stage curStage,pcTrainer pcTrainer,WildMon enemy){
@@ -411,9 +414,7 @@ public class BattleController {
         enemy.prepareForBattle(enemySlot,playerSlot);
 
         pcTrainer.setMovesListUI(movesUI);
-        pcTrainer.updateMoveUI();
         pcTrainer.setSwapUI(swapUI);
-        pcTrainer.updateSwapUI();
 
         result.reset();
         DialogText.setText("");

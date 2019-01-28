@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
+import com.company.networking.TrainerData;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,14 @@ public abstract class Trainer implements Battler {
             party.add(p);
         }
     }
+    protected Trainer(TrainerData td) {
+        name = td.name;
+        for (String pokeName:td.pokemonName) {
+            Pokemon p = PokemonFactory.getMonByName(pokeName);
+            if(p!= null)
+                party.add(p);
+        }
+    }
     @Override
     public  Pokemon getStagedPokemon(){
         return  stagedPokemon;
@@ -56,22 +65,32 @@ public abstract class Trainer implements Battler {
     }
 
 
-    public void swapPokemon(Pokemon pokemonToSwapWith ){
+    protected void swapPokemon(Pokemon pokemonToSwapWith ){
         if(pokemonToSwapWith == null)
-            Debugger.out("swap failed");
+            Debugger.out("swap failed because null");
         else{
             stagedPokemon = pokemonToSwapWith;//no need to add the previous staged pokemon to party again
             ownedSlot.setPokemon(stagedPokemon,true);
         }
     }
 
+    public void swapPokemon(int swapIndex){
+        swapPokemon(party.get(swapIndex));
+    }
+
     public Pokemon getFirstAvailablePokemon(){//get first not dead pokemon that's not already sent out or return null,
-        for (Pokemon p :party) {
+        int monIndex =getFirstAvailableMonIndex();
+        return  monIndex< 0?null:party.get(monIndex);
+    }
+
+    public int getFirstAvailableMonIndex(){
+        for (int i = 0 ; i < party.size();i++) {
+            Pokemon p =party.get(i);
             if(!p.isDead() && stagedPokemon != p) {
-                return p;
+                return i;
             }
         }
-        return  null;
+        return  -1;
     }
 
     public Pokemon stageFirstAvailablePokemon(){// used for getting pokemon to send out first in battle//also stages the mon
@@ -99,6 +118,7 @@ public abstract class Trainer implements Battler {
     public void prepTurn(){
         commandToExecuteAtTurnEnd = null;
     }
+
     @Override
     public boolean hasCommandBeforeTurnEnd(){
         return commandToExecuteAtTurnEnd != null;

@@ -27,13 +27,14 @@ public class ServerThread implements  Runnable {
             p1 = new NetworkConnection(serverSocket.accept());
             p2 = new NetworkConnection(serverSocket.accept());
 
-            p1.writeToConnection.println("ready to start battle");
-            p2.writeToConnection.println("ready to start battle");
+            p1.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
+            p2.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
 
             String s1,s2;
             do{
                 s1 = p1.readFromConnection.readLine();
                 s2= p2.readFromConnection.readLine();
+                System.out.println("s1 " + s1  + " s2 " + s2);
                 p1.writeToConnection.println(s2);
                 p2.writeToConnection.println(s1);
             }while(!s1.equals("button 3") || !s2.equals("button 3"));

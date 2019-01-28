@@ -3,8 +3,35 @@ package com.company.Pokemon.Moves;
 import com.company.Pokemon.Type;
 import com.company.Utilities.Animation.AnimationFactory;
 
+import java.util.HashMap;
+
 //#optimize cache the moves once instantiated and return them
 public class MoveFactory {
+
+    private static HashMap<String,Move> moveMap = new HashMap<>();
+    static {
+        Move m = getAerialAce();
+        moveMap.put(m.getName(),m);
+        m = getFlameThrower();
+        moveMap.put(m.getName(),m);
+        m = getRazorLeaf();
+        moveMap.put(m.getName(),m);
+        m = getThunder();
+        moveMap.put(m.getName(),m);
+        m = getSurf();
+        moveMap.put(m.getName(),m);
+        m = getSlam();
+        moveMap.put(m.getName(),m);
+        m = getDebugKo();
+        moveMap.put(m.getName(),m);
+    }
+    public static  Move getMoveByName(String moveName){
+        if(moveMap.containsKey(moveName))
+            return moveMap.get(moveName);
+        else
+            return null;
+    }
+
     public  static  Move getAerialAce(){
         return new Move("Aerial Ace", Type.Flying,DamageType.Physical,60,0,999,20, AnimationFactory.getSlashAnimation());
     }

@@ -3,6 +3,7 @@ package com.company.Pokemon;
 import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Stats.StatsComponent;
 import com.company.PokemonFactory;
+import com.company.Settings;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
 
@@ -90,7 +91,7 @@ public class Pokemon{
         this.stats = stats;
         this.evoData = evoData;
         curHp =  stats.maxHp.getCurVal();
-        name = _name;
+        name = _name + (Settings.IsDebugOn?new Random().nextInt(50):"");
         t1 = _t1;
         t2 = _t2;
 

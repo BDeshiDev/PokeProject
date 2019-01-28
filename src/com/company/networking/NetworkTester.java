@@ -13,6 +13,8 @@ public class NetworkTester extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader=new FXMLLoader(getClass().getResource("NetworkScreen.fxml"));
         Scene scene=new Scene(loader.load(), Settings.windowWidth,Settings.windowLength);
+        NetworkController nc = loader.getController();
+        nc.setPrimaryStage(primaryStage);
         primaryStage.setTitle("networkTest");
         primaryStage.setScene(scene);
         primaryStage.show();

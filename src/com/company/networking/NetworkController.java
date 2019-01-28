@@ -1,17 +1,16 @@
 package com.company.networking;
 
-import com.sun.jmx.snmp.ThreadContext;
+import com.company.*;
+import com.google.gson.Gson;
 import javafx.application.Platform;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class NetworkController {
     Socket clientSocket;
@@ -31,16 +30,40 @@ public class NetworkController {
     @FXML
     private Button button1;
 
-    int selectedButton;
+    private Stage primaryStage;
 
+
+    AtomicBoolean wantsToBattle = new AtomicBoolean(false);
+
+    TrainerData td1 = new TrainerData("Ash","Charizard","Venasaur");
+    TrainerData td2 = new TrainerData("Gary","Venasaur","Charizard");
+
+    TrainerData selectedTrainer = td1;
+    TrainerData enemyData = null;
+
+    BattleController bc = new BattleController();;
 
     @FXML
     public void initialize() {
-        button1.setOnAction(event -> sendMessage(1));
-        button2.setOnAction(event -> sendMessage(2));
-        button3.setOnAction(event -> sendMessage(3));
+        button1.setOnAction(event -> selectedTrainer = td1);
+        button2.setOnAction(event -> selectedTrainer = td2);
+        button3.setOnAction(event -> sendMessage("button " + 3));
     }
 
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void startBattle(){
+        if(enemyData == null){
+            System.out.println("Can't start battle yet");
+        }else{
+            wantsToBattle.set(false);
+            sendMessage(BattleProtocol.battleStartSignal);
+            bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer,clientConnection),new NetworkedEnemy(enemyData,clientConnection));
+        }
+    }
 
 
     public void startHosting(){
@@ -56,32 +79,45 @@ public class NetworkController {
         }
     }
 
-    public void sendMessage(int buttonNo){
+    public void sendMessage(String messageToSend){
         if(clientConnection == null){
             System.out.println("connect first");
             return;
         }
         try {
-            clientConnection.writeToConnection.println("button " + buttonNo);
-            clientConnection.writeToConnection.flush();
+            clientConnection.writeToConnection.println(messageToSend);
+            System.out.println("message sent");
         }catch (Exception e){
             System.out.println("send fail");
         }
     }
 
     public void findHost(){
-        Platform.runLater(()->{
             try {
                 clientSocket = new Socket(InetAddress.getLocalHost(),ServerThread.portToUse);
                 clientConnection  = new NetworkConnection(clientSocket);
+                Gson gson = new Gson();
                 Task readTask =new Task() {
                     @Override
                     protected Object call() throws Exception {
-                        while(true) {
+                        while(!wantsToBattle.get()) {
                             String readString = clientConnection.readFromConnection.readLine();
-                            Platform.runLater(()->textDisplayer.setText(readString));
-                            if(readString.equals("WIN"))
+                            //System.out.println("read " + readString);
+                            if(readString.equals(BattleProtocol.TrainerInfoRequest)){
+                                System.out.println("sending trainer info");
+                                sendMessage(BattleProtocol.createMessage(selectedTrainer,BattleProtocol.TrainerInfoHeader));
+                            }else if(readString.startsWith(BattleProtocol.TrainerInfoHeader)){
+                                System.out.println("reading trainer info : "+readString);
+                                String jsonToRead = readString.substring(BattleProtocol.TrainerInfoHeader.length());
+                                System.out.println("reading trainer info : "+jsonToRead);
+                                enemyData = gson.fromJson(jsonToRead,TrainerData.class);;
+                                Platform.runLater(()->
+                                        textDisplayer.setText(enemyData.name));
+                            }
+                            else if(readString.equals(BattleProtocol.battleStartSignal))// this is risky confirm if we have also have pressed the start button
                                 break;
+                            else
+                                System.out.println("wrong message" + readString);
                         }
                         return null;
                     }
@@ -94,6 +130,5 @@ public class NetworkController {
                 e.printStackTrace();
                 System.out.println("couldn't find host");
             }
-        });
     }
 }

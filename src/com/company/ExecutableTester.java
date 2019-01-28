@@ -147,6 +147,3 @@ class SimultaneousMultiExecute implements BattleExecutable{
         }
     }
 }
-interface MyCallBack{
-    void call();
-}

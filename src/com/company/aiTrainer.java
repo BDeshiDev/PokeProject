@@ -3,6 +3,8 @@ package com.company;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;
+import com.company.networking.TrainerData;
+
 import java.util.ArrayList;
 import java.util.Random;
 /*
@@ -29,6 +31,11 @@ public class aiTrainer extends Trainer {
         rand = new Random();
     }
 
+    public aiTrainer(TrainerData td) {
+        super(td);
+        this.rand = new Random();
+    }
+
     @Override
     public Boolean hasFinalizedCommands() {
         return true;//always true since our ai doesn't need to think
@@ -38,15 +45,7 @@ public class aiTrainer extends Trainer {
     public void endTurnPrep() {
         setCommandToExecuteAtTurnEnd(null);
         if(ownedSlot.getCurPokemon().isDead()){
-            setCommandToExecuteAtTurnEnd(new TrainerCommand(this,
-                    AnimationFactory.getPokeChangeAnim(),"swap",true,
-                    ()->{
-                Pokemon newlyStagedMon = stageFirstAvailablePokemon();
-                ownedSlot.setPokemon(newlyStagedMon,false);
-
-            },name+" :" +
-                    (ownedSlot.isEmpty()?"":"Come back, "+ ownedSlot.getCurPokemon().name +"."),
-                    "Go ! " + getFirstAvailablePokemon().name+ "!!!"));
+            setCommandToExecuteAtTurnEnd(new SwapCommand(this,getFirstAvailableMonIndex()));
         }
         Debugger.out("AI turn end");
     }

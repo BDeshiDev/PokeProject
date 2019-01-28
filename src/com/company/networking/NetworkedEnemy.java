@@ -69,14 +69,7 @@ public class NetworkedEnemy extends Trainer {
     }
 
     public TrainerCommand createSwapCommand(swapCommandData networkedCommand){
-        return  new TrainerCommand(this, AnimationFactory.getPokeChangeAnim(),"swap command networked",false,
-                ()->{
-                    Pokemon newlyStagedMon =party.get(networkedCommand.swapNo);
-                    ownedSlot.setPokemon(newlyStagedMon,false);
-                },name+" :" +
-                (ownedSlot.isEmpty()?"":"Come back, "+ ownedSlot.getCurPokemon().name +"."),
-                ("Go ! " + getFirstAvailablePokemon().name+ "!!!")
-        );
+        return  networkedCommand.toSwapCommand(this);
     }
 
     public void setSelectedCommand(swapCommandData networkedCommand) {
