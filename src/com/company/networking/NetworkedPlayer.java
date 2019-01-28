@@ -13,14 +13,16 @@ public class NetworkedPlayer extends pcTrainer {
         super(td);
         writer = connection.writeToConnection;
     }
-
+    //#TODO where are we sending swap events that happen before turn ENDS???
     @Override
     public void setCommand(Move m, Pokemon user) {
         AttackCommand selectedAttack = new AttackCommand(user,m,enemySlot);
         super.setCommand(selectedAttack);
-        writer.println((BattleProtocol.createMessage(new AttackCommandData(selectedAttack),BattleProtocol.AttackCommandHeader)));
+        writer.println(selectedAttack.toJsonData());
         //System.out.println(BattleProtocol.createMessage(new AttackCommandData(selectedAttack),BattleProtocol.AttackCommandHeader));
     }
+
+
 
     @Override
     public void endTurnPrep() {
@@ -30,11 +32,10 @@ public class NetworkedPlayer extends pcTrainer {
     }
 
 
-
-    /*
     @Override
     public void setCommandToExecuteAtTurnEnd(BattleCommand commandToExecuteAtTurnEnd) {
         super.setCommandToExecuteAtTurnEnd(commandToExecuteAtTurnEnd);
-        System.out.println(BattleProtocol.createMessage(new AttackCommandData(selectedAttack),BattleProtocol.AttackCommandHead
-    }*/
+        if(commandToExecuteAtTurnEnd != null)
+            writer.println(commandToExecuteAtTurnEnd.toJsonData());
+    }
 }

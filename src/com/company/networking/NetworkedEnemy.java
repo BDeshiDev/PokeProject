@@ -102,7 +102,7 @@ class NetworkedInputReader implements  Runnable{
         while(!shouldStopReading){
             try {
                 String readLine = reader.readLine();
-                System.out.println("networker read: " +readLine);
+                System.out.println("networker reads: " +readLine);
                 if(readLine.startsWith(BattleProtocol.AttackCommandHeader)){
                     String jsonToRead = readLine.substring(BattleProtocol.AttackCommandHeader.length());
                     AttackCommandData acd = gson.fromJson(jsonToRead,AttackCommandData.class);

@@ -115,6 +115,7 @@ public class pcTrainer extends Trainer {
         Pokemon pokeToSwapWith = party.get(swapNo);
         if(getStagedPokemon() != pokeToSwapWith && !pokeToSwapWith.isDead()){//if we can actually swap it in
             setCommandToExecuteAtTurnEnd(new SwapCommand(this,swapNo));
+            swapUI.toggle(false);
             selectedMove = getCommandToExecuteBeforeTurnEnd();
         }else{
             Debugger.out(pokeToSwapWith.name + " can't be sent out");
