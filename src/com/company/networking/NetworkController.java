@@ -10,10 +10,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class NetworkController {
@@ -75,10 +78,11 @@ public class NetworkController {
             System.out.println("Can't start battle yet");
         }else{
             wantsToBattle.set(false);
-            //sendMessage(BattleProtocol.battleStartSignal);
+            System.out.println("setting stage");
+            sendMessage(BattleProtocol.battleStartSignal);
             bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer, clientConnection),new NetworkedEnemy(enemyData,clientConnection));
             enemyData = null;
-
+            System.out.println("set stage");
         }
     }
 
@@ -122,7 +126,9 @@ public class NetworkController {
                                 hasGotInfo = true;
                             }
                         }
-                        startBattle();
+                        Platform.runLater(()-> {
+                            startBattle();
+                        });
                             /*
                             if(readString.equals(BattleProtocol.battleStartSignal))// this is risky confirm if we have also have pressed the start button
                                 break;
