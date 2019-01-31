@@ -17,6 +17,7 @@ public class Map {
     Character mapAra[][];
     int tileSize;
     Position startPosition;
+    private double probabilty;
 
     public Character[][] getMapAra() {
         return mapAra;
@@ -97,14 +98,17 @@ public class Map {
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
                 ImageView imageView=new ImageView();
-                String url;
+                String url="";
                 if(mapAra[row][col]=='T') {
                     url = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\MapImages\\tile_0001.png";
                 }
-                else
+//                else if(mapAra[row][col]=='X')
+                else if(mapAra[row][col]=='X')
                    url ="C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\MapImages\\tile_0041.png";
+                else url=null;
                 try {
-                    imageView.setImage(new Image(new FileInputStream(url)));
+                    if(url!=null)
+                        imageView.setImage(new Image(new FileInputStream(url)));
                 } catch (FileNotFoundException e) {
                     System.out.println("Load hero image fail");
                 }

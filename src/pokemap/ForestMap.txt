@@ -5,7 +5,7 @@
         [
         [T,T,T,T,X,X,T,T],
         [T,X,X,X,X,X,T,T],
-        [T,X,x,X,X,X,X,X],
+        [T,X,X,G,G,X,X,X],
         [T,X,X,X,X,X,T,T],
         [T,T,T,T,T,T,T,T]
         ],
@@ -13,5 +13,6 @@
          {
             "x":35,
             "y":35
-         }
+         },
+"probabilty":0
 }

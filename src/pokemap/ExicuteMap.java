@@ -85,6 +85,7 @@ public class ExicuteMap extends Application {
                 }
 
             player.Shift(forestMap,dx,dy,direction);
+//                System.out.println(player.gettingPokemonProbability(forestMap));
             }
         };
 

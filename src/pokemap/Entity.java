@@ -52,9 +52,44 @@ public class Entity {
             this.getImageOfEntity().relocate(posX + dx, posY + dy);
 //            System.out.println(posX+dx+" "+posY+dy);
             this.setEntityPosition(new Position(posX+dx,posY+dy));
+            System.out.println(this.gettingPokemonProbability(map));
         }
     }
 
+    private double probability=0;
+    private int grassStartRow;
+    private int grassStartCol;
+    private int prevRow;
+    private int prevCol;
+    private boolean flag=false;
+
+
+    public double gettingPokemonProbability(Map map){
+        int row=map.getRow(this.getEntityPosition().getY()+8);
+        int col=map.getCol(this.getEntityPosition().getX()+8);
+
+        if(map.getMapAra()[row][col]=='G' && flag==false) {
+            flag=true;
+            this.probability+=1;
+        }
+
+        else if(map.getMapAra()[row][col]=='G'&&flag==true) {
+            this.probability+=(row+col-prevRow-prevCol);
+        }
+
+        if(map.getMapAra()[row][col]!='G') {
+            flag=false;
+            this.probability=0;
+        }
+
+        if (map.getMapAra()[row][col]=='G'&&flag==true){
+            prevCol=col;
+            prevRow=row;
+        }
+
+        return this.probability;
+
+    }
 
 
 }
