@@ -13,16 +13,19 @@ public class NetworkedPlayer extends pcTrainer {
         super(td);
         writer = connection.writeToConnection;
     }
-    //#TODO where are we sending swap events that happen before turn ENDS???
+    //#TODO where are we sending swap events that happen before turn ENDS??? Perhaps that's the source of the bug
     @Override
     public void setCommand(Move m, Pokemon user) {
         AttackCommand selectedAttack = new AttackCommand(user,m,enemySlot);
         super.setCommand(selectedAttack);
         writer.println(selectedAttack.toJsonData());
-        //System.out.println(BattleProtocol.createMessage(new AttackCommandData(selectedAttack),BattleProtocol.AttackCommandHeader));
     }
 
-
+    @Override
+    public void endBattle() {
+        super.endBattle();
+        writer.println(canFight()? BattleProtocol.WinSignal:BattleProtocol.LoseSignal);
+    }
 
     @Override
     public void endTurnPrep() {
@@ -33,9 +36,9 @@ public class NetworkedPlayer extends pcTrainer {
 
 
     @Override
-    public void setCommandToExecuteAtTurnEnd(BattleCommand commandToExecuteAtTurnEnd) {
-        super.setCommandToExecuteAtTurnEnd(commandToExecuteAtTurnEnd);
-        if(commandToExecuteAtTurnEnd != null)
-            writer.println(commandToExecuteAtTurnEnd.toJsonData());
+    public void setCommand(BattleCommand battleCommand) {
+        super.setCommand(battleCommand);
+        if(battleCommand != null)
+            writer.println(battleCommand.toJsonData());
     }
 }

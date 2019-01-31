@@ -24,22 +24,30 @@ public class ServerThread implements  Runnable {
     @Override
     public void run() {
         try {
-            p1 = new NetworkConnection(serverSocket.accept());
-            p2 = new NetworkConnection(serverSocket.accept());
+            while(true) {
+                p1 = new NetworkConnection(serverSocket.accept());
+                p2 = new NetworkConnection(serverSocket.accept());
 
-            p1.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
-            p2.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
+                p1.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
+                p2.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
 
-            String s1,s2;
-            do{
-                s1 = p1.readFromConnection.readLine();
-                s2= p2.readFromConnection.readLine();
-                System.out.println("s1 " + s1  + " s2 " + s2);
-                p1.writeToConnection.println(s2);
-                p2.writeToConnection.println(s1);
-            }while(!s1.equals("button 3") || !s2.equals("button 3"));
-            p1.writeToConnection.println("WIN");
-            p2.writeToConnection.println("WIN");
+                String s1, s2;
+                while (true) {
+                    s1 = p1.readFromConnection.readLine();
+                    s2 = p2.readFromConnection.readLine();
+                    System.out.println("s1 " + s1 + " s2 " + s2);
+                    p1.writeToConnection.println(s2);
+                    p2.writeToConnection.println(s1);
+
+                    if (s1.equals(BattleProtocol.WinSignal) || s1.equals(BattleProtocol.LoseSignal) ||
+                            s2.equals(BattleProtocol.WinSignal) || s2.equals(BattleProtocol.LoseSignal)) {
+                        System.out.println("server stop");
+                        break;
+                    }
+                }
+            }
+            //System.out.println("closing socket");
+           // serverSocket.close();
         }catch (Exception e){
             System.out.println("unable to get required players");
         }

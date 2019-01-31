@@ -5,6 +5,7 @@ import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
 import com.company.networking.TrainerData;
+import javafx.scene.layout.Pane;
 
 import java.io.PrintWriter;
 import java.util.List;
@@ -17,6 +18,7 @@ public class pcTrainer extends Trainer {
     private boolean canCancelSwap = true;
     protected boolean waitingForSwap = false;
     private boolean hasSwapped = false;
+    private Pane actionControlPane;//parent pane to attack buttons
 
     public void addMoveToAllInParty(Move m){
         for (Pokemon p :party) {
@@ -48,9 +50,7 @@ public class pcTrainer extends Trainer {
         setCommand(new AttackCommand(getStagedPokemon(),m,enemySlot));
     }
 
-    public List<Pokemon> getParty(){
-        return  party;
-    }
+
 
     public boolean canCancelSwap(){
         return canCancelSwap;
@@ -73,6 +73,10 @@ public class pcTrainer extends Trainer {
         updateMoveUI();
     }
 
+    public void setActionControlPane(Pane actionControlPane){
+        this.actionControlPane = actionControlPane;
+    }
+
     public BattleCommand getCommand() {
         return selectedMove;
     }
@@ -93,11 +97,11 @@ public class pcTrainer extends Trainer {
 
     @Override
     public void prepTurn() {
-        super.prepTurn();
         Debugger.out("player turn start");
         canCancelSwap = true;
         waitingForSwap = false;
-
+        if(actionControlPane != null)
+            actionControlPane.setDisable(false);
         selectedMove = null;
     }
 
@@ -111,12 +115,21 @@ public class pcTrainer extends Trainer {
     }
 
 
+    @Override
+    public boolean hasCommandBeforeTurnEnd() {
+        return selectedMove != null;
+    }
+
+    @Override
+    public BattleCommand getCommandToExecuteBeforeTurnEnd() {
+        return selectedMove;
+    }
+
     public void tryToSwap(int swapNo){
         Pokemon pokeToSwapWith = party.get(swapNo);
         if(getStagedPokemon() != pokeToSwapWith && !pokeToSwapWith.isDead()){//if we can actually swap it in
-            setCommandToExecuteAtTurnEnd(new SwapCommand(this,swapNo));
             swapUI.toggle(false);
-            selectedMove = getCommandToExecuteBeforeTurnEnd();
+            setCommand(new SwapCommand(this,swapNo));
         }else{
             Debugger.out(pokeToSwapWith.name + " can't be sent out");
         }
@@ -127,12 +140,17 @@ public class pcTrainer extends Trainer {
         super.endBattle();
         swapUI = null;
         movesListUI = null;
+        actionControlPane =null;
+    }
+
+    public void onCommandAccepted(){
+        selectedMove = null;
+        actionControlPane.setDisable(true);
     }
 
     @Override
     public void endTurnPrep() {
         Debugger.out("player turn end");
-        setCommandToExecuteAtTurnEnd(null);
         selectedMove = null;
 
         if (ownedSlot.getCurPokemon().isDead()){

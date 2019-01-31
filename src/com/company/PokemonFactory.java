@@ -6,7 +6,9 @@ import com.company.Pokemon.Moves.MoveFactory;
 import com.company.Pokemon.Stats.Level;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 public class PokemonFactory {//temp class for producing pokemon for testing replace with database
 
@@ -24,6 +26,18 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
             return pokeMap.get(name).toPokemon();
         else
             return null;
+    }
+
+    public static PokemonData getMonDataByName(String name){
+        if(name != null && pokeMap.containsKey(name))
+            return pokeMap.get(name);
+        else
+            return null;
+    }
+
+
+    public static Collection<String> getAllMonsByName(){
+        return pokeMap.keySet();
     }
 
 

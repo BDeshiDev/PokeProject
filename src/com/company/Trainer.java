@@ -3,15 +3,16 @@ package com.company;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
 import com.company.networking.TrainerData;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
 public abstract class Trainer implements Battler {
-    protected ArrayList<Pokemon> party = new ArrayList<>();
+    protected ObservableList<Pokemon> party = FXCollections.observableArrayList();
     private Pokemon stagedPokemon = null;
     protected  BattleSlot ownedSlot;
     protected BattleSlot enemySlot;
-    private BattleCommand commandToExecuteAtTurnEnd =null;
     public final String name;
 
     @Override
@@ -33,10 +34,13 @@ public abstract class Trainer implements Battler {
             retVal +=p.getDefeatXp();
         }
         return  retVal;
-
     }
 
-    protected Trainer(String _name,Pokemon[] pokemons) {
+    public ObservableList<Pokemon> getParty() {
+        return party;
+    }
+
+    protected Trainer(String _name, Pokemon[] pokemons) {
         name = _name;
         for (Pokemon p:pokemons) {
             party.add(p);
@@ -114,22 +118,7 @@ public abstract class Trainer implements Battler {
         ownedSlot = null;
         enemySlot = null;
     }
-    @Override
-    public void prepTurn(){
-        commandToExecuteAtTurnEnd = null;
-    }
 
-    @Override
-    public boolean hasCommandBeforeTurnEnd(){
-        return commandToExecuteAtTurnEnd != null;
-    }
-    @Override
-    public  BattleCommand getCommandToExecuteBeforeTurnEnd(){
-        return  commandToExecuteAtTurnEnd;
-    }
 
-    public void setCommandToExecuteAtTurnEnd(BattleCommand commandToExecuteAtTurnEnd) {
-        this.commandToExecuteAtTurnEnd = commandToExecuteAtTurnEnd;
-    }
 
 }

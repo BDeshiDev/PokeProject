@@ -1,20 +1,38 @@
 package com.company.networking;
 
 import com.company.*;
-import com.company.Pokemon.Pokemon;
-import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;
-import com.google.gson.Gson;
-
-import java.io.BufferedReader;
-import java.io.IOException;
 
 public class NetworkedEnemy extends Trainer {
+
+    volatile boolean canStopReading = false;
+    volatile boolean readFailed = false;
 
     NetworkedInputReader reader;
     BattleCommand selectedCommand = null;
 
     boolean okayToEndTurn = false;
+
+    @Override
+    public boolean canFight() {
+        return super.canFight() || readFailed;
+    }
+
+    @Override
+    public boolean hasCommandBeforeTurnEnd() {
+        return selectedCommand != null;
+    }
+
+    @Override
+    public void onCommandAccepted() {
+
+    }
+
+    @Override
+    public BattleCommand getCommandToExecuteBeforeTurnEnd() {
+        return selectedCommand;
+    }
+
 
     @Override
     public BattleCommand getCommand() {
@@ -29,7 +47,7 @@ public class NetworkedEnemy extends Trainer {
     @Override
     public void endTurnPrep() {
         Debugger.out("networked enemy turn end");
-        setCommandToExecuteAtTurnEnd(null);
+
         okayToEndTurn = false;
         selectedCommand = null;
     }
@@ -41,7 +59,6 @@ public class NetworkedEnemy extends Trainer {
 
     @Override
     public void prepTurn() {
-        super.prepTurn();
         selectedCommand = null;
     }
 
@@ -53,6 +70,7 @@ public class NetworkedEnemy extends Trainer {
     @Override
     public void prepareForBattle(BattleSlot ownedSlot, BattleSlot enemySlot) {
         super.prepareForBattle(ownedSlot, enemySlot);
+        readFailed = false;
         Thread readThread = new Thread(reader);
         readThread.setDaemon(true);
         readThread.start();
@@ -61,7 +79,7 @@ public class NetworkedEnemy extends Trainer {
     @Override
     public void endBattle() {
         super.endBattle();
-        reader.setShouldStopReading(true);
+        canStopReading = true;
     }
 
     public void setSelectedCommand(AttackCommandData networkedCommand) {
@@ -76,54 +94,6 @@ public class NetworkedEnemy extends Trainer {
         this.selectedCommand = createSwapCommand(networkedCommand);
     }
 
-    public void setTurnEndSwapCommand(swapCommandData networkedCommand) {
-        super.setCommandToExecuteAtTurnEnd(createSwapCommand(networkedCommand));
-    }
+
 }
 
-class NetworkedInputReader implements  Runnable{
-    private BufferedReader reader;
-    private NetworkedEnemy readingEnemy;
-    private boolean shouldStopReading = false;
-
-    public synchronized void setShouldStopReading(boolean shouldStop){
-        shouldStopReading = shouldStop;
-    }
-
-
-    public NetworkedInputReader(BufferedReader reader, NetworkedEnemy readingEnemy) {
-        this.reader = reader;
-        this.readingEnemy = readingEnemy;
-    }
-
-    @Override
-    public void run() {
-        Gson gson = new Gson();
-        while(!shouldStopReading){
-            try {
-                String readLine = reader.readLine();
-                System.out.println("networker reads: " +readLine);
-                if(readLine.startsWith(BattleProtocol.AttackCommandHeader)){
-                    String jsonToRead = readLine.substring(BattleProtocol.AttackCommandHeader.length());
-                    AttackCommandData acd = gson.fromJson(jsonToRead,AttackCommandData.class);
-                    readingEnemy.setSelectedCommand(acd);
-                }else if(readLine.startsWith(BattleProtocol.SwapCommandHeader)){
-                    String jsonToRead = readLine.substring(BattleProtocol.SwapCommandHeader.length());
-                    swapCommandData scd = gson.fromJson(jsonToRead,swapCommandData.class);
-                    readingEnemy.setSelectedCommand(scd);
-                }else if (readLine.startsWith(BattleProtocol.TurnEndOkay)){
-                    readingEnemy.okayToEndTurn = true;
-                }else if(readLine.startsWith(BattleProtocol.TurnEndSwapHeader)){
-                    String jsonToRead = readLine.substring(BattleProtocol.TurnEndSwapHeader.length());
-                    swapCommandData scd = gson.fromJson(jsonToRead,swapCommandData.class);
-                    readingEnemy.setTurnEndSwapCommand(scd);
-                }
-            }catch(IOException ioe){
-                ioe.printStackTrace();
-                System.out.println("Failed to read enemy input from server");
-            }
-
-        }
-        System.out.println("terminating enemy Read thread");
-    }
-}

@@ -42,6 +42,7 @@ public class MovesListUI {
         }
     }
 
+
     public void load(Pokemon pokemonToLoad,pcTrainer player){
         row=0;col=0;
         final ArrayList<Move> moves = pokemonToLoad.getMoves();

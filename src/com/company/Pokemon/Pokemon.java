@@ -11,8 +11,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Pokemon{
+
+    static int nextId = 1;
+
     public  final String name;
     public  final Type t1,t2;
+    public final int uniqueId;
 
     private int curHp;
     public final StatsComponent stats;
@@ -95,10 +99,14 @@ public class Pokemon{
         t1 = _t1;
         t2 = _t2;
 
+        uniqueId = nextId;
+        nextId++;
+
         moves = _moves;
 
         frontImage =_frontImg;
     }
+
 
     public void printTurn(){
         System.out.println(name + " HP: " + curHp);

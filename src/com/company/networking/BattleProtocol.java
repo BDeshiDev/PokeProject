@@ -9,16 +9,13 @@ import com.google.gson.Gson;
 class BattleProtocol{
    static String TrainerInfoRequest = "GIVE_TRAINER_INFO";
    static String TrainerInfoHeader = "TRAINER_INFO";
-   static String TurnStartSignal = "START_TURN";
-   static String ExecuteTurnSignal = "EXECUTE_TURN";
    static String WinSignal = "WON";
    static String LoseSignal = "LOST";
    static String AttackCommandHeader = "ATTACK_COMMAND";
    static String SwapCommandHeader = "SWAP_COMMAND";
-   static String EndTurnHeader = "END_TURN";
    static String battleStartSignal = "START_BATTLE";
    static String TurnEndOkay = "CAN_END_TURN";
-   static String TurnEndSwapHeader = "TURN_END_SWAP";
+
 
    public static Gson gson = new Gson();
 

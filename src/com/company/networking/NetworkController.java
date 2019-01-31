@@ -4,52 +4,67 @@ import com.company.*;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import java.net.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class NetworkController {
     Socket clientSocket;
     NetworkConnection clientConnection;
-    @FXML
-    private Label networkTextLabel;
 
     @FXML
-    private Label textDisplayer;
+    private ComboBox<String> SlotCheckBox1;
 
     @FXML
-    private Button button2;
+    private ComboBox<String> SlotCheckBox2;
 
     @FXML
-    private Button button3;
+    private ComboBox<String> SlotCheckBox3;
 
     @FXML
-    private Button button1;
+    private ComboBox<String> SlotCheckBox4;
+
+    @FXML
+    private ComboBox<String> SlotCheckBox5;
+
+    @FXML
+    private ComboBox<String> SlotCheckBox6;
+
+    @FXML
+    private TextField playerNameField;
+
 
     private Stage primaryStage;
 
 
     AtomicBoolean wantsToBattle = new AtomicBoolean(false);
 
-    TrainerData td1 = new TrainerData("Ash","Charizard","Venasaur");
-    TrainerData td2 = new TrainerData("Gary","Venasaur","Charizard");
-
-    TrainerData selectedTrainer = td1;
     TrainerData enemyData = null;
+    TrainerData selectedTrainer = null;
 
     BattleController bc = new BattleController();;
 
     @FXML
     public void initialize() {
-        button1.setOnAction(event -> selectedTrainer = td1);
-        button2.setOnAction(event -> selectedTrainer = td2);
-        button3.setOnAction(event -> sendMessage("button " + 3));
-    }
+        Collection<String> nameStrings = PokemonFactory.getAllMonsByName();
+        SlotCheckBox1.getItems().addAll(nameStrings);
+        SlotCheckBox2.getItems().addAll(nameStrings);
+        SlotCheckBox3.getItems().addAll(nameStrings);
+        SlotCheckBox4.getItems().addAll(nameStrings);
+        SlotCheckBox5.getItems().addAll(nameStrings);
+        SlotCheckBox6.getItems().addAll(nameStrings);
 
+        SlotCheckBox1.getSelectionModel().selectFirst();
+        SlotCheckBox2.getSelectionModel().selectFirst();
+    }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -60,22 +75,10 @@ public class NetworkController {
             System.out.println("Can't start battle yet");
         }else{
             wantsToBattle.set(false);
-            sendMessage(BattleProtocol.battleStartSignal);
-            bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer,clientConnection),new NetworkedEnemy(enemyData,clientConnection));
-        }
-    }
+            //sendMessage(BattleProtocol.battleStartSignal);
+            bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer, clientConnection),new NetworkedEnemy(enemyData,clientConnection));
+            enemyData = null;
 
-
-    public void startHosting(){
-        try {
-
-            ServerThread serverThread = new ServerThread();
-            Thread st =new Thread(serverThread);
-            st.setDaemon(true);
-            st.start();
-        }catch(Exception e){
-            e.printStackTrace();
-            System.out.println("couldn't host");
         }
     }
 
@@ -97,12 +100,17 @@ public class NetworkController {
                 clientSocket = new Socket(InetAddress.getLocalHost(),ServerThread.portToUse);
                 clientConnection  = new NetworkConnection(clientSocket);
                 Gson gson = new Gson();
+
+                selectedTrainer = new TrainerData(playerNameField.getText(),SlotCheckBox1.getValue(),SlotCheckBox2.getValue(),SlotCheckBox3.getValue()
+                        ,SlotCheckBox4.getValue(),SlotCheckBox5.getValue(),SlotCheckBox6.getValue());
+
                 Task readTask =new Task() {
                     @Override
                     protected Object call() throws Exception {
-                        while(!wantsToBattle.get()) {
+                        //System.out.println("read " + readString);
+                        boolean hasGotInfo = false;
+                        while (!hasGotInfo){
                             String readString = clientConnection.readFromConnection.readLine();
-                            //System.out.println("read " + readString);
                             if(readString.equals(BattleProtocol.TrainerInfoRequest)){
                                 System.out.println("sending trainer info");
                                 sendMessage(BattleProtocol.createMessage(selectedTrainer,BattleProtocol.TrainerInfoHeader));
@@ -110,22 +118,22 @@ public class NetworkController {
                                 System.out.println("reading trainer info : "+readString);
                                 String jsonToRead = readString.substring(BattleProtocol.TrainerInfoHeader.length());
                                 System.out.println("reading trainer info : "+jsonToRead);
-                                enemyData = gson.fromJson(jsonToRead,TrainerData.class);;
-                                Platform.runLater(()->
-                                        textDisplayer.setText(enemyData.name));
+                                enemyData = gson.fromJson(jsonToRead,TrainerData.class);;;
+                                hasGotInfo = true;
                             }
-                            else if(readString.equals(BattleProtocol.battleStartSignal))// this is risky confirm if we have also have pressed the start button
+                        }
+                        startBattle();
+                            /*
+                            if(readString.equals(BattleProtocol.battleStartSignal))// this is risky confirm if we have also have pressed the start button
                                 break;
                             else
-                                System.out.println("wrong message" + readString);
-                        }
+                                System.out.println("wrong message" + readString);*/
                         return null;
                     }
                 };
                 Thread rt = new Thread(readTask);
                 rt.setDaemon(true);
                 rt.start();
-                networkTextLabel.setText("connected");
             }catch(Exception e) {
                 e.printStackTrace();
                 System.out.println("couldn't find host");

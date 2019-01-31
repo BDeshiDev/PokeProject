@@ -20,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
@@ -35,50 +36,69 @@ public class BattleController {
 
     @FXML
     private Label enemyNameLabel;
-    @FXML
-    private ProgressBar enemyHpBar;
-    @FXML
-    private Label enemyHpLabel;
-    @FXML
-    private Label enemyLvLabel;
-    @FXML
-    private Rectangle enemyTargetIndicator;
-    @FXML
-    private Label playerNameLabel;
+
     @FXML
     private ProgressBar playerHpBar;
-    @FXML
-    private Label playerHpLabel;
-    @FXML
-    private Label playerLvLabel;
-    @FXML
-    private Rectangle playerTargetIndicator;
-    @FXML
-    private ImageView enemyImageView;
-    @FXML
-    private ImageView playerImageView;
-    @FXML
-    private GridPane playerMoveGrid;
+
     @FXML
     private Button playerFightButton;
+
     @FXML
-    private Button pokemonSwapButton;
+    private Label enemyHpLabel;
+
     @FXML
-    private FlowPane PartySwapPane;
-    @FXML
-    private Button swapCancelButton;
-    @FXML
-    private Pane dialogBox;
-    @FXML
-    private Text DialogText;
-    @FXML
-    private ImageView enemySideAnimationView;
-    @FXML
-    private ImageView playerSideAnimationView;
-    @FXML
-    private Button RunButton;
+    private ProgressBar enemyHpBar;
+
     @FXML
     private Button catchButton;
+
+    @FXML
+    private ImageView enemySideAnimationView;
+
+    @FXML
+    private ImageView playerImageView;
+
+    @FXML
+    private HBox playerFIghtBox;
+
+    @FXML
+    private Pane dialogBox;
+
+    @FXML
+    private Label playerNameLabel;
+
+    @FXML
+    private ImageView enemyImageView;
+
+    @FXML
+    private Label playerHpLabel;
+
+    @FXML
+    private Label playerLvLabel;
+
+    @FXML
+    private Button RunButton;
+
+    @FXML
+    private Button swapCancelButton;
+
+    @FXML
+    private Button pokemonSwapButton;
+
+    @FXML
+    private Text DialogText;
+
+    @FXML
+    private FlowPane PartySwapPane;
+
+    @FXML
+    private Label enemyLvLabel;
+
+    @FXML
+    private GridPane playerMoveGrid;
+
+    @FXML
+    private ImageView playerSideAnimationView;
 
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
@@ -87,6 +107,10 @@ public class BattleController {
     private Stage curStage;
 
     MovesListUI movesUI;
+
+    public Scene getBattleScene() {
+        return battleScene;
+    }
 
     public class SwapUI{
         FlowPane pane;
@@ -290,6 +314,7 @@ public class BattleController {
                         Battler t = waitList.get(i);//get commands until all trainers have given commands
                         if(t.hasFinalizedCommands()){
                             BattleCommand newCommand = t.getCommand();
+                            t.onCommandAccepted();
                             if(newCommand != null)
                                 CommandList.add(newCommand);
                             waitList.remove(t) ;
@@ -407,14 +432,17 @@ public class BattleController {
         dialogBox.setVisible(false);
         dialogBox.setDisable(true);
         playerMoveGrid.setDisable(false);
-        pcTrainer.prepTurn();
-        enemy.prepTurn();
 
         pcTrainer.prepareForBattle(playerSlot,enemySlot);
         enemy.prepareForBattle(enemySlot,playerSlot);
 
         pcTrainer.setMovesListUI(movesUI);
         pcTrainer.setSwapUI(swapUI);
+        pcTrainer.setActionControlPane(playerFIghtBox);
+
+        pcTrainer.prepTurn();
+        enemy.prepTurn();
+
 
         result.reset();
         DialogText.setText("");

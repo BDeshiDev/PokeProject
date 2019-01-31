@@ -36,5 +36,7 @@ public interface Battler {
 
     boolean canEndTurn();
 
+    void onCommandAccepted();
+
     String getName();
 }
