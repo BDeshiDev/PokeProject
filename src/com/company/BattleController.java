@@ -105,6 +105,7 @@ public class BattleController {
     private BattleResult result = new BattleResult();
     private  Scene battleScene;
     private Stage curStage;
+    private SaveData curSave;
 
     MovesListUI movesUI;
 
@@ -152,7 +153,7 @@ public class BattleController {
     boolean canUseItems = true;
     boolean hasRun = false;
     private boolean isComplete =false;
-    Scene prevScene;
+    PokeScreen prevScreen = null;
     Parent newRoot;
 
     public BattleController(){
@@ -397,14 +398,21 @@ public class BattleController {
             }
             else
                 System.out.println("Result: " + enemy.getName() + " wins");
-            curStage.setScene(prevScene);
+            if(prevScreen == null) {
+                System.out.println("prev screen is null... exiting battle screen");
+                System.exit(-555);
+            }
+            else
+                prevScreen.begin(curStage,curSave,null);
             isComplete = true;
         }
     };
 
     BattleLoop battleLoop;
 
-    public void begin(Stage curStage,pcTrainer pcTrainer,aiTrainer enemy) {
+    public void begin(Stage curStage,pcTrainer pcTrainer,aiTrainer enemy,PokeScreen prevScreen,SaveData curSave) {
+        this.prevScreen = prevScreen;
+        this.curSave = curSave;
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = false;
     }
@@ -414,7 +422,9 @@ public class BattleController {
     }
 
 
-    public void begin(Stage curStage,pcTrainer pcTrainer,WildMon enemy){
+    public void begin(Stage curStage,pcTrainer pcTrainer,WildMon enemy,PokeScreen prevScreen,SaveData curSave){
+        this.prevScreen = prevScreen;
+        this.curSave = curSave;
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = true;
         RunButton.setDisable(false);
@@ -446,7 +456,6 @@ public class BattleController {
 
         result.reset();
         DialogText.setText("");
-        prevScene = curStage.getScene();
         isComplete = false;
         curStage.setScene(battleScene);
 

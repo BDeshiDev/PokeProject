@@ -95,7 +95,7 @@ public class ExplorationController {
         int monIndex = new Random().nextInt(possibleEncounters.size());
         WildMon newWildmon = new WildMon( possibleEncounters.get(monIndex).toPokemon());
         newWildmon.heal();
-        curBattle.begin(primaryStage,player,newWildmon);
+        //curBattle.begin(primaryStage,player,newWildmon);
     }
 
     public void onExplorationComplete(){
@@ -210,7 +210,7 @@ public class ExplorationController {
         System.out.println("getting next challenger...");
         curChallenger = remainingChallengers.pop();
         curChallenger.heal();
-        curBattle.begin(primaryStage,player, curChallenger);
+        //curBattle.begin(primaryStage,player, curChallenger);
     }
 
     public void updateChallengerText(){

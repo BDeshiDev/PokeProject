@@ -25,10 +25,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Timer;
 
 
-public class MergedExploration extends Application {
+public class MergedExploration extends Application implements  PokeScreen{
     String mapLocation = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt";
     Map forestMap;
     PlayerEntity player;
@@ -42,20 +41,24 @@ public class MergedExploration extends Application {
     SaveData currentSave;
     Stage primaryStage;
 
+    PokeScreen prevScreen;
+
+    @Override
+    public void exitScreen() {
+        System.out.println("exiting exploration screen");
+        prevScreen.begin(primaryStage,currentSave,this);// essentially infinite
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        begin(primaryStage,SaveData.newGameData(),this);
+    }
+
+    public void begin(Stage primaryStage,SaveData saveData,PokeScreen prevScreen){
         this.primaryStage = primaryStage;
-        startExploration(primaryStage);
-    }
+        this.currentSave = saveData;
+        this.prevScreen = prevScreen;
 
-    public void startExploration(Stage primaryStage){
-        startExploration(new SaveData(new Position(36,36),
-                new pcTrainer("Ash",PokemonFactory.getCharizard().toPokemon(),
-                        PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getVenasaur().toPokemon()),mapLocation), primaryStage);
-    }
-
-    public void startExploration(SaveData saveData,Stage primaryStage){
-        currentSave = saveData;
         forestMap =new Map(new File(currentSave.mapName));
         player =new PlayerEntity(currentSave, new ImageView());
         Group group=forestMap.setMap();
@@ -123,7 +126,7 @@ public class MergedExploration extends Application {
                     if(wildmon == null) {
                         System.out.println("invlaid wild encounter");
                     }else {
-                        System.out.println("fought " + wildmon.getName());
+                        System.out.println("fighting " + wildmon.getName());
                         startBattle(wildmon);
                     }
                 }
@@ -158,6 +161,9 @@ public class MergedExploration extends Application {
                     System.out.println("loading");
                     load();
                     break;
+                case U:
+                    exitScreen();
+                    break;
             }
         }
     };
@@ -182,7 +188,7 @@ public class MergedExploration extends Application {
         try {
             currentSave = gson.fromJson(new FileReader("SaveData.txt"),SaveData.class);
             stopExploration();
-            startExploration(primaryStage);
+            begin(primaryStage,currentSave,prevScreen);
         }catch (IOException ioe){
             System.out.println("load failed");
         }
@@ -191,12 +197,12 @@ public class MergedExploration extends Application {
     public void startBattle(aiTrainer enemy){
         stopExploration();
         BattleController bc =new BattleController();
-        bc.begin(primaryStage,player.getPcTrainer(),enemy);
+        //bc.begin(primaryStage,player.getPcTrainer(),enemy);
     }
     public void startBattle(WildMon enemy){
         stopExploration();
         BattleController bc =new BattleController();
-        bc.begin(primaryStage,player.getPcTrainer(),enemy);
+        //bc.begin(primaryStage,player.getPcTrainer(),enemy);
     }
     /*
     private aiTrainer curChallenger;
