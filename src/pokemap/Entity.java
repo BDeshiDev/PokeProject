@@ -96,7 +96,7 @@ public class Entity {
         }
 
         if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
-            this.probability+=.2;
+            this.probability+=.01;
         }
 
 
