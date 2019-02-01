@@ -1,6 +1,7 @@
 package com.company;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
@@ -9,6 +10,8 @@ import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Animation.Tester.AnimationTester;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
+import com.company.networking.NetworkedEnemy;
+import com.company.networking.NetworkedPlayer;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
@@ -32,50 +36,69 @@ public class BattleController {
 
     @FXML
     private Label enemyNameLabel;
-    @FXML
-    private ProgressBar enemyHpBar;
-    @FXML
-    private Label enemyHpLabel;
-    @FXML
-    private Label enemyLvLabel;
-    @FXML
-    private Rectangle enemyTargetIndicator;
-    @FXML
-    private Label playerNameLabel;
+
     @FXML
     private ProgressBar playerHpBar;
-    @FXML
-    private Label playerHpLabel;
-    @FXML
-    private Label playerLvLabel;
-    @FXML
-    private Rectangle playerTargetIndicator;
-    @FXML
-    private ImageView enemyImageView;
-    @FXML
-    private ImageView playerImageView;
-    @FXML
-    private GridPane playerMoveGrid;
+
     @FXML
     private Button playerFightButton;
+
     @FXML
-    private Button pokemonSwapButton;
+    private Label enemyHpLabel;
+
     @FXML
-    private FlowPane PartySwapPane;
-    @FXML
-    private Button swapCancelButton;
-    @FXML
-    private Pane dialogBox;
-    @FXML
-    private Text DialogText;
-    @FXML
-    private ImageView enemySideAnimationView;
-    @FXML
-    private ImageView playerSideAnimationView;
-    @FXML
-    private Button RunButton;
+    private ProgressBar enemyHpBar;
+
     @FXML
     private Button catchButton;
+
+    @FXML
+    private ImageView enemySideAnimationView;
+
+    @FXML
+    private ImageView playerImageView;
+
+    @FXML
+    private HBox playerFIghtBox;
+
+    @FXML
+    private Pane dialogBox;
+
+    @FXML
+    private Label playerNameLabel;
+
+    @FXML
+    private ImageView enemyImageView;
+
+    @FXML
+    private Label playerHpLabel;
+
+    @FXML
+    private Label playerLvLabel;
+
+    @FXML
+    private Button RunButton;
+
+    @FXML
+    private Button swapCancelButton;
+
+    @FXML
+    private Button pokemonSwapButton;
+
+    @FXML
+    private Text DialogText;
+
+    @FXML
+    private FlowPane PartySwapPane;
+
+    @FXML
+    private Label enemyLvLabel;
+
+    @FXML
+    private GridPane playerMoveGrid;
+
+    @FXML
+    private ImageView playerSideAnimationView;
 
     private BattleUIHolder playerUI;
     private BattleUIHolder enemyUI;
@@ -84,6 +107,10 @@ public class BattleController {
     private Stage curStage;
 
     MovesListUI movesUI;
+
+    public Scene getBattleScene() {
+        return battleScene;
+    }
 
     public class SwapUI{
         FlowPane pane;
@@ -97,10 +124,18 @@ public class BattleController {
             pane.getChildren().clear();
         }
 
-        public  void addPokemon(pcTrainer player, Pokemon pokeToAdd){
+        public  void addPokemon(pcTrainer player,Pokemon pokeToAdd,int pokeIndex){
             Button b = ButtonFactory.getSwapButton(buttonWidth,buttonHeight,pokeToAdd);
-            b.setOnAction(event -> player.tryToSwap(pokeToAdd));
+            b.setOnAction(event -> player.tryToSwap(pokeIndex));
             pane.getChildren().add(b);
+        }
+
+        public void addParty(pcTrainer player,List<Pokemon> party){
+            swapUI.clear();
+            for(int i = 0 ; i< party.size();i++){
+                swapUI.addPokemon(player,party.get(i),i);
+            }
+            swapUI.toggle(false);
         }
         public void toggle(boolean shouldBeOn){
             toggleSwapMenu(shouldBeOn);
@@ -160,16 +195,8 @@ public class BattleController {
                     System.out.println("can't run from this battle");
             });
             catchButton.setOnAction(event -> {
-                if(canRun) {
-                    if(player.hasPokeBalls()) {
-                        System.out.println("catching");
-                        player.setCommand(new TrainerCommand(player, AnimationFactory.getPokeChangeAnim(),"CatchCommand", false,()->{
-                            Pokemon catchResult = enemySlot.tryCatch();
-                            if(catchResult != null)
-                                result.addCaughtMon(catchResult);
-                        }));
-                    }else
-                        Debugger.out("insufficent pokeBalls");//shouldn't happen really
+                if(canUseItems) {
+                    player.setCommand(new CatchCommand(player,result));
                 }
                 else
                     System.out.println("can't catch in this battle");
@@ -189,17 +216,10 @@ public class BattleController {
     }
 
     public void toggleSwapMenu(boolean isSwapEnabled){
-        if(isSwapEnabled){
-            PartySwapPane.setVisible(true);
-            PartySwapPane.setDisable(false);
-            swapCancelButton.setVisible(true);
-            swapCancelButton.setDisable(false);
-        }else{
-            PartySwapPane.setVisible(false);
-            PartySwapPane.setDisable(true);
-            swapCancelButton.setVisible(false);
-            swapCancelButton.setDisable(true);
-        }
+        PartySwapPane.setVisible(isSwapEnabled);
+        PartySwapPane.setDisable(!isSwapEnabled);
+        swapCancelButton.setVisible(isSwapEnabled);
+        swapCancelButton.setDisable(!isSwapEnabled);
     }
 
     class  BattleLoop extends  AnimationTimer{
@@ -244,10 +264,6 @@ public class BattleController {
         }
 
         void executeAttacks(double delta) {
-            dialogBox.setVisible(true);
-            dialogBox.setDisable(false);
-            playerMoveGrid.setDisable(true);
-
             if(curExecutingCommand == null){
                 if(CommandList.isEmpty()) {
                     if(isOver()){
@@ -298,12 +314,16 @@ public class BattleController {
                         Battler t = waitList.get(i);//get commands until all trainers have given commands
                         if(t.hasFinalizedCommands()){
                             BattleCommand newCommand = t.getCommand();
+                            t.onCommandAccepted();
                             if(newCommand != null)
                                 CommandList.add(newCommand);
                             waitList.remove(t) ;
                         }
                     }
                     if(waitList.isEmpty()) {
+                        dialogBox.setVisible(true);
+                        dialogBox.setDisable(false);
+                        playerMoveGrid.setDisable(true);
                         curState = BattleState.executing;//everyone gave commands so execute()
                     }
                     break;
@@ -388,6 +408,10 @@ public class BattleController {
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = false;
     }
+    public void begin(Stage curStage, NetworkedPlayer pcTrainer, NetworkedEnemy enemy) {
+        beginPrep(curStage,pcTrainer,enemy);
+        canRun = canUseItems = false;
+    }
 
 
     public void begin(Stage curStage,pcTrainer pcTrainer,WildMon enemy){
@@ -408,16 +432,17 @@ public class BattleController {
         dialogBox.setVisible(false);
         dialogBox.setDisable(true);
         playerMoveGrid.setDisable(false);
-        pcTrainer.prepTurn();
-        enemy.prepTurn();
 
         pcTrainer.prepareForBattle(playerSlot,enemySlot);
         enemy.prepareForBattle(enemySlot,playerSlot);
 
         pcTrainer.setMovesListUI(movesUI);
-        pcTrainer.updateMoveUI();
         pcTrainer.setSwapUI(swapUI);
-        pcTrainer.updateSwapUI();
+        pcTrainer.setActionControlPane(playerFIghtBox);
+
+        pcTrainer.prepTurn();
+        enemy.prepTurn();
+
 
         result.reset();
         DialogText.setText("");

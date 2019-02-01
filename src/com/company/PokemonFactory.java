@@ -6,8 +6,41 @@ import com.company.Pokemon.Moves.MoveFactory;
 import com.company.Pokemon.Stats.Level;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 public class PokemonFactory {//temp class for producing pokemon for testing replace with database
+
+    static HashMap<String, PokemonData> pokeMap = new HashMap<>();
+    static {
+        PokemonData p = getCharizard();pokeMap.put(p.name,p);
+        p = getBlastoise();pokeMap.put(p.name,p);
+        p = getVenasaur();pokeMap.put(p.name,p);
+        p = getCharmander();pokeMap.put(p.name,p);
+        p = getPidgeot();pokeMap.put(p.name,p);
+        p = getCharmeleon();pokeMap.put(p.name,p);
+    }
+    public static Pokemon getMonByName(String name){
+        if(pokeMap.containsKey(name))
+            return pokeMap.get(name).toPokemon();
+        else
+            return null;
+    }
+
+    public static PokemonData getMonDataByName(String name){
+        if(name != null && pokeMap.containsKey(name))
+            return pokeMap.get(name);
+        else
+            return null;
+    }
+
+
+    public static Collection<String> getAllMonsByName(){
+        return pokeMap.keySet();
+    }
+
+
     public static PokemonData getCharmander(){
         ArrayList<Move> moves = new ArrayList<>();
         moves.add(MoveFactory.getFlameThrower());

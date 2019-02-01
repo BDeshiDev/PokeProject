@@ -1,6 +1,8 @@
 package com.company.Exploration;
 
 import com.company.Pokemon.Pokemon;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +10,7 @@ import java.util.List;
 
 public class PokemonStorage {
 
-    public static final List<Pokemon> storedMonList = new ArrayList<>();
+    public static final ObservableList<Pokemon> storedMonList = FXCollections.observableArrayList();
 
     private  PokemonStorage(){};//To prevent instantiation
 

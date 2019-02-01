@@ -6,12 +6,15 @@ import com.company.Pokemon.Pokemon;
 import com.company.PokemonFactory;
 import com.company.Settings;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StorageTest extends Application {
@@ -24,7 +27,7 @@ public class StorageTest extends Application {
         scene.setRoot(loader.load());
         PokemonStorageController controller=loader.getController();
 
-        List<Pokemon> testParty = new ArrayList<>();
+        ObservableList<Pokemon> testParty = FXCollections.observableArrayList();
         testParty.add(PokemonFactory.getBlastoise().toPokemon());
         testParty.add(PokemonFactory.getCharizard().toPokemon());
         controller.begin(primaryStage,testParty);

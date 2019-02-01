@@ -3,6 +3,7 @@ package com.company.Pokemon;
 import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Stats.StatsComponent;
 import com.company.PokemonFactory;
+import com.company.Settings;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
 
@@ -10,8 +11,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Pokemon{
+
+    static int nextId = 1;
+
     public  final String name;
     public  final Type t1,t2;
+    public final int uniqueId;
 
     private int curHp;
     public final StatsComponent stats;
@@ -90,14 +95,18 @@ public class Pokemon{
         this.stats = stats;
         this.evoData = evoData;
         curHp =  stats.maxHp.getCurVal();
-        name = _name;
+        name = _name + (Settings.IsDebugOn?new Random().nextInt(50):"");
         t1 = _t1;
         t2 = _t2;
+
+        uniqueId = nextId;
+        nextId++;
 
         moves = _moves;
 
         frontImage =_frontImg;
     }
+
 
     public void printTurn(){
         System.out.println(name + " HP: " + curHp);

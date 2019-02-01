@@ -2,6 +2,7 @@ package com.company.Exploration;
 
 import com.company.*;
 import com.company.BattleResult;
+import com.company.Pokemon.PokemonData;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +40,7 @@ public class ExplorationController {
     private Button wildMonButton;
 
 
-    private List<WildMon> possibleEncounters = new ArrayList<>();//#TODO implement tomorrow
+    private List<PokemonData> possibleEncounters = new ArrayList<>();//#TODO implement tomorrow
     private Stack<aiTrainer> remainingChallengers = new Stack<>();
     private aiTrainer curChallenger;
     private BattleController curBattle;
@@ -92,9 +93,9 @@ public class ExplorationController {
     public void startWildMonBattle(){
         System.out.println("getting next wild mon...");
         int monIndex = new Random().nextInt(possibleEncounters.size());
-        Battler newWildmon =  possibleEncounters.get(monIndex);
+        WildMon newWildmon = new WildMon( possibleEncounters.get(monIndex).toPokemon());
         newWildmon.heal();
-        curBattle.begin(primaryStage,player, possibleEncounters.get(monIndex));
+        curBattle.begin(primaryStage,player,newWildmon);
     }
 
     public void onExplorationComplete(){
