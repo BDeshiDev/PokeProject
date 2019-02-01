@@ -12,20 +12,3 @@ public interface BattleExecutable {
     void continueExecution(double delta, Text executionOutputText);//executionOutputText == dialog box
     void end();
 }
-/*
-* Extended version with sorting capability specifically for commands in case we want to reuse executables some where.
-* */
-abstract class BattleCommand implements BattleExecutable, Comparable<BattleCommand>{
-    public abstract int getPriority();
-    public abstract int getSpeed();
-
-    @Override
-    public int compareTo(BattleCommand other) {
-        int retVal;
-
-        if(this.getPriority() != other.getPriority())
-            return (other.getPriority() - this.getPriority());
-        else
-            return ( other.getSpeed() - this.getSpeed());
-    }
-}

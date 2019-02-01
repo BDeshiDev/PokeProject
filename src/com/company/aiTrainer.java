@@ -3,14 +3,36 @@ package com.company;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;
+import com.company.networking.TrainerData;
+
 import java.util.ArrayList;
 import java.util.Random;
 /*
 * Computer controlled trainer class that behaves like an idiot
 * */
 public class aiTrainer extends Trainer {
+    BattleCommand turnEndCommand;
+    @Override
+    public void prepTurn() {
+        turnEndCommand = null;
+    }
 
-    Random rand;//I don't actually know if keeping the same rand has any side effects
+    @Override
+    public void onCommandAccepted() {
+
+    }
+
+    @Override
+    public boolean hasCommandBeforeTurnEnd() {
+        return turnEndCommand != null;
+    }
+
+    @Override
+    public BattleCommand getCommandToExecuteBeforeTurnEnd() {
+        return turnEndCommand;
+    }
+
+    Random rand;
     @Override
     public BattleCommand getCommand() {
 
@@ -19,14 +41,14 @@ public class aiTrainer extends Trainer {
     }
 
 
-    @Override
-    public void prepTurn() {
-        super.prepTurn();
-    }
-
     public aiTrainer(String _name, Pokemon... pokemons) {
         super(_name, pokemons);
         rand = new Random();
+    }
+
+    public aiTrainer(TrainerData td) {
+        super(td);
+        this.rand = new Random();
     }
 
     @Override
@@ -36,17 +58,9 @@ public class aiTrainer extends Trainer {
 
     @Override
     public void endTurnPrep() {
-        setCommandToExecuteAtTurnEnd(null);
+        turnEndCommand = null;
         if(ownedSlot.getCurPokemon().isDead()){
-            setCommandToExecuteAtTurnEnd(new TrainerCommand(this,
-                    AnimationFactory.getPokeChangeAnim(),"swap",true,
-                    ()->{
-                Pokemon newlyStagedMon = stageFirstAvailablePokemon();
-                ownedSlot.setPokemon(newlyStagedMon,false);
-
-            },name+" :" +
-                    (ownedSlot.isEmpty()?"":"Come back, "+ ownedSlot.getCurPokemon().name +"."),
-                    "Go ! " + getFirstAvailablePokemon().name+ "!!!"));
+            turnEndCommand = new SwapCommand(this,getFirstAvailableMonIndex());
         }
         Debugger.out("AI turn end");
     }

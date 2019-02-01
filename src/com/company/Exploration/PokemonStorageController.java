@@ -3,11 +3,18 @@ package com.company.Exploration;
 import com.company.Pokemon.Pokemon;
 import com.company.Settings;
 import com.company.Utilities.Debug.Debugger;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.fxml.FXML;
+
+import java.io.IOException;
 import java.util.List;
 
 public class PokemonStorageController {
@@ -21,11 +28,14 @@ public class PokemonStorageController {
     private Button exitButton;
 
     public final int monsPerRow = 6;
-    public List<Pokemon> party;
+    public ObservableList<Pokemon> party;
+
+    public ObservableList<StorageViewUnit> partyViewers =FXCollections.observableArrayList();
+    public ObservableList<StorageViewUnit> storageViewers=FXCollections.observableArrayList();
 
     boolean wantsToExit;
 
-    public void begin(Stage primaryStage, List<Pokemon> party){
+    public void begin(Stage primaryStage, ObservableList<Pokemon> party){
         this.party = party;
         wantsToExit = false;
         updateStoragePane();
@@ -36,18 +46,24 @@ public class PokemonStorageController {
     public void updateStoragePane(){
         storagePane.getChildren().clear();
         for (Pokemon p:PokemonStorage.storedMonList) {
-            Button storageActionButton = new Button("Add to party");
-            storageActionButton.setOnAction(event -> withDrawMonFromStorage(party,p));
-            storagePane.getChildren().add(createPokeDisplay(p,storageActionButton));
+            StorageViewUnit svw =createPokeDisplay(p,storagePane);
+            if(p != null) {
+                Button transferButton = svw.getTransferButton();
+                transferButton.setText("Withdraw");
+                transferButton.setOnAction(event -> withDrawMonFromStorage(party, p));
+            }
         }
     }
 
     public void updatePartyPane(){
         partyPane.getChildren().clear();
         for (Pokemon p:party) {
-            Button storageActionButton = new Button("Deposit");
-            storageActionButton.setOnAction(event -> depositMonFromParty(party,p));
-            partyPane.getChildren().add(createPokeDisplay(p,storageActionButton));
+            StorageViewUnit svw =createPokeDisplay(p,partyPane);
+            if(p != null) {
+                Button transferButton = svw.getTransferButton();
+                transferButton.setText("deposit");
+                transferButton.setOnAction(event -> depositMonFromParty(party, p));
+            }
         }
     }
 
@@ -81,12 +97,18 @@ public class PokemonStorageController {
         }
     }
 
-    public Pane createPokeDisplay(Pokemon p, Button storageActionButton ){
-        VBox pokeDisplay = new VBox();
-        pokeDisplay.setMinSize(storagePane.getWidth()/monsPerRow,storagePane.getHeight()/monsPerRow);
-        pokeDisplay.getChildren().addAll(new Label(p.name),new Label("Level: " + p.getLevel()),
-                                         storageActionButton,new Button("Status"));
-        return  pokeDisplay;
+    public StorageViewUnit createPokeDisplay(Pokemon p,Pane parent){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StorageViewUnitFxml.fxml"));
+            Parent r = loader.load();
+            StorageViewUnit svw = loader.getController();
+            svw.setPokemon(p);
+            parent.getChildren().add(r);
+            return svw;
+        }catch (IOException ioe){
+            System.out.println("load fail");
+        }
+        return  null;
     }
 
     public void tryToExit(){

@@ -2,6 +2,7 @@ package com.company.Exploration;
 
 import com.company.*;
 import com.company.Pokemon.Moves.MoveFactory;
+import com.company.Pokemon.PokemonData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,8 +29,8 @@ public class ExplorationTester extends Application {
         List<aiTrainer> challengers = new ArrayList<>();
         Collections.addAll(challengers,merry,sherry);
 
-        List<WildMon> possibleEncounters = new ArrayList<>();
-        Collections.addAll(possibleEncounters, new WildMon(PokemonFactory.getBlastoise().toPokemon()), new WildMon(PokemonFactory.getPidgeot().toPokemon()));
+        List<PokemonData> possibleEncounters = new ArrayList<>();
+        Collections.addAll(possibleEncounters, PokemonFactory.getBlastoise(),PokemonFactory.getPidgeot());
 
         pcTrainer player = new pcTrainer("Ash",PokemonFactory.getVenasaur().toPokemon(),PokemonFactory.getCharizard().toPokemon(),
                 PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getCharmander().toPokemon(36) );

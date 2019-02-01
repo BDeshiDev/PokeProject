@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" spacing="5.0" style="-fx-background-color: #4b5162; -fx-background-radius: 5; -fx-border-color: #5294e2; -fx-border-width: 5; -fx-border-radius: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.Exploration.StorageViewUnit">
+   <children>
+      <Label fx:id="nameLabel" text="Pokemon Name" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="lvLabel" layoutX="267.0" layoutY="30.0" text="Pokemon LV" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Label fx:id="TypeLabel" layoutX="267.0" layoutY="67.0" text="pokemon type" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button fx:id="TransferButton" mnemonicParsing="false" text="Deposit" />
+      <Button fx:id="StatusButton" layoutX="284.0" layoutY="141.0" mnemonicParsing="false" text="Status" />
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="5.0" />
+   </padding>
+</VBox>

@@ -64,6 +64,11 @@ public class WildMon implements  Battler{
     }
 
     @Override
+    public void onCommandAccepted() {
+
+    }
+
+    @Override
     public boolean hasCommandBeforeTurnEnd() {
         return false;
     }

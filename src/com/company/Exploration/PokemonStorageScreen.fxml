@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.Exploration.PokemonStorageController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.Exploration.PokemonStorageController">
    <children>
       <VBox>
          <children>
@@ -17,10 +17,10 @@
                   <Font size="31.0" />
                </font>
             </Label>
-            <HBox fx:id="partyPane" prefHeight="136.0" prefWidth="640.0" />
+            <HBox fx:id="partyPane" prefHeight="136.0" prefWidth="640.0" spacing="20.0" />
          </children>
       </VBox>
-      <VBox>
+      <VBox spacing="20.0">
          <children>
             <Label prefHeight="21.0" prefWidth="178.0" text="Storage:">
                <font>
