@@ -67,24 +67,47 @@ public class Entity {
     public double gettingPokemonProbability(Map map){
         int row=map.getRow(this.getEntityPosition().getY()+8);
         int col=map.getCol(this.getEntityPosition().getX()+8);
+//
+//        if(map.getMapAra()[row][col]=='G' && flag==false) {
+//            flag=true;
+//            this.probability+=1;
+//        }
+//
+//        else if(map.getMapAra()[row][col]=='G'&&flag==true) {
+//            this.probability+=(row+col-prevRow-prevCol);
+//        }
+//
+//        if(map.getMapAra()[row][col]!='G') {
+//            flag=false;
+//            this.probability=0;
+//        }
+//
+//        if (map.getMapAra()[row][col]=='G'&&flag==true){
+//            prevCol=col;
+//            prevRow=row;
+//    }
+//
+//        return this.probability;
 
-        if(map.getMapAra()[row][col]=='G' && flag==false) {
+        if(map.getMapAra()[row][col]=='G' &&flag==false) {
             flag=true;
-            this.probability+=1;
+            this.prevCol=col;
+            this.prevRow=row;
         }
 
-        else if(map.getMapAra()[row][col]=='G'&&flag==true) {
-            this.probability+=(row+col-prevRow-prevCol);
+        if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
+            this.probability+=.2;
+        }
+
+
+        if (map.getMapAra()[row][col]=='G'&&flag==true){
+            this.prevCol=col;
+            this.prevRow=row;
         }
 
         if(map.getMapAra()[row][col]!='G') {
             flag=false;
             this.probability=0;
-        }
-
-        if (map.getMapAra()[row][col]=='G'&&flag==true){
-            prevCol=col;
-            prevRow=row;
         }
 
         return this.probability;
