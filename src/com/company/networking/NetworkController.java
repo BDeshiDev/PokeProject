@@ -48,7 +48,6 @@ public class NetworkController {
     private Stage primaryStage;
 
 
-    AtomicBoolean wantsToBattle = new AtomicBoolean(false);
 
     TrainerData enemyData = null;
     TrainerData selectedTrainer = null;
@@ -77,7 +76,6 @@ public class NetworkController {
         if(enemyData == null){
             System.out.println("Can't start battle yet");
         }else{
-            wantsToBattle.set(false);
             System.out.println("setting stage");
             sendMessage(BattleProtocol.battleStartSignal);
             bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer, clientConnection),new NetworkedEnemy(enemyData,clientConnection));
@@ -129,11 +127,6 @@ public class NetworkController {
                         Platform.runLater(()-> {
                             startBattle();
                         });
-                            /*
-                            if(readString.equals(BattleProtocol.battleStartSignal))// this is risky confirm if we have also have pressed the start button
-                                break;
-                            else
-                                System.out.println("wrong message" + readString);*/
                         return null;
                     }
                 };
