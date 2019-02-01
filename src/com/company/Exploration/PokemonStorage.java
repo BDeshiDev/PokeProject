@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PokemonStorage {
 
-    public static final ObservableList<Pokemon> storedMonList = FXCollections.observableArrayList();
+    public static final ArrayList<Pokemon> storedMonList =new ArrayList<>();
 
     private  PokemonStorage(){};//To prevent instantiation
 

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonStorageController {
@@ -28,14 +29,11 @@ public class PokemonStorageController {
     private Button exitButton;
 
     public final int monsPerRow = 6;
-    public ObservableList<Pokemon> party;
-
-    public ObservableList<StorageViewUnit> partyViewers =FXCollections.observableArrayList();
-    public ObservableList<StorageViewUnit> storageViewers=FXCollections.observableArrayList();
+    public ArrayList<Pokemon> party;
 
     boolean wantsToExit;
 
-    public void begin(Stage primaryStage, ObservableList<Pokemon> party){
+    public void begin(Stage primaryStage, ArrayList<Pokemon> party){
         this.party = party;
         wantsToExit = false;
         updateStoragePane();

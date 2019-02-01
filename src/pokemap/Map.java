@@ -1,5 +1,6 @@
 package pokemap;
 
+import com.company.networking.TrainerData;
 import com.google.gson.Gson;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -14,10 +15,13 @@ import java.io.FileReader;
 import static javafx.scene.input.KeyCode.T;
 
 public class Map {
+
     Character mapAra[][];
-    int tileSize;
+    Image treeImage = new Image("Assets/MapImages/tile_0001.png");
+    Image emptyTileImage =new Image("Assets/MapImages/tile_0041.png");
+    public int tileSize ;
+
     Position startPosition;
-    private double probabilty;
 
     public Character[][] getMapAra() {
         return mapAra;
@@ -43,6 +47,10 @@ public class Map {
         this.startPosition = startPosition;
     }
 
+    public String[] possibleEncounters;
+    public TrainerData[] trainerDatas;
+
+
     Map(File mapName)
     {
         FileReader reader=null;
@@ -55,6 +63,8 @@ public class Map {
         Gson gson=new Gson();
         Map map=gson.fromJson(reader,Map.class);
         this.mapAra=map.mapAra;
+        this.possibleEncounters = map.possibleEncounters;
+        this.trainerDatas = map.trainerDatas;
         this.tileSize=map.tileSize;
         this.startPosition=map.startPosition;
     }
@@ -70,7 +80,7 @@ public class Map {
     public boolean isMoveValid(Position position,int dx,int dy){
         int row =getRow(position.getY() + dy+Entity.entityImageSize/2);
         int col = getCol(position.getX() + dx+Entity.entityImageSize/2);
-        System.out.println("Row="+row+"  Col="+col);
+       // System.out.println("Row="+row+"  Col="+col);
         if(mapAra[row][col] == 'T'){
 //            System.out.println("Row="+row+"  Col="+col);
             return false;
@@ -84,7 +94,7 @@ public class Map {
                 (mapAra[0].length-1)*tileSize>position.getX()&&
         position.getY()>0&&position.getY()>0){
 //            System.out.println(mapAra.length+" "+mapAra[0].length);
-            System.out.println("In map");
+            //System.out.println("In map");
             return true;
         }
         System.out.println("out of map");
@@ -98,20 +108,14 @@ public class Map {
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
                 ImageView imageView=new ImageView();
-                String url="";
-                if(mapAra[row][col]=='T') {
-                    url = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\MapImages\\tile_0001.png";
-                }
-//                else if(mapAra[row][col]=='X')
+                Image tileImage;
+                if(mapAra[row][col]=='T')
+                    tileImage = treeImage;
                 else if(mapAra[row][col]=='X')
-                   url ="C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\MapImages\\tile_0041.png";
-                else url=null;
-                try {
-                    if(url!=null)
-                        imageView.setImage(new Image(new FileInputStream(url)));
-                } catch (FileNotFoundException e) {
-                    System.out.println("Load hero image fail");
-                }
+                   tileImage = emptyTileImage;
+                else
+                    tileImage=null;
+                imageView.setImage(tileImage);
                 imageView.relocate(col*tileSize,row*tileSize);
                 group.getChildren().add(imageView);
             }

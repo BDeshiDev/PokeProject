@@ -3,13 +3,13 @@ package com.company.Pokemon;
 import com.company.Pokemon.Stats.Level;
 
 public class EvolutionData {
-    public final PokemonData monToEvolveTo;
+    public final String monToEvolveTo;
     public final int lvRequirement;
 
     public EvolutionData(){
         this(null,999);//the level is pointless here
     }
-    public EvolutionData(PokemonData monToEvolveTo, int lvRequirement) {
+    public EvolutionData(String monToEvolveTo, int lvRequirement) {
         this.monToEvolveTo = monToEvolveTo;
         this.lvRequirement = lvRequirement;
     }

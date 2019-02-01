@@ -115,7 +115,11 @@ public class ExplorationController {
         }
     }
 
+
+
     class  ExplorationLoop extends  AnimationTimer{
+        ExplorationState explorationState;
+
         @Override
         public void handle(long now) {
             switch (explorationState){
@@ -176,7 +180,6 @@ public class ExplorationController {
                     break;
             }
         }
-
         @Override
         public void stop() {
             super.stop();
@@ -242,10 +245,6 @@ public class ExplorationController {
             System.out.println("failed to load storage Screen");
             System.exit(-1);
         }
-    }
-
-    enum  ExplorationState{
-        Exploring,WaitingForBattleEnd,WaitingForExpScreen,waitingForStatusScreen,
     }
 }
 

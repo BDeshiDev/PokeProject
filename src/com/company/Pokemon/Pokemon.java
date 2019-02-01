@@ -55,7 +55,7 @@ public class Pokemon{
             lineHolder.push(name + " has reached LV." + getLevel() + " !!!");
         }
         if(evoData.canEvolve(stats.level)){
-            Pokemon evolvedForm = evoData.monToEvolveTo.toPokemon(stats.level.getCurLevel());
+            Pokemon evolvedForm = PokemonFactory.getMonByName(evoData.monToEvolveTo,stats.level.getCurLevel());
             lineHolder.push(name + " has evolved into " + evolvedForm.name  + " !!!");
             return evolvedForm;
         }else

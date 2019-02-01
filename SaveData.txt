@@ -1,0 +1,325 @@
+{
+  "score": 0,
+  "position": {
+    "x": 36,
+    "y": 36
+  },
+  "pcTrainer": {
+    "canCancelSwap": true,
+    "waitingForSwap": false,
+    "hasSwapped": false,
+    "party": [
+      {
+        "name": "Charizard38",
+        "t1": "Fire",
+        "t2": "Flying",
+        "uniqueId": 1,
+        "curHp": 153,
+        "stats": {
+          "level": {
+            "curLevel": 50,
+            "curXP": 0,
+            "xpToNext": 100000
+          },
+          "maxHp": {
+            "realVal": 153.0,
+            "baseVal": 6,
+            "CurVal": 153,
+            "MaxVal": 153
+          },
+          "attack": {
+            "realVal": 104.0,
+            "baseVal": 6,
+            "CurVal": 104,
+            "MaxVal": 104
+          },
+          "defence": {
+            "realVal": 98.0,
+            "baseVal": 6,
+            "CurVal": 98,
+            "MaxVal": 98
+          },
+          "spAttack": {
+            "realVal": 128.0,
+            "baseVal": 7,
+            "CurVal": 128,
+            "MaxVal": 128
+          },
+          "spDefence": {
+            "realVal": 128.0,
+            "baseVal": 7,
+            "CurVal": 128,
+            "MaxVal": 128
+          },
+          "speed": {
+            "realVal": 120.0,
+            "baseVal": 7,
+            "CurVal": 120,
+            "MaxVal": 120
+          }
+        },
+        "frontImage": "Assets/PokemonImages/HdImages/CharizardHD.png",
+        "canFight": true,
+        "moves": [
+          {
+            "name": "Flame Thrower",
+            "type": "Fire",
+            "damageType": "Special",
+            "power": 85,
+            "priority": 0,
+            "accuracy": 100,
+            "maxPp": 15,
+            "curPp": 15,
+            "animationData": {
+              "imagePath": "Assets/Animations/11 - Copie.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 4,
+              "maxLoops": 1,
+              "columns": 4,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 82,
+              "height": 100
+            }
+          },
+          {
+            "name": "Aerial Ace",
+            "type": "Flying",
+            "damageType": "Physical",
+            "power": 60,
+            "priority": 0,
+            "accuracy": 999,
+            "maxPp": 20,
+            "curPp": 20,
+            "animationData": {
+              "imagePath": "Assets/Animations/4.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 102,
+              "height": 100
+            }
+          }
+        ],
+        "evoData": {
+          "lvRequirement": 999
+        }
+      },
+      {
+        "name": "Blastoise9",
+        "t1": "Water",
+        "t2": "None",
+        "uniqueId": 2,
+        "curHp": 154,
+        "stats": {
+          "level": {
+            "curLevel": 50,
+            "curXP": 0,
+            "xpToNext": 100000
+          },
+          "maxHp": {
+            "realVal": 154.0,
+            "baseVal": 12,
+            "CurVal": 154,
+            "MaxVal": 154
+          },
+          "attack": {
+            "realVal": 103.0,
+            "baseVal": 6,
+            "CurVal": 103,
+            "MaxVal": 103
+          },
+          "defence": {
+            "realVal": 120.0,
+            "baseVal": 7,
+            "CurVal": 120,
+            "MaxVal": 120
+          },
+          "spAttack": {
+            "realVal": 105.0,
+            "baseVal": 7,
+            "CurVal": 105,
+            "MaxVal": 105
+          },
+          "spDefence": {
+            "realVal": 125.0,
+            "baseVal": 7,
+            "CurVal": 125,
+            "MaxVal": 125
+          },
+          "speed": {
+            "realVal": 98.0,
+            "baseVal": 6,
+            "CurVal": 98,
+            "MaxVal": 98
+          }
+        },
+        "frontImage": "Assets/PokemonImages/HdImages/BlastoiseHD.png",
+        "canFight": true,
+        "moves": [
+          {
+            "name": "Surf",
+            "type": "Water",
+            "damageType": "Special",
+            "power": 90,
+            "priority": 0,
+            "accuracy": 100,
+            "maxPp": 15,
+            "curPp": 15,
+            "animationData": {
+              "imagePath": "Assets/Animations/4.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 102,
+              "height": 100
+            }
+          },
+          {
+            "name": "Slam",
+            "type": "Normal",
+            "damageType": "Physical",
+            "power": 75,
+            "priority": 0,
+            "accuracy": 80,
+            "maxPp": 10,
+            "curPp": 10,
+            "animationData": {
+              "imagePath": "Assets/Animations/4.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 102,
+              "height": 100
+            }
+          }
+        ],
+        "evoData": {
+          "lvRequirement": 999
+        }
+      },
+      {
+        "name": "Venasaur29",
+        "t1": "Grass",
+        "t2": "Poison",
+        "uniqueId": 3,
+        "curHp": 155,
+        "stats": {
+          "level": {
+            "curLevel": 50,
+            "curXP": 0,
+            "xpToNext": 100000
+          },
+          "maxHp": {
+            "realVal": 155.0,
+            "baseVal": 12,
+            "CurVal": 155,
+            "MaxVal": 155
+          },
+          "attack": {
+            "realVal": 102.0,
+            "baseVal": 6,
+            "CurVal": 102,
+            "MaxVal": 102
+          },
+          "defence": {
+            "realVal": 103.0,
+            "baseVal": 6,
+            "CurVal": 103,
+            "MaxVal": 103
+          },
+          "spAttack": {
+            "realVal": 120.0,
+            "baseVal": 7,
+            "CurVal": 120,
+            "MaxVal": 120
+          },
+          "spDefence": {
+            "realVal": 120.0,
+            "baseVal": 7,
+            "CurVal": 120,
+            "MaxVal": 120
+          },
+          "speed": {
+            "realVal": 100.0,
+            "baseVal": 6,
+            "CurVal": 100,
+            "MaxVal": 100
+          }
+        },
+        "frontImage": "Assets/PokemonImages/HdImages/venasaurHD.png",
+        "canFight": true,
+        "moves": [
+          {
+            "name": "Razor Leaf",
+            "type": "Grass",
+            "damageType": "Special",
+            "power": 65,
+            "priority": 0,
+            "accuracy": 100,
+            "maxPp": 15,
+            "curPp": 15,
+            "animationData": {
+              "imagePath": "Assets/Animations/4.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 102,
+              "height": 100
+            }
+          },
+          {
+            "name": "Slam",
+            "type": "Normal",
+            "damageType": "Physical",
+            "power": 75,
+            "priority": 0,
+            "accuracy": 80,
+            "maxPp": 10,
+            "curPp": 10,
+            "animationData": {
+              "imagePath": "Assets/Animations/4.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 102,
+              "height": 100
+            }
+          }
+        ],
+        "evoData": {
+          "lvRequirement": 999
+        }
+      }
+    ],
+    "name": "Ash"
+  },
+  "mapName": "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt"
+}

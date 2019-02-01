@@ -21,16 +21,15 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
         p = getPidgeot();pokeMap.put(p.name,p);
         p = getCharmeleon();pokeMap.put(p.name,p);
     }
-    public static Pokemon getMonByName(String name){
+    public static Pokemon getMonByName(String name,int level){
         if(pokeMap.containsKey(name))
-            return pokeMap.get(name).toPokemon();
+            return pokeMap.get(name).toPokemon(level);
         else
             return null;
     }
-
-    public static PokemonData getMonDataByName(String name){
-        if(name != null && pokeMap.containsKey(name))
-            return pokeMap.get(name);
+    public static Pokemon getMonByName(String name){
+        if(pokeMap.containsKey(name))
+            return pokeMap.get(name).toPokemon();
         else
             return null;
     }
@@ -49,7 +48,7 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
                 6,104,6,98,
                 7,128,7,128,
                 7,120,
-                Type.Fire, Type.Flying, "Assets/PokemonImages/HdImages/CharmanderHD.png",new EvolutionData(PokemonFactory.getCharmeleon(),16),
+                Type.Fire, Type.Flying, "Assets/PokemonImages/HdImages/CharmanderHD.png",new EvolutionData("Charmeleon",16),
                 moves);
 
     }
@@ -61,7 +60,7 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
                 6,104,6,98,
                 7,128,7,128,
                 7,120,
-                Type.Fire, Type.Flying, "Assets/PokemonImages/HdImages/CharmeleonHD.png",new EvolutionData(PokemonFactory.getCharizard(),36),
+                Type.Fire, Type.Flying, "Assets/PokemonImages/HdImages/CharmeleonHD.png",new EvolutionData("Charizard",36),
                 moves);
 
     }

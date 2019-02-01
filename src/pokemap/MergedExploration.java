@@ -114,10 +114,18 @@ public class MergedExploration extends Application {
                 save();
                 if(testingAgainstTrainers){
                     int randIndex = new Random().nextInt(forestMap.trainerDatas.length);
-                    System.out.println("fought " + forestMap.trainerDatas[randIndex].name);
+                    aiTrainer enemy = new aiTrainer(forestMap.trainerDatas[randIndex]);
+                    System.out.println("fighting " + enemy.name);
+                    startBattle(enemy);
                 }else {
                     int randIndex = new Random().nextInt(forestMap.possibleEncounters.length);
-                    System.out.println("fought " + forestMap.possibleEncounters[randIndex]);
+                    WildMon wildmon = new WildMon(PokemonFactory.getMonByName(forestMap.possibleEncounters[randIndex]));
+                    if(wildmon == null) {
+                        System.out.println("invlaid wild encounter");
+                    }else {
+                        System.out.println("fought " + wildmon.getName());
+                        startBattle(wildmon);
+                    }
                 }
             }
         }
@@ -178,6 +186,17 @@ public class MergedExploration extends Application {
         }catch (IOException ioe){
             System.out.println("load failed");
         }
+    }
+
+    public void startBattle(aiTrainer enemy){
+        stopExploration();
+        BattleController bc =new BattleController();
+        bc.begin(primaryStage,player.getPcTrainer(),enemy);
+    }
+    public void startBattle(WildMon enemy){
+        stopExploration();
+        BattleController bc =new BattleController();
+        bc.begin(primaryStage,player.getPcTrainer(),enemy);
     }
     /*
     private aiTrainer curChallenger;

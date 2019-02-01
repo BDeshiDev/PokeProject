@@ -1,7 +1,6 @@
 package com.company;
 import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Pokemon;
-import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineHolder;
 import com.company.networking.TrainerData;
@@ -12,13 +11,14 @@ import java.util.List;
 
 public class pcTrainer extends Trainer {
 
-    private BattleCommand selectedMove = null;
-    private MovesListUI movesListUI;
-    private BattleController.SwapUI swapUI;//#refactor the ui stuff shouldn't really be here
+    private transient BattleCommand selectedMove = null;
+    private transient MovesListUI movesListUI;
+    private transient BattleController.SwapUI swapUI;//#refactor the ui stuff shouldn't really be here
+    private transient Pane actionControlPane;//parent pane to attack buttons
+
     private boolean canCancelSwap = true;
     protected boolean waitingForSwap = false;
     private boolean hasSwapped = false;
-    private Pane actionControlPane;//parent pane to attack buttons
 
     public void addMoveToAllInParty(Move m){
         for (Pokemon p :party) {
@@ -49,8 +49,6 @@ public class pcTrainer extends Trainer {
     public void setCommand(Move m, Pokemon user){
         setCommand(new AttackCommand(getStagedPokemon(),m,enemySlot));
     }
-
-
 
     public boolean canCancelSwap(){
         return canCancelSwap;

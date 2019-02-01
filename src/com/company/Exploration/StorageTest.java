@@ -27,7 +27,7 @@ public class StorageTest extends Application {
         scene.setRoot(loader.load());
         PokemonStorageController controller=loader.getController();
 
-        ObservableList<Pokemon> testParty = FXCollections.observableArrayList();
+        ArrayList<Pokemon> testParty = new ArrayList<>();
         testParty.add(PokemonFactory.getBlastoise().toPokemon());
         testParty.add(PokemonFactory.getCharizard().toPokemon());
         controller.begin(primaryStage,testParty);

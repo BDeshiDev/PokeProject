@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Pokemon.Pokemon;
+import com.company.Pokemon.PokemonSaveData;
 import com.company.Utilities.Debug.Debugger;
 import com.company.networking.TrainerData;
 import javafx.collections.FXCollections;
@@ -9,10 +10,10 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public abstract class Trainer implements Battler {
-    protected ObservableList<Pokemon> party = FXCollections.observableArrayList();
+    protected ArrayList<Pokemon> party = new ArrayList<>();
     private Pokemon stagedPokemon = null;
-    protected  BattleSlot ownedSlot;
-    protected BattleSlot enemySlot;
+    protected transient BattleSlot ownedSlot;
+    protected transient BattleSlot enemySlot;
     public final String name;
 
     @Override
@@ -36,7 +37,7 @@ public abstract class Trainer implements Battler {
         return  retVal;
     }
 
-    public ObservableList<Pokemon> getParty() {
+    public ArrayList<Pokemon> getParty() {
         return party;
     }
 
@@ -48,8 +49,8 @@ public abstract class Trainer implements Battler {
     }
     protected Trainer(TrainerData td) {
         name = td.name;
-        for (String pokeName:td.pokemonName) {
-            Pokemon p = PokemonFactory.getMonByName(pokeName);
+        for (PokemonSaveData psd:td.pokemonSaves) {
+            Pokemon p = psd.toPokemon();
             if(p!= null)
                 party.add(p);
         }
