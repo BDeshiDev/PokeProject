@@ -2,14 +2,11 @@ package pokemap;
 
 import com.company.*;
 import com.company.Exploration.*;
-import com.company.Pokemon.Pokemon;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonWriter;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
@@ -62,6 +59,8 @@ public class MergedExploration extends Application implements  PokeScreen{
 
         forestMap =new Map(new File(currentSave.mapName));
         player =new PlayerEntity(currentSave, new ImageView());
+        player.resetProbablity();
+
         Group group=forestMap.setMap();
         group.getChildren().add(player.getImageOfEntity());
         PerspectiveCamera camera=new PerspectiveCamera(true);
@@ -80,7 +79,7 @@ public class MergedExploration extends Application implements  PokeScreen{
         addListeners(scene);
         timer.start();
 
-        primaryStage.setTitle("Player on Rush.");
+        primaryStage.setTitle("Pokemon RGB");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

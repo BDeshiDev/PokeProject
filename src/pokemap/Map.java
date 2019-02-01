@@ -17,8 +17,9 @@ import static javafx.scene.input.KeyCode.T;
 public class Map {
 
     Character mapAra[][];
-    Image treeImage = new Image("Assets/MapImages/tile_0001.png");
-    Image emptyTileImage =new Image("Assets/MapImages/tile_0041.png");
+    Image treeImage = new Image("Assets/MapImages/Temp/smallTree.png");
+    Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
+    Image grassTile = new Image("Assets/MapImages/Temp/grassTile.png");
     public int tileSize ;
 
     Position startPosition;
@@ -109,10 +110,20 @@ public class Map {
             for (int col = 0; col < (mapAra[0].length); col++) {
                 ImageView imageView=new ImageView();
                 Image tileImage;
-                if(mapAra[row][col]=='T')
+                if(mapAra[row][col]=='T') {
+                    ImageView backGroundLayer =new ImageView(emptyTileImage);
+                    backGroundLayer.relocate(col*tileSize,row*tileSize);
+                    group.getChildren().add(backGroundLayer);
                     tileImage = treeImage;
+                }
                 else if(mapAra[row][col]=='X')
                    tileImage = emptyTileImage;
+                else if(mapAra[row][col]=='G'){
+                    ImageView backGroundLayer =new ImageView(emptyTileImage);
+                    backGroundLayer.relocate(col*tileSize,row*tileSize);
+                    group.getChildren().add(backGroundLayer);
+                    tileImage = grassTile;
+                }
                 else
                     tileImage=null;
                 imageView.setImage(tileImage);

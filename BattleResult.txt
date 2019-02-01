@@ -4,10 +4,10 @@
   "hasRun": false,
   "caughtMons": [
     {
-      "name": "Pidgeot46",
+      "name": "Pidgeot10",
       "t1": "Normal",
       "t2": "Flying",
-      "uniqueId": 5,
+      "uniqueId": 7,
       "curHp": 158,
       "stats": {
         "level": {
