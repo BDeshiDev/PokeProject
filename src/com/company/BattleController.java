@@ -1,4 +1,5 @@
 package com.company;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
 import com.company.networking.NetworkedEnemy;
 import com.company.networking.NetworkedPlayer;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -154,6 +157,7 @@ public class BattleController {
     boolean hasRun = false;
     private boolean isComplete =false;
     PokeScreen prevScreen = null;
+    PokeScreen postBattleScreen = null;
     Parent newRoot;
 
     public BattleController(){
@@ -398,20 +402,33 @@ public class BattleController {
             }
             else
                 System.out.println("Result: " + enemy.getName() + " wins");
-            if(prevScreen == null) {
-                System.out.println("prev screen is null... exiting battle screen");
+
+            try {
+                Gson gson = new Gson();
+                JsonWriter writer = new JsonWriter(new FileWriter("BattleResult.txt"));
+                writer.setIndent("  ");
+                gson.toJson(result, BattleResult.class, writer);
+                writer.flush();
+                writer.close();
+            }catch (IOException ioe){
+                System.out.println("");
+            }
+
+            if(postBattleScreen == null) {
+                System.out.println("postBattle screen is null... exiting battle screen");
                 System.exit(-555);
             }
             else
-                prevScreen.begin(curStage,curSave,null);
+                postBattleScreen.begin(curStage,curSave,prevScreen);
             isComplete = true;
         }
     };
 
     BattleLoop battleLoop;
 
-    public void begin(Stage curStage,pcTrainer pcTrainer,aiTrainer enemy,PokeScreen prevScreen,SaveData curSave) {
+    public void begin(Stage curStage,pcTrainer pcTrainer,aiTrainer enemy,PokeScreen prevScreen,PokeScreen postBattleScreen,SaveData curSave) {
         this.prevScreen = prevScreen;
+        this.postBattleScreen = postBattleScreen;
         this.curSave = curSave;
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = false;
@@ -422,8 +439,9 @@ public class BattleController {
     }
 
 
-    public void begin(Stage curStage,pcTrainer pcTrainer,WildMon enemy,PokeScreen prevScreen,SaveData curSave){
+    public void begin(Stage curStage,pcTrainer pcTrainer,WildMon enemy,PokeScreen prevScreen,PokeScreen postBattleScreen,SaveData curSave){
         this.prevScreen = prevScreen;
+        this.postBattleScreen = postBattleScreen;
         this.curSave = curSave;
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = true;

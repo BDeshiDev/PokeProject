@@ -42,6 +42,7 @@ public class MergedExploration extends Application implements  PokeScreen{
     Stage primaryStage;
 
     PokeScreen prevScreen;
+    PostBattleController postBattleController = new PostBattleController();
 
     @Override
     public void exitScreen() {
@@ -87,6 +88,7 @@ public class MergedExploration extends Application implements  PokeScreen{
     public void stopExploration(){
         timer.stop();
         removeListeners(primaryStage.getScene());
+        run=left=right=up=down=false;
     }
 
     public void addListeners(Scene scene){
@@ -170,6 +172,7 @@ public class MergedExploration extends Application implements  PokeScreen{
 
 
     public void save(){
+        currentSave.updateSaveLocally(player.getEntityPosition(),player.getPcTrainer());
         System.out.println("auto saved");
         Gson gson = new Gson();
         try {
@@ -197,182 +200,13 @@ public class MergedExploration extends Application implements  PokeScreen{
     public void startBattle(aiTrainer enemy){
         stopExploration();
         BattleController bc =new BattleController();
-        //bc.begin(primaryStage,player.getPcTrainer(),enemy);
+        bc.begin(primaryStage,player.getPcTrainer(),enemy,this,postBattleController,currentSave);
     }
     public void startBattle(WildMon enemy){
         stopExploration();
+        save();
         BattleController bc =new BattleController();
-        //bc.begin(primaryStage,player.getPcTrainer(),enemy);
-    }
-    /*
-    private aiTrainer curChallenger;
-    private BattleController curBattle = new BattleController();
-    private PostBattleController xpScreenController = new PostBattleController();
-    private PokemonStorageController storageController;
-
-    private Stage primaryStage;
-    private Scene myScene;
-
-    private boolean wantsToBattle;
-    private boolean wantsToSeeStatus;
-    private boolean wantsToFightWildMon;
-    private boolean wantsToGoToNextLevel;
-
-    ExplorationState explorationState;
-
-
-
-    public void fightWildMons(){
-        wantsToFightWildMon = true;
+        bc.begin(primaryStage,player.getPcTrainer(),enemy,this,postBattleController,currentSave);
     }
 
-
-    public void startWildMonBattle(){
-        System.out.println("getting next wild mon...");
-        int monIndex = new Random().nextInt(possibleEncounters.size());
-        WildMon newWildmon = new WildMon( possibleEncounters.get(monIndex).toPokemon());
-        newWildmon.heal();
-        curBattle.begin(primaryStage,player,newWildmon);
-    }
-
-    public void onExplorationComplete(){
-        System.out.println("No stages left to load");
-        mainLoop.stop();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreditsScene.fxml"));
-            Parent root = loader.load();
-            CreditsController cc= loader.getController();
-            cc.init(primaryStage);
-            primaryStage.setScene(new Scene(root, Settings.windowWidth, Settings.windowLength));
-            primaryStage.setTitle("Ending Screen");
-            primaryStage.show();
-        }catch(IOException ioe){
-            System.out.println("failed to load credit screen");
-            System.exit(-1);//#TODO move to a creditScreen class
-        }
-    }
-
-    class  ExplorationLoop extends  AnimationTimer{
-        @Override
-        public void handle(long now) {
-            switch (explorationState){
-                case Exploring:
-                    if(wantsToBattle){
-                        wantsToBattle = false;
-                        explorationState = ExplorationController.ExplorationState.WaitingForBattleEnd;
-                        getNextChallenger();
-                    }else if(wantsToFightWildMon){
-                        wantsToFightWildMon = false;
-                        explorationState = ExplorationController.ExplorationState.WaitingForBattleEnd;
-                        startWildMonBattle();
-                    } else if(wantsToGoToNextLevel){
-                        wantsToGoToNextLevel = false;
-                        loadLevelFromStack();
-                    }else if(wantsToSeeStatus){
-                        wantsToSeeStatus= false;
-                        explorationState = ExplorationController.ExplorationState.waitingForStatusScreen;
-                        loadStatusScreen();
-                    }
-                    break;
-                case WaitingForBattleEnd:
-                    if( curBattle.isComplete()){
-                        BattleResult newResult = curBattle.getResult();
-                        if(newResult.playerWon) {
-                            System.out.println("player won");
-                        }
-                        else{
-                            if(curChallenger != null)
-                                remainingChallengers.push(curChallenger);//if we don't win we fight the same trainer again
-                            System.out.println("player lost");
-                        }
-                        System.out.println(newResult);
-                        explorationState = ExplorationController.ExplorationState.WaitingForExpScreen;
-                        System.out.println("entering post battle screen");
-                        xpScreenController.begin(primaryStage,newResult,player);
-                    }
-                    break;
-                case WaitingForExpScreen:
-                    if(xpScreenController.readyToExit){
-                        updateChallengerText();
-                        player.heal();
-                        if(remainingChallengers.isEmpty()) {
-                            nextStageButton.setDisable(false);
-                            fightButton.setDisable(true);
-                        }
-                        primaryStage.setScene(myScene);
-                        primaryStage.setTitle("Exploration Test");
-                        explorationState = ExplorationController.ExplorationState.Exploring;
-                    }
-                    break;
-                case waitingForStatusScreen:
-                    if(storageController.readyToExit()){
-                        primaryStage.setScene(myScene);
-                        primaryStage.setTitle("Exploration Test");
-                        explorationState = ExplorationController.ExplorationState.Exploring;
-                    }
-                    break;
-            }
-        }
-
-        @Override
-        public void stop() {
-            super.stop();
-            System.out.println("exiting exploration loop");
-        }
-    }
-    ExplorationController.ExplorationLoop mainLoop = new ExplorationController.ExplorationLoop();
-
-
-    public void init(){
-        explorationState = ExplorationController.ExplorationState.Exploring;
-
-        this.player = player;
-        this.primaryStage = primaryStage;
-        this.myScene = sceneToUse;
-
-        primaryStage.setScene(myScene);
-        primaryStage.setTitle("Exploration Test");
-
-        Collections.addAll(levelsLeft,stagesToLoad);
-        loadLevelFromStack();
-        nextStageButton.setDisable(true);
-
-        mainLoop.start();
-    }
-
-
-    public void startNextBattle(){
-        wantsToBattle =true;
-    }
-    public void goToNextStage(){
-        wantsToGoToNextLevel = true;
-    }
-
-    public void goToStatus(){
-        wantsToSeeStatus = true;
-    }
-
-    public void loadStatusScreen(){
-        try {
-            FXMLLoader loader=new FXMLLoader(getClass().getResource("PokemonStorageScreen.fxml"));
-            Scene scene=new Scene(new Pane(), Settings.windowWidth,Settings.windowLength);
-            scene.setRoot(loader.load());
-            storageController=loader.getController();
-            storageController.begin(primaryStage,player.getPcTrainer().getParty());
-
-            primaryStage.setTitle("Storage");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        }catch(IOException ioe){
-            ioe.printStackTrace();
-            System.out.println("failed to load storage Screen");
-            System.exit(-1);
-        }
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println("help us");
-        launch(args);
-    }*/
 }

@@ -5,6 +5,7 @@ import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
 import com.company.BattleResult;
 import com.company.Utilities.TextHandler.LineStreamExecutable;
+import com.google.gson.Gson;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +16,12 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 
-public class PostBattleController {
+public class PostBattleController implements PokeScreen {
 
     @FXML
     private VBox TextParentPane;
@@ -27,9 +30,38 @@ public class PostBattleController {
 
     Scene myScene;
 
+    Stage primaryStage;
+    SaveData curSave;
+    PokeScreen prevScreen;
+
     LineStreamExecutable lineSource  = new LineStreamExecutable();;
     boolean readyToExit = false;
 
+    @Override
+    public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
+        this.prevScreen = prevScreen;this.primaryStage =primaryStage;this.curSave =s;
+        Gson gson = new Gson();
+        try {
+            BattleResult br =gson.fromJson(new FileReader("BattleResult.txt"),BattleResult.class);
+            if(br == null)
+                throw new IOException();
+            applyResult(primaryStage,br,s.pcTrainer);
+        }catch (IOException  ioe ){
+            ioe.printStackTrace();
+            System.out.println("Battle result file not be read");
+            exitScreen();
+        }
+    }
+
+    @Override
+    public void exitScreen() {
+        if(prevScreen == null){
+            System.out.println("Prev screen is null");
+            System.exit(-111);
+        }else{
+            prevScreen.begin(primaryStage,curSave,prevScreen);
+        }
+    }
 
     public void onExitPressed(){
         readyToExit = true;
@@ -41,14 +73,14 @@ public class PostBattleController {
         try {
             Parent root = loader.load();
             myScene = new Scene(root,Settings.windowWidth,Settings.windowLength);
-            BackButton.setOnAction(event -> readyToExit = true);
+            BackButton.setOnAction(event -> exitScreen());
         }catch (IOException ioe){
             System.out.println("post battle Screen load fail");
             System.exit(-1);
         }
     }
 
-    public void begin(Stage primaryStage,BattleResult battleResult, pcTrainer player) {
+    public void applyResult(Stage primaryStage, BattleResult battleResult, pcTrainer player) {
         //continue here
         readyToExit = false;
         TextParentPane.getChildren().clear();

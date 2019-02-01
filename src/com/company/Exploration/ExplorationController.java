@@ -95,7 +95,7 @@ public class ExplorationController {
         int monIndex = new Random().nextInt(possibleEncounters.size());
         WildMon newWildmon = new WildMon( possibleEncounters.get(monIndex).toPokemon());
         newWildmon.heal();
-        //curBattle.begin(primaryStage,player,newWildmon);
+        //curBattle.applyResult(primaryStage,player,newWildmon);
     }
 
     public void onExplorationComplete(){
@@ -155,7 +155,7 @@ public class ExplorationController {
                         System.out.println(newResult);
                         explorationState = ExplorationState.WaitingForExpScreen;
                         System.out.println("entering post battle screen");
-                        xpScreenController.begin(primaryStage,newResult,player);
+                        xpScreenController.applyResult(primaryStage,newResult,player);
                     }
                     break;
                 case WaitingForExpScreen:
@@ -210,7 +210,7 @@ public class ExplorationController {
         System.out.println("getting next challenger...");
         curChallenger = remainingChallengers.pop();
         curChallenger.heal();
-        //curBattle.begin(primaryStage,player, curChallenger);
+        //curBattle.applyResult(primaryStage,player, curChallenger);
     }
 
     public void updateChallengerText(){

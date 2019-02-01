@@ -27,6 +27,11 @@ public class SaveData {
         score+= amount;
     }
 
+    public void updateSaveLocally(Position p , pcTrainer pct){
+        position=p;
+        pcTrainer =pct;
+    }
+
     public static SaveData newGameData(){
         return new SaveData(new Position(36,36), new pcTrainer("Ash",PokemonFactory.getCharizard().toPokemon(),
                 PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getVenasaur().toPokemon()),"C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt");

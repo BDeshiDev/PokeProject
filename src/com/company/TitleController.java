@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Exploration.PostBattleController;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
 import javafx.fxml.FXML;
@@ -65,6 +66,6 @@ public class TitleController implements PokeScreen {
         aiTrainer gary = new aiTrainer("Gary",poke2,poke4);
 
         BattleController battle = new BattleController();
-        battle.begin(curStage,ash,gary,this,curSave);
+        battle.begin(curStage,ash,gary,this,new PostBattleController(),curSave);
     }
 }

@@ -14,6 +14,7 @@ public class PlayerEntity extends Entity {
 
     public PlayerEntity(SaveData currentSave, ImageView imageOfEntity) {
         this(currentSave.position,imageOfEntity,currentSave.pcTrainer);
+        System.out.println("save pos "  + currentSave.position);
     }
 
     public PlayerEntity(Position entityPosition, ImageView imageOfEntity, pcTrainer pcTrainer) {

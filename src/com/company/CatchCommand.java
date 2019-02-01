@@ -28,6 +28,6 @@ public class CatchCommand extends TrainerCommand {
 
     @Override
     public String toJsonData() {
-        return null;//Catching is disabled on networked battles to begin with
+        return null;//Catching is disabled on networked battles to applyResult with
     }
 }
