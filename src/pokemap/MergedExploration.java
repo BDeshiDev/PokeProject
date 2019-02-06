@@ -86,6 +86,7 @@ public class MergedExploration extends Application implements  PokeScreen{
         Media media=new Media(new File(explorationBGM).toURI().toString());
         mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         primaryStage.setTitle("Pokemon RGB");
         primaryStage.setScene(scene);

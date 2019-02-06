@@ -2,7 +2,12 @@ package com.company.Pokemon.Moves;
 
 import com.company.Pokemon.Type;
 import com.company.Utilities.Animation.AnimationFactory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 //#optimize cache the moves once instantiated and return them
@@ -24,6 +29,23 @@ public class MoveFactory {
         moveMap.put(m.getName(),m);
         m = getDebugKo();
         moveMap.put(m.getName(),m);
+
+        FileWriter writer=null;
+        try {
+            writer=new FileWriter("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\com\\company\\Pokemon\\Moves\\moveFactory.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();;
+        String s=gson.toJson(moveMap.values());
+        try {
+            writer.write(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(s);
+
+
     }
     public static  Move getMoveByName(String moveName){
         if(moveMap.containsKey(moveName))
