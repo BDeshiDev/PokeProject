@@ -84,6 +84,7 @@ public class MergedExploration extends Application implements  PokeScreen{
         Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\mapBGM.mp3").toURI().toString());
         mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         primaryStage.setTitle("Pokemon RGB");
         primaryStage.setScene(scene);

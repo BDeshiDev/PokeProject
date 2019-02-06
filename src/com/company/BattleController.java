@@ -489,6 +489,7 @@ public class BattleController {
 
         mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         System.out.println(pcTrainer.getName() + "  VS  " + enemy.getName() + "!!!");//#unimplimented show this in battle transition animation
         battleLoop = new BattleLoop(player,enemy);

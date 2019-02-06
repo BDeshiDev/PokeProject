@@ -57,7 +57,9 @@ public class TitleController implements PokeScreen {
 
         //by setting this property to true, the audio will be played
         mediaPlayer.setAutoPlay(true);
-        mediaPlayer.getVolume();
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+
         curStage.setScene(titleScene);
     }
 

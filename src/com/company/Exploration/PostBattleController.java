@@ -11,14 +11,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 
 public class PostBattleController implements PokeScreen {
@@ -29,6 +29,7 @@ public class PostBattleController implements PokeScreen {
     private Button BackButton;
 
     Scene myScene;
+    private MediaPlayer mediaPlayer;
 
     Stage primaryStage;
     SaveData curSave;
@@ -39,6 +40,12 @@ public class PostBattleController implements PokeScreen {
 
     @Override
     public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
+        Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\victoryBGM.mp3").toURI().toString());
+        mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+
         this.prevScreen = prevScreen;this.primaryStage =primaryStage;this.curSave =s;
         Gson gson = new Gson();
         try {
@@ -55,6 +62,7 @@ public class PostBattleController implements PokeScreen {
 
     @Override
     public void exitScreen() {
+        mediaPlayer.stop();
         if(prevScreen == null){
             System.out.println("Prev screen is null");
             System.exit(-111);
