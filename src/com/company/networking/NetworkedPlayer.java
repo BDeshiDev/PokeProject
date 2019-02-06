@@ -14,6 +14,7 @@ public class NetworkedPlayer extends pcTrainer {
         writer = connection.writeToConnection;
     }
     //#TODO where are we sending swap events that happen before turn ENDS??? Perhaps that's the source of the bug
+
     @Override
     public void setCommand(Move m, Pokemon user) {
         AttackCommand selectedAttack = new AttackCommand(user,m,enemySlot);
