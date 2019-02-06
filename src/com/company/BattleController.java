@@ -164,6 +164,8 @@ public class BattleController {
     PokeScreen postBattleScreen = null;
     Parent newRoot;
 
+    String battleBGM = "src/Assets/battleBGM.mp3";
+
     public BattleController(){
         setFxml();
         battleScene = new Scene(newRoot, Settings.windowWidth, Settings.windowLength);
@@ -484,7 +486,7 @@ public class BattleController {
         isComplete = false;
         curStage.setScene(battleScene);
 
-        Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\battleBGM.mp3").toURI().toString());
+        Media media=new Media(new File(battleBGM).toURI().toString());
 
         mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);

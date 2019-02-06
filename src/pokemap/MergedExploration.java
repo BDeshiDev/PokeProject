@@ -29,6 +29,8 @@ import java.util.Random;
 public class MergedExploration extends Application implements  PokeScreen{
     String mapLocation = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt";
     Map forestMap;
+    String explorationBGM = "src/Assets/mapBGM.mp3";
+
     PlayerEntity player;
     MediaPlayer mediaPlayer;
 
@@ -81,7 +83,7 @@ public class MergedExploration extends Application implements  PokeScreen{
 
         addListeners(scene);
         timer.start();
-        Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\mapBGM.mp3").toURI().toString());
+        Media media=new Media(new File(explorationBGM).toURI().toString());
         mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
 
