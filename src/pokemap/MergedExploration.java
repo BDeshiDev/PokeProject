@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -28,6 +30,7 @@ public class MergedExploration extends Application implements  PokeScreen{
     String mapLocation = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt";
     Map forestMap;
     PlayerEntity player;
+    MediaPlayer mediaPlayer;
 
     boolean run,up,down,left,right;
     boolean testingAgainstTrainers = false;
@@ -78,6 +81,9 @@ public class MergedExploration extends Application implements  PokeScreen{
 
         addListeners(scene);
         timer.start();
+        Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\mapBGM.mp3").toURI().toString());
+        mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
 
         primaryStage.setTitle("Pokemon RGB");
         primaryStage.setScene(scene);
@@ -88,6 +94,7 @@ public class MergedExploration extends Application implements  PokeScreen{
         timer.stop();
         removeListeners(primaryStage.getScene());
         run=left=right=up=down=false;
+        mediaPlayer.stop();
     }
 
     public void addListeners(Scene scene){

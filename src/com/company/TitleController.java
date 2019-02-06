@@ -8,14 +8,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import pokemap.MergedExploration;
 
+import java.io.File;
 import java.io.IOException;
 
 public class TitleController implements PokeScreen {
     private Stage curStage;
     private SaveData curSave;
+    MediaPlayer mediaPlayer;
 
     @FXML
     private BorderPane rootPane;
@@ -43,6 +47,17 @@ public class TitleController implements PokeScreen {
     public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
         curStage = primaryStage;
         this.curSave = s;
+        String path = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\titleBGM.mp3";
+
+        //Instantiating Media class
+        Media media = new Media(new File(path).toURI().toString());
+
+        //Instantiating MediaPlayer class
+        mediaPlayer = new MediaPlayer(media);
+
+        //by setting this property to true, the audio will be played
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.getVolume();
         curStage.setScene(titleScene);
     }
 
@@ -54,6 +69,7 @@ public class TitleController implements PokeScreen {
     public void Start(){
         MergedExploration me = new MergedExploration();
         me.begin(curStage,curSave,this);
+        mediaPlayer.stop();
     }
 
     public void testBattle(){

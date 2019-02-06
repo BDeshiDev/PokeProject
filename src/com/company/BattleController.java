@@ -1,4 +1,5 @@
 package com.company;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -36,6 +39,8 @@ import javafx.scene.shape.Rectangle;
 
 
 public class BattleController {
+
+    private MediaPlayer mediaPlayer;
 
     @FXML
     private Label enemyNameLabel;
@@ -410,9 +415,12 @@ public class BattleController {
                 gson.toJson(result, BattleResult.class, writer);
                 writer.flush();
                 writer.close();
+
             }catch (IOException ioe){
                 System.out.println("");
             }
+
+            mediaPlayer.stop();
 
             if(postBattleScreen == null) {
                 System.out.println("postBattle screen is null... exiting battle screen");
@@ -476,6 +484,11 @@ public class BattleController {
         DialogText.setText("");
         isComplete = false;
         curStage.setScene(battleScene);
+
+        Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\battleBGM.mp3").toURI().toString());
+
+        mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
 
         System.out.println(pcTrainer.getName() + "  VS  " + enemy.getName() + "!!!");//#unimplimented show this in battle transition animation
         battleLoop = new BattleLoop(player,enemy);
