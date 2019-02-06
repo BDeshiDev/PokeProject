@@ -9,11 +9,13 @@ public class BattleSlot{
     private Pokemon pokemon=null;
     private BattleUIHolder slotUI=null;
     private ImageView animationViewer=null;
+    private boolean isCatchDisabled = true;
 
     public Pokemon getCurPokemon(){
         return pokemon;
     }
-    public void setPokemon(Pokemon p){
+    public void setPokemon(Pokemon p, boolean isCatchDisabled){
+        this.isCatchDisabled = isCatchDisabled;
         pokemon = p;
         if(slotUI != null){
             slotUI.load(pokemon);
@@ -30,6 +32,16 @@ public class BattleSlot{
         return animationViewer;
     }
 
+    public Pokemon tryCatch(){
+        if(isCatchDisabled || pokemon == null || !pokemon.canCatch())
+            return  null;
+        else{
+            Pokemon temp = pokemon;
+            pokemon.forceKo();
+            return temp;
+        }
+    }
+
     public void setAnimationViewer(ImageView animationViewer) {
         this.animationViewer = animationViewer;
     }
@@ -42,10 +54,6 @@ public class BattleSlot{
     public void takehit(int damage, LineHolder lineStreamToAppendTo){
         pokemon.takeDamage(damage,lineStreamToAppendTo);
         slotUI.setHealth(pokemon.getCurHp(),pokemon.stats.maxHp.getCurVal());
-    }
-
-    public BattleSlot(Pokemon pokemon) {
-        setPokemon(pokemon);
     }
 
     public BattleSlot(BattleUIHolder slotUI, ImageView animationViewer) {

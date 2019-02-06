@@ -8,27 +8,27 @@ import javafx.scene.text.Text;
 
 
 //TODO USE THE EXECUTABLE IMPLEMENTATIONS I MADE EARLIER
-class TrainerCommand extends BattleCommand{
+public abstract class TrainerCommand extends BattleCommand{
     private final AnimationData animDataToUse;
-    private final Trainer commandUser;
     private SingleLoopAnimation animation;
     private final LineStreamExecutable lineSetter;
     private boolean hasCalled = false;
-    private final MyCallBack actualCommand;
+    private  boolean playAnimOnPlayer = true;
+    protected final Trainer commandUser;
     public final String commandDesc;
 
 
-    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc, MyCallBack actualCommand) {
+    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc,boolean playAnimOnPlayer) {
         this.animDataToUse = animDataToUse;
-        this.actualCommand = actualCommand;
+        this.playAnimOnPlayer = playAnimOnPlayer;
         this.commandUser = commandUser;
         this.commandDesc = commandDesc;
         lineSetter = new LineStreamExecutable();
         hasCalled = false;
     }
 
-    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc, MyCallBack actualCommand,String... strings) {
-        this(commandUser, animDataToUse, commandDesc,actualCommand);
+    public TrainerCommand(Trainer commandUser,AnimationData animDataToUse,String commandDesc,boolean playAnimOnPlayer,String... strings) {
+        this(commandUser, animDataToUse, commandDesc,playAnimOnPlayer);
         for (String s:strings) {
             lineSetter.push(s);
         }
@@ -36,7 +36,8 @@ class TrainerCommand extends BattleCommand{
 
     @Override
     public void start() {
-        animation = animDataToUse.toSingleLoop(commandUser.ownedSlot.getAnimationViewer());
+        animation = animDataToUse.toSingleLoop(playAnimOnPlayer?
+                commandUser.ownedSlot.getAnimationViewer():commandUser.enemySlot.getAnimationViewer());
         animation.play();
         Debugger.out(commandDesc + " trainer command from " + commandUser.name + " started");
     }
@@ -47,19 +48,13 @@ class TrainerCommand extends BattleCommand{
     }
 
     public void call(){
-        actualCommand.call();
+        callBack();
         hasCalled = true;
         Debugger.out(commandDesc + " trainer command from " + commandUser.name + " activate callback");
     }
 
 
     public void continueExecution(double delta, Text dialogueTarget){
-        /*
-        System.out.println("trainer command from " + commandUser.name +
-                            "line" + lineSetter.isComplete()+
-                            "anim" + animation.isComplete()+
-                            "call " + hasCalled
-        );*/
         if(isComplete())
             return;
         if(lineSetter.isComplete() && animation.isComplete()){
@@ -87,4 +82,6 @@ class TrainerCommand extends BattleCommand{
     public int getSpeed() {
         return 999;//DO NOT CHANGE
     }
+
+    public abstract void callBack();
 }

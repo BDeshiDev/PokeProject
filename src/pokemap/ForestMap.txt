@@ -1,0 +1,45 @@
+{
+"tileSize":16,
+"mapAra":
+
+        [
+        [T,T,T,T,X,X,T,T],
+        [T,X,X,X,X,X,T,T],
+        [T,X,X,G,G,G,X,X],
+        [T,X,X,G,G,G,T,T],
+        [T,T,T,T,T,T,T,T]
+        ],
+"possibleEncounters":
+        ["Charmander", "Pidgeot"],
+"trainerDatas":
+        [
+        {
+            "name": "Gary Stu",
+            "pokemonSaves": [
+                             {
+                                "name":"Blastoise",
+                                "level":"50"
+                             },
+                                {
+                                 "name":"Pidgeot",
+                                 "level":"50"
+                                }
+                             ]
+        },
+        {
+            "name": "Sherry Stu",
+            "pokemonSaves": [
+                                {
+                                  "name":"Venasaur",
+                                  "level":"50"
+                                }
+                            ]
+        }
+        ],
+"startPosition":
+         {
+            "x":35,
+            "y":35
+         },
+"probabilty":0
+}

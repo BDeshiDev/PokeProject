@@ -30,8 +30,12 @@ public class LineStream implements LineHolder {
     }
 
     @Override
-    public void addDelta(double delta){//remember to call this in battle loop
+    public String tryGetLine(double delta){//remember to call this in battle loop
         curTime+= delta;
+        if(hasLine())
+            return this.pop();
+        else
+            return null;
     }
 
     @Override

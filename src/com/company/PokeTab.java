@@ -26,7 +26,7 @@ public class PokeTab implements Initializable {
     @FXML
     PokeMove pokeMovePageController;
 
-    public static Pokemon pokemon=PokemonFactory.getCharizard();
+    public static Pokemon pokemon=PokemonFactory.getCharizard().toPokemon();
 
     public void init() {
         tabPane.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends Tab> observable,

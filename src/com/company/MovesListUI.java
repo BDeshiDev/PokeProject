@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.Pokemon.Move;
+import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
 import javafx.event.ActionEvent;
@@ -22,10 +22,11 @@ public class MovesListUI {
     public void add(Move move, pcTrainer player, Pokemon moveOwnerMon){
         if((row+1) >=maxRowOrCol && (col+1) >=maxRowOrCol){
             Debugger.out("failed to add move: " + move.getName()+ " since move grid is full");
+
             return;
         }
 
-        Button mButton = new Button(move.getName());
+        Button mButton =  ButtonFactory.getMoveButton(300,80,move);
         grid.add(mButton,col,row);
         mButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -35,11 +36,12 @@ public class MovesListUI {
         });
 
         col++;
-        if(row>maxRowOrCol){
+        if(col>=maxRowOrCol){
             row++;
-            col =0;
+            col = 0;
         }
     }
+
 
     public void load(Pokemon pokemonToLoad,pcTrainer player){
         row=0;col=0;

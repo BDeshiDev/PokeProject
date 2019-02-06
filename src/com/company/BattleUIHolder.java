@@ -15,14 +15,14 @@ public class BattleUIHolder {
     private Label LvLabel;
     private Rectangle Indicator;
     private ImageView imageView;
-    private boolean shoudUseFrontImage;
+    private boolean shouldFlipImage;
     public BattleUIHolder(Label nameLabel, ProgressBar hpBar, Label hpLabel, Label lvLabel, ImageView imageView,boolean shoudUseFrontImage) {
         NameLabel = nameLabel;
         HpBar = hpBar;
         HpLabel = hpLabel;
         LvLabel = lvLabel;
         this.imageView = imageView;
-        this.shoudUseFrontImage = shoudUseFrontImage;
+        this.shouldFlipImage = shoudUseFrontImage;
 
     }
     public void load(Pokemon pokemon){
@@ -30,7 +30,8 @@ public class BattleUIHolder {
             Debugger.out("poke null when loading UI");
         HpBar.setProgress(pokemon.getHpRatio());
         HpLabel.setText(pokemon.getCurHp() + " / " + pokemon.stats.maxHp.getCurVal());
-        imageView.setImage( new Image(shoudUseFrontImage?pokemon.frontImage:pokemon.backImage));
+        imageView.setImage( new Image(pokemon.frontImage));
+        imageView.setScaleX(shouldFlipImage?1:-1);
         LvLabel.setText("LV. "+ pokemon.getLevel());
         NameLabel.setText(pokemon.name);
     }

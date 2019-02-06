@@ -1,4 +1,7 @@
-package com.company.Pokemon;
+package com.company.Pokemon.Moves;
+
+import com.company.Pokemon.Pokemon;
+
 /*
 * used to determine which stat gives bonus power
 * */
@@ -8,13 +11,13 @@ public enum DamageType {
         int retVal = 0;
         switch (this){
             case Physical:
-                retVal = user.stats.attack.getCurVal();
+                retVal = user.getAtt();
                 break;
             case Special:
-                retVal =  user.stats.spAttack.getCurVal();
+                retVal =  user.getSpAtt();
                 break;
             case None:
-                retVal =   0;
+                retVal =   1;
                 break;
         }
         return  retVal;
@@ -23,13 +26,13 @@ public enum DamageType {
         int retVal = 0;
         switch (this){
             case Physical:
-                retVal = defender.stats.defence.getCurVal();
+                retVal = defender.getDef();
                 break;
             case Special:
-                retVal =  defender.stats.spDefence.getCurVal();
+                retVal =  defender.getSpDef();
                 break;
             case None:
-                retVal =   0;
+                retVal =  1;
                 break;
         }
         return  retVal;

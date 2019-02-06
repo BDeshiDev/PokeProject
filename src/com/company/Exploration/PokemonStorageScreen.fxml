@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" spacing="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.Exploration.PokemonStorageController">
+   <children>
+      <VBox>
+         <children>
+            <Label prefHeight="41.0" prefWidth="178.0" text="Party:">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
+            <HBox fx:id="partyPane" prefHeight="136.0" prefWidth="640.0" spacing="20.0" />
+         </children>
+      </VBox>
+      <VBox spacing="20.0">
+         <children>
+            <Label prefHeight="21.0" prefWidth="178.0" text="Storage:">
+               <font>
+                  <Font size="31.0" />
+               </font>
+            </Label>
+            <ScrollPane prefHeight="396.0" prefWidth="589.0">
+               <content>
+                  <FlowPane fx:id="storagePane" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="10.0" />
+               </content>
+            </ScrollPane>
+            <Pane prefHeight="113.0" prefWidth="640.0">
+               <children>
+                  <Button fx:id="exitButton" layoutX="515.0" layoutY="5.0" mnemonicParsing="false" onAction="#tryToExit" prefHeight="29.0" prefWidth="111.0" text="Exit">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </children>
+</VBox>

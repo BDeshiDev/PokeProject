@@ -1,16 +1,17 @@
 package com.company;
 
-import com.company.Pokemon.Move;
+import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.SingleLoopAnimation;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStreamExecutable;
 import javafx.scene.text.Text;
+import com.company.networking.AttackCommandData;
 
-class AttackCommand extends  BattleCommand{
+public class AttackCommand extends  BattleCommand{
     private final Pokemon user;
     private BattleSlot targettedSlot;
-    private final Move move;
+    public final Move move;
     //private LineStream linesSource;
     private SingleLoopAnimation animation;
     private boolean executionFailed = false;
@@ -68,7 +69,6 @@ class AttackCommand extends  BattleCommand{
         animation.end();
     }
 
-
     @Override
     public String toString() {
         return "Attack command{" +
@@ -76,5 +76,10 @@ class AttackCommand extends  BattleCommand{
                 ", move=" + move.getName() +
                 "anim = " + move.animationData.imagePath+
                 '}';
+    }
+
+    @Override
+    public String toJsonData() {
+        return new AttackCommandData(this).toJsonData();
     }
 }

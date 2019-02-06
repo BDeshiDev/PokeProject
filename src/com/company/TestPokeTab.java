@@ -17,5 +17,5 @@ public class TestPokeTab extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-}
+        }
+        }
