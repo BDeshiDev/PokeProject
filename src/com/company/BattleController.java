@@ -489,6 +489,7 @@ public class BattleController {
         Media media=new Media(new File(battleBGM).toURI().toString());
 
         mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setVolume(.7);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 

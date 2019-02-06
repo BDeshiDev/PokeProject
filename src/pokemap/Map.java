@@ -56,6 +56,7 @@ public class Map {
     {
         FileReader reader=null;
         try {
+            System.out.println(mapName);
             reader=new FileReader(mapName);
         } catch (FileNotFoundException e) {
             System.out.println("Load file failed");

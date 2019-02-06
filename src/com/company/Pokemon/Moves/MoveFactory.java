@@ -29,7 +29,7 @@ public class MoveFactory {
         moveMap.put(m.getName(),m);
         m = getDebugKo();
         moveMap.put(m.getName(),m);
-
+        /*
         FileWriter writer=null;
         try {
             writer=new FileWriter("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\com\\company\\Pokemon\\Moves\\moveFactory.txt");
@@ -44,8 +44,7 @@ public class MoveFactory {
             e.printStackTrace();
         }
         System.out.println(s);
-
-
+        */
     }
     public static  Move getMoveByName(String moveName){
         if(moveMap.containsKey(moveName))

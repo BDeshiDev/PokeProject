@@ -62,6 +62,7 @@ public class MergedExploration extends Application implements  PokeScreen{
         this.currentSave = saveData;
         this.prevScreen = prevScreen;
 
+        System.out.println(currentSave.mapName);
         forestMap =new Map(new File(currentSave.mapName));
         player =new PlayerEntity(currentSave, new ImageView());
         player.resetProbablity();

@@ -35,12 +35,13 @@ public class PostBattleController implements PokeScreen {
     SaveData curSave;
     PokeScreen prevScreen;
 
+    String victoryBGM = new String("src/Assets/victoryBGM.mp3");
     LineStreamExecutable lineSource  = new LineStreamExecutable();;
     boolean readyToExit = false;
 
     @Override
     public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
-        Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\victoryBGM.mp3").toURI().toString());
+        Media media=new Media(new File(victoryBGM).toURI().toString());
         mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
