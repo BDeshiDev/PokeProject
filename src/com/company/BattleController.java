@@ -41,7 +41,6 @@ import javafx.scene.shape.Rectangle;
 public class BattleController {
 
     private MediaPlayer mediaPlayer;
-
     @FXML
     private Label enemyNameLabel;
 

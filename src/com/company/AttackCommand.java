@@ -5,8 +5,12 @@ import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Animation.SingleLoopAnimation;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStreamExecutable;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import com.company.networking.AttackCommandData;
+
+import java.io.File;
 
 public class AttackCommand extends  BattleCommand{
     private final Pokemon user;
@@ -16,17 +20,20 @@ public class AttackCommand extends  BattleCommand{
     private SingleLoopAnimation animation;
     private boolean executionFailed = false;
     private LineStreamExecutable lineSetter;
+    private MediaPlayer mediaPlayer;
 
     public AttackCommand(Pokemon user, Move m, BattleSlot targetedSlot) {//used for holding move data once moves are finalized
         this.user = user;
         this.targettedSlot = targetedSlot;
         this.move = m;
+        this.mediaPlayer = new MediaPlayer(new Media(new File(move.sfxName).toURI().toString()));
         lineSetter = new LineStreamExecutable();
     }
 
     @Override
     public void start() {
         animation = move.animationData.toSingleLoop(targettedSlot.getAnimationViewer());
+        mediaPlayer.setAutoPlay(true);
         if(user.isDead()){
             executionFailed = true;
         }else {
@@ -67,6 +74,7 @@ public class AttackCommand extends  BattleCommand{
 
     public void end(){
         animation.end();
+        mediaPlayer.stop();
     }
 
     @Override
