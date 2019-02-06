@@ -1,0 +1,558 @@
+[
+  {
+    "name": "Blastoise",
+    "t1": "Water",
+    "t2": "None",
+    "stats": {
+      "level": {
+        "curLevel": 1,
+        "curXP": 0,
+        "xpToNext": 1
+      },
+      "maxHp": {
+        "realVal": 14.84,
+        "baseVal": 12,
+        "CurVal": 14,
+        "MaxVal": 154
+      },
+      "attack": {
+        "realVal": 7.9399999999999995,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 103
+      },
+      "defence": {
+        "realVal": 9.26,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 120
+      },
+      "spAttack": {
+        "realVal": 8.96,
+        "baseVal": 7,
+        "CurVal": 8,
+        "MaxVal": 105
+      },
+      "spDefence": {
+        "realVal": 9.36,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 125
+      },
+      "speed": {
+        "realVal": 7.84,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 98
+      }
+    },
+    "evoData": {
+      "lvRequirement": 999
+    },
+    "frontImage": "Assets/PokemonImages/HdImages/BlastoiseHD.png",
+    "moves": [
+      {
+        "name": "Surf",
+        "type": "Water",
+        "damageType": "Special",
+        "power": 90,
+        "priority": 0,
+        "accuracy": 100,
+        "maxPp": 15,
+        "curPp": 15,
+        "animationData": {
+          "imagePath": "Assets/Animations/4.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 5,
+          "maxLoops": 1,
+          "columns": 5,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 102,
+          "height": 100
+        }
+      },
+      {
+        "name": "Slam",
+        "type": "Normal",
+        "damageType": "Physical",
+        "power": 75,
+        "priority": 0,
+        "accuracy": 80,
+        "maxPp": 10,
+        "curPp": 10,
+        "animationData": {
+          "imagePath": "Assets/Animations/4.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 5,
+          "maxLoops": 1,
+          "columns": 5,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 102,
+          "height": 100
+        }
+      }
+    ]
+  },
+  {
+    "name": "Venasaur",
+    "t1": "Grass",
+    "t2": "Poison",
+    "stats": {
+      "level": {
+        "curLevel": 1,
+        "curXP": 0,
+        "xpToNext": 1
+      },
+      "maxHp": {
+        "realVal": 14.86,
+        "baseVal": 12,
+        "CurVal": 14,
+        "MaxVal": 155
+      },
+      "attack": {
+        "realVal": 7.92,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 102
+      },
+      "defence": {
+        "realVal": 7.9399999999999995,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 103
+      },
+      "spAttack": {
+        "realVal": 9.26,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 120
+      },
+      "spDefence": {
+        "realVal": 9.26,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 120
+      },
+      "speed": {
+        "realVal": 7.88,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 100
+      }
+    },
+    "evoData": {
+      "lvRequirement": 999
+    },
+    "frontImage": "Assets/PokemonImages/HdImages/venasaurHD.png",
+    "moves": [
+      {
+        "name": "Razor Leaf",
+        "type": "Grass",
+        "damageType": "Special",
+        "power": 65,
+        "priority": 0,
+        "accuracy": 100,
+        "maxPp": 15,
+        "curPp": 15,
+        "animationData": {
+          "imagePath": "Assets/Animations/4.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 5,
+          "maxLoops": 1,
+          "columns": 5,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 102,
+          "height": 100
+        }
+      },
+      {
+        "name": "Slam",
+        "type": "Normal",
+        "damageType": "Physical",
+        "power": 75,
+        "priority": 0,
+        "accuracy": 80,
+        "maxPp": 10,
+        "curPp": 10,
+        "animationData": {
+          "imagePath": "Assets/Animations/4.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 5,
+          "maxLoops": 1,
+          "columns": 5,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 102,
+          "height": 100
+        }
+      }
+    ]
+  },
+  {
+    "name": "Charizard",
+    "t1": "Fire",
+    "t2": "Flying",
+    "stats": {
+      "level": {
+        "curLevel": 1,
+        "curXP": 0,
+        "xpToNext": 1
+      },
+      "maxHp": {
+        "realVal": 8.94,
+        "baseVal": 6,
+        "CurVal": 8,
+        "MaxVal": 153
+      },
+      "attack": {
+        "realVal": 7.96,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 104
+      },
+      "defence": {
+        "realVal": 7.84,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 98
+      },
+      "spAttack": {
+        "realVal": 9.42,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 128
+      },
+      "spDefence": {
+        "realVal": 9.42,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 128
+      },
+      "speed": {
+        "realVal": 9.26,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 120
+      }
+    },
+    "evoData": {
+      "lvRequirement": 999
+    },
+    "frontImage": "Assets/PokemonImages/HdImages/CharizardHD.png",
+    "moves": [
+      {
+        "name": "Flame Thrower",
+        "type": "Fire",
+        "damageType": "Special",
+        "power": 85,
+        "priority": 0,
+        "accuracy": 100,
+        "maxPp": 15,
+        "curPp": 15,
+        "animationData": {
+          "imagePath": "Assets/Animations/11 - Copie.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 4,
+          "maxLoops": 1,
+          "columns": 4,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 82,
+          "height": 100
+        }
+      },
+      {
+        "name": "Aerial Ace",
+        "type": "Flying",
+        "damageType": "Physical",
+        "power": 60,
+        "priority": 0,
+        "accuracy": 999,
+        "maxPp": 20,
+        "curPp": 20,
+        "animationData": {
+          "imagePath": "Assets/Animations/4.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 5,
+          "maxLoops": 1,
+          "columns": 5,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 102,
+          "height": 100
+        }
+      }
+    ]
+  },
+  {
+    "name": "Charmander",
+    "t1": "Fire",
+    "t2": "Flying",
+    "stats": {
+      "level": {
+        "curLevel": 1,
+        "curXP": 0,
+        "xpToNext": 1
+      },
+      "maxHp": {
+        "realVal": 8.94,
+        "baseVal": 6,
+        "CurVal": 8,
+        "MaxVal": 153
+      },
+      "attack": {
+        "realVal": 7.96,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 104
+      },
+      "defence": {
+        "realVal": 7.84,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 98
+      },
+      "spAttack": {
+        "realVal": 9.42,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 128
+      },
+      "spDefence": {
+        "realVal": 9.42,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 128
+      },
+      "speed": {
+        "realVal": 9.26,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 120
+      }
+    },
+    "evoData": {
+      "monToEvolveTo": "Charmeleon",
+      "lvRequirement": 16
+    },
+    "frontImage": "Assets/PokemonImages/HdImages/CharmanderHD.png",
+    "moves": [
+      {
+        "name": "Flame Thrower",
+        "type": "Fire",
+        "damageType": "Special",
+        "power": 85,
+        "priority": 0,
+        "accuracy": 100,
+        "maxPp": 15,
+        "curPp": 15,
+        "animationData": {
+          "imagePath": "Assets/Animations/11 - Copie.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 4,
+          "maxLoops": 1,
+          "columns": 4,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 82,
+          "height": 100
+        }
+      }
+    ]
+  },
+  {
+    "name": "Charmeleon",
+    "t1": "Fire",
+    "t2": "Flying",
+    "stats": {
+      "level": {
+        "curLevel": 1,
+        "curXP": 0,
+        "xpToNext": 1
+      },
+      "maxHp": {
+        "realVal": 8.94,
+        "baseVal": 6,
+        "CurVal": 8,
+        "MaxVal": 153
+      },
+      "attack": {
+        "realVal": 7.96,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 104
+      },
+      "defence": {
+        "realVal": 7.84,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 98
+      },
+      "spAttack": {
+        "realVal": 9.42,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 128
+      },
+      "spDefence": {
+        "realVal": 9.42,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 128
+      },
+      "speed": {
+        "realVal": 9.26,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 120
+      }
+    },
+    "evoData": {
+      "monToEvolveTo": "Charizard",
+      "lvRequirement": 36
+    },
+    "frontImage": "Assets/PokemonImages/HdImages/CharmeleonHD.png",
+    "moves": [
+      {
+        "name": "Flame Thrower",
+        "type": "Fire",
+        "damageType": "Special",
+        "power": 85,
+        "priority": 0,
+        "accuracy": 100,
+        "maxPp": 15,
+        "curPp": 15,
+        "animationData": {
+          "imagePath": "Assets/Animations/11 - Copie.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 4,
+          "maxLoops": 1,
+          "columns": 4,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 82,
+          "height": 100
+        }
+      }
+    ]
+  },
+  {
+    "name": "Pidgeot",
+    "t1": "Normal",
+    "t2": "Flying",
+    "stats": {
+      "level": {
+        "curLevel": 1,
+        "curXP": 0,
+        "xpToNext": 1
+      },
+      "maxHp": {
+        "realVal": 9.04,
+        "baseVal": 6,
+        "CurVal": 9,
+        "MaxVal": 158
+      },
+      "attack": {
+        "realVal": 7.88,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 100
+      },
+      "defence": {
+        "realVal": 7.78,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 95
+      },
+      "spAttack": {
+        "realVal": 4.74,
+        "baseVal": 3,
+        "CurVal": 4,
+        "MaxVal": 90
+      },
+      "spDefence": {
+        "realVal": 7.68,
+        "baseVal": 6,
+        "CurVal": 7,
+        "MaxVal": 90
+      },
+      "speed": {
+        "realVal": 9.28,
+        "baseVal": 7,
+        "CurVal": 9,
+        "MaxVal": 121
+      }
+    },
+    "evoData": {
+      "lvRequirement": 999
+    },
+    "frontImage": "Assets/PokemonImages/HdImages/PidgeotHD.png",
+    "moves": [
+      {
+        "name": "Aerial Ace",
+        "type": "Flying",
+        "damageType": "Physical",
+        "power": 60,
+        "priority": 0,
+        "accuracy": 999,
+        "maxPp": 20,
+        "curPp": 20,
+        "animationData": {
+          "imagePath": "Assets/Animations/4.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 5,
+          "maxLoops": 1,
+          "columns": 5,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 102,
+          "height": 100
+        }
+      },
+      {
+        "name": "Slam",
+        "type": "Normal",
+        "damageType": "Physical",
+        "power": 75,
+        "priority": 0,
+        "accuracy": 80,
+        "maxPp": 10,
+        "curPp": 10,
+        "animationData": {
+          "imagePath": "Assets/Animations/4.png",
+          "duration": {
+            "millis": 500.0
+          },
+          "count": 5,
+          "maxLoops": 1,
+          "columns": 5,
+          "offsetX": 0,
+          "offsetY": 0,
+          "width": 102,
+          "height": 100
+        }
+      }
+    ]
+  }
+]
