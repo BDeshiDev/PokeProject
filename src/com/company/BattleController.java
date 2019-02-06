@@ -41,7 +41,6 @@ import javafx.scene.shape.Rectangle;
 public class BattleController {
 
     private MediaPlayer mediaPlayer;
-
     @FXML
     private Label enemyNameLabel;
 
@@ -164,6 +163,8 @@ public class BattleController {
     PokeScreen prevScreen = null;
     PokeScreen postBattleScreen = null;
     Parent newRoot;
+
+    String battleBGM = "src/Assets/battleBGM.mp3";
 
     public BattleController(){
         setFxml();
@@ -485,9 +486,10 @@ public class BattleController {
         isComplete = false;
         curStage.setScene(battleScene);
 
-        Media media=new Media(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\battleBGM.mp3").toURI().toString());
+        Media media=new Media(new File(battleBGM).toURI().toString());
 
         mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setVolume(.7);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 

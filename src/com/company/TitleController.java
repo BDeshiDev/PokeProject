@@ -47,7 +47,7 @@ public class TitleController implements PokeScreen {
     public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
         curStage = primaryStage;
         this.curSave = s;
-        String path = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\Assets\\titleBGM.mp3";
+        String path = "src/Assets/titleBGM.mp3";
 
         //Instantiating Media class
         Media media = new Media(new File(path).toURI().toString());

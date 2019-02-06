@@ -4,65 +4,46 @@ import com.company.Pokemon.Type;
 import com.company.Utilities.Animation.AnimationFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonWriter;
 
-import java.io.*;
-import java.util.Collection;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.zip.GZIPOutputStream;
 
 //#optimize cache the moves once instantiated and return them
 public class MoveFactory {
 
     private static HashMap<String,Move> moveMap = new HashMap<>();
     static {
-//        Move m = getAerialAce();
-//        moveMap.put(m.getName(),m);
-//        m = getFlameThrower();
-//        moveMap.put(m.getName(),m);
-//        m = getRazorLeaf();
-//        moveMap.put(m.getName(),m);
-//        m = getThunder();
-//        moveMap.put(m.getName(),m);
-//        m = getSurf();
-//        moveMap.put(m.getName(),m);
-//        m = getSlam();
-//        moveMap.put(m.getName(),m);
-//        m = getDebugKo();
-//        moveMap.put(m.getName(),m);
-//
-//        JsonWriter jw=null;
-//        try {
-//            jw=new JsonWriter(new FileWriter("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\com\\company\\Pokemon\\Moves\\moveFactory.txt"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        Gson gson=new Gson();
-//        try {
-//            JsonWriter writer = new JsonWriter(new FileWriter("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\com\\company\\Pokemon\\Moves\\moveFactory.txt"));
-//            writer.setIndent("  ");
-//            gson.toJson(moveMap.values(),moveMap.values().getClass(), writer);
-//            writer.flush();
-//            writer.close();
-//        }catch (IOException ioe){
-//            System.out.println("save failed");
-//        }
+        Move m = getAerialAce();
+        moveMap.put(m.getName(),m);
+        m = getFlameThrower();
+        moveMap.put(m.getName(),m);
+        m = getRazorLeaf();
+        moveMap.put(m.getName(),m);
+        m = getThunder();
+        moveMap.put(m.getName(),m);
+        m = getSurf();
+        moveMap.put(m.getName(),m);
+        m = getSlam();
+        moveMap.put(m.getName(),m);
+        m = getDebugKo();
+        moveMap.put(m.getName(),m);
 
-        FileReader fr=null;
+        FileWriter writer=null;
         try {
-            fr=new FileReader(new File("src/com/company/Pokemon/Moves/moveFactory.txt"));
-        } catch (FileNotFoundException e) {
-            System.out.println("Cant load file");
+            writer=new FileWriter("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\com\\company\\Pokemon\\Moves\\moveFactory.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        Gson gson=new Gson();
-        Move moves[]=gson.fromJson(fr,Move[].class);
-        System.out.println(moves);
-        System.out.println(moveMap.values().getClass());
-        for (Move m:
-             moves) {
-            moveMap.put(m.getName(),m);
-            System.out.println(m.getName());
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();;
+        String s=gson.toJson(moveMap.values());
+        try {
+            writer.write(s);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        System.out.println(s);
 
 
     }
