@@ -1,7 +1,7 @@
 {
   "score": 0,
   "position": {
-    "x": 61,
+    "x": 71,
     "y": 36
   },
   "pcTrainer": {
@@ -10,7 +10,7 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard38",
+        "name": "Charizard45",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
@@ -83,7 +83,7 @@
               "width": 82,
               "height": 100
             },
-            "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
           },
           {
             "name": "Aerial Ace",
@@ -107,7 +107,7 @@
               "width": 102,
               "height": 100
             },
-            "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
           }
         ],
         "evoData": {
@@ -115,7 +115,7 @@
         }
       },
       {
-        "name": "Blastoise0",
+        "name": "Blastoise26",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
@@ -188,7 +188,7 @@
               "width": 102,
               "height": 100
             },
-            "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
           },
           {
             "name": "Slam",
@@ -212,7 +212,7 @@
               "width": 102,
               "height": 100
             },
-            "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
           }
         ],
         "evoData": {
@@ -220,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur30",
+        "name": "Venasaur38",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,
@@ -293,7 +293,7 @@
               "width": 102,
               "height": 100
             },
-            "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
           },
           {
             "name": "Slam",
@@ -317,7 +317,7 @@
               "width": 102,
               "height": 100
             },
-            "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
           }
         ],
         "evoData": {

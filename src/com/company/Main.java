@@ -11,7 +11,6 @@ import pokemap.Position;
 public class Main extends  Application {
     @Override
     public void start(Stage primaryStage) throws  Exception{
-        PokemonFactory.getBlastoise();
         TitleController titleController = new TitleController();
         titleController.begin(primaryStage,SaveData.newGameData(),null);
         primaryStage.show();

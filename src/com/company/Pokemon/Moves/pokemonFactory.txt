@@ -73,7 +73,7 @@
           "width": 102,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Slam",
@@ -97,7 +97,7 @@
           "width": 102,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -175,7 +175,7 @@
           "width": 102,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Slam",
@@ -199,7 +199,7 @@
           "width": 102,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -277,7 +277,7 @@
           "width": 82,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Aerial Ace",
@@ -301,7 +301,7 @@
           "width": 102,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -380,7 +380,7 @@
           "width": 82,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -459,7 +459,7 @@
           "width": 82,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -537,7 +537,7 @@
           "width": 102,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Slam",
@@ -561,7 +561,7 @@
           "width": 102,
           "height": 100
         },
-        "sfxName": "C:\\Users\\fahim\\IdeaProjects\\PokeProject\\src\\Assets\\SFX\\FlamethrowerSFX.mp3"
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   }
