@@ -18,6 +18,7 @@ public class  Move{
     private int curPp;
     //unused end
     public AnimationData animationData;
+    public final String sfxName;
     public int getCurPp() {
         return curPp;
     }
@@ -26,7 +27,7 @@ public class  Move{
         return name;
     }
 
-    public Move(String name, Type type,DamageType damageType, int power, int priority, int accuracy, int maxPp, AnimationData animationData) {
+    public Move(String name, Type type,DamageType damageType, int power, int priority, int accuracy, int maxPp, AnimationData animationData,String sfxName) {
         this.name = name;
         this.type = type;
         this.damageType = damageType;
@@ -34,6 +35,7 @@ public class  Move{
         this.priority = priority;
         this.accuracy = accuracy;
         this.curPp = this.maxPp = maxPp;
+        this.sfxName = sfxName;
         this.animationData = animationData;
     }
 

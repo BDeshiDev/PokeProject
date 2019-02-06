@@ -66,6 +66,28 @@ public class Entity {
 //            System.out.println(posX+dx+" "+posY+dy);
             this.setEntityPosition(new Position(posX+dx,posY+dy));
             System.out.println(this.gettingPokemonProbability(map));
+            int row=map.getRow(this.getEntityPosition().getY()+8);
+            int col=map.getCol(this.getEntityPosition().getX()+8);
+
+            if(map.getMapAra()[row][col]=='G' &&flag==false) {
+                flag=true;
+                this.prevCol=col;
+                this.prevRow=row;
+            }
+
+            if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
+                this.probability+=.01;
+            }
+
+            if (map.getMapAra()[row][col]=='G'&&flag==true){
+                this.prevCol=col;
+                this.prevRow=row;
+            }
+
+            if(map.getMapAra()[row][col]!='G') {
+                flag=false;
+                this.probability=0;
+            }
         }
     }
 
@@ -81,28 +103,28 @@ public class Entity {
     }
 
     public double gettingPokemonProbability(Map map){
-        int row=map.getRow(this.getEntityPosition().getY()+8);
-        int col=map.getCol(this.getEntityPosition().getX()+8);
-
-        if(map.getMapAra()[row][col]=='G' &&flag==false) {
-            flag=true;
-            this.prevCol=col;
-            this.prevRow=row;
-        }
-
-        if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
-            this.probability+=.01;
-        }
-
-        if (map.getMapAra()[row][col]=='G'&&flag==true){
-            this.prevCol=col;
-            this.prevRow=row;
-        }
-
-        if(map.getMapAra()[row][col]!='G') {
-            flag=false;
-            this.probability=0;
-        }
+//        int row=map.getRow(this.getEntityPosition().getY()+8);
+//        int col=map.getCol(this.getEntityPosition().getX()+8);
+//
+//        if(map.getMapAra()[row][col]=='G' &&flag==false) {
+//            flag=true;
+//            this.prevCol=col;
+//            this.prevRow=row;
+//        }
+//
+//        if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
+//            this.probability+=.01;
+//        }
+//
+//        if (map.getMapAra()[row][col]=='G'&&flag==true){
+//            this.prevCol=col;
+//            this.prevRow=row;
+//        }
+//
+//        if(map.getMapAra()[row][col]!='G') {
+//            flag=false;
+//            this.probability=0;
+//        }
 
         return this.probability;
 

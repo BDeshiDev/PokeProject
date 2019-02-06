@@ -4,7 +4,10 @@ import com.company.Pokemon.*;
 import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Moves.MoveFactory;
 import com.company.Pokemon.Stats.Level;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,6 +23,36 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
         p = getCharmander();pokeMap.put(p.name,p);
         p = getPidgeot();pokeMap.put(p.name,p);
         p = getCharmeleon();pokeMap.put(p.name,p);
+
+
+        JsonWriter jw=null;
+        Gson gson=new Gson();
+        try {
+            JsonWriter writer = new JsonWriter(new FileWriter("src/com/company/Pokemon/Moves/pokemonFactory.txt"));
+            writer.setIndent("  ");
+            gson.toJson(pokeMap.values(),pokeMap.values().getClass(), writer);
+            writer.flush();
+            writer.close();
+        }catch (IOException ioe){
+            System.out.println("write failed...");
+        }
+/*
+        FileReader fr=null;
+        try {
+            fr=new FileReader(new File("src/com/company/Pokemon/Moves/pokemonFactory.txt"));
+        } catch (FileNotFoundException e) {
+            System.out.println("Cant load file");
+        }
+
+        Gson gson=new Gson();
+        PokemonData datas[]=gson.fromJson(fr,PokemonData[].class);
+        System.out.println(pokeMap.values().getClass());
+        for (PokemonData m:
+                datas) {
+            pokeMap.put(m.name,m);
+        }
+
+*/
     }
     public static Pokemon getMonByName(String name,int level){
         if(pokeMap.containsKey(name))
