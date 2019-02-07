@@ -7,6 +7,7 @@
 #titleName:pressed
 {
     -fx-rotate: 10;
+    -fx-rotate: -10;
 }
 
 .button{
@@ -20,12 +21,11 @@
 .button:hover{
     -fx-translate-x: 5;
     -fx-translate-y: -5;
-    -fx-translate-z: 300;
+    -fx-indeterminate-bar-animation-time: 2s;
     -fx-background-color: #467e84;
     -fx-border-color: #0000FF;
     -fx-border-radius: 30;
 }
 
 .button:pressed{
-    -fx-rotate: 360;
 }
