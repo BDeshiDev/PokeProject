@@ -3,12 +3,14 @@ package com.company.RealTime;
 import com.company.Settings;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
-import javafx.animation.AnimationTimer;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -30,8 +32,7 @@ public class ServerRealTime {
                 ConcurrentLinkedDeque<String> inputQueue = new ConcurrentLinkedDeque<>();
                 ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2);
                 Timer simTimer =  new Timer("simulation timer");
-                simTimer.scheduleAtFixedRate(ssLoop,0,20);
-                System.out.println("timer called");
+                simTimer.scheduleAtFixedRate(ssLoop,0,ServerSimulationLoop.tickDelay);
 
                 ServerReader serverThread1 = new ServerReader(p1,p2,inputQueue,1);
                 Thread st = new Thread(serverThread1);
@@ -49,24 +50,111 @@ public class ServerRealTime {
 
 class ServerSimulationLoop extends TimerTask {
     ConcurrentLinkedDeque<String> clientInputQueue;
-    NetworkConnection p1Connection , p2Connection;
+    private NetworkConnection p1Connection , p2Connection;
+    private Grid simulatedLeftGrid,simulatedRightGrid;
+    private BattlePlayer p1,p2;
+
+    Gson gson = new Gson();
+
+    private List<AttackDamageTimer> attacksToCheck  = new ArrayList<AttackDamageTimer>();
+
+    public static int tickDelay = 20;//in ms
 
 
     public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection) {
         this.clientInputQueue = clientInputQueue;
         this.p1Connection = p1Connection;
         this.p2Connection = p2Connection;
+        this.simulatedLeftGrid = new Grid(null);
+        this.simulatedRightGrid = new Grid(null);
+        p1 = new BattlePlayer(null,simulatedLeftGrid,null);
+        p1.setId(1);
+        p2 = new BattlePlayer(null,simulatedRightGrid,null);
+        p2.setId(2);
     }
 
     @Override
     public void run() {
-        System.out.println("simlatin...");
         if(!clientInputQueue.isEmpty()){
             String newMessage = clientInputQueue.pop();
-            System.out.println("queue : " + newMessage);
-            p1Connection.writeToConnection.println(newMessage);
-            p2Connection.writeToConnection.println(newMessage);
+            String messageToSend = null;
+            if(newMessage.startsWith(BattleProtocol.moveMessageHeader)){
+                //in cas of valid move update positions on our end and send them over
+                String jsonToParse = newMessage.substring(BattleProtocol.moveMessageHeader.length());
+                moveMessage mm = gson.fromJson(jsonToParse,moveMessage.class);
+                BattlePlayer moveTarget = getPlayerFromTargetId(mm.moveTargetId);
+                if(moveTarget != null){
+                    if(simulatedLeftGrid.isMoveValid(moveTarget.curtile,mm.dx,mm.dy)){
+                        simulateMove(moveTarget,mm.dx,mm.dy);
+                        messageToSend = newMessage;
+                    }
+                }else{
+                    System.out.println("Server simulation:: wrong move id : " + mm.moveTargetId);
+                }
+            }else if(newMessage.startsWith(BattleProtocol.attackMessageHeader)){
+                String jsonToParse = newMessage.substring(BattleProtocol.attackMessageHeader.length());
+                AttackMessage am = gson.fromJson(jsonToParse,AttackMessage.class);
+                simulateAttack(am);
+                messageToSend = newMessage;
+            }
+            if(messageToSend != null) {
+                p1Connection.writeToConnection.println(newMessage);
+                p2Connection.writeToConnection.println(newMessage);
+            }
         }
+        if(!attacksToCheck.isEmpty()){
+            List<DamageMessage> damageUpdates = new ArrayList<>();
+            for(int i = attacksToCheck.size()-1;i>=0;i--){
+                AttackDamageTimer adt = attacksToCheck.get(i);
+                adt.applyDamage(p1,p2,tickDelay,damageUpdates);
+                if(adt.shouldEnd())
+                    attacksToCheck.remove(i);
+            }
+            if(!damageUpdates.isEmpty()){
+                System.out.println("Simulation: somebody took damage");
+                String messages = BattleProtocol.createMessage(damageUpdates,BattleProtocol.DamageHeader);
+                p1Connection.writeToConnection.println(messages);
+                p2Connection.writeToConnection.println(messages);
+            }
+        }
+    }
+
+    public BattlePlayer getPlayerFromTargetId(int targetId){
+        if(targetId == p1.getId()){
+            return p1;
+        }else if(targetId == p2.getId()){
+            return p2;
+        }
+        return null;
+    }
+    public void printSimulation() {
+        for (Tile[] tArr :simulatedLeftGrid.grid) {
+            for(Tile t: tArr){
+                System.out.print(t +(t == p1.curtile?"p1":"  ") );
+            }
+            System.out.println();
+        }
+        for (Tile[] tArr :simulatedRightGrid.grid) {
+            for(Tile t: tArr){
+                System.out.println(t +(t == p2.curtile?"p2":"  ") );
+            }
+        }
+    }
+
+    public void simulateMove(BattlePlayer bp,int dx, int dy){
+        bp.setMove(dx,dy);
+        //printSimulation();
+    }
+
+    public void simulateAttack(AttackMessage am){
+        if(am.userID == p1.getId()){
+            am.addDamageTimers(simulatedLeftGrid,simulatedRightGrid,attacksToCheck);
+        }else if(am.userID == p2.getId()){
+            am.addDamageTimers(simulatedRightGrid,simulatedLeftGrid,attacksToCheck);
+        }else{
+            System.out.println("simulation: invalid attack user id " + am.userID);
+        }
+
     }
 
 }
@@ -92,10 +180,7 @@ class ServerReader implements  Runnable{
                 String readLine = p1.readFromConnection.readLine();
                 System.out.println("s" + id + ": " + readLine);
 
-                //please work properly Q_Q
                 inputQueue.push(readLine);
-                //p1.writeToConnection.println(s);
-                //p2.writeToConnection.println(s);
             }
             //System.out.println("closing socket");
             // serverSocket.close();
