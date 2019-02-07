@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 * used for decoding strings between server and client
 * So that I don't have to type it by hand
 * */
-class BattleProtocol{
+public class BattleProtocol{
    static String TrainerInfoRequest = "GIVE_TRAINER_INFO";
    static String TrainerInfoHeader = "TRAINER_INFO";
    static String WinSignal = "WON";
@@ -15,6 +15,10 @@ class BattleProtocol{
    static String SwapCommandHeader = "SWAP_COMMAND";
    static String battleStartSignal = "START_BATTLE";
    static String TurnEndOkay = "CAN_END_TURN";
+
+   public static String moveMessageHeader = "MOVE";
+   public static String setIdMessageHeader = "SET_ID";
+
 
 
    public static Gson gson = new Gson();

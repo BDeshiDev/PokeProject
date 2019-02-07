@@ -1,5 +1,5 @@
 {
-  "totalXp": 1000,
+  "totalXp": 500,
   "playerWon": true,
   "hasRun": false,
   "caughtMons": []

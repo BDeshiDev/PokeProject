@@ -92,8 +92,6 @@ public class ExicuteMap extends Application {
         timer.start();
     }
     public static void main(String[] args) {
-
-        System.out.println("help us");
         launch(args);
     }
 }
