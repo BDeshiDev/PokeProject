@@ -65,8 +65,8 @@ class ServerSimulationLoop extends TimerTask {
         this.clientInputQueue = clientInputQueue;
         this.p1Connection = p1Connection;
         this.p2Connection = p2Connection;
-        this.simulatedLeftGrid = new Grid(null);
-        this.simulatedRightGrid = new Grid(null);
+        this.simulatedLeftGrid = new Grid(null,false);
+        this.simulatedRightGrid = new Grid(null,true);
         p1 = new BattlePlayer(null,simulatedLeftGrid,null);
         p1.setId(1);
         p2 = new BattlePlayer(null,simulatedRightGrid,null);

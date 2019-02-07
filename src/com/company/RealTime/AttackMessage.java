@@ -25,11 +25,11 @@ public class AttackMessage {
     }
 
     public  static AttackMessage getTestMessage(int userID, int userPosX, int userPosY){
-        return  new AttackMessage("test Attack ", userID,userPosX,userPosY,20,10,TargetPattern.row,false,true);
+        return  new AttackMessage("test Attack ", userID,userPosX,userPosY,20,10,TargetPattern.singleTile,false,true);
     }
 
     public List<Tile> getTargets(Grid userGrid, Grid enemyGrid){
-        int startx = shouldTargetOwnGrid?userPosX:0;
+        int startx = shouldTargetOwnGrid?userPosX:enemyGrid.mirrorX(userPosX);
         int starty = userPosY;
         Grid targetGrid = shouldTargetOwnGrid?userGrid:enemyGrid;
 
@@ -37,13 +37,14 @@ public class AttackMessage {
     }
 
     private List<Tile> getTargets(Grid targetGrid,int startX, int startY){
+        System.out.println("get tiles from " + startX +"," +startY );
         List<Tile> targets = targetPattern.getTargetTiles(targetGrid,startX,startY );
         return targets;
     }
 
 
     public void addDamageTimers(Grid userGrid, Grid enemyGrid,List<AttackDamageTimer> attacksToCheck){
-        int startx = shouldTargetOwnGrid?userPosX:0;
+        int startx = shouldTargetOwnGrid?3-userPosX:enemyGrid.mirrorX(userPosX);
         int starty = userPosY;
         Grid targetGrid = shouldTargetOwnGrid?userGrid:enemyGrid;
         List<Tile> targets = getTargets(targetGrid,startx,starty);

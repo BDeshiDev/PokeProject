@@ -27,8 +27,8 @@ public class TestPlayerClient extends Application {
         primaryStage.setScene(s);
         primaryStage.show();
 
-        Grid playerGrid = new Grid(controller.getPlayerGridParent());
-        Grid enemyGrid = new Grid(controller.getEnmeyGridParent());
+        Grid playerGrid = new Grid(controller.getPlayerGridParent(),false);
+        Grid enemyGrid = new Grid(controller.getEnmeyGridParent(),true);
 
         Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
         System.out.println("in ");

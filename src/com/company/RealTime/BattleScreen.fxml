@@ -65,7 +65,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="257.0" prefWidth="600.0" spacing="20.0">
+      <HBox alignment="CENTER" prefHeight="257.0" prefWidth="600.0" spacing="80.0">
          <children>
             <Pane fx:id="PlayerGridParent" prefHeight="257.0" prefWidth="264.0" />
             <Pane fx:id="enmeyGridParent" layoutX="168.0" layoutY="10.0" prefHeight="257.0" prefWidth="264.0" />

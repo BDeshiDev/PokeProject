@@ -11,20 +11,24 @@ public class Grid {
     public static final int tileSize = 64;
     Pane gridParentPane;
 
-    public Grid(Pane gridParentPane) {
+    public Grid(Pane gridParentPane,boolean isFlipped) {
         this.grid = new Tile[gridSize][gridSize];
         this.gridParentPane = gridParentPane;
         for(int i = 0 ; i < gridSize ; i++){
             for(int j = 0 ; j < gridSize ; j++){
-                grid[i][j] = new Tile(gridParentPane,gridSize,tileSize,i,j);
+                grid[i][j] = new Tile(gridParentPane,gridSize,tileSize,isFlipped,i,j);
             }
         }
+    }
+
+    public int mirrorX(int x){
+        return  (gridSize -x -1) ;
     }
 
     public void setPlayer(BattlePlayer player){
         if(gridParentPane != null)
             gridParentPane.getChildren().add(player.playerImage);
-        player.moveToTile(grid[gridSize/2][gridSize/2]);//start at middle tile
+        player.moveToTile(grid[0][0]);//start at middle tile
     }
 
     public void movePlayer(BattlePlayer player,int dx,int dy){
