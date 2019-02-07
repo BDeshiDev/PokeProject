@@ -1,33 +1,31 @@
-.btn {
-    /* Text color */
-    color: #0099CC;
-    /* Remove background color */
-    background: transparent;
-    /* Border thickness, line style, and color */
-    /*border: 2px solid #0099CC;*/
-    /* Adds curve to border corners */
-    border-radius: 6px;
-    /* Make letters uppercase */
-    /*border: none;*/
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    cursor: pointer;
-    text-decoration: none;
-    text-transform: uppercase;
+#titleName
+{
+    -fx-text-alignment: center;
+    -fx-background-color: transparent;
+    -fx-indeterminate-bar-animation-time: 10s;
 }
-.btn1 {
-    background-color: white;
-    color: black;
-    /*border: 2px solid #008CBA;*/
+#titleName:pressed
+{
+    -fx-rotate: 10;
 }
-/*button on hover*/
-.btn1:hover {
-    background-color: #008CBA;
-    color: white;
+
+.button{
+    -fx-background-color: #FF0000;
+    -fx-background-radius: 30;
+    -fx-background-insets: .5;
+    -fx-effect: dropshadow(three-pass-box,#833ab4,5,0,1,1);
+    -fx-border-color: #0000FF;
+    -fx-border-radius: 30;
+}
+.button:hover{
+    -fx-translate-x: 5;
+    -fx-translate-y: -5;
+    -fx-translate-z: 300;
+    -fx-background-color: #467e84;
+    -fx-border-color: #0000FF;
+    -fx-border-radius: 30;
+}
+
+.button:pressed{
+    -fx-rotate: 360;
 }

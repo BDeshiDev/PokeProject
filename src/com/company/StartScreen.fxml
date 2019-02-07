@@ -49,7 +49,7 @@
       </AnchorPane>
       <VBox alignment="TOP_CENTER" prefHeight="407.0" prefWidth="900.0" spacing="300.0">
          <children>
-            <Label alignment="CENTER" prefHeight="134.0" prefWidth="1063.0" text="POKEMON RGB">
+            <Label fx:id="titleName" alignment="CENTER" prefHeight="134.0" prefWidth="1063.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="POKEMON RGB">
                <font>
                   <Font size="87.0" />
                </font>
