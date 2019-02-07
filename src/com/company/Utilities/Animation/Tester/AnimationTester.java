@@ -1,12 +1,10 @@
 package com.company.Utilities.Animation.Tester;
 
 import com.company.Utilities.Animation.AnimationFactory;
-import com.company.Utilities.Animation.InfiniteLoopingAnimation;
 import com.company.Utilities.Animation.SpriteAnimation;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -40,7 +38,7 @@ public class AnimationTester extends Application {
         */
 
 
-        SpriteAnimation animation = AnimationFactory.getPokeChangeAnim().toInfiniteLoop(animationViewer);
+        SpriteAnimation animation = AnimationFactory.getPlaceholder().toInfiniteLoop(animationViewer);
         animation.play();
 
 

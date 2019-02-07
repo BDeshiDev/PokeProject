@@ -61,12 +61,12 @@ class GridReader implements  Runnable{
                     if(player.getId() == am.userID){
                         List<Tile> targets = am.getTargets(playerGrid,enemyGrid);
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getFlameAnimation().toSingleLoop(t.animationView).start()));
+                            Platform.runLater((()->AnimationFactory.getAnimByName(am.animName).toSingleLoop(t.animationView).start()));
                         }
                     }else if(enemy.getId() == am.userID){
                         List<Tile> targets = am.getTargets(enemyGrid,playerGrid);
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getFlameAnimation().toSingleLoop(t.animationView).start()));
+                            Platform.runLater((()->AnimationFactory.getAnimByName(am.animName).toSingleLoop(t.animationView).start()));
                         }
                     }else{
                         System.out.println("invalid attack user id ");

@@ -17,7 +17,7 @@ class NetworkedGridAI extends  GridAI{
 
     @Override
     public void handleAttack() {
-        connection.writeToConnection.println(BattleProtocol.createMessage(AttackMessage.getTestMessage(getId(),curtile.x,curtile.y),BattleProtocol.attackMessageHeader));
+        connection.writeToConnection.println(AttackMessage.getTestMessage(getId(),curtile.x,curtile.y).toJsonData());
     }
 
 }

@@ -18,7 +18,15 @@ class NetworkedGridPlayer extends  GridPlayer{
     }
 
     @Override
-    public void handleAttack() {
-        connection.writeToConnection.println(BattleProtocol.createMessage(AttackMessage.getTestMessage(getId(),curtile.x,curtile.y),BattleProtocol.attackMessageHeader));
+    public void handleAttack(int attackNo) {
+        switch (attackNo){
+            case 0:
+                connection.writeToConnection.println(AttackMessage.getFlameThrower(getId(),curtile.x,curtile.y).toJsonData());
+                break;
+            case 1:
+                connection.writeToConnection.println(AttackMessage.getSlash(getId(),curtile.x,curtile.y).toJsonData());
+                break;
+        }
+
     }
 }

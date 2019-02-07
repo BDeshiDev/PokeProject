@@ -5,7 +5,9 @@ import javafx.scene.image.ImageView;
 
 class GridPlayer extends  BattlePlayer{
     Scene scene;
-    boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,attackPressed;
+    boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
+            zPressed = false,xPressed = false;
+
     public GridPlayer(ImageView playerImage, Grid grid, Scene scene,HpUI hpUI) {
         super(playerImage,grid,hpUI);
         this.scene = scene;
@@ -36,9 +38,14 @@ class GridPlayer extends  BattlePlayer{
                     rightPressed = true;
                     break;
                 case Z:
-                    if(!attackPressed)
-                        handleAttack();
-                    attackPressed = true;
+                    if(!zPressed )
+                        handleAttack(0);
+                    zPressed = true;
+                    break;
+                case X:
+                    if(!xPressed )
+                        handleAttack(1);
+                    xPressed = true;
                     break;
             }});
         s.setOnKeyReleased(e->{
@@ -56,7 +63,10 @@ class GridPlayer extends  BattlePlayer{
                     rightPressed = false;
                     break;
                 case Z:
-                    attackPressed = false;
+                    zPressed  = false;
+                    break;
+                case X:
+                    xPressed  = false;
                     break;
             }});
     }
@@ -64,7 +74,7 @@ class GridPlayer extends  BattlePlayer{
     public void handleMove(int dx,int  dy){
         grid.movePlayer(this,dx,dy);
     }
-    public void handleAttack(){
+    public void handleAttack(int attackNo){
         System.out.println("can't attack in non networked mode...");
     }
 }

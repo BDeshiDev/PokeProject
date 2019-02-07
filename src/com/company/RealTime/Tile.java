@@ -33,11 +33,11 @@ public class Tile extends Pane {
             animationView.setScaleX(.6);
             animationView.setScaleY(.6);
             //gridParent.getChildren().addAll(tileImage, animationView);
-
+            /*
             Label debugLabel = new Label(x+","+y);
             debugLabel.relocate(getX(),getY());
-
-            this.getChildren().addAll(r,animationView,debugLabel);
+            */
+            this.getChildren().addAll(r,animationView);
             gridParent.getChildren().addAll(this);
         }
     }
