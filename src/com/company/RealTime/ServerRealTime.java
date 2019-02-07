@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class ServerRealTime {
@@ -27,10 +29,14 @@ public class ServerRealTime {
 
                 ConcurrentLinkedDeque<String> inputQueue = new ConcurrentLinkedDeque<>();
                 ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2);
-                ServerReader serverThread1 = new ServerReader(p1,p2,1);
+                Timer simTimer =  new Timer("simulation timer");
+                simTimer.scheduleAtFixedRate(ssLoop,0,20);
+                System.out.println("timer called");
+
+                ServerReader serverThread1 = new ServerReader(p1,p2,inputQueue,1);
                 Thread st = new Thread(serverThread1);
                 st.start();
-                ServerReader serverThread2 = new ServerReader(p2,p1,2);
+                ServerReader serverThread2 = new ServerReader(p2,p1,inputQueue,2);
                 Thread st2 = new Thread(serverThread2);
                 st2.start();
             }
@@ -41,9 +47,10 @@ public class ServerRealTime {
     }
 }
 
-class ServerSimulationLoop extends AnimationTimer{
+class ServerSimulationLoop extends TimerTask {
     ConcurrentLinkedDeque<String> clientInputQueue;
     NetworkConnection p1Connection , p2Connection;
+
 
     public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection) {
         this.clientInputQueue = clientInputQueue;
@@ -52,21 +59,26 @@ class ServerSimulationLoop extends AnimationTimer{
     }
 
     @Override
-    public void handle(long now) {
+    public void run() {
+        System.out.println("simlatin...");
         if(!clientInputQueue.isEmpty()){
             String newMessage = clientInputQueue.pop();
+            System.out.println("queue : " + newMessage);
             p1Connection.writeToConnection.println(newMessage);
             p2Connection.writeToConnection.println(newMessage);
         }
     }
+
 }
 class ServerReader implements  Runnable{
     NetworkConnection p1,p2;
+    ConcurrentLinkedDeque<String> inputQueue;
     int id;
 
-    public ServerReader(NetworkConnection p1, NetworkConnection p2, int id) {
+    public ServerReader(NetworkConnection p1, NetworkConnection p2, ConcurrentLinkedDeque<String> inputQueue, int id) {
         this.p1 = p1;
         this.p2 = p2;
+        this.inputQueue = inputQueue;
         this.id = id;
     }
 
@@ -80,9 +92,10 @@ class ServerReader implements  Runnable{
                 String readLine = p1.readFromConnection.readLine();
                 System.out.println("s" + id + ": " + readLine);
 
-
-                p1.writeToConnection.println(readLine);
-                p2.writeToConnection.println(readLine);
+                //please work properly Q_Q
+                inputQueue.push(readLine);
+                //p1.writeToConnection.println(s);
+                //p2.writeToConnection.println(s);
             }
             //System.out.println("closing socket");
             // serverSocket.close();
