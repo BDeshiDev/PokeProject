@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="884.0">
@@ -55,7 +54,7 @@
                   <Font size="87.0" />
                </font>
             </Label>
-            <Button fx:id="StartButton" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" text="Start">
+            <Button fx:id="StartButton" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="Start">
                <font>
                   <Font size="56.0" />
                </font>
