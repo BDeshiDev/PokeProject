@@ -72,7 +72,8 @@
           "offsetY": 0,
           "width": 102,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Slam",
@@ -95,7 +96,8 @@
           "offsetY": 0,
           "width": 102,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -172,7 +174,8 @@
           "offsetY": 0,
           "width": 102,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Slam",
@@ -195,7 +198,8 @@
           "offsetY": 0,
           "width": 102,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -272,7 +276,8 @@
           "offsetY": 0,
           "width": 82,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Aerial Ace",
@@ -295,7 +300,8 @@
           "offsetY": 0,
           "width": 102,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -373,7 +379,8 @@
           "offsetY": 0,
           "width": 82,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -451,7 +458,8 @@
           "offsetY": 0,
           "width": 82,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   },
@@ -528,7 +536,8 @@
           "offsetY": 0,
           "width": 102,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       },
       {
         "name": "Slam",
@@ -551,7 +560,8 @@
           "offsetY": 0,
           "width": 102,
           "height": 100
-        }
+        },
+        "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
       }
     ]
   }

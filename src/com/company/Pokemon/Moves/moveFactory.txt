@@ -20,7 +20,8 @@
       "offsetY": 0,
       "width": 82,
       "height": 100
-    }
+    },
+    "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
   },
   {
     "name": "Surf",
@@ -43,7 +44,8 @@
       "offsetY": 0,
       "width": 102,
       "height": 100
-    }
+    },
+    "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
   },
   {
     "name": "Slam",
@@ -66,7 +68,8 @@
       "offsetY": 0,
       "width": 102,
       "height": 100
-    }
+    },
+    "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
   },
   {
     "name": "Razor Leaf",
@@ -89,7 +92,8 @@
       "offsetY": 0,
       "width": 102,
       "height": 100
-    }
+    },
+    "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
   },
   {
     "name": "Aerial Ace",
@@ -112,7 +116,8 @@
       "offsetY": 0,
       "width": 102,
       "height": 100
-    }
+    },
+    "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
   },
   {
     "name": "DebugKO",
@@ -135,7 +140,8 @@
       "offsetY": 0,
       "width": 102,
       "height": 100
-    }
+    },
+    "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
   },
   {
     "name": "ThunderBolt",
@@ -158,6 +164,7 @@
       "offsetY": 0,
       "width": 102,
       "height": 100
-    }
+    },
+    "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
   }
 ]
