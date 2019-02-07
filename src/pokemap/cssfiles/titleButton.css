@@ -34,3 +34,7 @@
     -fx-background-image: url("title_Screen.gif");
     -fx-background-size: cover;
 }
+
+#fightscreen{
+    -fx-background-color: #88c87a;
+}

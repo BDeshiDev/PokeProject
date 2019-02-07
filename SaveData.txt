@@ -2,7 +2,7 @@
   "score": 0,
   "position": {
     "x": 61,
-    "y": 36
+    "y": 24
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -10,11 +10,11 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard48",
+        "name": "Charizard42",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
-        "curHp": 153,
+        "curHp": -21,
         "stats": {
           "level": {
             "curLevel": 50,
@@ -69,7 +69,7 @@
             "priority": 0,
             "accuracy": 100,
             "maxPp": 15,
-            "curPp": 15,
+            "curPp": 14,
             "animationData": {
               "imagePath": "Assets/Animations/11 - Copie.png",
               "duration": {
@@ -93,7 +93,7 @@
             "priority": 0,
             "accuracy": 999,
             "maxPp": 20,
-            "curPp": 20,
+            "curPp": 16,
             "animationData": {
               "imagePath": "Assets/Animations/4.png",
               "duration": {
@@ -115,11 +115,11 @@
         }
       },
       {
-        "name": "Blastoise44",
+        "name": "Blastoise0",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
-        "curHp": 154,
+        "curHp": 124,
         "stats": {
           "level": {
             "curLevel": 50,
@@ -174,7 +174,7 @@
             "priority": 0,
             "accuracy": 100,
             "maxPp": 15,
-            "curPp": 15,
+            "curPp": 14,
             "animationData": {
               "imagePath": "Assets/Animations/4.png",
               "duration": {
@@ -220,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur18",
+        "name": "Venasaur37",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,
@@ -322,6 +322,88 @@
         ],
         "evoData": {
           "lvRequirement": 999
+        }
+      },
+      {
+        "name": "Charmander22",
+        "t1": "Fire",
+        "t2": "Flying",
+        "uniqueId": 5,
+        "curHp": 5,
+        "stats": {
+          "level": {
+            "curLevel": 50,
+            "curXP": 0,
+            "xpToNext": 100000
+          },
+          "maxHp": {
+            "realVal": 153.0,
+            "baseVal": 6,
+            "CurVal": 153,
+            "MaxVal": 153
+          },
+          "attack": {
+            "realVal": 104.0,
+            "baseVal": 6,
+            "CurVal": 104,
+            "MaxVal": 104
+          },
+          "defence": {
+            "realVal": 98.0,
+            "baseVal": 6,
+            "CurVal": 98,
+            "MaxVal": 98
+          },
+          "spAttack": {
+            "realVal": 128.0,
+            "baseVal": 7,
+            "CurVal": 128,
+            "MaxVal": 128
+          },
+          "spDefence": {
+            "realVal": 128.0,
+            "baseVal": 7,
+            "CurVal": 128,
+            "MaxVal": 128
+          },
+          "speed": {
+            "realVal": 120.0,
+            "baseVal": 7,
+            "CurVal": 120,
+            "MaxVal": 120
+          }
+        },
+        "frontImage": "Assets/PokemonImages/HdImages/CharmanderHD.png",
+        "canFight": false,
+        "moves": [
+          {
+            "name": "Flame Thrower",
+            "type": "Fire",
+            "damageType": "Special",
+            "power": 85,
+            "priority": 0,
+            "accuracy": 100,
+            "maxPp": 15,
+            "curPp": 8,
+            "animationData": {
+              "imagePath": "Assets/Animations/11 - Copie.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 4,
+              "maxLoops": 1,
+              "columns": 4,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 82,
+              "height": 100
+            },
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+          }
+        ],
+        "evoData": {
+          "monToEvolveTo": "Charmeleon",
+          "lvRequirement": 16
         }
       }
     ],
