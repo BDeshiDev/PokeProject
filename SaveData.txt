@@ -1,8 +1,8 @@
 {
   "score": 0,
   "position": {
-    "x": 59,
-    "y": 34
+    "x": 58,
+    "y": 32
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -10,7 +10,7 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard48",
+        "name": "Charizard2",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
@@ -82,7 +82,8 @@
               "offsetY": 0,
               "width": 82,
               "height": 100
-            }
+            },
+            "sfxName": "j"
           },
           {
             "name": "Aerial Ace",
@@ -105,7 +106,8 @@
               "offsetY": 0,
               "width": 102,
               "height": 100
-            }
+            },
+            "sfxName": "j"
           }
         ],
         "evoData": {
@@ -113,7 +115,7 @@
         }
       },
       {
-        "name": "Blastoise32",
+        "name": "Blastoise10",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
@@ -185,7 +187,8 @@
               "offsetY": 0,
               "width": 102,
               "height": 100
-            }
+            },
+            "sfxName": "j"
           },
           {
             "name": "Slam",
@@ -208,7 +211,8 @@
               "offsetY": 0,
               "width": 102,
               "height": 100
-            }
+            },
+            "sfxName": "j"
           }
         ],
         "evoData": {
@@ -216,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur24",
+        "name": "Venasaur11",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,
@@ -288,7 +292,8 @@
               "offsetY": 0,
               "width": 102,
               "height": 100
-            }
+            },
+            "sfxName": "j"
           },
           {
             "name": "Slam",
@@ -311,7 +316,8 @@
               "offsetY": 0,
               "width": 102,
               "height": 100
-            }
+            },
+            "sfxName": "j"
           }
         ],
         "evoData": {
@@ -321,5 +327,5 @@
     ],
     "name": "Ash"
   },
-  "mapName": "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt"
+  "mapName": "src/pokemap/ForestMap.txt"
 }
