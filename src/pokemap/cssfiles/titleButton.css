@@ -29,3 +29,8 @@
 
 .button:pressed{
 }
+
+#anchor{
+    -fx-background-image: url("title_Screen.gif");
+    -fx-background-size: cover;
+}

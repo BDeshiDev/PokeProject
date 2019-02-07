@@ -10,46 +10,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="stack" stylesheets="@../../pokemap/cssfiles/titleButton.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="600.0" prefWidth="884.0">
-         <children>
-            <HBox prefHeight="601.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <StackPane prefHeight="404.0" prefWidth="300.0" style="-fx-background-color: #7BE6A2;">
-                     <children>
-                        <ImageView fitHeight="314.0" fitWidth="300.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Assets/venaBackground.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane style="-fx-background-color: #F98C47;">
-                     <children>
-                        <ImageView fitHeight="314.0" fitWidth="300.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Assets/CharzBackground.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-                  <StackPane prefHeight="274.0" prefWidth="302.0" style="-fx-background-color: #5FC4F8;">
-                     <children>
-                        <ImageView fitHeight="238.0" fitWidth="290.0" layoutX="310.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Assets/BlastoiseBackground.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </StackPane>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
+      <AnchorPane fx:id="anchor" prefHeight="600.0" prefWidth="884.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" />
       <VBox alignment="TOP_CENTER" prefHeight="407.0" prefWidth="900.0" spacing="300.0">
          <children>
-            <Label fx:id="titleName" alignment="CENTER" prefHeight="134.0" prefWidth="1063.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="POKEMON RGB">
+            <Label fx:id="titleName" alignment="CENTER" prefHeight="134.0" prefWidth="1063.0" stylesheets="@../../pokemap/cssfiles/titleButton.css">
                <font>
                   <Font size="87.0" />
                </font>

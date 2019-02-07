@@ -28,6 +28,10 @@ public class ButtonFactory {
         Button b = new Button(p.name);
         b.setPrefWidth(width);
         b.setPrefHeight(height);
+        b.setStyle("    -fx-background-color: #b3d57a;\n" +
+                "    -fx-background-radius: 30;\n" +
+                "    -fx-background-insets: .5;");
+
         return b;
     }
 
