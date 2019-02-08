@@ -4,11 +4,11 @@
   "hasRun": false,
   "caughtMons": [
     {
-      "name": "Pidgeot40",
+      "name": "Pidgeot49",
       "t1": "Normal",
       "t2": "Flying",
-      "uniqueId": 6,
-      "curHp": 12,
+      "uniqueId": 5,
+      "curHp": 158,
       "stats": {
         "level": {
           "curLevel": 50,
@@ -63,7 +63,7 @@
           "priority": 0,
           "accuracy": 999,
           "maxPp": 20,
-          "curPp": 18,
+          "curPp": 19,
           "animationData": {
             "imagePath": "Assets/Animations/4.png",
             "duration": {
@@ -87,7 +87,7 @@
           "priority": 0,
           "accuracy": 80,
           "maxPp": 10,
-          "curPp": 9,
+          "curPp": 8,
           "animationData": {
             "imagePath": "Assets/Animations/4.png",
             "duration": {
