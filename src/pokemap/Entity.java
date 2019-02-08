@@ -69,22 +69,22 @@ public class Entity {
             int row=map.getRow(this.getEntityPosition().getY()+8);
             int col=map.getCol(this.getEntityPosition().getX()+8);
 
-            if(map.getMapAra()[row][col]=='G' &&flag==false) {
+            if(map.getMapAra()[row][col]==002 &&flag==false) {
                 flag=true;
                 this.prevCol=col;
                 this.prevRow=row;
             }
 
-            if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
+            if(map.getMapAra()[this.prevRow][this.prevCol]==002 && flag==true) {
                 this.probability+=.01;
             }
 
-            if (map.getMapAra()[row][col]=='G'&&flag==true){
+            if (map.getMapAra()[row][col]==002&&flag==true){
                 this.prevCol=col;
                 this.prevRow=row;
             }
 
-            if(map.getMapAra()[row][col]!='G') {
+            if(map.getMapAra()[row][col]!=002) {
                 flag=false;
                 this.probability=0;
             }

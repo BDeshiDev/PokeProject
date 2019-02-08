@@ -13,18 +13,23 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Random;
 
 public class ExicuteMap extends Application {
     Map forestMap=new Map(new File("C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt"));
     Entity player=new Entity(new Position(36,36),
             new ImageView("Assets/MapImages/heroleft.png"));
+    Entity mass1=new Entity(new Position(46,36),
+            new ImageView("Assets/MapImages/heroup.png"));
 
     boolean run,up,down,left,right;
     Directions direction;
+    Directions direction1;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Group group=forestMap.setMap();
         group.getChildren().add(player.getImageOfEntity());
+        group.getChildren().add(mass1.getImageOfEntity());
         PerspectiveCamera camera=new PerspectiveCamera(true);
         camera.layoutXProperty().bind(player.getImageOfEntity().layoutXProperty());
         camera.layoutYProperty().bind(player.getImageOfEntity().layoutYProperty());
@@ -70,11 +75,13 @@ public class ExicuteMap extends Application {
         primaryStage.setTitle("Player on Rush.");
         primaryStage.setScene(scene);
         primaryStage.show();
+        Random random=new Random();
 
         AnimationTimer timer=new AnimationTimer() {
             @Override
             public void handle(long now) {
                 int dx=0,dy=0;
+                int dx1=0,dy1=0;
                 if (up) dy-=1;
                 if (down) dy += 1;
                 if (left) dx -= 1;
@@ -83,9 +90,18 @@ public class ExicuteMap extends Application {
                     dx *= 3;
                     dy *= 3;
                 }
+                int dire=random.nextInt(20);
+
+            if(dire==1){dx1--;direction1=Directions.LEFT;}
+            else if(dire==2){dy1++;direction1=Directions.DOWN;}
+            else if(dire==3){dy1--;direction1=Directions.UP;}
+            else if(dire==0){dx++;direction1=Directions.RIGHT;}
+
 
             player.Shift(forestMap,dx,dy,direction);
-//                System.out.println(player.gettingPokemonProbability(forestMap));
+            mass1.Shift(forestMap,dx1,dy1,direction1);
+
+
             }
         };
 

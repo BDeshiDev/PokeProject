@@ -16,7 +16,7 @@ import static javafx.scene.input.KeyCode.T;
 
 public class Map {
 
-    Character mapAra[][];
+    Integer mapAra[][];
     Image treeImage = new Image("Assets/MapImages/Temp/smallTree.png");
     Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
     Image grassTile = new Image("Assets/MapImages/Temp/grassTile.png");
@@ -24,11 +24,11 @@ public class Map {
 
     Position startPosition;
 
-    public Character[][] getMapAra() {
+    public Integer[][] getMapAra() {
         return mapAra;
     }
 
-    public void setMapAra(Character[][] mapAra) {
+    public void setMapAra(Integer[][] mapAra) {
         this.mapAra = mapAra;
     }
 
@@ -83,7 +83,7 @@ public class Map {
         int row =getRow(position.getY() + dy+Entity.entityImageSize/2);
         int col = getCol(position.getX() + dx+Entity.entityImageSize/2);
        // System.out.println("Row="+row+"  Col="+col);
-        if(mapAra[row][col] == 'T'){
+        if(mapAra[row][col] == 001){
 //            System.out.println("Row="+row+"  Col="+col);
             return false;
         }
@@ -111,15 +111,15 @@ public class Map {
             for (int col = 0; col < (mapAra[0].length); col++) {
                 ImageView imageView=new ImageView();
                 Image tileImage;
-                if(mapAra[row][col]=='T') {
+                if(mapAra[row][col]==001) {
                     ImageView backGroundLayer =new ImageView(emptyTileImage);
                     backGroundLayer.relocate(col*tileSize,row*tileSize);
                     group.getChildren().add(backGroundLayer);
                     tileImage = treeImage;
                 }
-                else if(mapAra[row][col]=='X')
+                else if(mapAra[row][col]==000)
                    tileImage = emptyTileImage;
-                else if(mapAra[row][col]=='G'){
+                else if(mapAra[row][col]==002){
                     ImageView backGroundLayer =new ImageView(emptyTileImage);
                     backGroundLayer.relocate(col*tileSize,row*tileSize);
                     group.getChildren().add(backGroundLayer);
