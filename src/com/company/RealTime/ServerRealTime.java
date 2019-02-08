@@ -42,9 +42,8 @@ public class ServerRealTime {
                 p2.writeToConnection.println(BattleProtocol.createMessage(new setIdMessage(2,1),BattleProtocol.setIdMessageHeader));
 
                 ConcurrentLinkedDeque<String> inputQueue = new ConcurrentLinkedDeque<>();
-                ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2,FighterData.convertTrainerData(t1Info),FighterData.convertTrainerData(t2Info));
                 Timer simTimer = new Timer("simulation timer");
-                simTimer.scheduleAtFixedRate(ssLoop,0,ServerSimulationLoop.tickDelay);
+                ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2,simTimer,FighterData.convertTrainerData(t1Info),FighterData.convertTrainerData(t2Info));
 
                 ServerReader serverThread1 = new ServerReader(p1,p2,inputQueue,1);
                 Thread st = new Thread(serverThread1);
@@ -80,6 +79,7 @@ class ServerSimulationLoop extends TimerTask {
     private NetworkConnection p1Connection , p2Connection;
     private Grid simulatedLeftGrid,simulatedRightGrid;
     private BattlePlayer p1,p2;
+    private Timer timer;
 
     Gson gson = new Gson();
 
@@ -89,12 +89,16 @@ class ServerSimulationLoop extends TimerTask {
     public static int tickDelay = 20;//in ms
 
 
-    public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection,List<FighterData> leftParty,List<FighterData> rightParty) {
+    public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection,Timer timer,List<FighterData> leftParty,List<FighterData> rightParty) {
         this.clientInputQueue = clientInputQueue;
         this.p1Connection = p1Connection;
         this.p2Connection = p2Connection;
         this.simulatedLeftGrid = new Grid(null,false);
         this.simulatedRightGrid = new Grid(null,true);
+        this.timer = timer;
+
+        timer.scheduleAtFixedRate(this,0,ServerSimulationLoop.tickDelay);
+
         p1 = new BattlePlayer(null,simulatedLeftGrid,null,leftParty);
         p1.setId(1);
         p2 = new BattlePlayer(null,simulatedRightGrid,null,rightParty);
@@ -103,7 +107,7 @@ class ServerSimulationLoop extends TimerTask {
 
     @Override
     public void run() {
-        if(!waitList.isEmpty()){//we're waiting for someone to tell us to stop pause
+        if(!waitList.isEmpty()){//we're waiting for someone to tell us to stop pausing
             System.out.println("Simulation: waiting for swap event ");
             if (!clientInputQueue.isEmpty()) {
                 String newMessage = clientInputQueue.pop();
@@ -163,12 +167,41 @@ class ServerSimulationLoop extends TimerTask {
                             broadcastMessage(BattleProtocol.PauseOrderHeader);
                             //tell both to pause and tell the swapper to start swapping
                             swapOrderReceiver.writeToConnection.println(newMessage);
-                        }else{
+                        } else {
                             System.out.println("swapper id mismatch");
                         }
-                    }else
+                    }
+                }else if(newMessage.startsWith(BattleProtocol.koMessage)){
+                        System.out.println("Simulation: somebody got ko'd");
+                        String jsonToParse = newMessage.substring(BattleProtocol.koMessage.length());
+                        koMessage km = gson.fromJson(jsonToParse, koMessage.class);
+                        if (km != null) {
+                            NetworkConnection swapOrderReceiver = null;
+                            if (km.koId == p1.getId()) {
+                                if(p1.canFight()) {
+                                    swapOrderReceiver = p1Connection;
+                                    waitList.add(p1);
+                                }else{
+                                    p1Connection.writeToConnection.println(BattleProtocol.LoseSignal);
+                                    p2Connection.writeToConnection.println(BattleProtocol.WinSignal);
+                                    stopSimulation();
+                                }
+                            } else if (km.koId == p2.getId()) {
+                                if(p2.canFight()) {
+                                    swapOrderReceiver = p2Connection;
+                                    waitList.add(p2);
+                                }else{
+                                    p2Connection.writeToConnection.println(BattleProtocol.LoseSignal);
+                                    p1Connection.writeToConnection.println(BattleProtocol.WinSignal);
+                                    stopSimulation();
+                                }
+                            }
+                            swapOrderReceiver.writeToConnection.println(SwapMessage.createSwapRequest(km.koId,false));
+                            broadcastMessage(BattleProtocol.PauseOrderHeader);
+                        }
+                    }
+                    else
                         System.out.println("swap message parse fail");
-                }
                 if (messageToSend != null) {
                     broadcastMessage(newMessage);
                 }
@@ -177,7 +210,7 @@ class ServerSimulationLoop extends TimerTask {
                 List<DamageMessage> damageUpdates = new ArrayList<>();
                 for (int i = attacksToCheck.size() - 1; i >= 0; i--) {
                     AttackDamageTimer adt = attacksToCheck.get(i);
-                    adt.applyDamage(p1, p2, tickDelay, damageUpdates);
+                    adt.applyDamage(p1, p2, tickDelay, damageUpdates);//warning this checks tiles by refrence so implementing tile.equals is a bad idea for now
                     if (adt.shouldEnd())
                         attacksToCheck.remove(i);
                 }
@@ -189,6 +222,11 @@ class ServerSimulationLoop extends TimerTask {
                 }
             }
         }
+    }
+
+    public void stopSimulation(){
+        timer.cancel();
+        timer.purge();
     }
 
     public BattlePlayer getPlayerFromTargetId(int targetId){

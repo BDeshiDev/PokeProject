@@ -32,6 +32,12 @@ public class FighterData {
     public boolean canFight(){
         return  this.curHp>0;
     }
+    public void takeDamage(int damage,boolean isGuaranteedKill){
+        if(isGuaranteedKill)
+            curHp =0;
+        else
+            curHp = Math.max(curHp-damage,0);
+    }
 
     private static HashMap<String,FighterData> fighterMap = new HashMap<>();
     static {
@@ -41,7 +47,13 @@ public class FighterData {
         fighterMap.put(temp.Name,temp);
     }
     public  static  FighterData getByName(String name){
-        return fighterMap.getOrDefault(name,null);
+        if(fighterMap.containsKey(name))
+            return  new FighterData(fighterMap.get(name));
+        return null;
+    }
+
+    public FighterData(FighterData other) {
+        this(other.att,other.def,other.spAtt,other.spDef,other.speed,other.stamina,other.maxHp,other.Name,other.imageName,other.moves);
     }
 
     public static List<FighterData> convertTrainerData(TrainerData td){

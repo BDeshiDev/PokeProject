@@ -23,18 +23,20 @@ public class AttackDamageTimer {
         for (int i = tilesToCheck.size()-1;i>=0;i--){
             Tile t = tilesToCheck.get(i);
             if(t==p1.curtile){// if player is in one of the tiles we can damage
-                if(shouldStopAfterCollision)
-                    tilesToCheck.remove(i);
-                p1.takeDamage(damagePerHit);
-                damageMessages.add(new DamageMessage(p1.getId(),damagePerHit,false));
+                applyDamage(p1, damageMessages, t);
             }if(t==p2.curtile){
-                if(shouldStopAfterCollision && tilesToCheck.contains(t))
-                    tilesToCheck.remove(i);
-                p2.takeDamage(damagePerHit);
-                damageMessages.add(new DamageMessage(p2.getId(),damagePerHit,false));
+                applyDamage(p2,damageMessages,t);
             }
         }
     }
+
+    private void applyDamage(BattlePlayer p, List<DamageMessage> damageMessages, Tile t) {
+        if(shouldStopAfterCollision && tilesToCheck.contains(t))
+            tilesToCheck.remove(t);
+        p.takeDamage(damagePerHit,false);
+        damageMessages.add(new DamageMessage(p.getId(),damagePerHit,!p.curFighter.canFight()));
+    }
+
 
     public boolean shouldEnd(){
         return curTimer >= maxDuration;

@@ -19,6 +19,22 @@ class NetworkedGridAI extends  GridAI{
     }
 
     @Override
+    public void handleKo(){
+        connection.writeToConnection.println(new koMessage(getId()).toJsonData());
+    }
+
+    @Override
+    public void handleSwapRequest(boolean canCancel) {
+        for (int i = 0 ; i< party.size() ;i++) {
+            FighterData  fd = party.get(i);
+            if(fd.canFight()){
+                connection.writeToConnection.println(SwapMessage.createSwapEventMessage(getId(),i,false));
+                return;
+            }
+        }
+    }
+
+    @Override
     public void handleAttack() {
         connection.writeToConnection.println(AttackMessage.getTestMessage(getId(),curtile.x,curtile.y).toJsonData());
     }

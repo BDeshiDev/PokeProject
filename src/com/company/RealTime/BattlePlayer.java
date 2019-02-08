@@ -58,10 +58,20 @@ class BattlePlayer{
             playerImage.relocate(newTile.getX(),newTile.getY());
     }
 
-    public void takeDamage(int damage){
-        curFighter.curHp = Math.max(curFighter.curHp-damage,0);
+    public void takeDamage(int damage,boolean isGuaranteedKill){
+        curFighter.takeDamage(damage,isGuaranteedKill);
         if(uiDisplay != null)
             uiDisplay.update(curFighter.curHp,curFighter.maxHp);
+    }
+
+    public void takeDamage(DamageMessage dm){
+        takeDamage(dm.damageAmount,dm.isGuaranteedKill);
+        if(!curFighter.canFight())
+            handleKo();
+    }
+
+    public void handleKo(){
+        System.out.println("base class can't handle ko");
     }
 
     public void disableActions(boolean shouldDisable){
@@ -81,7 +91,7 @@ class BattlePlayer{
 
     }
 
-    public void handleSwapRequest(){
+    public void handleSwapRequest(boolean canCancel){
         System.out.println("Base class can't generate swap requests");
     }
 

@@ -16,6 +16,7 @@ class GridPlayer extends  BattlePlayer{
     boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
             zPressed = false,xPressed = false;
     BattleScreenController battleScreenController;
+    boolean canCancel = true;
 
 
     public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
@@ -30,6 +31,8 @@ class GridPlayer extends  BattlePlayer{
             swapButton.setOnAction(event ->handleSwapButtonClick(swapNo));
             parentPane.getChildren().add(swapButton);
         }
+        battleScreenController.getExitButton().setOnAction(event -> handleCancelButton());
+
         addListeners(scene);
     }
     public void addListeners(Scene s){//the player should only move one tile at a time
@@ -105,9 +108,15 @@ class GridPlayer extends  BattlePlayer{
         System.out.println("can't attack in non networked mode...");
     }
 
+    public void handleCancelButton(){
+        if(canCancel)
+            battleScreenController.toggleChoiceBox(false);
+    }
 
     @Override
-    public void handleSwapRequest() {
+    public void handleSwapRequest(boolean canCancel)
+    {
+        this.canCancel = canCancel;
         battleScreenController.toggleChoiceBox(true);
     }
 

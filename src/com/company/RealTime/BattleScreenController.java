@@ -39,7 +39,7 @@ public class BattleScreenController {
     private Label hpLabel;
 
     @FXML
-    private Button GiveUpButton;
+    private Button exitButton;
 
     @FXML
     private Label NameLabel1;
@@ -68,8 +68,8 @@ public class BattleScreenController {
         ChoiceBoxPane.setDisable(!shouldBeOn);
     }
 
-    public Button getGiveUpButton() {
-        return GiveUpButton;
+    public Button getExitButton() {
+        return exitButton;
     }
 
     public FlowPane getSwapParentPane() {

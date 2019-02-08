@@ -25,7 +25,8 @@ public class BattleProtocol{
    public static  String PauseOrderHeader = "PAUSE_NOW";
    public static  String SwapRequestHeader = "SWAP_REQUEST";
    public static  String ResumeOrderHeader = "RESUME_NOW";
-
+   public static  String koMessage = "GOT_KO'D";
+   public static  String MenuOffMessage = "MENU_EXITED";
    public static Gson gson = new Gson();
 
    public static String createMessage(Object objectToConvert, String... headers){

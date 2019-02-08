@@ -80,20 +80,28 @@ class GridReader implements  Runnable{
                     //System.out.println(jsonToParse);
                     for (DamageMessage dm:messages) {
                         BattlePlayer damageTarget = getPlayerFromID(dm.damagedPlayerID);
-                        Platform.runLater((()->damageTarget.takeDamage(dm.damageAmount)));
+                        Platform.runLater((()->damageTarget.takeDamage(dm)));
                     }
                 }else if(readline.startsWith(BattleProtocol.PauseOrderHeader)){
-                    Platform.runLater((()-> player.disableActions(true)));
+                    Platform.runLater(()-> player.disableActions(true));
                 }else if(readline.startsWith(BattleProtocol.ResumeOrderHeader)){
-                    Platform.runLater((()-> player.disableActions(false)));
+                    Platform.runLater(()-> player.disableActions(false));
                 }else if(readline.startsWith(BattleProtocol.SwapRequestHeader)){
-                    Platform.runLater((()->player.handleSwapRequest()));//we assume that the swap message already reefers to the correct player
+                    String jsonToParse = readline.substring(BattleProtocol.SwapRequestHeader.length());
+                    SwapMessage sm = gson.fromJson(jsonToParse,SwapMessage.class);
+                    Platform.runLater(()->player.handleSwapRequest(sm.isCancellable));//we assume that the swap message already reefers to the correct player
                 }else if(readline.startsWith(BattleProtocol.SwapEventHeader)){
                     String jsonToParse = readline.substring(BattleProtocol.SwapEventHeader.length());
                     SwapMessage sm = gson.fromJson(jsonToParse,SwapMessage.class);
                     BattlePlayer swapper = getPlayerFromID(sm.swapperID);
                     if(swapper != null)
-                        swapper.handleSwap(sm.idToSwapWith);
+                        Platform.runLater(()->swapper.handleSwap(sm.idToSwapWith));
+                }else if(readline.startsWith(BattleProtocol.WinSignal)){
+                    System.out.println("you win");
+                    break;
+                }else if(readline.startsWith(BattleProtocol.LoseSignal)){
+                    System.out.println("you lose");
+                    break;
                 }else{
                     System.out.println("wrong message format  "+ readline);
                 }
