@@ -5,8 +5,8 @@ import java.net.Socket;
 
 public class NetworkConnection {
     Socket socket;
-    PrintWriter writeToConnection;
-    BufferedReader readFromConnection;
+    public PrintWriter writeToConnection;
+    public BufferedReader readFromConnection;
 
     public NetworkConnection(Socket socket) {
         this.socket = socket;

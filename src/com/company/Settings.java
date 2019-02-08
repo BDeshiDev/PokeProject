@@ -11,4 +11,5 @@ public class Settings {
     public static  boolean IsDebugOn = true;
     public static  int maxPartySize = 6;
     public static Font defFont = Font.font("Helvetica",20);
+    public static int realTimePort = 60155;
 }
