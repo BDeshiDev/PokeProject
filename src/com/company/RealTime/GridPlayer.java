@@ -1,7 +1,10 @@
 package com.company.RealTime;
 
+import com.company.BattleDisplayController;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 
 class GridPlayer extends  BattlePlayer{
     Scene scene;
@@ -11,8 +14,8 @@ class GridPlayer extends  BattlePlayer{
 
 
 
-    public GridPlayer(ImageView playerImage, Grid grid, Scene scene,HpUI hpUI,BattleScreenController battleScreenController) {
-        super(playerImage,grid,hpUI);
+    public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
+        super(playerImage,grid,uiDisplay,party);
         this.scene = scene;
         this.grid =grid;
         this.battleScreenController = battleScreenController;

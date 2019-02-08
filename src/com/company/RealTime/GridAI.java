@@ -1,11 +1,14 @@
 package com.company.RealTime;
 
+import com.company.BattleDisplayController;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.ImageView;
 
+import java.util.List;
+
 class GridAI extends  BattlePlayer{
-    public GridAI(Grid grid,String imageName,HpUI hpUI) {
-        super(new ImageView(imageName),grid,hpUI);
+    public GridAI(Grid grid, String imageName, BattleDisplayController battleDisplayController, List<FighterData> party) {
+        super(new ImageView(imageName),grid,battleDisplayController,party);
         this.grid = grid;
 
         new AnimationTimer(){

@@ -1,24 +1,42 @@
 package com.company.RealTime;
 
+import com.company.BattleDisplayController;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 
 class BattlePlayer{
     Tile curtile;
     Grid grid;
     ImageView playerImage;
 
-    private HpUI hpUI;
+    private BattleDisplayController uiDisplay;
     int curHp;
     int maxHp = 150;
     private int id;
     protected boolean canAct = true;
 
-    public BattlePlayer(ImageView playerImage,Grid grid,HpUI hpUI) {
+    FighterData curStats;
+    List<FighterData> party;
+
+    public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
         this.grid = grid;
-        this.hpUI = hpUI;
+        this.uiDisplay = uiDisplay;
+
         curHp = maxHp;
         grid.setPlayer(this);
+
+        if(playerImage != null){
+            playerImage.setScaleX(grid.isFlipped?1:-1);
+        }
+
+        this.party = party;
+        if(party != null)
+            curStats = party.get(0);
+        if(uiDisplay!= null){
+            uiDisplay.update(curStats);
+        }
     }
 
     public void moveToTile(Tile newTile){
@@ -29,8 +47,8 @@ class BattlePlayer{
 
     public void takeDamage(int damage){
         curHp = Math.max(curHp-damage,0);
-        if(hpUI != null)
-            hpUI.update(curHp,maxHp);
+        if(uiDisplay != null)
+            uiDisplay.update(curHp,maxHp);
     }
 
     public void disableActions(boolean shouldDisable){
@@ -47,7 +65,11 @@ class BattlePlayer{
     }
 
     public boolean canFight(){
-        return curHp > 0;
+        for (FighterData fd:party) {
+            if(fd.curHp>0)
+                return  true;
+        }
+        return  false;
     }
 
     public void setMove(int dx,int dy){

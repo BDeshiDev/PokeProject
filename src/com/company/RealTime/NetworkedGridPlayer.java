@@ -1,15 +1,18 @@
 package com.company.RealTime;
 
+import com.company.BattleDisplayController;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 
+import java.util.List;
+
 class NetworkedGridPlayer extends  GridPlayer{
     NetworkConnection connection;
 
-    public NetworkedGridPlayer(ImageView playerImage, Grid grid, Scene scene, HpUI hpUI, NetworkConnection connection, BattleScreenController battleScreenController) {
-        super(playerImage, grid, scene, hpUI,battleScreenController);
+    public NetworkedGridPlayer(ImageView playerImage, Grid grid, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
+        super(playerImage, grid, scene,battleScreenController, UI,fighters);
         this.connection = connection;
     }
 

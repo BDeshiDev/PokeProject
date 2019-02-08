@@ -8,15 +8,17 @@ import java.util.Arrays;
 public class Grid {
     Tile[][] grid;
     final int gridSize = 3;
-    public static final int tileSize = 64;
+    public static final int tileSize = 128;
     Pane gridParentPane;
+    public final boolean isFlipped;
 
     public Grid(Pane gridParentPane,boolean isFlipped) {
         this.grid = new Tile[gridSize][gridSize];
+        this.isFlipped = isFlipped;
         this.gridParentPane = gridParentPane;
         for(int i = 0 ; i < gridSize ; i++){
             for(int j = 0 ; j < gridSize ; j++){
-                grid[i][j] = new Tile(gridParentPane,gridSize,tileSize,isFlipped,i,j);
+                grid[i][j] = new Tile(gridParentPane,isFlipped?180:0,gridSize,tileSize,isFlipped,i,j);
             }
         }
     }
