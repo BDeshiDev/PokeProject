@@ -25,7 +25,7 @@ public class Tile extends Pane {
         this.xOffset = xOffset;
         if(gridParent != null) {
             Rectangle r= new Rectangle(tileSize,tileSize,Color.GREY);
-            r.setStyle("-fx-background-color: #afccc5; -fx-stroke-type:outside;-fx-stroke:  #5550ff;-fx-stroke-width: 8;-fx-stroke-line-cap: round;-fx-stroke-dash-offset: 10");
+            r.setStyle("-fx-background-color: #afccc5; -fx-stroke-type:outside;-fx-stroke:  #5550ff;-fx-stroke-width: 8;-fx-stroke-line-cap: round;");
             animationView = new ImageView();
             this.getChildren().addAll(r,animationView);
             gridParent.getChildren().addAll(this);
@@ -34,7 +34,7 @@ public class Tile extends Pane {
             tileImage = new ImageView("Assets/MapImages/Temp/emptyTile.png");
             tileImage.relocate(getX(),getY());
             */
-            animationView.relocate(getX(),getY());
+            animationView.relocate(getX()+tileSize/4.0,getY()+tileSize/4.);//small offset
             animationView.setScaleX(1);
             animationView.setScaleY(1);
             //gridParent.getChildren().addAll(tileImage, animationView);

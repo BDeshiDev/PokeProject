@@ -1,6 +1,7 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.List;
@@ -11,20 +12,16 @@ class BattlePlayer{
     ImageView playerImage;
 
     private BattleDisplayController uiDisplay;
-    int curHp;
-    int maxHp = 150;
     private int id;
     protected boolean canAct = true;
 
-    FighterData curStats;
+    FighterData curFighter;
     List<FighterData> party;
 
     public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
         this.grid = grid;
         this.uiDisplay = uiDisplay;
-
-        curHp = maxHp;
         grid.setPlayer(this);
 
         if(playerImage != null){
@@ -32,11 +29,27 @@ class BattlePlayer{
         }
 
         this.party = party;
-        if(party != null)
-            curStats = party.get(0);
-        if(uiDisplay!= null){
-            uiDisplay.update(curStats);
+        if(party != null) {
+            setCurFighter(party.get(0));
+        }else {
+            System.out.println("party null...");
+            System.exit(-1);
         }
+        if(uiDisplay!= null){
+            uiDisplay.update(curFighter);
+        }
+    }
+
+    public void setCurFighter(FighterData fd){
+        curFighter = fd;
+        if(uiDisplay != null)
+            uiDisplay.update(fd);
+        if(playerImage != null)
+            playerImage.setImage(new Image(fd.imageName));
+    }
+
+    public void setCurFighter(int index){
+        setCurFighter(party.get(index));
     }
 
     public void moveToTile(Tile newTile){
@@ -46,9 +59,9 @@ class BattlePlayer{
     }
 
     public void takeDamage(int damage){
-        curHp = Math.max(curHp-damage,0);
+        curFighter.curHp = Math.max(curFighter.curHp-damage,0);
         if(uiDisplay != null)
-            uiDisplay.update(curHp,maxHp);
+            uiDisplay.update(curFighter.curHp,curFighter.maxHp);
     }
 
     public void disableActions(boolean shouldDisable){

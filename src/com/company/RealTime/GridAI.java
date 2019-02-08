@@ -7,8 +7,8 @@ import javafx.scene.image.ImageView;
 import java.util.List;
 
 class GridAI extends  BattlePlayer{
-    public GridAI(Grid grid, String imageName, BattleDisplayController battleDisplayController, List<FighterData> party) {
-        super(new ImageView(imageName),grid,battleDisplayController,party);
+    public GridAI(Grid grid, BattleDisplayController battleDisplayController, List<FighterData> party) {
+        super(new ImageView(),grid,battleDisplayController,party);
         this.grid = grid;
 
         new AnimationTimer(){

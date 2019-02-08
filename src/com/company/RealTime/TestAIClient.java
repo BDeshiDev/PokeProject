@@ -1,7 +1,12 @@
 package com.company.RealTime;
 
+import com.company.Pokemon.PokemonSaveData;
+import com.company.Pokemon.Stats.Level;
 import com.company.Settings;
+import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
+import com.company.networking.TrainerData;
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,23 +32,29 @@ public class TestAIClient extends Application {
         primaryStage.setScene(new Scene(root,1200,800));
         primaryStage.show();
 
-        Grid playerGrid = new Grid(controller.getPlayerGridParent(),false);
-        Grid enemyGrid = new Grid(controller.getEnmeyGridParent(),true);
+        TrainerData trainerData = new TrainerData("Gory",new PokemonSaveData("Pikachu", Level.maxLevel),new PokemonSaveData("Charizard", Level.maxLevel));
+        TrainerData enemyData = null;
 
+        Gson gson = new Gson();
         Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
         System.out.println("in ");
         NetworkConnection nc = new NetworkConnection(socket);
+        String readLine = nc.readFromConnection.readLine();
 
-        List<FighterData> party1 = new ArrayList<>();
-        party1.add(FighterData.getDummy1());
-        party1.add(FighterData.getDummy2());
-        List<FighterData> party2 = new ArrayList<>();
-        party2.add(FighterData.getDummy2());
-        party2.add(FighterData.getDummy1());//#FIX FIX FIX IT ASAP read this from socket
+        if(readLine.startsWith(BattleProtocol.TrainerInfoRequest)){
+            nc.writeToConnection.println(trainerData.toJsonData());
+            enemyData = ServerRealTime.getTrainerData(nc,gson);
+        }
 
-        NetworkedGridAI ai = new NetworkedGridAI(playerGrid,nc, "Assets/PokemonImages/pika3d.png",controller.getPlayerDisplay(),party1);
+        Grid playerGrid = new Grid(controller.getPlayerGridParent(),false);
+        Grid enemyGrid = new Grid(controller.getEnmeyGridParent(),true);
 
-        BattlePlayer enemy = new BattlePlayer(new ImageView("Assets/PokemonImages/charz3d.png"),enemyGrid,controller.getEnemyDisplay(),party2);
+        List<FighterData> playerParty = FighterData.convertTrainerData(trainerData);
+        List<FighterData> enemyParty = FighterData.convertTrainerData(enemyData);
+
+        NetworkedGridAI ai = new NetworkedGridAI(playerGrid,nc ,controller.getPlayerDisplay(),playerParty);
+
+        BattlePlayer enemy = new BattlePlayer(new ImageView(),enemyGrid,controller.getEnemyDisplay(),enemyParty);
         GridReader reader = new GridReader(nc,ai,enemy);
         new Thread(reader).start();
     }

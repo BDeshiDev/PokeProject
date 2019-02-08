@@ -7,14 +7,14 @@ import com.google.gson.Gson;
 * So that I don't have to type it by hand
 * */
 public class BattleProtocol{
-   static String TrainerInfoRequest = "GIVE_TRAINER_INFO";
-   static String TrainerInfoHeader = "TRAINER_INFO";
-   static String WinSignal = "WON";
-   static String LoseSignal = "LOST";
-   static String AttackCommandHeader = "ATTACK_COMMAND";
-   static String SwapCommandHeader = "SWAP_COMMAND";
-   static String battleStartSignal = "START_BATTLE";
-   static String TurnEndOkay = "CAN_END_TURN";
+   public static String TrainerInfoRequest = "GIVE_TRAINER_INFO";
+   public static String TrainerInfoHeader = "TRAINER_INFO";
+   public static String WinSignal = "WON";
+   public static String LoseSignal = "LOST";
+   public static String AttackCommandHeader = "ATTACK_COMMAND";
+   public static String SwapCommandHeader = "SWAP_COMMAND";
+   public static String battleStartSignal = "START_BATTLE";
+   public static String TurnEndOkay = "CAN_END_TURN";
 
    //these ones are for the real time battle system
    public static String moveMessageHeader = "MOVE";

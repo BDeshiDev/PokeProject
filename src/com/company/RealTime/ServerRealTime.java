@@ -1,8 +1,10 @@
 package com.company.RealTime;
 
 import com.company.Settings;
+import com.company.Trainer;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
+import com.company.networking.TrainerData;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -26,12 +28,22 @@ public class ServerRealTime {
                 System.out.println("accepted 2");
                 NetworkConnection p1 = new NetworkConnection(newClient);
                 NetworkConnection p2 = new NetworkConnection(newClient2);
+                //requst and transfer info
+                p1.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
+                p2.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
+                Gson gson = new Gson();
+                TrainerData t1Info = getTrainerData(p1,gson);
+                TrainerData t2Info = getTrainerData(p2,gson);
+
+                p1.writeToConnection.println(t2Info.toJsonData());
+                p2.writeToConnection.println(t1Info.toJsonData());
+
                 p1.writeToConnection.println(BattleProtocol.createMessage(new setIdMessage(1,2),BattleProtocol.setIdMessageHeader));
                 p2.writeToConnection.println(BattleProtocol.createMessage(new setIdMessage(2,1),BattleProtocol.setIdMessageHeader));
 
                 ConcurrentLinkedDeque<String> inputQueue = new ConcurrentLinkedDeque<>();
-                ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2);
-                Timer simTimer =  new Timer("simulation timer");
+                ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2,FighterData.convertTrainerData(t1Info),FighterData.convertTrainerData(t2Info));
+                Timer simTimer = new Timer("simulation timer");
                 simTimer.scheduleAtFixedRate(ssLoop,0,ServerSimulationLoop.tickDelay);
 
                 ServerReader serverThread1 = new ServerReader(p1,p2,inputQueue,1);
@@ -46,6 +58,21 @@ public class ServerRealTime {
             System.out.println("could not open server socket");
         }
     }
+
+    public static  TrainerData getTrainerData(NetworkConnection sender,Gson gson){
+        TrainerData retVal = null;
+        try {
+            String readLine = sender.readFromConnection.readLine();
+            if(readLine.startsWith(BattleProtocol.TrainerInfoHeader)){
+                String jsonToParse = readLine.substring(BattleProtocol.TrainerInfoHeader.length());
+                retVal = gson.fromJson(jsonToParse, TrainerData.class);
+            }
+        }catch (IOException ioe){
+            System.out.println("couldn't get trainer data");
+        }
+        return  retVal;
+    }
+
 }
 
 class ServerSimulationLoop extends TimerTask {
@@ -62,15 +89,15 @@ class ServerSimulationLoop extends TimerTask {
     public static int tickDelay = 20;//in ms
 
 
-    public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection) {
+    public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection,List<FighterData> leftParty,List<FighterData> rightParty) {
         this.clientInputQueue = clientInputQueue;
         this.p1Connection = p1Connection;
         this.p2Connection = p2Connection;
         this.simulatedLeftGrid = new Grid(null,false);
         this.simulatedRightGrid = new Grid(null,true);
-        p1 = new BattlePlayer(null,simulatedLeftGrid,null,null);
+        p1 = new BattlePlayer(null,simulatedLeftGrid,null,leftParty);
         p1.setId(1);
-        p2 = new BattlePlayer(null,simulatedRightGrid,null,null);
+        p2 = new BattlePlayer(null,simulatedRightGrid,null,rightParty);
         p2.setId(2);
     }
 

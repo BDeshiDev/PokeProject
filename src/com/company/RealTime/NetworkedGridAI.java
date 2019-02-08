@@ -9,8 +9,8 @@ import java.util.List;
 class NetworkedGridAI extends  GridAI{
     NetworkConnection connection;
 
-    public NetworkedGridAI(Grid grid, NetworkConnection connection, String imageName, BattleDisplayController UI, List<FighterData> party) {
-        super(grid,imageName,UI,party);
+    public NetworkedGridAI(Grid grid, NetworkConnection connection, BattleDisplayController UI, List<FighterData> party) {
+        super(grid,UI,party);
         this.connection = connection;
     }
     @Override

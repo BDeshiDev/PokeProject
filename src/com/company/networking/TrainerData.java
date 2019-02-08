@@ -3,7 +3,7 @@ package com.company.networking;
 import com.company.Pokemon.PokemonSaveData;
 import com.company.Pokemon.Stats.Level;
 
-public class TrainerData {
+public class TrainerData implements  JsonDataAble {
     public String name;
     public PokemonSaveData[] pokemonSaves;
 
@@ -20,7 +20,7 @@ public class TrainerData {
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public String toJsonData() {
+        return BattleProtocol.createMessage(this,BattleProtocol.TrainerInfoHeader);
     }
 }
