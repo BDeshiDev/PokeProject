@@ -7,15 +7,22 @@ class GridPlayer extends  BattlePlayer{
     Scene scene;
     boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
             zPressed = false,xPressed = false;
+    BattleScreenController battleScreenController;
 
-    public GridPlayer(ImageView playerImage, Grid grid, Scene scene,HpUI hpUI) {
+
+
+    public GridPlayer(ImageView playerImage, Grid grid, Scene scene,HpUI hpUI,BattleScreenController battleScreenController) {
         super(playerImage,grid,hpUI);
         this.scene = scene;
         this.grid =grid;
+        this.battleScreenController = battleScreenController;
+        battleScreenController.getSwapButton().setOnAction(event ->handleSwapButtonClick());
         addListeners(scene);
     }
     public void addListeners(Scene s){//the player should only move one tile at a time
         s.setOnKeyPressed(e->{
+            if(!canAct)
+                return;
             switch (e.getCode()){
                 case UP:
                     if(!upPressed)
@@ -49,6 +56,8 @@ class GridPlayer extends  BattlePlayer{
                     break;
             }});
         s.setOnKeyReleased(e->{
+            if(!canAct)
+                return;
             switch (e.getCode()){
                 case UP:
                     upPressed = false;
@@ -68,13 +77,29 @@ class GridPlayer extends  BattlePlayer{
                 case X:
                     xPressed  = false;
                     break;
+                case SPACE:
+                    handleMenuPressed();
+                    break;
             }});
     }
-
+    public void handleMenuPressed(){
+        System.out.println("Can't pause in non networked mode");
+    }
     public void handleMove(int dx,int  dy){
         grid.movePlayer(this,dx,dy);
     }
     public void handleAttack(int attackNo){
         System.out.println("can't attack in non networked mode...");
     }
+
+
+    @Override
+    public void handleSwapRequest() {
+        battleScreenController.toggleChoiceBox(true);
+    }
+
+    public void handleSwapButtonClick(){
+        System.out.println("can't handle swap in non networked class");
+    }
+
 }

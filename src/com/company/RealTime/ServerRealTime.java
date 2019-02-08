@@ -57,6 +57,7 @@ class ServerSimulationLoop extends TimerTask {
     Gson gson = new Gson();
 
     private List<AttackDamageTimer> attacksToCheck  = new ArrayList<AttackDamageTimer>();
+    List<BattlePlayer> waitList = new ArrayList<>();//list of players we are waiting for
 
     public static int tickDelay = 20;//in ms
 
@@ -75,46 +76,90 @@ class ServerSimulationLoop extends TimerTask {
 
     @Override
     public void run() {
-        if(!clientInputQueue.isEmpty()){
-            String newMessage = clientInputQueue.pop();
-            String messageToSend = null;
-            if(newMessage.startsWith(BattleProtocol.moveMessageHeader)){
-                //in cas of valid move update positions on our end and send them over
-                String jsonToParse = newMessage.substring(BattleProtocol.moveMessageHeader.length());
-                moveMessage mm = gson.fromJson(jsonToParse,moveMessage.class);
-                BattlePlayer moveTarget = getPlayerFromTargetId(mm.moveTargetId);
-                if(moveTarget != null){
-                    if(simulatedLeftGrid.isMoveValid(moveTarget.curtile,mm.dx,mm.dy)){
-                        simulateMove(moveTarget,mm.dx,mm.dy);
-                        messageToSend = newMessage;
+        if(!waitList.isEmpty()){//we're waiting for someone to tell us to stop pause
+            System.out.println("Simulation: waiting for swap event ");
+            if (!clientInputQueue.isEmpty()) {
+                String newMessage = clientInputQueue.pop();
+                if (newMessage.startsWith(BattleProtocol.SwapEventHeader)) {
+                    String jsonToParse = newMessage.substring(BattleProtocol.SwapEventHeader.length());
+                    SwapMessage sm = gson.fromJson(jsonToParse, SwapMessage.class);
+                    if(sm!= null) {
+                        BattlePlayer swapper = getPlayerFromTargetId(sm.swapperID);
+                        if(swapper != null) {
+                            swapper.handleSwap(sm.idToSwapWith);
+                            broadcastMessage(newMessage);
+                            waitList.remove(swapper);
+                        }
                     }
-                }else{
-                    System.out.println("Server simulation:: wrong move id : " + mm.moveTargetId);
                 }
-            }else if(newMessage.startsWith(BattleProtocol.attackMessageHeader)){
-                String jsonToParse = newMessage.substring(BattleProtocol.attackMessageHeader.length());
-                AttackMessage am = gson.fromJson(jsonToParse,AttackMessage.class);
-                simulateAttack(am);
-                messageToSend = newMessage;
             }
-            if(messageToSend != null) {
-                p1Connection.writeToConnection.println(newMessage);
-                p2Connection.writeToConnection.println(newMessage);
+            //if we have cleared the wait list then tell everyone to resume
+            if(waitList.isEmpty()){
+                broadcastMessage(BattleProtocol.ResumeOrderHeader);
             }
-        }
-        if(!attacksToCheck.isEmpty()){
-            List<DamageMessage> damageUpdates = new ArrayList<>();
-            for(int i = attacksToCheck.size()-1;i>=0;i--){
-                AttackDamageTimer adt = attacksToCheck.get(i);
-                adt.applyDamage(p1,p2,tickDelay,damageUpdates);
-                if(adt.shouldEnd())
-                    attacksToCheck.remove(i);
+        }else {
+            if (!clientInputQueue.isEmpty()) {
+                String newMessage = clientInputQueue.pop();
+                String messageToSend = null;
+                if (newMessage.startsWith(BattleProtocol.moveMessageHeader)) {
+                    //in cas of valid move update positions on our end and send them over
+                    String jsonToParse = newMessage.substring(BattleProtocol.moveMessageHeader.length());
+                    moveMessage mm = gson.fromJson(jsonToParse, moveMessage.class);
+                    BattlePlayer moveTarget = getPlayerFromTargetId(mm.moveTargetId);
+                    if (moveTarget != null) {
+                        if (simulatedLeftGrid.isMoveValid(moveTarget.curtile, mm.dx, mm.dy)) {
+                            simulateMove(moveTarget, mm.dx, mm.dy);
+                            messageToSend = newMessage;
+                        }
+                    } else {
+                        System.out.println("Server simulation:: wrong move id : " + mm.moveTargetId);
+                    }
+                } else if (newMessage.startsWith(BattleProtocol.attackMessageHeader)) {
+                    String jsonToParse = newMessage.substring(BattleProtocol.attackMessageHeader.length());
+                    AttackMessage am = gson.fromJson(jsonToParse, AttackMessage.class);
+                    simulateAttack(am);
+                    messageToSend = newMessage;
+                } else if (newMessage.startsWith(BattleProtocol.SwapRequestHeader)) {
+                    System.out.println("Simulation: somebody wants to swap now");
+                    String jsonToParse = newMessage.substring(BattleProtocol.SwapRequestHeader.length());
+                    SwapMessage sm = gson.fromJson(jsonToParse, SwapMessage.class);
+                    if (sm != null) {
+                        NetworkConnection swapOrderReceiver = null;
+                        if (sm.swapperID == p1.getId()) {
+                            swapOrderReceiver = p1Connection;
+                            waitList.add(p1);
+                        } else if (sm.swapperID == p2.getId()) {
+                            swapOrderReceiver = p2Connection;
+                            waitList.add(p2);
+                        }
+                        if (swapOrderReceiver != null) {
+                            broadcastMessage(BattleProtocol.PauseOrderHeader);
+                            //tell both to pause and tell the swapper to start swapping
+                            swapOrderReceiver.writeToConnection.println(newMessage);
+                        }else{
+                            System.out.println("swapper id mismatch");
+                        }
+                    }else
+                        System.out.println("swap message parse fail");
+                }
+                if (messageToSend != null) {
+                    broadcastMessage(newMessage);
+                }
             }
-            if(!damageUpdates.isEmpty()){
-                System.out.println("Simulation: somebody took damage");
-                String messages = BattleProtocol.createMessage(damageUpdates,BattleProtocol.DamageHeader);
-                p1Connection.writeToConnection.println(messages);
-                p2Connection.writeToConnection.println(messages);
+            if (!attacksToCheck.isEmpty()) {
+                List<DamageMessage> damageUpdates = new ArrayList<>();
+                for (int i = attacksToCheck.size() - 1; i >= 0; i--) {
+                    AttackDamageTimer adt = attacksToCheck.get(i);
+                    adt.applyDamage(p1, p2, tickDelay, damageUpdates);
+                    if (adt.shouldEnd())
+                        attacksToCheck.remove(i);
+                }
+                if (!damageUpdates.isEmpty()) {
+                    System.out.println("Simulation: somebody took damage");
+                    String messages = BattleProtocol.createMessage(damageUpdates, BattleProtocol.DamageHeader);
+                    p1Connection.writeToConnection.println(messages);
+                    p2Connection.writeToConnection.println(messages);
+                }
             }
         }
     }
@@ -155,6 +200,11 @@ class ServerSimulationLoop extends TimerTask {
             System.out.println("simulation: invalid attack user id " + am.userID);
         }
 
+    }
+
+    public void broadcastMessage(String m){
+        p1Connection.writeToConnection.println(m);
+        p2Connection.writeToConnection.println(m);
     }
 
 }

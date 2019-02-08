@@ -1,9 +1,11 @@
 package com.company.RealTime;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class BattleScreenController {
 
@@ -14,13 +16,7 @@ public class BattleScreenController {
     private Pane enmeyGridParent;
 
     @FXML
-    private Label NameLabel1;
-
-    @FXML
-    private Label lvLabel;
-
-    @FXML
-    private Label lvLabel1;
+    private VBox ChoiceBoxPane;
 
     @FXML
     private ProgressBar hpBar;
@@ -36,6 +32,21 @@ public class BattleScreenController {
 
     @FXML
     private Label hpLabel;
+
+    @FXML
+    private Button GiveUpButton;
+
+    @FXML
+    private Label NameLabel1;
+
+    @FXML
+    private Label lvLabel;
+
+    @FXML
+    private Label lvLabel1;
+
+    @FXML
+    private Button SwapButton;
 
     private  HpUI playerHpUI;
     private  HpUI enemyHpUI;
@@ -55,6 +66,19 @@ public class BattleScreenController {
         _nameLabel.setText(name);
         _lvLabel.setText(Integer.toString(lv));
         hpUI.update(curHp,maxHp);
+    }
+
+    public void toggleChoiceBox(boolean shouldBeOn){
+        ChoiceBoxPane.setVisible(shouldBeOn);
+        ChoiceBoxPane.setDisable(!shouldBeOn);
+    }
+
+    public Button getGiveUpButton() {
+        return GiveUpButton;
+    }
+
+    public Button getSwapButton() {
+        return SwapButton;
     }
 
     public Pane getEnmeyGridParent() {

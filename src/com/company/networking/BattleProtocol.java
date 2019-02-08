@@ -21,7 +21,10 @@ public class BattleProtocol{
    public static String setIdMessageHeader = "SET_ID";
    public static  String attackMessageHeader = "USED_THIS_ATTACK";
    public static  String DamageHeader = "DAMAGE_EVENT";
-
+   public static  String SwapEventHeader = "SWAP_EVENT";
+   public static  String PauseOrderHeader = "PAUSE_NOW";
+   public static  String SwapRequestHeader = "SWAP_REQUEST";
+   public static  String ResumeOrderHeader = "RESUME_NOW";
 
    public static Gson gson = new Gson();
 

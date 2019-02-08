@@ -1,12 +1,14 @@
 package com.company.RealTime;
 
 import com.company.Utilities.Animation.AnimationFactory;
+import com.company.Utilities.Animation.SpriteAnimation;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 class GridReader implements  Runnable{
@@ -16,6 +18,7 @@ class GridReader implements  Runnable{
     BattlePlayer player;
     BattlePlayer enemy;
 
+    List<SpriteAnimation> currentlyPlayingAnimations = new ArrayList<>();// use this to stop playing animations when needed
 
 
     public GridReader(NetworkConnection nc,BattlePlayer player,BattlePlayer enemy) {
@@ -79,6 +82,18 @@ class GridReader implements  Runnable{
                         BattlePlayer damageTarget = getPlayerFromID(dm.damagedPlayerID);
                         Platform.runLater((()->damageTarget.takeDamage(dm.damageAmount)));
                     }
+                }else if(readline.startsWith(BattleProtocol.PauseOrderHeader)){
+                    Platform.runLater((()-> player.disableActions(true)));
+                }else if(readline.startsWith(BattleProtocol.ResumeOrderHeader)){
+                    Platform.runLater((()-> player.disableActions(false)));
+                }else if(readline.startsWith(BattleProtocol.SwapRequestHeader)){
+                    Platform.runLater((()->player.handleSwapRequest()));//we assume that the swap message already reefers to the correct player
+                }else if(readline.startsWith(BattleProtocol.SwapEventHeader)){
+                    String jsonToParse = readline.substring(BattleProtocol.SwapEventHeader.length());
+                    SwapMessage sm = gson.fromJson(jsonToParse,SwapMessage.class);
+                    BattlePlayer swapper = getPlayerFromID(sm.swapperID);
+                    if(swapper != null)
+                        swapper.handleSwap(sm.idToSwapWith);
                 }else{
                     System.out.println("wrong message format  "+ readline);
                 }

@@ -11,6 +11,7 @@ class BattlePlayer{
     int curHp;
     int maxHp = 150;
     private int id;
+    protected boolean canAct = true;
 
     public BattlePlayer(ImageView playerImage,Grid grid,HpUI hpUI) {
         this.playerImage = playerImage;
@@ -30,6 +31,19 @@ class BattlePlayer{
         curHp = Math.max(curHp-damage,0);
         if(hpUI != null)
             hpUI.update(curHp,maxHp);
+    }
+
+    public void disableActions(boolean shouldDisable){
+        canAct = !shouldDisable;
+        System.out.println("player is no longer disabled");
+    }
+
+    public void handleSwap(int monToSwapWith){
+        System.out.println("swapping not ready with "+ monToSwapWith);
+    }
+
+    public void handleSwapRequest(){
+        System.out.println("Base class can't generate swap requests");
     }
 
     public boolean canFight(){

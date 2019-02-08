@@ -14,6 +14,8 @@ class GridAI extends  BattlePlayer{
             int yDir = 1;
             @Override
             public void handle(long now) {
+                if(!canAct)
+                    return;
                 moveTimer++;
                 attackTimer++;
                 if(moveTimer>60){

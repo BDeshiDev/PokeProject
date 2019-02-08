@@ -8,10 +8,11 @@ import javafx.scene.image.ImageView;
 class NetworkedGridPlayer extends  GridPlayer{
     NetworkConnection connection;
 
-    public NetworkedGridPlayer(ImageView playerImage, Grid grid, Scene scene,HpUI hpUI ,NetworkConnection connection) {
-        super( playerImage, grid, scene,hpUI);
+    public NetworkedGridPlayer(ImageView playerImage, Grid grid, Scene scene, HpUI hpUI, NetworkConnection connection, BattleScreenController battleScreenController) {
+        super(playerImage, grid, scene, hpUI,battleScreenController);
         this.connection = connection;
     }
+
     @Override
     public void handleMove(int dx,int  dy){
         connection.writeToConnection.println(BattleProtocol.createMessage(new moveMessage(getId(),dx,dy),BattleProtocol.moveMessageHeader));
@@ -28,5 +29,16 @@ class NetworkedGridPlayer extends  GridPlayer{
                 break;
         }
 
+    }
+
+    @Override
+    public void handleMenuPressed() {
+        connection.writeToConnection.println(SwapMessage.createSwapRequest(getId()));
+    }
+
+    @Override
+    public void handleSwapButtonClick() {
+        connection.writeToConnection.println(SwapMessage.createSwapEventMessage(getId(),1));
+        battleScreenController.toggleChoiceBox(false);
     }
 }

@@ -33,7 +33,7 @@ public class TestPlayerClient extends Application {
         Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
         System.out.println("in ");
         NetworkConnection nc = new NetworkConnection(socket);
-        NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView("Assets/charizardOoverWorld.png"),playerGrid,s,controller.getPlayerHpUI(),new NetworkConnection(socket));
+        NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView("Assets/charizardOoverWorld.png"),playerGrid,s,controller.getPlayerHpUI(),new NetworkConnection(socket),controller);
         BattlePlayer enemy = new BattlePlayer(new ImageView("Assets/CharzOverWorldleft.png"),enemyGrid,controller.getEnemyHpUI());
         GridReader reader = new GridReader(nc,player,enemy);
         new Thread(reader).start();
