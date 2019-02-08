@@ -3,8 +3,8 @@ package com.company.Pokemon;
 import com.company.PokemonFactory;
 
 public class PokemonSaveData {
-    String name;
-    int level;
+    public final String name;
+    public final int level;
 
     public PokemonSaveData(String name, int level) {
         this.name = name;

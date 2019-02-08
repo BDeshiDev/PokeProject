@@ -1,24 +1,56 @@
 package com.company.RealTime;
 
+import com.company.BattleDisplayController;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class BattlePlayer{
     Tile curtile;
     Grid grid;
     ImageView playerImage;
 
-    private HpUI hpUI;
-    int curHp;
-    int maxHp = 150;
+    private BattleDisplayController uiDisplay;
     private int id;
     protected boolean canAct = true;
 
-    public BattlePlayer(ImageView playerImage,Grid grid,HpUI hpUI) {
+    FighterData curFighter;
+    List<FighterData> party;
+    List<MoveCardData> movesList = new ArrayList<>();
+
+    public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
         this.grid = grid;
-        this.hpUI = hpUI;
-        curHp = maxHp;
+        this.uiDisplay = uiDisplay;
+        this.party = party;
         grid.setPlayer(this);
+
+        if(playerImage != null){
+            playerImage.setScaleX(grid.isFlipped?1:-1);
+        }
+    }
+
+    public void init(){
+        setCurFighter(party.get(0));
+    }
+
+    public void setCurFighter(FighterData fd){
+        curFighter = fd;
+        movesList.clear();
+        for (MoveCardData rtmd:fd.moves) {
+            movesList.add(rtmd);
+        }
+
+        if(uiDisplay != null)
+            uiDisplay.update(fd);
+        if(playerImage != null)
+            playerImage.setImage(new Image(fd.imageName));
+    }
+
+    public void setCurFighter(int index){
+        setCurFighter(party.get(index));
     }
 
     public void moveToTile(Tile newTile){
@@ -27,10 +59,20 @@ class BattlePlayer{
             playerImage.relocate(newTile.getX(),newTile.getY());
     }
 
-    public void takeDamage(int damage){
-        curHp = Math.max(curHp-damage,0);
-        if(hpUI != null)
-            hpUI.update(curHp,maxHp);
+    public void takeDamage(int damage,boolean isGuaranteedKill){
+        curFighter.takeDamage(damage,isGuaranteedKill);
+        if(uiDisplay != null)
+            uiDisplay.update(curFighter.curHp,curFighter.maxHp);
+    }
+
+    public void takeDamage(DamageMessage dm){
+        takeDamage(dm.damageAmount,dm.isGuaranteedKill);
+        if(!curFighter.canFight())
+            handleKo();
+    }
+
+    public void handleKo(){
+        System.out.println("base class can't handle ko");
     }
 
     public void disableActions(boolean shouldDisable){
@@ -38,16 +80,28 @@ class BattlePlayer{
         System.out.println("player is no longer disabled");
     }
 
-    public void handleSwap(int monToSwapWith){
-        System.out.println("swapping not ready with "+ monToSwapWith);
+    public void handleSwap(int swapIndex){
+        if(swapIndex>=party.size()){
+            System.out.println("swap index out of bounds " + swapIndex);
+        }else{
+            if(party.get(swapIndex).canFight())
+                setCurFighter(swapIndex);
+            else
+                System.out.println("invalid swap due to insufficient hp");
+        }
+
     }
 
-    public void handleSwapRequest(){
+    public void handleSwapRequest(boolean canCancel){
         System.out.println("Base class can't generate swap requests");
     }
 
     public boolean canFight(){
-        return curHp > 0;
+        for (FighterData fd:party) {
+            if(fd.canFight())
+                return  true;
+        }
+        return  false;
     }
 
     public void setMove(int dx,int dy){

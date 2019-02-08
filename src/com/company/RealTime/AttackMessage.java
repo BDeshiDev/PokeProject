@@ -29,18 +29,8 @@ public class AttackMessage implements JsonDataAble {
         this.shouldStopAfterCollision = shouldStopAfterCollision;
     }
 
-    public  static AttackMessage getTestMessage(int userID, int userPosX, int userPosY){
-        return  new AttackMessage("test Attack ","Default", userID,userPosX,userPosY,20,10,TargetPattern.singleTile,false,true);
-    }
-
-    public  static AttackMessage getFlameThrower(int userID, int userPosX, int userPosY){
-        return  new AttackMessage("Flame Thrower","Flame Thrower", userID,userPosX,userPosY,1000,50,TargetPattern.row,false,true);
-    }
-    public  static AttackMessage getSlash(int userID, int userPosX, int userPosY){
-        return  new AttackMessage("Slash","Slash", userID,userPosX,userPosY,500,30,TargetPattern.column,false,true);
-    }
-    public  static AttackMessage getBolt(int userID, int userPosX, int userPosY){
-        return  new AttackMessage("ThunderBolt","Bolt", userID,userPosX,userPosY,500,50,TargetPattern.column,false,true);
+    public AttackMessage(MoveCardData rtmd, int userID, int userPosX, int userPosY){
+        this(rtmd.attackName,rtmd.animName,userID,userPosX,userPosY,rtmd.attackDuration,rtmd.damagePerHit,rtmd.targetPattern,rtmd.shouldTargetOwnGrid,rtmd.shouldStopAfterCollision);
     }
 
 

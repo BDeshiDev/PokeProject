@@ -1,24 +1,83 @@
 package com.company.RealTime;
 
+import com.company.BattleDisplayController;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+
+/*
+* Supposed to be an offline version of the player... but our game won't work offline
+* */
 class GridPlayer extends  BattlePlayer{
     Scene scene;
     boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
             zPressed = false,xPressed = false;
     BattleScreenController battleScreenController;
+    boolean canCancel = true;
+
+    private Queue<MoveCardData> selectedMoves;
+    private MoveCardData defaultAttack = MoveCardData.getTestMove();
 
 
-
-    public GridPlayer(ImageView playerImage, Grid grid, Scene scene,HpUI hpUI,BattleScreenController battleScreenController) {
-        super(playerImage,grid,hpUI);
+    public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
+        super(playerImage,grid,uiDisplay,party);
         this.scene = scene;
         this.grid =grid;
         this.battleScreenController = battleScreenController;
-        battleScreenController.getSwapButton().setOnAction(event ->handleSwapButtonClick());
+
+        FlowPane parentPane = battleScreenController.getSwapParentPane();
+        for (int i = 0; i < party.size();i++) {
+            Button swapButton = new Button(party.get(i).Name);
+            final  int swapNo = i;
+            swapButton.setOnAction(event ->handleSwapButtonClick(swapNo));
+            parentPane.getChildren().add(swapButton);
+        }
+        battleScreenController.getExitButton().setOnAction(event -> handleCancelButton());
+
         addListeners(scene);
     }
+
+    @Override
+    public void setCurFighter(FighterData fd) {
+        super.setCurFighter(fd);
+
+        if(selectedMoves == null) {
+            selectedMoves = new ArrayDeque<>();
+            System.out.println("making queue");
+        }
+        selectedMoves.clear();
+
+        if(battleScreenController != null){
+            FlowPane p = battleScreenController.getMoveCardView();
+            p.getChildren().clear();
+            for (MoveCardData mcd:movesList) {
+                System.out.println("adding " + mcd.attackName);
+                Button moveUseButton = new Button("Add");
+                moveUseButton.setOnAction(e->{addMove(mcd);});
+
+                VBox vb= new VBox(20,new Label(mcd.attackName),new Label("power :" + mcd.damagePerHit),moveUseButton);
+                vb.setAlignment(Pos.CENTER);
+                vb.setStyle("-fx-background-color: #eaf6ff");
+                p.getChildren().add(vb);
+            }
+        }
+    }
+
+    public void addMove(MoveCardData dataToUse){
+        selectedMoves.add(dataToUse);
+    }
+
     public void addListeners(Scene s){//the player should only move one tile at a time
         s.setOnKeyPressed(e->{
             if(!canAct)
@@ -46,12 +105,12 @@ class GridPlayer extends  BattlePlayer{
                     break;
                 case Z:
                     if(!zPressed )
-                        handleAttack(0);
+                        handleAttack(defaultAttack);
                     zPressed = true;
                     break;
                 case X:
                     if(!xPressed )
-                        handleAttack(1);
+                        useNextSelectedMove();
                     xPressed = true;
                     break;
             }});
@@ -88,18 +147,35 @@ class GridPlayer extends  BattlePlayer{
     public void handleMove(int dx,int  dy){
         grid.movePlayer(this,dx,dy);
     }
-    public void handleAttack(int attackNo){
+
+    public void useNextSelectedMove(){
+        handleAttack(selectedMoves.poll());
+    }
+    public void handleAttack(MoveCardData moveToUse){
         System.out.println("can't attack in non networked mode...");
     }
 
+    public void handleCancelButton(){
+        if(canCancel) {
+            battleScreenController.toggleChoiceBox(false);
+            HBox selectedMovesBox = battleScreenController.getSelectedMoveBox();
+            selectedMovesBox.getChildren().clear();
+            for (MoveCardData mcd:selectedMoves) {
+                VBox vb= new VBox(20,new Label(mcd.attackName),new Label("power :" + mcd.damagePerHit));
+                selectedMovesBox.getChildren().add(vb);
+            }
+            battleScreenController.toggleChoiceBox(false);
+        }
+    }
 
     @Override
-    public void handleSwapRequest() {
+    public void handleSwapRequest(boolean canCancel)
+    {
+        this.canCancel = canCancel;
         battleScreenController.toggleChoiceBox(true);
     }
 
-    public void handleSwapButtonClick(){
+    public void handleSwapButtonClick(int i){
         System.out.println("can't handle swap in non networked class");
     }
-
 }

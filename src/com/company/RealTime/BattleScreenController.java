@@ -1,9 +1,13 @@
 package com.company.RealTime;
 
+import com.company.BattleDisplayController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -25,19 +29,28 @@ public class BattleScreenController {
     private ProgressBar hpBar1;
 
     @FXML
+    private FlowPane MoveCardView;
+
+    @FXML
     private Label hpLabel1;
 
     @FXML
     private Pane PlayerGridParent;
 
     @FXML
+    private FlowPane SwapParentPane;
+
+    @FXML
     private Label hpLabel;
 
     @FXML
-    private Button GiveUpButton;
+    private Label NameLabel1;
 
     @FXML
-    private Label NameLabel1;
+    private Button exitButton;
+
+    @FXML
+    private ImageView BackgroundImage;
 
     @FXML
     private Label lvLabel;
@@ -46,39 +59,33 @@ public class BattleScreenController {
     private Label lvLabel1;
 
     @FXML
-    private Button SwapButton;
+    private HBox SelectedMoveBox;
 
-    private  HpUI playerHpUI;
-    private  HpUI enemyHpUI;
+    BattleDisplayController playerDisplay;
+    BattleDisplayController enemyDisplay;
     public  void initialize(){
-        playerHpUI = new HpUI(hpBar,hpLabel);
-        enemyHpUI = new HpUI(hpBar1,hpLabel1);
+        playerDisplay = new BattleDisplayController(NameLabel,lvLabel,hpBar,hpLabel);
+        enemyDisplay = new BattleDisplayController(NameLabel1,lvLabel1,hpBar1,hpLabel1);
+        lvLabel.setText("");//we won't have levels
+        lvLabel1.setText("");
     }
 
-    public void setPlayerUI(String name,int lv,int curHp,int maxHp){
-        updateUI(NameLabel,name,lvLabel,lv,playerHpUI,curHp,maxHp);
-    }
-
-    public void setEnemyUI(String name,int lv,int curHp,int maxHp){
-        updateUI(NameLabel1,name,lvLabel1,lv,enemyHpUI,curHp,maxHp);
-    }
-    private void updateUI(Label _nameLabel ,String name,Label _lvLabel,int lv, HpUI hpUI,int curHp,int maxHp){
-        _nameLabel.setText(name);
-        _lvLabel.setText(Integer.toString(lv));
-        hpUI.update(curHp,maxHp);
-    }
 
     public void toggleChoiceBox(boolean shouldBeOn){
         ChoiceBoxPane.setVisible(shouldBeOn);
         ChoiceBoxPane.setDisable(!shouldBeOn);
     }
 
-    public Button getGiveUpButton() {
-        return GiveUpButton;
+    public HBox getSelectedMoveBox() {
+        return SelectedMoveBox;
     }
 
-    public Button getSwapButton() {
-        return SwapButton;
+    public Button getExitButton() {
+        return exitButton;
+    }
+
+    public FlowPane getSwapParentPane() {
+        return SwapParentPane;
     }
 
     public Pane getEnmeyGridParent() {
@@ -89,11 +96,15 @@ public class BattleScreenController {
         return PlayerGridParent;
     }
 
-    public HpUI getPlayerHpUI() {
-        return playerHpUI;
+    public BattleDisplayController getPlayerDisplay() {
+        return playerDisplay;
     }
 
-    public HpUI getEnemyHpUI() {
-        return enemyHpUI;
+    public BattleDisplayController getEnemyDisplay() {
+        return enemyDisplay;
+    }
+
+    public FlowPane getMoveCardView() {
+        return MoveCardView;
     }
 }

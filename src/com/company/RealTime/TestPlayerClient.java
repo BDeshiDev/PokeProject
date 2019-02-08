@@ -1,18 +1,23 @@
 package com.company.RealTime;
 
+import com.company.Pokemon.PokemonSaveData;
+import com.company.Pokemon.Stats.Level;
 import com.company.Settings;
+import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
+import com.company.networking.TrainerData;
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestPlayerClient extends Application {
 
@@ -23,18 +28,33 @@ public class TestPlayerClient extends Application {
         BattleScreenController controller=loader.getController();
 
         primaryStage.setTitle("Player gridTest ");
-        Scene s = new Scene(root, Settings.windowWidth,Settings.windowLength);
+        Scene s = new Scene(root, 1200,800);
         primaryStage.setScene(s);
         primaryStage.show();
 
+        TrainerData trainerData = new TrainerData("Ash",new PokemonSaveData("Charizard", Level.maxLevel),new PokemonSaveData("Pikachu", Level.maxLevel));
+        TrainerData enemyData = null;
         Grid playerGrid = new Grid(controller.getPlayerGridParent(),false);
         Grid enemyGrid = new Grid(controller.getEnmeyGridParent(),true);
 
+        Gson gson = new Gson();
         Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
         System.out.println("in ");
         NetworkConnection nc = new NetworkConnection(socket);
-        NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView("Assets/charizardOoverWorld.png"),playerGrid,s,controller.getPlayerHpUI(),new NetworkConnection(socket),controller);
-        BattlePlayer enemy = new BattlePlayer(new ImageView("Assets/CharzOverWorldleft.png"),enemyGrid,controller.getEnemyHpUI());
+        String readLine = nc.readFromConnection.readLine();
+
+        if(readLine.startsWith(BattleProtocol.TrainerInfoRequest)){
+            nc.writeToConnection.println(trainerData.toJsonData());
+            enemyData = ServerRealTime.getTrainerData(nc,gson);
+        }
+
+
+        List<FighterData> playerParty = FighterData.convertTrainerData(trainerData);
+        List<FighterData> enemyParty = FighterData.convertTrainerData(enemyData);
+
+
+        NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView(),playerGrid,s,controller.getPlayerDisplay(),playerParty,new NetworkConnection(socket),controller);
+        BattlePlayer enemy = new BattlePlayer(new ImageView(),enemyGrid,controller.getEnemyDisplay(),enemyParty);
         GridReader reader = new GridReader(nc,player,enemy);
         new Thread(reader).start();
     }

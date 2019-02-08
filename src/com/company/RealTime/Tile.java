@@ -10,40 +10,44 @@ import javafx.scene.shape.Rectangle;
 public class Tile extends Pane {
     int x,y;
     int tileSize;
-    int yOffset;
+    int xOffset,yOffset;
     boolean isFlipped;
     ImageView tileImage;
     ImageView animationView;
 
-    public Tile(Pane gridParent,int yOffset ,  int tileSize,boolean isFlipped, int x, int y) {
+
+    public Tile(Pane gridParent,int xOffset, int yOffset ,  int tileSize,boolean isFlipped, int x, int y) {
         this.x = x;
         this.y = y;
         this.isFlipped = isFlipped;
         this.tileSize = tileSize;
         this.yOffset = yOffset;
+        this.xOffset = xOffset;
         if(gridParent != null) {
-            Rectangle r= new Rectangle(tileSize,tileSize,Color.GREY);
+            Rectangle r= new Rectangle(tileSize*.9,tileSize*.9);
+            r.setStyle("-fx-fill: rgba(178,197,220,0.31);");
+            animationView = new ImageView();
+            this.getChildren().addAll(r,animationView);
+            gridParent.getChildren().addAll(this);
             r.relocate(getX(),getY());
             /*
             tileImage = new ImageView("Assets/MapImages/Temp/emptyTile.png");
             tileImage.relocate(getX(),getY());
             */
-            animationView = new ImageView();
-            animationView.relocate(getX(),getY());
-            animationView.setScaleX(.6);
-            animationView.setScaleY(.6);
+            animationView.relocate(getX()+tileSize/4.0,getY()+tileSize/4.);//small offset
+            animationView.setScaleX(1);
+            animationView.setScaleY(1);
             //gridParent.getChildren().addAll(tileImage, animationView);
             /*
             Label debugLabel = new Label(x+","+y);
             debugLabel.relocate(getX(),getY());
-            */
-            this.getChildren().addAll(r,animationView);
-            gridParent.getChildren().addAll(this);
+            this.getChildren().add(debugLabel);
+             */
         }
     }
 
     public int getX(){
-        return (isFlipped?-1:1)*tileSize * x;
+        return xOffset +(isFlipped?-1:1)*tileSize * x;
     }
 
     public int getY(){

@@ -1,20 +1,23 @@
 package com.company.RealTime;
 
-import com.company.PokeTab;
+import com.company.Pokemon.PokemonSaveData;
+import com.company.Pokemon.Stats.Level;
 import com.company.Settings;
+import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
+import com.company.networking.TrainerData;
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestAIClient extends Application {
 
@@ -26,18 +29,32 @@ public class TestAIClient extends Application {
         BattleScreenController controller=loader.getController();
 
         primaryStage.setTitle("ai gridTest ");
-        primaryStage.setScene(new Scene(root, Settings.windowWidth,Settings.windowLength));
+        primaryStage.setScene(new Scene(root,1200,800));
         primaryStage.show();
+
+        TrainerData trainerData = new TrainerData("Gory",new PokemonSaveData("Pikachu", Level.maxLevel),new PokemonSaveData("Charizard", Level.maxLevel));
+        TrainerData enemyData = null;
+
+        Gson gson = new Gson();
+        Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
+        System.out.println("in ");
+        NetworkConnection nc = new NetworkConnection(socket);
+        String readLine = nc.readFromConnection.readLine();
+
+        if(readLine.startsWith(BattleProtocol.TrainerInfoRequest)){
+            nc.writeToConnection.println(trainerData.toJsonData());
+            enemyData = ServerRealTime.getTrainerData(nc,gson);
+        }
 
         Grid playerGrid = new Grid(controller.getPlayerGridParent(),false);
         Grid enemyGrid = new Grid(controller.getEnmeyGridParent(),true);
 
-        Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
-        System.out.println("in ");
-        NetworkConnection nc = new NetworkConnection(socket);
-        NetworkedGridAI ai = new NetworkedGridAI(playerGrid,nc, "Assets/charizardOoverWorld.png",controller.getPlayerHpUI());
+        List<FighterData> playerParty = FighterData.convertTrainerData(trainerData);
+        List<FighterData> enemyParty = FighterData.convertTrainerData(enemyData);
 
-        BattlePlayer enemy = new BattlePlayer(new ImageView("Assets/CharzOverWorldleft.png"),enemyGrid,controller.getEnemyHpUI());
+        NetworkedGridAI ai = new NetworkedGridAI(playerGrid,nc ,controller.getPlayerDisplay(),playerParty);
+
+        BattlePlayer enemy = new BattlePlayer(new ImageView(),enemyGrid,controller.getEnemyDisplay(),enemyParty);
         GridReader reader = new GridReader(nc,ai,enemy);
         new Thread(reader).start();
     }
