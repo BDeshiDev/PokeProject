@@ -103,6 +103,9 @@ class ServerSimulationLoop extends TimerTask {
         p1.setId(1);
         p2 = new BattlePlayer(null,simulatedRightGrid,null,rightParty);
         p2.setId(2);
+
+        p1.init();
+        p2.init();
     }
 
     @Override
@@ -129,6 +132,7 @@ class ServerSimulationLoop extends TimerTask {
                 broadcastMessage(BattleProtocol.ResumeOrderHeader);
             }
         }else {
+            UpdateTurns();
             if (!clientInputQueue.isEmpty()) {
                 String newMessage = clientInputQueue.pop();
                 String messageToSend = null;
@@ -222,6 +226,17 @@ class ServerSimulationLoop extends TimerTask {
                 }
             }
         }
+    }
+
+    private void UpdateTurns() {
+        if(p1 == null || p2 == null)
+            return;// why is this even happening
+
+        p1.updateTurn(p1.calculateChargeFromTicks(tickDelay));
+        p2.updateTurn(p2.calculateChargeFromTicks(tickDelay));
+        broadcastMessage(TurnChargeMessage.convertUpdateToMessage(new TurnChargeMessage[]{
+                        new TurnChargeMessage(p1.getTurnCharge(),p1.getId(),p1.getTurnProgress() >=1 ),
+                        new TurnChargeMessage(p2.getTurnCharge(),p2.getId(),p2.getTurnProgress() >=1 )}));
     }
 
     public void stopSimulation(){

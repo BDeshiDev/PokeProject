@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -24,6 +25,7 @@ class GridPlayer extends  BattlePlayer{
     boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
             zPressed = false,xPressed = false;
     BattleScreenController battleScreenController;
+    ProgressBar turnProgressBar;
     boolean canCancel = true;
 
     private Queue<MoveCardData> selectedMoves;
@@ -35,6 +37,7 @@ class GridPlayer extends  BattlePlayer{
         this.scene = scene;
         this.grid =grid;
         this.battleScreenController = battleScreenController;
+        this.turnProgressBar = battleScreenController.getTurnBar();
 
         FlowPane parentPane = battleScreenController.getSwapParentPane();
         for (int i = 0; i < party.size();i++) {
@@ -46,6 +49,12 @@ class GridPlayer extends  BattlePlayer{
         battleScreenController.getExitButton().setOnAction(event -> handleCancelButton());
 
         addListeners(scene);
+    }
+
+    @Override
+    public void updateTurn(double amount) {
+        super.updateTurn(amount);
+        turnProgressBar.setProgress(getTurnProgress());
     }
 
     @Override

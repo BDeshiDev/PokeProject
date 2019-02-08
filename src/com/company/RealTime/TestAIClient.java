@@ -52,7 +52,7 @@ public class TestAIClient extends Application {
         List<FighterData> playerParty = FighterData.convertTrainerData(trainerData);
         List<FighterData> enemyParty = FighterData.convertTrainerData(enemyData);
 
-        NetworkedGridAI ai = new NetworkedGridAI(playerGrid,nc ,controller.getPlayerDisplay(),playerParty);
+        NetworkedGridAI ai = new NetworkedGridAI(playerGrid,nc ,controller.getPlayerDisplay(),controller.getTurnBar(),playerParty);
 
         BattlePlayer enemy = new BattlePlayer(new ImageView(),enemyGrid,controller.getEnemyDisplay(),enemyParty);
         GridReader reader = new GridReader(nc,ai,enemy);

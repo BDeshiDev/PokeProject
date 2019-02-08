@@ -16,6 +16,9 @@ class BattlePlayer{
     private int id;
     protected boolean canAct = true;
 
+    private double turnCharge = 0;
+    private final  double turnChargeThreshold = 50* 1000;//you get a turn every 5000ms at max speed
+
     FighterData curFighter;
     List<FighterData> party;
     List<MoveCardData> movesList = new ArrayList<>();
@@ -89,7 +92,6 @@ class BattlePlayer{
             else
                 System.out.println("invalid swap due to insufficient hp");
         }
-
     }
 
     public void handleSwapRequest(boolean canCancel){
@@ -102,6 +104,27 @@ class BattlePlayer{
                 return  true;
         }
         return  false;
+    }
+
+    public void updateTurn(double amount){
+        turnCharge += amount;
+    }
+
+    public double calculateChargeFromTicks(int ticksToAdd){
+        return ticksToAdd * ((double)curFighter.speed / curFighter.maxSpeed);
+    }
+
+    public double getTurnCharge() {
+        return turnCharge;
+    }
+
+
+    public void updateTurn(TurnChargeMessage tcm){
+        updateTurn(tcm.chargeAmount);
+    }
+
+    public double getTurnProgress(){
+        return turnCharge/turnChargeThreshold;
     }
 
     public void setMove(int dx,int dy){
