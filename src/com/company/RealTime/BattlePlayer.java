@@ -69,8 +69,16 @@ class BattlePlayer{
         System.out.println("player is no longer disabled");
     }
 
-    public void handleSwap(int monToSwapWith){
-        System.out.println("swapping not ready with "+ monToSwapWith);
+    public void handleSwap(int swapIndex){
+        if(swapIndex>=party.size()){
+            System.out.println("swap index out of bounds " + swapIndex);
+        }else{
+            if(party.get(swapIndex).canFight())
+                setCurFighter(swapIndex);
+            else
+                System.out.println("invalid swap due to insufficient hp");
+        }
+
     }
 
     public void handleSwapRequest(){
@@ -79,7 +87,7 @@ class BattlePlayer{
 
     public boolean canFight(){
         for (FighterData fd:party) {
-            if(fd.curHp>0)
+            if(fd.canFight())
                 return  true;
         }
         return  false;

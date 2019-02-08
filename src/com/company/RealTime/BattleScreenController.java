@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -30,6 +31,9 @@ public class BattleScreenController {
 
     @FXML
     private Pane PlayerGridParent;
+
+    @FXML
+    private FlowPane SwapParentPane;
 
     @FXML
     private Label hpLabel;
@@ -68,8 +72,8 @@ public class BattleScreenController {
         return GiveUpButton;
     }
 
-    public Button getSwapButton() {
-        return SwapButton;
+    public FlowPane getSwapParentPane() {
+        return SwapParentPane;
     }
 
     public Pane getEnmeyGridParent() {

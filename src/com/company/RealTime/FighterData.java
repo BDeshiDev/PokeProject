@@ -4,6 +4,7 @@ import com.company.Pokemon.PokemonSaveData;
 import com.company.networking.TrainerData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +27,10 @@ public class FighterData {
         this.imageName = imageName;
         moves =moveNames;
         reset();
+    }
+
+    public boolean canFight(){
+        return  this.curHp>0;
     }
 
     private static HashMap<String,FighterData> fighterMap = new HashMap<>();
@@ -59,5 +64,22 @@ public class FighterData {
     }
     public void reset(){
         curHp = maxHp;
+    }
+
+    @Override
+    public String toString() {
+        return "FighterData{" +
+                /*"att=" + att +
+                ", def=" + def +
+                ", spAtt=" + spAtt +
+                ", spDef=" + spDef +
+                ", speed=" + speed +
+                ", stamina=" + stamina +*///skip non important ones
+                ", maxHp=" + maxHp +
+                ", curHp=" + curHp +
+                ", Name='" + Name + '\'' +
+                ", imageName='" + imageName + '\'' +
+                ", moves=" + Arrays.toString(moves) +
+                '}';
     }
 }

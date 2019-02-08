@@ -1,11 +1,16 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 
 import java.util.List;
-
+/*
+* Supposed to be an offline version of the player... but our game won't work offline
+* */
 class GridPlayer extends  BattlePlayer{
     Scene scene;
     boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
@@ -13,13 +18,18 @@ class GridPlayer extends  BattlePlayer{
     BattleScreenController battleScreenController;
 
 
-
     public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
         super(playerImage,grid,uiDisplay,party);
         this.scene = scene;
         this.grid =grid;
         this.battleScreenController = battleScreenController;
-        battleScreenController.getSwapButton().setOnAction(event ->handleSwapButtonClick());
+        FlowPane parentPane = battleScreenController.getSwapParentPane();
+        for (int i = 0; i < party.size();i++) {
+            Button swapButton = new Button(party.get(i).Name);
+            final  int swapNo = i;
+            swapButton.setOnAction(event ->handleSwapButtonClick(swapNo));
+            parentPane.getChildren().add(swapButton);
+        }
         addListeners(scene);
     }
     public void addListeners(Scene s){//the player should only move one tile at a time
@@ -101,8 +111,7 @@ class GridPlayer extends  BattlePlayer{
         battleScreenController.toggleChoiceBox(true);
     }
 
-    public void handleSwapButtonClick(){
+    public void handleSwapButtonClick(int i){
         System.out.println("can't handle swap in non networked class");
     }
-
 }

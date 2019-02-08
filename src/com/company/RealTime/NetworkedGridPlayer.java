@@ -40,8 +40,13 @@ class NetworkedGridPlayer extends  GridPlayer{
     }
 
     @Override
-    public void handleSwapButtonClick() {
-        connection.writeToConnection.println(SwapMessage.createSwapEventMessage(getId(),1));
-        battleScreenController.toggleChoiceBox(false);
+    public void handleSwapButtonClick(int index) {
+        FighterData monToSwapWith  =party.get(index);
+        if(monToSwapWith.canFight() && monToSwapWith != curFighter) {
+            connection.writeToConnection.println(SwapMessage.createSwapEventMessage(getId(), index));
+            battleScreenController.toggleChoiceBox(false);
+        }else{
+            System.out.println("Player:can't send invalid swap " + monToSwapWith);
+        }
     }
 }
