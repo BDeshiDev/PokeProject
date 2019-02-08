@@ -122,7 +122,7 @@ class ServerSimulationLoop extends TimerTask {
                             waitList.remove(swapper);
                         }
                     }
-                }
+                }//continueHere and implement a message for menu closing
             }
             //if we have cleared the wait list then tell everyone to resume
             if(waitList.isEmpty()){

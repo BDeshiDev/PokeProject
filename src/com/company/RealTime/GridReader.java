@@ -27,6 +27,9 @@ class GridReader implements  Runnable{
         this.player = player;
         this.playerGrid = player.grid;
         this.enemyGrid = enemy.grid;
+
+        player.init();
+        enemy.init();
     }
 
     @Override

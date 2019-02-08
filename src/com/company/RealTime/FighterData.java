@@ -13,9 +13,9 @@ public class FighterData {
     public int curHp = maxHp;
     public String Name;
     public  String imageName;
-    public String[] moves;
+    public MoveCardData[] moves;
 
-    public FighterData(int att, int def, int spAtt, int spDef, int speed, int stamina, int maxHp, String name, String imageName,String... moveNames) {
+    public FighterData(int att, int def, int spAtt, int spDef, int speed, int stamina, int maxHp, String name, String imageName, MoveCardData... moveNames) {
         this.att = att;
         this.def = def;
         this.spAtt = spAtt;
@@ -68,11 +68,11 @@ public class FighterData {
         return  retVal;
     }
     public static FighterData getDummy1(){
-        return  new FighterData(4,3,3,3,4,100,150,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png");
+        return  new FighterData(4,3,3,3,4,100,150,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",MoveCardData.getFlameThrower(),MoveCardData.getSlash());
     }
 
     public static FighterData getDummy2(){
-        return  new FighterData(3,3,3,3,2,100,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png");
+        return  new FighterData(3,3,3,3,2,100,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",MoveCardData.getBolt(),MoveCardData.getTestMove());
     }
     public void reset(){
         curHp = maxHp;

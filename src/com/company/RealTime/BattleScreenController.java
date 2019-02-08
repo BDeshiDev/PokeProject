@@ -5,7 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -27,6 +29,9 @@ public class BattleScreenController {
     private ProgressBar hpBar1;
 
     @FXML
+    private FlowPane MoveCardView;
+
+    @FXML
     private Label hpLabel1;
 
     @FXML
@@ -39,10 +44,13 @@ public class BattleScreenController {
     private Label hpLabel;
 
     @FXML
+    private Label NameLabel1;
+
+    @FXML
     private Button exitButton;
 
     @FXML
-    private Label NameLabel1;
+    private ImageView BackgroundImage;
 
     @FXML
     private Label lvLabel;
@@ -51,7 +59,7 @@ public class BattleScreenController {
     private Label lvLabel1;
 
     @FXML
-    private Button SwapButton;
+    private HBox SelectedMoveBox;
 
     BattleDisplayController playerDisplay;
     BattleDisplayController enemyDisplay;
@@ -66,6 +74,10 @@ public class BattleScreenController {
     public void toggleChoiceBox(boolean shouldBeOn){
         ChoiceBoxPane.setVisible(shouldBeOn);
         ChoiceBoxPane.setDisable(!shouldBeOn);
+    }
+
+    public HBox getSelectedMoveBox() {
+        return SelectedMoveBox;
     }
 
     public Button getExitButton() {
@@ -90,5 +102,9 @@ public class BattleScreenController {
 
     public BattleDisplayController getEnemyDisplay() {
         return enemyDisplay;
+    }
+
+    public FlowPane getMoveCardView() {
+        return MoveCardView;
     }
 }

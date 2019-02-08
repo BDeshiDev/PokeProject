@@ -5,9 +5,11 @@ import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 
 import java.util.List;
+import java.util.Random;
 
 class NetworkedGridAI extends  GridAI{
     NetworkConnection connection;
+    Random rand = new Random();
 
     public NetworkedGridAI(Grid grid, NetworkConnection connection, BattleDisplayController UI, List<FighterData> party) {
         super(grid,UI,party);
@@ -36,7 +38,8 @@ class NetworkedGridAI extends  GridAI{
 
     @Override
     public void handleAttack() {
-        connection.writeToConnection.println(AttackMessage.getTestMessage(getId(),curtile.x,curtile.y).toJsonData());
+        int maxIndex = movesList.size();
+        connection.writeToConnection.println(movesList.get(rand.nextInt(maxIndex)).toMessage(getId(),curtile.x,curtile.y).toJsonData());
     }
 
 }

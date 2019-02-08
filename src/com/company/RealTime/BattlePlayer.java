@@ -4,6 +4,7 @@ import com.company.BattleDisplayController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class BattlePlayer{
@@ -17,31 +18,31 @@ class BattlePlayer{
 
     FighterData curFighter;
     List<FighterData> party;
+    List<MoveCardData> movesList = new ArrayList<>();
 
     public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
         this.grid = grid;
         this.uiDisplay = uiDisplay;
+        this.party = party;
         grid.setPlayer(this);
 
         if(playerImage != null){
             playerImage.setScaleX(grid.isFlipped?1:-1);
         }
+    }
 
-        this.party = party;
-        if(party != null) {
-            setCurFighter(party.get(0));
-        }else {
-            System.out.println("party null...");
-            System.exit(-1);
-        }
-        if(uiDisplay!= null){
-            uiDisplay.update(curFighter);
-        }
+    public void init(){
+        setCurFighter(party.get(0));
     }
 
     public void setCurFighter(FighterData fd){
         curFighter = fd;
+        movesList.clear();
+        for (MoveCardData rtmd:fd.moves) {
+            movesList.add(rtmd);
+        }
+
         if(uiDisplay != null)
             uiDisplay.update(fd);
         if(playerImage != null)

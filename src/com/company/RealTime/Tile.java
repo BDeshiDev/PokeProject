@@ -24,8 +24,8 @@ public class Tile extends Pane {
         this.yOffset = yOffset;
         this.xOffset = xOffset;
         if(gridParent != null) {
-            Rectangle r= new Rectangle(tileSize,tileSize,Color.GREY);
-            r.setStyle("-fx-background-color: #afccc5; -fx-stroke-type:outside;-fx-stroke:  #5550ff;-fx-stroke-width: 8;-fx-stroke-line-cap: round;");
+            Rectangle r= new Rectangle(tileSize*.9,tileSize*.9);
+            r.setStyle("-fx-fill: rgba(178,197,220,0.31);");
             animationView = new ImageView();
             this.getChildren().addAll(r,animationView);
             gridParent.getChildren().addAll(this);
