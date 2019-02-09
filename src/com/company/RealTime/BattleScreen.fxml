@@ -18,6 +18,7 @@
       </ImageView>
       <AnchorPane style="-fx-background-color: transparent;">
          <children>
+            <HBox fx:id="PowerUpBox" layoutX="465.0" layoutY="112.0" prefHeight="100.0" prefWidth="351.0" style="-fx-background-color: rgba(119,145,160,0.26);" />
             <ProgressBar fx:id="TurnBar" layoutX="455.0" layoutY="74.0" prefHeight="25.0" prefWidth="370.0" progress="0.68" />
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="92.0" prefWidth="276.0" style="-fx-background-color: #b3b8d3;" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="40.0">
                <children>

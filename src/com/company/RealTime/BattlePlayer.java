@@ -17,11 +17,12 @@ class BattlePlayer{
     protected boolean canAct = true;
 
     private double turnCharge = 0;
-    private final  double turnChargeThreshold = 6 * 1000;//you get a turn every 5000ms at max speed
+    private final  double turnChargeThreshold = 1 * 1000;//you get a turn every 5000ms at max speed
 
     FighterData curFighter;
     List<FighterData> party;
     List<MoveCardData> movesList = new ArrayList<>();
+    List<MoveCardData> cardChoices = new ArrayList<>();
 
     public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
@@ -49,6 +50,7 @@ class BattlePlayer{
         movesList.clear();
         for (MoveCardData rtmd:fd.moves) {
             movesList.add(rtmd);
+            System.out.println("adding " + rtmd.attackName);
         }
 
         if(uiDisplay != null)
@@ -121,7 +123,7 @@ class BattlePlayer{
     }
 
     public void handleTurnRequest(){
-        System.out.println("base class can't handle turn request");
+        cardChoices.addAll(movesList);
     }
 
     public double calculateChargeFromTicks(int ticksToAdd){

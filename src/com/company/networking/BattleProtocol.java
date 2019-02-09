@@ -26,8 +26,8 @@ public class BattleProtocol{
    public static  String SwapRequestHeader = "SWAP_REQUEST";
    public static  String ResumeOrderHeader = "RESUME_NOW";
    public static  String koMessage = "GOT_KO'D";
-   public static  String turnConfirmHeader = "MENU_EXITED";
    public static  String TurnChargeHeader = "TURN_CHARGE_UPDATE";
+   public static  String turnConfirmHeader = "TURN_CONFIRMED";
 
    public static Gson gson = new Gson();
 

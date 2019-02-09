@@ -27,6 +27,10 @@ public class SwapMessage implements JsonDataAble {
         return BattleProtocol.createMessage(new SwapMessage(swapperID,idToSwapWith,isCancellable),BattleProtocol.SwapEventHeader);
     }
 
+    public static String createSwapFailMessage(int swapperID){
+        return BattleProtocol.createMessage(new SwapMessage(swapperID,-1,true),BattleProtocol.SwapEventHeader);
+    }
+
     @Override
     public String toString() {
         return "SwapMessage{" +

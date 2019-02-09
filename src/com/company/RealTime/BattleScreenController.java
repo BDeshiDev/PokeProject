@@ -23,6 +23,9 @@ public class BattleScreenController {
     private VBox ChoiceBoxPane;
 
     @FXML
+    private HBox PowerUpBox;
+
+    @FXML
     private ProgressBar hpBar;
 
     @FXML
@@ -63,6 +66,7 @@ public class BattleScreenController {
 
     @FXML
     private ProgressBar TurnBar;
+
 
     BattleDisplayController playerDisplay;
     BattleDisplayController enemyDisplay;
@@ -113,5 +117,9 @@ public class BattleScreenController {
 
     public FlowPane getMoveCardView() {
         return MoveCardView;
+    }
+
+    public HBox getPowerUpBox() {
+        return PowerUpBox;
     }
 }

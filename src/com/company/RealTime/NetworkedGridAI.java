@@ -55,7 +55,7 @@ class NetworkedGridAI extends  GridAI{
 
     @Override
     public void handleTurnRequest() {
-        connection.writeToConnection.println(new TurnConfirmMessage(getId(), new ArrayList<MoveCardData>(selectedMoves)).toJsonData());
+        connection.writeToConnection.println(new TurnConfirmMessage(getId(), new ArrayList<MoveCardData>(selectedCards)).toJsonData());
     }
 
     @Override
