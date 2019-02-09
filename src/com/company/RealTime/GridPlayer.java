@@ -176,7 +176,9 @@ class GridPlayer extends  BattlePlayer{
         System.out.println("can't attack in non networked mode...");
     }
 
-    public void handleConfirmButton(){ }
+    public void handleConfirmButton(){
+
+    }
 
     @Override
     public void handleSwapRequest(boolean canCancel)
