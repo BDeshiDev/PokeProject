@@ -61,6 +61,9 @@ public class BattleScreenController {
     @FXML
     private HBox SelectedMoveBox;
 
+    @FXML
+    private ProgressBar TurnBar;
+
     BattleDisplayController playerDisplay;
     BattleDisplayController enemyDisplay;
     public  void initialize(){
@@ -74,6 +77,10 @@ public class BattleScreenController {
     public void toggleChoiceBox(boolean shouldBeOn){
         ChoiceBoxPane.setVisible(shouldBeOn);
         ChoiceBoxPane.setDisable(!shouldBeOn);
+    }
+
+    public ProgressBar getTurnBar() {
+        return TurnBar;
     }
 
     public HBox getSelectedMoveBox() {

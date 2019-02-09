@@ -10,6 +10,7 @@ import java.util.List;
 
 public class FighterData {
     public int att,def,spAtt,spDef,speed,stamina,maxHp;
+    public final int maxSpeed = 10;
     public int curHp = maxHp;
     public String Name;
     public  String imageName;

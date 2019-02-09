@@ -3,17 +3,20 @@ package com.company.RealTime;
 import com.company.BattleDisplayController;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
+import javafx.scene.control.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 class NetworkedGridAI extends  GridAI{
     NetworkConnection connection;
-    Random rand = new Random();
+    ProgressBar turnProgressBar;
 
-    public NetworkedGridAI(Grid grid, NetworkConnection connection, BattleDisplayController UI, List<FighterData> party) {
+    public NetworkedGridAI(Grid grid, NetworkConnection connection, BattleDisplayController UI,ProgressBar turnProgressBar, List<FighterData> party) {
         super(grid,UI,party);
         this.connection = connection;
+        this.turnProgressBar = turnProgressBar;
     }
     @Override
     public void handleMove(int dx, int dy) {
@@ -24,6 +27,20 @@ class NetworkedGridAI extends  GridAI{
     public void handleKo(){
         connection.writeToConnection.println(new koMessage(getId()).toJsonData());
     }
+
+    @Override
+    public void updateTurn(double amount) {
+        super.updateTurn(amount);
+        turnProgressBar.setProgress(getTurnProgress());
+    }
+
+    @Override
+    public void resetTurn() {
+        super.resetTurn();
+        turnProgressBar.setProgress(getTurnProgress());
+    }
+
+
 
     @Override
     public void handleSwapRequest(boolean canCancel) {
@@ -37,9 +54,12 @@ class NetworkedGridAI extends  GridAI{
     }
 
     @Override
-    public void handleAttack() {
-        int maxIndex = movesList.size();
-        connection.writeToConnection.println(movesList.get(rand.nextInt(maxIndex)).toMessage(getId(),curtile.x,curtile.y).toJsonData());
+    public void handleTurnRequest() {
+        connection.writeToConnection.println(new TurnConfirmMessage(getId(), new ArrayList<MoveCardData>(selectedMoves)).toJsonData());
     }
 
+    @Override
+    public void handleAttack(MoveCardData usedMove) {
+        connection.writeToConnection.println(usedMove.toMessage(getId(),curtile.x,curtile.y).toJsonData());
+    }
 }

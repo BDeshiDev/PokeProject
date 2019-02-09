@@ -4,8 +4,13 @@ import com.company.BattleDisplayController;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class NetworkedGridPlayer extends  GridPlayer{
@@ -36,6 +41,7 @@ class NetworkedGridPlayer extends  GridPlayer{
         connection.writeToConnection.println(SwapMessage.createSwapRequest(getId(),true));
     }
 
+
     @Override
     public void handleSwapButtonClick(int index) {
         super.handleSwapButtonClick(index);
@@ -52,10 +58,22 @@ class NetworkedGridPlayer extends  GridPlayer{
         }
     }
     @Override
-    public void handleCancelButton() {
-        super.handleCancelButton();
-        connection.writeToConnection.println(BattleProtocol.MenuOffMessage);
+    public void handleConfirmButton() {
+        super.handleConfirmButton();
+        if(canCancelSwap) {
+            battleScreenController.toggleChoiceBox(false);
+            HBox selectedMovesBox = battleScreenController.getSelectedMoveBox();
+            selectedMovesBox.getChildren().clear();
+            for (MoveCardData mcd:selectedMoves) {
+                VBox vb= new VBox(20,new Label(mcd.attackName),new Label("power :" + mcd.damagePerHit));
+                selectedMovesBox.getChildren().add(vb);
+            }
+            battleScreenController.toggleChoiceBox(false);
+        }
+        connection.writeToConnection.println(new TurnConfirmMessage(getId(), new ArrayList<MoveCardData>(selectedMoves)).toJsonData());
     }
+
+
 
     public void handleKo(){
         connection.writeToConnection.println(new koMessage(getId()).toJsonData());

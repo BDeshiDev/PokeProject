@@ -18,6 +18,7 @@
       </ImageView>
       <AnchorPane style="-fx-background-color: transparent;">
          <children>
+            <ProgressBar fx:id="TurnBar" layoutX="455.0" layoutY="74.0" prefHeight="25.0" prefWidth="370.0" progress="0.68" />
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="92.0" prefWidth="276.0" style="-fx-background-color: #b3b8d3;" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="40.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="53.0" prefWidth="276.0">

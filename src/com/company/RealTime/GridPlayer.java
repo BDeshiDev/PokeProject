@@ -2,19 +2,20 @@ package com.company.RealTime;
 
 import com.company.BattleDisplayController;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.sql.Connection;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 /*
 * Supposed to be an offline version of the player... but our game won't work offline
@@ -24,17 +25,18 @@ class GridPlayer extends  BattlePlayer{
     boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
             zPressed = false,xPressed = false;
     BattleScreenController battleScreenController;
-    boolean canCancel = true;
+    ProgressBar turnProgressBar;
+    boolean canCancelSwap = true;
 
-    private Queue<MoveCardData> selectedMoves;
+    protected Queue<MoveCardData> selectedMoves;
     private MoveCardData defaultAttack = MoveCardData.getTestMove();
-
 
     public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
         super(playerImage,grid,uiDisplay,party);
         this.scene = scene;
         this.grid =grid;
         this.battleScreenController = battleScreenController;
+        this.turnProgressBar = battleScreenController.getTurnBar();
 
         FlowPane parentPane = battleScreenController.getSwapParentPane();
         for (int i = 0; i < party.size();i++) {
@@ -43,9 +45,28 @@ class GridPlayer extends  BattlePlayer{
             swapButton.setOnAction(event ->handleSwapButtonClick(swapNo));
             parentPane.getChildren().add(swapButton);
         }
-        battleScreenController.getExitButton().setOnAction(event -> handleCancelButton());
+        battleScreenController.getExitButton().setOnAction(event -> handleConfirmButton());
 
         addListeners(scene);
+    }
+
+    @Override
+    public void updateTurn(double amount) {
+        super.updateTurn(amount);
+        turnProgressBar.setProgress(getTurnProgress());
+    }
+
+    @Override
+    public void resetTurn() {
+        super.resetTurn();
+        System.out.println("reset to ");
+        turnProgressBar.setProgress(getTurnProgress());
+    }
+
+    @Override
+    public void handleTurnRequest() {
+        super.handleTurnRequest();
+        battleScreenController.toggleChoiceBox(true);
     }
 
     @Override
@@ -155,23 +176,12 @@ class GridPlayer extends  BattlePlayer{
         System.out.println("can't attack in non networked mode...");
     }
 
-    public void handleCancelButton(){
-        if(canCancel) {
-            battleScreenController.toggleChoiceBox(false);
-            HBox selectedMovesBox = battleScreenController.getSelectedMoveBox();
-            selectedMovesBox.getChildren().clear();
-            for (MoveCardData mcd:selectedMoves) {
-                VBox vb= new VBox(20,new Label(mcd.attackName),new Label("power :" + mcd.damagePerHit));
-                selectedMovesBox.getChildren().add(vb);
-            }
-            battleScreenController.toggleChoiceBox(false);
-        }
-    }
+    public void handleConfirmButton(){ }
 
     @Override
     public void handleSwapRequest(boolean canCancel)
     {
-        this.canCancel = canCancel;
+        this.canCancelSwap = canCancel;
         battleScreenController.toggleChoiceBox(true);
     }
 

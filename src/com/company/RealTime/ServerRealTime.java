@@ -1,7 +1,6 @@
 package com.company.RealTime;
 
 import com.company.Settings;
-import com.company.Trainer;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import com.company.networking.TrainerData;
@@ -103,6 +102,9 @@ class ServerSimulationLoop extends TimerTask {
         p1.setId(1);
         p2 = new BattlePlayer(null,simulatedRightGrid,null,rightParty);
         p2.setId(2);
+
+        p1.init();
+        p2.init();
     }
 
     @Override
@@ -122,13 +124,30 @@ class ServerSimulationLoop extends TimerTask {
                             waitList.remove(swapper);
                         }
                     }
-                }//continueHere and implement a message for menu closing
+                }else if (newMessage.startsWith(BattleProtocol.turnConfirmHeader)) {
+                    String jsonToParse = newMessage.substring(BattleProtocol.turnConfirmHeader.length());
+                    TurnConfirmMessage tcm = gson.fromJson(jsonToParse, TurnConfirmMessage.class);
+                    if(tcm!= null) {
+                        BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
+                        if(targetPlayer != null){
+                            waitList.remove(targetPlayer);//check if this causes any problems
+                            System.out.println("removing " + targetPlayer.curFighter.Name + " remaining " + waitList.size());
+                            targetPlayer.resetTurn();
+                            String json =TurnChargeMessage.convertUpdateToMessage(new TurnChargeMessage[]{
+                                    new TurnChargeMessage(p1.calculateChargeFromTicks(tickDelay),p1.getId(),p1.readyForTurn()),
+                                    new TurnChargeMessage(p2.calculateChargeFromTicks(tickDelay),p2.getId(),p2.readyForTurn())});
+                            //System.out.println(json);
+                            broadcastMessage(json);
+                        }
+                    }
+                }
             }
             //if we have cleared the wait list then tell everyone to resume
             if(waitList.isEmpty()){
                 broadcastMessage(BattleProtocol.ResumeOrderHeader);
             }
         }else {
+            UpdateTurns();
             if (!clientInputQueue.isEmpty()) {
                 String newMessage = clientInputQueue.pop();
                 String messageToSend = null;
@@ -164,7 +183,7 @@ class ServerSimulationLoop extends TimerTask {
                             waitList.add(p2);
                         }
                         if (swapOrderReceiver != null) {
-                            broadcastMessage(BattleProtocol.PauseOrderHeader);
+                            broadcastMessage(BattleProtocol.PauseOrderMessge);
                             //tell both to pause and tell the swapper to start swapping
                             swapOrderReceiver.writeToConnection.println(newMessage);
                         } else {
@@ -197,7 +216,7 @@ class ServerSimulationLoop extends TimerTask {
                                 }
                             }
                             swapOrderReceiver.writeToConnection.println(SwapMessage.createSwapRequest(km.koId,false));
-                            broadcastMessage(BattleProtocol.PauseOrderHeader);
+                            broadcastMessage(BattleProtocol.PauseOrderMessge);
                         }
                     }
                     else
@@ -221,6 +240,32 @@ class ServerSimulationLoop extends TimerTask {
                     p2Connection.writeToConnection.println(messages);
                 }
             }
+        }
+    }
+
+    private void UpdateTurns() {
+        if(p1 == null || p2 == null)
+            return;// why is this even happening
+
+        p1.increaseTurn(p1.calculateChargeFromTicks(tickDelay));
+        p2.increaseTurn(p2.calculateChargeFromTicks(tickDelay));
+        String json =TurnChargeMessage.convertUpdateToMessage(new TurnChargeMessage[]{
+                new TurnChargeMessage(p1.getTurnCharge(),p1.getId(),p1.readyForTurn()),
+                new TurnChargeMessage(p2.getTurnCharge(),p2.getId(),p2.readyForTurn())});
+        //System.out.println(json);
+        broadcastMessage(json);
+
+        if(p1.readyForTurn()) {
+            waitList.add(p1);
+            System.out.println("added " + p1.curFighter.Name);
+        }
+        if(p2.readyForTurn()) {
+            waitList.add(p2);
+            System.out.println("added " + p2.curFighter.Name);
+        }
+
+        if(p1.readyForTurn() || p2.readyForTurn()){
+            broadcastMessage(BattleProtocol.PauseOrderMessge);
         }
     }
 

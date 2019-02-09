@@ -37,7 +37,7 @@ class GridReader implements  Runnable{
         Gson gson = new Gson();
         try {
             while (true){
-                System.out.println("ready to read");
+                //System.out.println("ready to read");
                 String readline = nc.readFromConnection.readLine();
                 if(readline.startsWith(BattleProtocol.setIdMessageHeader)){
                     String jsonToParse = readline.substring(BattleProtocol.setIdMessageHeader.length());
@@ -58,6 +58,15 @@ class GridReader implements  Runnable{
                         Platform.runLater((()-> moveTarget.setMove(moveMessage.dx,moveMessage.dy)));
                     }else{
                         System.out.println("invalid move id");
+                    }
+                }else if(readline.startsWith(BattleProtocol.TurnChargeHeader)){
+                    String jsonToParse = readline.substring(BattleProtocol.TurnChargeHeader.length());
+                    //System.out.println("turn updates:"+jsonToParse );
+                    TurnChargeMessage[] messages = gson.fromJson(jsonToParse,TurnChargeMessage[].class);
+                    for (TurnChargeMessage tcm:messages) {
+                        BattlePlayer targetPlayer = getPlayerFromID(tcm.targetId);
+                        if(targetPlayer!= null)
+                            Platform.runLater(()->targetPlayer.updateTurn(tcm));
                     }
                 }else if(readline.startsWith(BattleProtocol.attackMessageHeader)){
                     String jsonToParse = readline.substring(BattleProtocol.attackMessageHeader.length());
@@ -85,7 +94,7 @@ class GridReader implements  Runnable{
                         BattlePlayer damageTarget = getPlayerFromID(dm.damagedPlayerID);
                         Platform.runLater((()->damageTarget.takeDamage(dm)));
                     }
-                }else if(readline.startsWith(BattleProtocol.PauseOrderHeader)){
+                }else if(readline.startsWith(BattleProtocol.PauseOrderMessge)){
                     Platform.runLater(()-> player.disableActions(true));
                 }else if(readline.startsWith(BattleProtocol.ResumeOrderHeader)){
                     Platform.runLater(()-> player.disableActions(false));
@@ -99,7 +108,8 @@ class GridReader implements  Runnable{
                     BattlePlayer swapper = getPlayerFromID(sm.swapperID);
                     if(swapper != null)
                         Platform.runLater(()->swapper.handleSwap(sm.idToSwapWith));
-                }else if(readline.startsWith(BattleProtocol.WinSignal)){
+                }
+                else if(readline.startsWith(BattleProtocol.WinSignal)){
                     System.out.println("you win");
                     break;
                 }else if(readline.startsWith(BattleProtocol.LoseSignal)){
