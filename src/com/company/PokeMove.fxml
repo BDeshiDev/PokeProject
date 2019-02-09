@@ -7,8 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.PokeMove">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.PokeMove">
    <children>
       <Label layoutX="22.0" layoutY="41.0" prefHeight="30.0" prefWidth="145.0" text="Known Moves:">
          <font>
@@ -24,14 +23,7 @@
          </textFill>
       </Label>
       <Label fx:id="nameAndLevel" layoutX="22.0" layoutY="76.0" text="Name and Level" />
-      <Label fx:id="attack3" layoutX="330.0" layoutY="184.0" text="Attack 3" />
-      <Label fx:id="attack1" layoutX="330.0" layoutY="49.0" text="Attack 1" />
-      <Label fx:id="pp1" layoutX="407.0" layoutY="76.0" text="PP1" />
-      <Label fx:id="attack4" layoutX="330.0" layoutY="246.0" text="Attack 4" />
-      <Label fx:id="pp2" layoutX="407.0" layoutY="145.0" text="pp2" />
-      <Label fx:id="attack2" layoutX="330.0" layoutY="118.0" text="Attack 2" />
-      <Label fx:id="pp3" layoutX="407.0" layoutY="211.0" text="pp3" />
       <ImageView fx:id="pokemonImage" fitHeight="150.0" fitWidth="200.0" layoutX="22.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="pp4" layoutX="407.0" layoutY="273.0" text="pp4" />
+      <VBox fx:id="vbox" layoutX="319.0" layoutY="14.0" prefHeight="221.0" prefWidth="130.0" spacing="10.0" />
    </children>
 </AnchorPane>
