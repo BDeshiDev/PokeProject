@@ -24,18 +24,18 @@ public class PokemonFactory {//temp class for producing pokemon for testing repl
         p = getPidgeot();pokeMap.put(p.name,p);
         p = getCharmeleon();pokeMap.put(p.name,p);
 
-
-        JsonWriter jw=null;
-        Gson gson=new Gson();
-        try {
-            JsonWriter writer = new JsonWriter(new FileWriter("src/com/company/Pokemon/Moves/pokemonFactory.txt"));
-            writer.setIndent("  ");
-            gson.toJson(pokeMap.values(),pokeMap.values().getClass(), writer);
-            writer.flush();
-            writer.close();
-        }catch (IOException ioe){
-            System.out.println("write failed...");
-        }
+//
+//        JsonWriter jw=null;
+//        Gson gson=new Gson();
+//        try {
+//            JsonWriter writer = new JsonWriter(new FileWriter("src/com/company/Pokemon/Moves/pokemonFactory.txt"));
+//            writer.setIndent("  ");
+//            gson.toJson(pokeMap.values(),pokeMap.values().getClass(), writer);
+//            writer.flush();
+//            writer.close();
+//        }catch (IOException ioe){
+//            System.out.println("write failed...");
+//        }
 /*
         FileReader fr=null;
         try {

@@ -39,6 +39,8 @@ public class  Move{
         this.animationData = animationData;
     }
 
+
+
     public boolean canBeUsed(){
         return  curPp>0;
     }

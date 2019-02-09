@@ -1,0 +1,40 @@
+#titleName
+{
+    -fx-text-alignment: center;
+    -fx-background-color: transparent;
+    -fx-indeterminate-bar-animation-time: 10s;
+}
+#titleName:pressed
+{
+    -fx-rotate: 10;
+    -fx-rotate: -10;
+}
+
+.button{
+    -fx-background-color: #FF0000;
+    -fx-background-radius: 30;
+    -fx-background-insets: .5;
+    -fx-effect: dropshadow(three-pass-box,#833ab4,5,0,1,1);
+    -fx-border-color: #0000FF;
+    -fx-border-radius: 30;
+}
+.button:hover{
+    -fx-translate-x: 5;
+    -fx-translate-y: -5;
+    -fx-indeterminate-bar-animation-time: 2s;
+    -fx-background-color: #467e84;
+    -fx-border-color: #0000FF;
+    -fx-border-radius: 30;
+}
+
+.button:pressed{
+}
+
+#anchor{
+    -fx-background-image: url("title_Screen.gif");
+    -fx-background-size: cover;
+}
+
+#fightscreen{
+    -fx-background-color: #88c87a;
+}

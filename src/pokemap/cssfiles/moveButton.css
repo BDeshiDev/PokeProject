@@ -1,0 +1,25 @@
+.button {
+    -fx-background-color: black; /* Green */
+    -fx-background-radius: 20;
+}
+
+.button:pressed{
+    -fx-background-color: darkred;
+    -fx-translate-x: 5;
+    -fx-rotate: 5;
+}
+
+#moveName{
+    -fx-text-fill: white;
+    -fx-background-color: darkblue;
+}
+
+#moveType{
+    -fx-text-fill: white;
+    -fx-background-color: pink;
+}
+
+#power{
+    -fx-text-fill: white;
+    -fx-background-color: green;
+}
