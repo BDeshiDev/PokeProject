@@ -19,7 +19,9 @@ public class MoveCardData {
         this.shouldTargetOwnGrid = shouldTargetOwnGrid;
         this.shouldStopAfterCollision = shouldStopAfterCollision;
     }
-
+    public MoveCardData(MoveCardData other) {
+        this(other.attackName,other.animName,other.attackDuration,other.damagePerHit,other.targetPattern,other.shouldTargetOwnGrid,other.shouldStopAfterCollision);
+    }
 
 
     public  static MoveCardData getTestMove (){
@@ -36,7 +38,20 @@ public class MoveCardData {
         return  new MoveCardData("ThunderBolt","Bolt",500,40,TargetPattern.column,false,true);
     }
 
-    public AttackMessage toMessage(int userID,int posX,int posY){
+    @Override
+    public String toString() {
+        return "MoveCardData{" +
+                "attackName='" + attackName + '\'' +
+                ", animName='" + animName + '\'' +
+                ", iconName='" + iconName + '\'' +
+                ", damagePerHit=" + damagePerHit +
+                ", targetPattern=" + targetPattern +
+                ", shouldTargetOwnGrid=" + shouldTargetOwnGrid +
+                ", shouldStopAfterCollision=" + shouldStopAfterCollision +
+                '}';
+    }
+
+    public AttackMessage toMessage(int userID, int posX, int posY){
         return new AttackMessage(this,userID,posX,posY);
     }
 }

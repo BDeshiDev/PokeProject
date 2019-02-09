@@ -1,10 +1,10 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -25,8 +25,8 @@ class GridPlayer extends  BattlePlayer{
     ProgressBar turnProgressBar;
     boolean canCancelSwap = true;
 
-    protected Queue<MoveCardData> selectedCards = new ArrayDeque<>();
-    private MoveCardData defaultAttack = MoveCardData.getTestMove();
+    protected ObservableList<MoveCardData> selectedCards = FXCollections.observableArrayList();//moves that you use with x
+    private MoveCardData defaultAttack = MoveCardData.getTestMove();//move that you use with z
 
     public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
         super(playerImage,grid,uiDisplay,party);
@@ -44,6 +44,9 @@ class GridPlayer extends  BattlePlayer{
         }
         battleScreenController.getExitButton().setOnAction(event -> handleExitButton());
 
+        battleScreenController.getCarcChoiceBox().setItems(cardChoices);
+        battleScreenController.getSelectedCardList().setItems(selectedCards);
+
         addListeners(scene);
     }
 
@@ -60,17 +63,6 @@ class GridPlayer extends  BattlePlayer{
         turnProgressBar.setProgress(getTurnProgress());
     }
 
-    @Override
-    public void handleTurnRequest() {
-        super.handleTurnRequest();
-        HBox powerUpBox =battleScreenController.getPowerUpBox();
-        for (MoveCardData mcd:cardChoices) {
-            VBox vb = new VBox();
-            vb.setStyle("-fx-background-color: #00acf5");
-            vb.getChildren().add(new Label(mcd.attackName));
-            powerUpBox.getChildren().add(vb);
-        }
-    }
 
     public void addMove(MoveCardData dataToUse){
         selectedCards.add(dataToUse);
@@ -113,17 +105,17 @@ class GridPlayer extends  BattlePlayer{
                     break;
                 case Q:
                     if(!qPressed )
-                        tryChooseCard(1);
+                        tryChooseCard(0);
                     qPressed = true;
                     break;
                 case W:
                     if(!wPressed )
-                        tryChooseCard(2);
+                        tryChooseCard(1);
                     wPressed = true;
                     break;
                 case E:
                     if(!ePressed )
-                        tryChooseCard(0);
+                        tryChooseCard(2);
                     ePressed = true;
                     break;
 
@@ -172,7 +164,12 @@ class GridPlayer extends  BattlePlayer{
     }
 
     public void useNextSelectedMove(){
-        handleAttack(selectedCards.poll());
+        MoveCardData moveToUse = null;
+        if(!selectedCards.isEmpty()){
+            moveToUse = selectedCards.get(0);
+            selectedCards.remove(0);
+        }
+        handleAttack(moveToUse);
     }
     public void handleAttack(MoveCardData moveToUse){
         System.out.println("can't attack in non networked mode...");
@@ -181,28 +178,26 @@ class GridPlayer extends  BattlePlayer{
     public void handleExitButton(){
     }
 
+    @Override
+    public void setCurFighter(FighterData fd) {
+        super.setCurFighter(fd);
+        selectedCards.clear();
+    }
+
     public void tryChooseCard(int choiceNo){
         if(choiceNo >= cardChoices.size())
             System.out.println("invalid choice " + choiceNo);
         else if(selectedCards.size() >=3)
             System.out.println("can't hold more than 3 cards");
         else{
-            battleScreenController.getPowerUpBox().getChildren().clear();//clear powerupbox after choosing move
             addMove(cardChoices.get(choiceNo));
+            cardChoices.clear();
             handleTurnConfirm();
         }
     }
 
     public void handleTurnConfirm(){
-        HBox selectedMoveBox = battleScreenController.getSelectedMoveBox();
-        selectedMoveBox.getChildren().clear();;
-        for (MoveCardData mcd:selectedCards) {
-            VBox moveCard = new VBox(new Label(mcd.attackName), new Label("Power: " + mcd.damagePerHit));
-            moveCard.setStyle("-fx-background-color: #deff7c");
-            selectedMoveBox.getChildren().add(moveCard);
-        }
     }
-
 
     @Override
     public void handleSwapRequest(boolean canCancel)

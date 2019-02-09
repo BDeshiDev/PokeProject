@@ -120,6 +120,7 @@ class ServerSimulationLoop extends TimerTask {
                         BattlePlayer swapper = getPlayerFromTargetId(sm.swapperID);
                         if(swapper != null) {
                             swapper.handleSwap(sm.idToSwapWith);
+                            swapper.resetTurn();
                             broadcastMessage(newMessage);
                             waitList.remove(swapper);
                         }

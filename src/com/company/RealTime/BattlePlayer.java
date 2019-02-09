@@ -1,6 +1,8 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -22,7 +24,7 @@ class BattlePlayer{
     FighterData curFighter;
     List<FighterData> party;
     List<MoveCardData> movesList = new ArrayList<>();
-    List<MoveCardData> cardChoices = new ArrayList<>();
+    ObservableList<MoveCardData> cardChoices = FXCollections.observableArrayList();
 
     public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
@@ -48,6 +50,7 @@ class BattlePlayer{
     public void setCurFighter(FighterData fd){
         curFighter = fd;
         movesList.clear();
+        cardChoices.clear();
         for (MoveCardData rtmd:fd.moves) {
             movesList.add(rtmd);
             System.out.println("adding " + rtmd.attackName);
@@ -91,11 +94,12 @@ class BattlePlayer{
     }
 
     public void handleSwap(int swapIndex){
-        if(swapIndex>=party.size()){
+        if(swapIndex>=party.size() || swapIndex < 0){
             System.out.println("swap index out of bounds " + swapIndex);
         }else{
-            if(party.get(swapIndex).canFight())
+            if(party.get(swapIndex).canFight()) {
                 setCurFighter(swapIndex);
+            }
             else
                 System.out.println("invalid swap due to insufficient hp");
         }
