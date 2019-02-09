@@ -30,8 +30,8 @@ public class ExicuteMap extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Group group=forestMap.setMap();
-        group.getChildren().add(player.getImageOfEntity());
-        group.getChildren().add(enemy.getImageOfEntity());
+        group.getChildren().addAll(player.getImageOfEntity(),player.getProgress());
+        group.getChildren().addAll(enemy.getImageOfEntity(),enemy.getProgress());
         PerspectiveCamera camera=new PerspectiveCamera(true);
         camera.layoutXProperty().bind(player.getImageOfEntity().layoutXProperty());
         camera.layoutYProperty().bind(player.getImageOfEntity().layoutYProperty());

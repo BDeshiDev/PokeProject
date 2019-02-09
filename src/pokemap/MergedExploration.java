@@ -68,7 +68,7 @@ public class MergedExploration extends Application implements  PokeScreen{
         player.resetProbablity();
 
         Group group=forestMap.setMap();
-        group.getChildren().add(player.getImageOfEntity());
+        group.getChildren().addAll(player.getImageOfEntity(),player.getProgress());
         PerspectiveCamera camera=new PerspectiveCamera(true);
 
         camera.layoutXProperty().bind(player.getImageOfEntity().layoutXProperty());

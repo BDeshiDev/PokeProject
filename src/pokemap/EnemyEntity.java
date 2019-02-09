@@ -19,11 +19,12 @@ public class EnemyEntity extends Entity {
 
     public void setRandomDirection() {
         Random random=new Random();
-        int randomInt=random.nextInt(5);
+        int randomInt=random.nextInt(8);
         if (randomInt==0) dir=Directions.RIGHT;
         else if (randomInt==1) dir=Directions.LEFT;
         else if (randomInt==2) dir=Directions.UP;
-        else dir=Directions.DOWN;
+        else if(randomInt==3) dir=Directions.DOWN;
+        else dir=null;
     }
 
     public int getRandomDx() {

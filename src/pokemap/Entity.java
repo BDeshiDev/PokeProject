@@ -1,13 +1,21 @@
 package pokemap;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+
+import java.io.IOException;
 
 public class Entity {
     private Position entityPosition;
     private transient ImageView imageOfEntity;
     public static int entityImageSize=16;
     private transient  Image front,back,left,right;
+    private StackPane stackPane;
+    private double live;
+
 
     private String frontImageName="Assets/MapImages/herodown.png",
             backImageName = "Assets/MapImages/heroup.png",
@@ -23,6 +31,20 @@ public class Entity {
         right = new Image(rightImageName);
         imageOfEntity.setImage(back);
         updateImagePosition();
+        try {
+            stackPane = new FXMLLoader(getClass().getResource("progress_bar.fxml")).load();
+            stackPane.setLayoutX(imageOfEntity.getLayoutX());
+            stackPane.setLayoutY(imageOfEntity.getLayoutY()-4);
+        } catch (IOException e) {
+            System.out.println("cant load progressbar");
+        }
+        live=1;
+        ProgressBar progressBar= (ProgressBar) stackPane.getChildren().get(0);
+        progressBar.setProgress(live);
+    }
+
+    public StackPane getProgress(){
+        return stackPane;
     }
 
     public Position getEntityPosition() {
@@ -125,6 +147,8 @@ public class Entity {
 //            flag=false;
 //            this.probability=0;
 //        }
+        stackPane.setLayoutX(entityPosition.getX());
+        stackPane.setLayoutY(entityPosition.getY()-4);
 
         return this.probability;
 
