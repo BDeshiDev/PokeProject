@@ -38,3 +38,16 @@
 #fightscreen{
     -fx-background-color: #88c87a;
 }
+#endBattleScreen{
+    -fx-background-image: url("title_Screen.gif");
+    -fx-background-size: cover;
+}
+.scroll-pane{
+    -fx-background: rgba(255, 255, 255, 0.02);
+}
+
+#TextParentPane{
+    -fx-background-color: #6eff79;
+    -fx-background-image: url("title_Screen.gif");
+    -fx-background-size: cover;
+}

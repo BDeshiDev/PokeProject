@@ -1,11 +1,12 @@
 package com.company.RealTime;
 
 public class MoveCardData {
-    String attackName;
-    String animName;
+    public final String attackName;
+    public final String animName;
+    public final String iconName="Assets/charizardOoverWorld.png";
     int attackDuration;
-    int damagePerHit;
-    TargetPattern targetPattern;
+    public final int damagePerHit;
+    public final TargetPattern targetPattern;
     boolean shouldTargetOwnGrid;
     boolean shouldStopAfterCollision;
 
