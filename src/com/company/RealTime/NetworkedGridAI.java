@@ -5,13 +5,13 @@ import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import javafx.scene.control.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 class NetworkedGridAI extends  GridAI{
     NetworkConnection connection;
     ProgressBar turnProgressBar;
-    Random rand = new Random();
 
     public NetworkedGridAI(Grid grid, NetworkConnection connection, BattleDisplayController UI,ProgressBar turnProgressBar, List<FighterData> party) {
         super(grid,UI,party);
@@ -34,6 +34,13 @@ class NetworkedGridAI extends  GridAI{
         turnProgressBar.setProgress(getTurnProgress());
     }
 
+    @Override
+    public void resetTurn() {
+        super.resetTurn();
+        turnProgressBar.setProgress(getTurnProgress());
+    }
+
+
 
     @Override
     public void handleSwapRequest(boolean canCancel) {
@@ -47,9 +54,12 @@ class NetworkedGridAI extends  GridAI{
     }
 
     @Override
-    public void handleAttack() {
-        int maxIndex = movesList.size();
-        connection.writeToConnection.println(movesList.get(rand.nextInt(maxIndex)).toMessage(getId(),curtile.x,curtile.y).toJsonData());
+    public void handleTurnRequest() {
+        connection.writeToConnection.println(new TurnConfirmMessage(getId(), new ArrayList<MoveCardData>(selectedMoves)).toJsonData());
     }
 
+    @Override
+    public void handleAttack(MoveCardData usedMove) {
+        connection.writeToConnection.println(usedMove.toMessage(getId(),curtile.x,curtile.y).toJsonData());
+    }
 }

@@ -22,11 +22,11 @@ public class BattleProtocol{
    public static  String attackMessageHeader = "USED_THIS_ATTACK";
    public static  String DamageHeader = "DAMAGE_EVENT";
    public static  String SwapEventHeader = "SWAP_EVENT";
-   public static  String PauseOrderHeader = "PAUSE_NOW";
+   public static  String PauseOrderMessge = "PAUSE_NOW";
    public static  String SwapRequestHeader = "SWAP_REQUEST";
    public static  String ResumeOrderHeader = "RESUME_NOW";
    public static  String koMessage = "GOT_KO'D";
-   public static  String MenuOffMessage = "MENU_EXITED";
+   public static  String turnConfirmHeader = "MENU_EXITED";
    public static  String TurnChargeHeader = "TURN_CHARGE_UPDATE";
 
    public static Gson gson = new Gson();

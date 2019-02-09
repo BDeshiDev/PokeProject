@@ -4,9 +4,14 @@ import com.company.BattleDisplayController;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.ImageView;
 
-import java.util.List;
+import java.util.*;
 
 class GridAI extends  BattlePlayer{
+
+    MoveCardData defaultAttack = MoveCardData.getTestMove();
+    Queue<MoveCardData> selectedMoves = new ArrayDeque<>();
+    Random rand = new Random();
+
     public GridAI(Grid grid, BattleDisplayController battleDisplayController, List<FighterData> party) {
         super(new ImageView(),grid,battleDisplayController,party);
         this.grid = grid;
@@ -36,10 +41,25 @@ class GridAI extends  BattlePlayer{
     }
 
 
-    public void handleMove(int dx,int dy){
+    @Override
+    public void handleTurnRequest() {
+        super.handleTurnRequest();
+        selectedMoves.clear();
+        selectedMoves.addAll(movesList);
+    }
+    public void handleMove(int dx, int dy){
         grid.movePlayer(this,dx,dy);
     }
+
     public void handleAttack(){
-        System.out.println("Ai can't attack in networked mode");
+        if(!selectedMoves.isEmpty()){
+            MoveCardData newMove = selectedMoves.poll();
+            handleAttack(newMove);
+        }else
+            handleAttack(defaultAttack);
+    }
+
+    public void handleAttack(MoveCardData usedMove){
+        System.out.println("Base class can't use attacks");
     }
 }

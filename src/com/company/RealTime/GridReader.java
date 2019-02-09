@@ -94,7 +94,7 @@ class GridReader implements  Runnable{
                         BattlePlayer damageTarget = getPlayerFromID(dm.damagedPlayerID);
                         Platform.runLater((()->damageTarget.takeDamage(dm)));
                     }
-                }else if(readline.startsWith(BattleProtocol.PauseOrderHeader)){
+                }else if(readline.startsWith(BattleProtocol.PauseOrderMessge)){
                     Platform.runLater(()-> player.disableActions(true));
                 }else if(readline.startsWith(BattleProtocol.ResumeOrderHeader)){
                     Platform.runLater(()-> player.disableActions(false));
