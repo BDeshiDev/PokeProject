@@ -79,8 +79,8 @@ class GridPlayer extends  BattlePlayer{
     }
 
     @Override
-    public void resetTurn() {
-        super.resetTurn();
+    public void resetTurn(double decreasePercentage) {
+        super.resetTurn(decreasePercentage);
         System.out.println("reset to ");
         turnProgressBar.setProgress(getTurnProgress());
     }

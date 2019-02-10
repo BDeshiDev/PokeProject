@@ -84,6 +84,7 @@ class ServerSimulationLoop extends TimerTask {
 
     private List<AttackDamageTimer> attacksToCheck  = new ArrayList<AttackDamageTimer>();
     List<BattlePlayer> waitList = new ArrayList<>();//list of players we are waiting for
+    List<TurnChargeMessage> messages = new ArrayList<>();;
 
     public static int tickDelay = 20;//in ms
 
@@ -119,7 +120,7 @@ class ServerSimulationLoop extends TimerTask {
                         BattlePlayer swapper = getPlayerFromTargetId(sm.swapperID);
                         if(swapper != null) {
                             swapper.handleSwap(sm.idToSwapWith);
-                            swapper.resetTurn();
+                            swapper.resetTurn(1);
                             broadcastMessage(newMessage);
                             waitList.remove(swapper);
                         }
@@ -214,7 +215,8 @@ class ServerSimulationLoop extends TimerTask {
                             BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
                             if(targetPlayer != null){
                                 System.out.println("removing " + targetPlayer.curFighter.Name + " remaining " + waitList.size());
-                                targetPlayer.resetTurn();
+                                if(tcm.selectedMoves.size()>0)
+                                    targetPlayer.resetTurn(tcm.selectedMoves.get(tcm.selectedMoves.size() -1).chooseCost);
                             }
                         }
                     }
@@ -228,7 +230,7 @@ class ServerSimulationLoop extends TimerTask {
                 List<DamageMessage> damageUpdates = new ArrayList<>();
                 for (int i = attacksToCheck.size() - 1; i >= 0; i--) {
                     AttackDamageTimer adt = attacksToCheck.get(i);
-                    adt.applyDamage(p1, p2, tickDelay, damageUpdates);//warning this checks tiles by refrence so implementing tile.equals is a bad idea for now
+                    adt.applyDamage(p1, p2, tickDelay, damageUpdates,this);//warning this checks tiles by refrence so implementing tile.equals is a bad idea for now
                     if (adt.shouldEnd())
                         attacksToCheck.remove(i);
                 }
@@ -242,21 +244,25 @@ class ServerSimulationLoop extends TimerTask {
         }
     }
 
+    public void updateTurn(BattlePlayer player, double amount){
+        System.out.println("updating by anount " + amount);
+        player.increaseTurn(amount);
+        messages.add(new TurnChargeMessage(player.getTurnCharge(),player.getId(),player.readyForTurn()));
+    }
     private void UpdateTurns() {
         if(p1 == null || p2 == null)
             return;// why is this even happening
-        List<TurnChargeMessage> messages = new ArrayList<>();
+
         if(!p1.readyForTurn()) {
-            p1.increaseTurn(p1.calculateChargeFromTicks(tickDelay));
-            messages.add(new TurnChargeMessage(p1.getTurnCharge(),p1.getId(),p1.readyForTurn()));
+            updateTurn(p1,p1.calculateChargeFromTicks(tickDelay));
         }
         if(!p2.readyForTurn()) {
-            p2.increaseTurn(p2.calculateChargeFromTicks(tickDelay));
-            messages.add(new TurnChargeMessage(p2.getTurnCharge(),p2.getId(),p2.readyForTurn()));
+            updateTurn(p2,p2.calculateChargeFromTicks(tickDelay));
         }
         String json =TurnChargeMessage.convertUpdateToMessage(messages);
         //System.out.println(json);
         broadcastMessage(json);
+        messages.clear();
     }
 
     public void stopSimulation(){
@@ -292,7 +298,7 @@ class ServerSimulationLoop extends TimerTask {
         }else if(am.userID == p2.getId()){
             am.toMoveCard().addDamageTimers(simulatedGrid,p2,attacksToCheck,am);
         }else{
-            System.out.println("simulation: invalid attack user id " + am.userID);
+            System.out.println("simulation: invalid attack userData id " + am.userID);
         }
 
     }

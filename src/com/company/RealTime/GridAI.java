@@ -18,9 +18,9 @@ class GridAI extends  BattlePlayer{
 
         new AnimationTimer(){
             int moveTimer = 0;
-            int moveDelay = 10000;
+            int moveDelay = 90;
             int attackTimer = 0;
-            int attackDelay = 10000;
+            int attackDelay = 120;
             int yDir = 1;
             @Override
             public void handle(long now) {
@@ -32,7 +32,7 @@ class GridAI extends  BattlePlayer{
                     moveTimer=0;
                     if(curtile.y <= 0 || curtile.y >= 2)
                         yDir = -yDir;
-                    handleMove(0,yDir);
+                    handleMove(yDir,yDir);
                 }else if(attackTimer > attackDelay){
                     attackTimer = 0;
                     System.out.println("attackin");

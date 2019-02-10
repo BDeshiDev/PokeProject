@@ -8,26 +8,35 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MoveCardData {
-    private static boolean tr;
     public final String attackName;
     public final String animName;
-    public final String iconName= "Assets/PokemonImages/icons/tempIcon.png";
-    public final String sfxName ="Assets/SFX/FlamethrowerSFX.mp3";
+    public final String iconName;
+    public final String sfxName;
+
     int attackDuration;
     public final int baseDamage;
     public final Type elementType;
     public final DamageType damageType;
-    public final TargetPattern targetPattern;
+
     public final boolean shouldStopAfterCollision;
     public final boolean canDamageEnemy;
     public final boolean canDamageUser;
+
+    public final TargetPattern targetPattern;
     public final int rowOffset;//how many rows should we skip before targeting, 0 means targeting will start from the row in front
     public final int maxXCount = 3;
     public final int maxYCount = 3;
 
-    public MoveCardData(String attackName, String animName, int attackDuration, int baseDamage, Type elementType, DamageType damageType, TargetPattern targetPattern, boolean shouldStopAfterCollision, boolean canDamageEnemy, boolean canDamageUser, int rowOffset) {
+    public final double chooseCost = .5;//choosing this move will consume chooseCost% of the power up bar
+    public final int recoveryAmount = 100;//amount of powerup charge that you gain when you successfully hti an enemy with this move
+
+    public MoveCardData(String attackName, String animName, String iconName, String sfxName, int attackDuration, int baseDamage,
+                        Type elementType, DamageType damageType, TargetPattern targetPattern, boolean shouldStopAfterCollision,
+                        boolean canDamageEnemy, boolean canDamageUser, int rowOffset) {
         this.attackName = attackName;
         this.animName = animName;
+        this.iconName = iconName;
+        this.sfxName = sfxName;
         this.attackDuration = attackDuration;
         this.baseDamage = baseDamage;
         this.elementType = elementType;
@@ -39,8 +48,13 @@ public class MoveCardData {
         this.rowOffset = rowOffset;
     }
 
+    public double calculatePowerUpRecovery(double damageMod){
+        return  recoveryAmount * damageMod;
+    }
+
+
     public MoveCardData(MoveCardData other) {
-        this(other.attackName,other.animName,other.attackDuration,other.baseDamage,other.elementType,other.damageType,
+        this(other.attackName,other.animName,other.iconName,other.sfxName,other.attackDuration,other.baseDamage,other.elementType,other.damageType,
                 other.targetPattern,other.shouldStopAfterCollision,other.canDamageEnemy,other.canDamageUser,other.rowOffset);
     }
 
@@ -60,18 +74,17 @@ public class MoveCardData {
     }
 
     public  static MoveCardData getTestMove (){
-        return  new MoveCardData("test Attack ","Default",20,5,Type.None,DamageType.None,TargetPattern.singleTile,true,true,false,1);
+        return  new MoveCardData("test Attack ","Default","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",20,5,Type.None,DamageType.None,TargetPattern.singleTile,true,true,false,1);
     }
 
     public  static MoveCardData getFlameThrower(){
-        return  new MoveCardData("Flame Thrower","Flame Thrower",400,20,Type.Fire,DamageType.Special,TargetPattern.row,true,true,false,1);
+        return  new MoveCardData("Flame Thrower","Flame Thrower","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",400,20,Type.Fire,DamageType.Special,TargetPattern.row,true,true,false,1);
     }
     public  static MoveCardData getSlash(){
-        return  new MoveCardData("Slash","Slash", 200,15,Type.Normal,DamageType.Physical,TargetPattern.column,true,true,false,1);
+        return  new MoveCardData("Slash","Slash","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3", 200,15,Type.Normal,DamageType.Physical,TargetPattern.column,true,true,false,1);
     }
     public  static MoveCardData getBolt(){
-        tr = true;
-        return  new MoveCardData("ThunderBolt","Bolt",500,20,Type.Electric,DamageType.Physical,TargetPattern.column,true,tr,false,1);
+        return  new MoveCardData("ThunderBolt","Bolt","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",500,20,Type.Electric,DamageType.Physical,TargetPattern.column,true,true,false,1);
     }
 
     @Override
@@ -111,7 +124,7 @@ public class MoveCardData {
 
     public void addDamageTimers(Grid targetGrid,BattlePlayer user, List<AttackDamageTimer> attacksToCheck,AttackMessage attackMessage){
         List<Tile> targets = getTargets(targetGrid,attackMessage,user);
-        attacksToCheck.add(new AttackDamageTimer(targets,user.curFighter,attackMessage,this));
+        attacksToCheck.add(new AttackDamageTimer(targets,attackMessage,this,user));
     }
 
 }

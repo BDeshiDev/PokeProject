@@ -36,10 +36,10 @@ public class Tile extends Pane {
             animationView.relocate(getX()+tileSize/4.0,getY()+tileSize/4.0);//small offset
 
             AnimationFactory.getHotFixAnim().toSingleLoop(animationView).start();
-
+            /*
             Label debugLabel = new Label(x+","+y);
             debugLabel.relocate(getX(),getY());
-            this.getChildren().add(debugLabel);
+            this.getChildren().add(debugLabel);*/
         }
     }
 

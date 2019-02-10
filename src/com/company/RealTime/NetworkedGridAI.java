@@ -35,8 +35,8 @@ class NetworkedGridAI extends  GridAI{
     }
 
     @Override
-    public void resetTurn() {
-        super.resetTurn();
+    public void resetTurn(double decreasePercentage) {
+        super.resetTurn(decreasePercentage);
         turnProgressBar.setProgress(getTurnProgress());
     }
 

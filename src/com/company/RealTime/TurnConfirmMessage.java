@@ -1,5 +1,6 @@
 package com.company.RealTime;
 
+import com.company.Pokemon.Moves.Move;
 import com.company.networking.BattleProtocol;
 import com.company.networking.JsonDataAble;
 
