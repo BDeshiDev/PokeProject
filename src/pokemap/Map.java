@@ -3,19 +3,13 @@ package pokemap;
 import com.company.networking.TrainerData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-
-import static javafx.scene.input.KeyCode.T;
 
 public class Map {
 
@@ -128,16 +122,26 @@ public class Map {
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
                 ImageView imageView=new ImageView();
-                String tileImage;
-                if(true) {
+                String tileImage="C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\tiles\\generic-rpg-tile02.png";
+                if(mapAra[row][col]==002||mapAra[row][col]==001) {
                     ImageView backGroundLayer =new ImageView(emptyTileImage);
                     backGroundLayer.relocate(col*tileSize,row*tileSize);
                     group.getChildren().add(backGroundLayer);
                     tileImage = imageMap.get(mapAra[row][col]);
                 }
                 else
-                    tileImage=null;
-                imageView.setImage(new Image(tileImage));
+                    tileImage=imageMap.get(mapAra[row][col]);
+
+                System.out.println(new File("Assets/MapImages/tiles/generic-rpg-tile01.png"));
+
+                try {
+                    imageView.setImage(new Image(new FileInputStream("Assets/MapImages/tiles/generic-rpg-tile01.png")));
+                } catch (FileNotFoundException e) {
+                    System.out.println("file koi bal");
+                }finally {
+                    imageView.setImage(new Image("Assets/MapImages/Temp/emptyTile.png"));
+                }
+
                 imageView.relocate(col*tileSize,row*tileSize);
                 group.getChildren().add(imageView);
             }
