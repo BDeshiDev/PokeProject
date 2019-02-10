@@ -14,20 +14,22 @@ public class FighterData {
     public int att,def,spAtt,spDef,speed,maxHp;
     public final int maxSpeed = 10;
     public int curHp = maxHp;
-    public String Name;
-    public  String imageName;
-    public MoveCardData[] moves;
+    public final String name;
+    public final String imageName;
+    public final String defaultAttack;
+    public final String[] moves;
     Type t1,t2;
 
-    public FighterData(int att, int def, int spAtt, int spDef, int speed, int maxHp, String name, String imageName, Type t1, Type t2, MoveCardData... moves) {
+    public FighterData(int att, int def, int spAtt, int spDef, int speed, int maxHp, String name, String imageName, Type t1, Type t2,String defaultAttack, String... moves) {
         this.att = att;
         this.def = def;
         this.spAtt = spAtt;
         this.spDef = spDef;
         this.speed = speed;
         this.maxHp = maxHp;
-        Name = name;
+        this.name = name;
         this.imageName = imageName;
+        this.defaultAttack = defaultAttack;
         this.moves = moves;
         this.t1 = t1;
         this.t2 = t2;
@@ -48,9 +50,9 @@ public class FighterData {
     private static HashMap<String,FighterData> fighterMap = new HashMap<>();
     static {
         FighterData temp = getDummy1();
-        fighterMap.put(temp.Name,temp);
+        fighterMap.put(temp.name,temp);
         temp = getDummy2();
-        fighterMap.put(temp.Name,temp);
+        fighterMap.put(temp.name,temp);
     }
     public  static  FighterData getByName(String name){
         if(fighterMap.containsKey(name))
@@ -59,7 +61,7 @@ public class FighterData {
     }
 
     public FighterData(FighterData other) {
-        this(other.att,other.def,other.spAtt,other.spDef,other.speed,other.maxHp,other.Name,other.imageName,other.t1,other.t2,other.moves);
+        this(other.att,other.def,other.spAtt,other.spDef,other.speed,other.maxHp,other.name,other.imageName,other.t1,other.t2,other.defaultAttack,other.moves);
     }
 
     public static List<FighterData> convertTrainerData(TrainerData td){
@@ -75,11 +77,12 @@ public class FighterData {
     }
     public static FighterData getDummy1(){
         return  new FighterData(4,3,3,3,4,150,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",
-                Type.Fire,Type.Flying,MoveCardData.getFlameThrower(),MoveCardData.getSlash());
+                Type.Fire,Type.Flying,"Test Attack","Flame Thrower","Slash");
     }
 
     public static FighterData getDummy2(){
-        return  new FighterData(3,3,3,3,2,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",Type.Electric,Type.None,MoveCardData.getBolt(),MoveCardData.getTestMove());
+        return  new FighterData(3,3,3,3,2,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",
+                Type.Electric,Type.None,"Test Attack","ThunderBolt");
     }
     public void reset(){
         curHp = maxHp;
@@ -117,7 +120,7 @@ public class FighterData {
                 ", stamina=" + stamina +*///skip non important ones
                 ", maxHp=" + maxHp +
                 ", curHp=" + curHp +
-                ", Name='" + Name + '\'' +
+                ", name='" + name + '\'' +
                 ", imageName='" + imageName + '\'' +
                 ", moves=" + Arrays.toString(moves) +
                 '}';

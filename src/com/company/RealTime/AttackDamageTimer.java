@@ -42,11 +42,12 @@ public class AttackDamageTimer {
 
         if(dataToUse.shouldStopAfterCollision && tilesToCheck.contains(t))
             tilesToCheck.remove(t);
-        int calculatedDamage = p.curFighter == null? 0 :p.curFighter.calculateDamage(userData,dataToUse.elementType,dataToUse.damageType,dataToUse.baseDamage);
+        int calculatedDamage = p.curFighter == null? 0 :p.curFighter.calculateDamage(userData,dataToUse.elementType,dataToUse.damageType,dataToUse.baseDamage + (attackMessage.wasCharged?dataToUse.chargeBonus:0));
         p.takeDamage(calculatedDamage,false);
 
+        System.out.println("cahrge bonus: "+ (attackMessage.wasCharged?dataToUse.chargeBonus:0) );
         double damageMod = p.curFighter.getMoveModifier(dataToUse.elementType);
-        ssLoop.updateTurn(user,dataToUse.calculatePowerUpRecovery(damageMod));
+        ssLoop.updateTurn(user,dataToUse.calculatePowerUpRecovery(damageMod,attackMessage.wasCharged));
 
         damageMessages.add(new DamageMessage(p.getId(),calculatedDamage,!p.curFighter.canFight(),damageMod));
     }

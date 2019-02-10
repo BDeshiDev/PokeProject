@@ -4,10 +4,7 @@ import com.company.BattleDisplayController;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +32,12 @@ class NetworkedGridPlayer extends  GridPlayer{
     }
 
     @Override
+    public void handleChargeAttack() {
+
+        connection.writeToConnection.println(getDefaultAttack().toMessage(getId(),isOnLeft,true,curtile.x,curtile.y).toJsonData());
+    }
+
+    @Override
     public void handleSwapPressed() {
         super.handleSwapPressed();
         if(!readyForTurn())
@@ -55,7 +58,7 @@ class NetworkedGridPlayer extends  GridPlayer{
                 System.out.print("can't fight");
             if(monToSwapWith == curFighter)
                 System.out.print("currently fighting");
-            System.out.println("Player:can't send invalid swap "+curFighter.Name +"with"+ monToSwapWith);
+            System.out.println("Player:can't send invalid swap "+curFighter.name +"with"+ monToSwapWith);
         }
     }
     @Override

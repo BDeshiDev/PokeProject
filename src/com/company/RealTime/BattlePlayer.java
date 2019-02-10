@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +52,8 @@ class BattlePlayer{
         curFighter = fd;
         movesList.clear();
         cardChoices.clear();
-        for (MoveCardData rtmd:fd.moves) {
-            movesList.add(rtmd);
-            System.out.println("adding " + rtmd.attackName);
+        for (String s:fd.moves) {
+            movesList.add(MoveCardData.getCardByName(s));
         }
 
         if(uiDisplay != null)
@@ -76,7 +74,7 @@ class BattlePlayer{
 
     public void takeDamage(int damage,boolean isGuaranteedKill){
         curFighter.takeDamage(damage,isGuaranteedKill);
-        System.out.println(curFighter.Name + " took " + damage + "damage");
+        System.out.println(curFighter.name + " took " + damage + "damage");
         if(uiDisplay != null)
             uiDisplay.update(curFighter.curHp,curFighter.maxHp);
     }
@@ -135,6 +133,8 @@ class BattlePlayer{
     }
 
     public double calculateChargeFromTicks(int ticksToAdd){
+        if(curFighter == null)
+            return 0;
         return ticksToAdd * ((double)curFighter.speed / curFighter.maxSpeed);
     }
 

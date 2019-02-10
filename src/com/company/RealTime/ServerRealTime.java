@@ -216,7 +216,7 @@ class ServerSimulationLoop extends TimerTask {
                         if(tcm!= null) {
                             BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
                             if(targetPlayer != null){
-                                System.out.println("removing " + targetPlayer.curFighter.Name + " remaining " + waitList.size());
+                                System.out.println("removing " + targetPlayer.curFighter.name + " remaining " + waitList.size());
                                 if(tcm.selectedMoves.size()>0)
                                     targetPlayer.resetTurn(tcm.selectedMoves.get(tcm.selectedMoves.size() -1).chooseCost);
                             }
