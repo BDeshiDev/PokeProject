@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,6 @@ class BattlePlayer{
     public void resetTurn(){
         turnCharge = 0;
     }
-
 
     public void setCurFighter(FighterData fd){
         curFighter = fd;

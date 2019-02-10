@@ -2,6 +2,7 @@ package com.company.RealTime;
 
 import com.company.Pokemon.Moves.DamageType;
 import com.company.Pokemon.Type;
+import javafx.scene.Node;
 
 import java.util.HashMap;
 import java.util.List;
@@ -90,16 +91,17 @@ public class MoveCardData {
         int startx =  attackMessage.userPosX;
         int starty = attackMessage.userPosY;
         System.out.println("trying tiles from " + startx +"," +starty );
-        startx += rowOffset;
         return getTargets(targetGrid,isMirrored,startx,starty);
     }
 
+
     private List<Tile> getTargets(Grid targetGrid, boolean isMirrored , int startX, int startY){
+        startX += rowOffset;
         if(isMirrored)
             startX = targetGrid.mirrorX(startX);
 
         System.out.println("get tiles from " + startX +"," +startY );
-        List<Tile> targets = targetPattern.getTargetTiles(targetGrid,isMirrored,startX,startY,maxXCount,maxYCount );
+        List<Tile> targets = targetPattern.getTargetTiles(targetGrid.grid,isMirrored,startX,startY,maxXCount,maxYCount,Grid.tileCountX,Grid.tileCountY );
         return targets;
     }
 

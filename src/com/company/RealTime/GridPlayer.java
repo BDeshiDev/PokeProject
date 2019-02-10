@@ -7,10 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import sun.plugin.dom.css.Rect;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -26,7 +31,18 @@ class GridPlayer extends  BattlePlayer{
     boolean canCancelSwap = true;
 
     protected ObservableList<MoveCardData> selectedCards = FXCollections.observableArrayList();//moves that you use with x
+    ListView<MoveCardData> cardChoiceBox;
+
     private MoveCardData defaultAttack = MoveCardData.getTestMove();//move that you use with z
+    private Rectangle[][] myGridView;
+    private Rectangle playerPositionIndicator = new Rectangle(10,10,new Color(.2,.5,.6,1));
+    private GridPane gridViewPane;
+
+    List<Rectangle> highlightedSquares = new ArrayList<>();
+    Color defaultCellColor = new Color(.16,.19,.3,1);
+
+    int viewCellSize  = 30;
+    Color highLightedCellColor = Color.YELLOWGREEN;
 
     public GridPlayer(ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
         super(playerImage,grid,isOnLeft,uiDisplay,party);
@@ -35,16 +51,22 @@ class GridPlayer extends  BattlePlayer{
         this.battleScreenController = battleScreenController;
         this.turnProgressBar = battleScreenController.getTurnBar();
 
+        gridViewPane = battleScreenController.getPlayerGridPane();
+        myGridView = grid.createGridView(gridViewPane,defaultCellColor,viewCellSize);
+        UpdatePosIndicator();
+
         FlowPane parentPane = battleScreenController.getSwapParentPane();
         for (int i = 0; i < party.size();i++) {
             Button swapButton = new Button(party.get(i).Name);
             final  int swapNo = i;
-            swapButton.setOnAction(event ->handleSwapButtonClick(swapNo));
+            swapButton.setOnAction(event -> handleSwapButtonClick(swapNo));
             parentPane.getChildren().add(swapButton);
         }
         battleScreenController.getExitButton().setOnAction(event -> handleExitButton());
 
-        battleScreenController.getCarcChoiceBox().setItems(cardChoices);
+        cardChoiceBox =battleScreenController.getCarcChoiceBox();
+        cardChoiceBox.setItems(cardChoices);
+        cardChoiceBox.setVisible(false);
         battleScreenController.getSelectedCardList().setItems(selectedCards);
 
         addListeners(scene);
@@ -63,6 +85,11 @@ class GridPlayer extends  BattlePlayer{
         turnProgressBar.setProgress(getTurnProgress());
     }
 
+    @Override
+    public void moveToTile(Tile newTile) {
+        super.moveToTile(newTile);
+        updateGridView();
+    }
 
     public void addMove(MoveCardData dataToUse){
         selectedCards.add(dataToUse);
@@ -168,6 +195,7 @@ class GridPlayer extends  BattlePlayer{
         if(!selectedCards.isEmpty()){
             moveToUse = selectedCards.get(0);
             selectedCards.remove(0);
+            updateGridView();
         }
         handleAttack(moveToUse);
     }
@@ -192,11 +220,62 @@ class GridPlayer extends  BattlePlayer{
         else{
             addMove(cardChoices.get(choiceNo));
             cardChoices.clear();
+            updateGridView();
             handleTurnConfirm();
         }
     }
 
+    @Override
+    public void handleTurnRequest() {
+        super.handleTurnRequest();
+        cardChoiceBox.setVisible(true);
+    }
+
+    public void updateGridView(){
+        clearHighlights();
+
+        if(curtile != null && playerPositionIndicator != null) {
+            UpdatePosIndicator();
+        }
+
+        if(selectedCards != null && !selectedCards.isEmpty()){
+            MoveCardData selectedMove = selectedCards.get(0);
+            highlightedSquares = selectedMove.targetPattern.getTargetTiles(myGridView,false,curtile.x + selectedMove.rowOffset,curtile.y,
+                    selectedMove.maxXCount,selectedMove.maxYCount,Grid.tileCountX,Grid.tileCountY);
+            System.out.println("updating " + highlightedSquares.size());
+            for(int i = 0 ; i< myGridView.length ; i++){
+                for(int j = 0 ; j< myGridView[0].length ; j++){
+                    if(highlightedSquares.contains(myGridView[i][j]))
+                        System.out.print("O");
+                    else
+                        System.out.print("X");
+                }
+                System.out.println();
+            }
+            for (Rectangle r:highlightedSquares) {
+                System.out.println("another highlighted  ");
+                r.setFill(highLightedCellColor);
+            }
+        }
+    }
+
+    private void UpdatePosIndicator() {
+        battleScreenController.getPlayerGridPane().getChildren().remove(playerPositionIndicator);
+        battleScreenController.getPlayerGridPane().add(playerPositionIndicator,curtile.x,Grid.tileCountY - 1 -curtile.y);
+        playerPositionIndicator.relocate(curtile.getX(), curtile.getY());
+    }
+
+    public void clearHighlights(){
+        if(highlightedSquares !=  null && !highlightedSquares.isEmpty()){// never use overloaded methods in constructors or you'll have to pay for it like this
+            for (Rectangle r:highlightedSquares) {
+                r.setFill(defaultCellColor);
+            }
+            highlightedSquares.clear();
+        }
+    }
+
     public void handleTurnConfirm(){
+        cardChoiceBox.setVisible(false);
     }
 
     @Override

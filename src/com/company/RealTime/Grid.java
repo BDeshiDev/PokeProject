@@ -1,14 +1,20 @@
 package com.company.RealTime;
 
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import sun.plugin.dom.css.Rect;
 
 import java.util.Arrays;
 
 public class Grid {
-    private final int gridSize = 3;
-    public final int tileCountX = gridSize * 2 ;
-    public final  int tileCountY = gridSize;
+    private static final int gridSize = 3;
+    public  static final int tileCountX = gridSize * 2 ;
+    public  static final  int tileCountY = gridSize;
+
     Tile[][] grid;
     public static final int tileSize = 128;
     Pane gridParentPane;
@@ -25,6 +31,20 @@ public class Grid {
             }
         }
     }
+
+    public Rectangle[][] createGridView(GridPane gridPane ,Color cellColor,int viewCellSize){
+        Rectangle[][] retVal = new Rectangle[tileCountX][tileCountY];
+        for(int i = 0 ; i < tileCountX ; i++){
+            for(int j = 0 ; j < tileCountY ; j++){
+                retVal[i][j]= new Rectangle(viewCellSize,viewCellSize);
+                retVal[i][j].setFill(cellColor);
+                retVal[i][j].setStyle("-fx-stroke: rgba(140,248,255,0.34); -fx-stroke-width: 5");
+                gridPane.add(retVal[i][j],i,tileCountY - j -1);//the gridPane is flipped for some reason...
+            }
+        }
+        return  retVal;
+    }
+
 
     public int mirrorX(int x){
         return  (tileCountX - x -1) ;

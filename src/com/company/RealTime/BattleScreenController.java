@@ -8,10 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.Callback;
 
 import java.util.ArrayList;
@@ -22,8 +19,7 @@ public class BattleScreenController {
     private Label NameLabel;
 
     @FXML
-    private Pane enmeyGridParent;
-
+    private Pane gridViewParent;
     @FXML
     private VBox ChoiceBoxPane;
 
@@ -68,6 +64,9 @@ public class BattleScreenController {
 
     @FXML
     private ProgressBar TurnBar;
+
+    @FXML
+    private GridPane playerGridPane;
 
     BattleDisplayController playerDisplay;
     BattleDisplayController enemyDisplay;
@@ -132,8 +131,8 @@ public class BattleScreenController {
         return SwapParentPane;
     }
 
-    public Pane getEnmeyGridParent() {
-        return enmeyGridParent;
+    public Pane getGridViewParent() {
+        return gridViewParent;
     }
 
     public Pane getPlayerGridParent() {
@@ -146,6 +145,10 @@ public class BattleScreenController {
 
     public BattleDisplayController getEnemyDisplay() {
         return enemyDisplay;
+    }
+
+    public GridPane getPlayerGridPane() {
+        return playerGridPane;
     }
 
 
