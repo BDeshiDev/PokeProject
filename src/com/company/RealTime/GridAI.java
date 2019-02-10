@@ -9,7 +9,7 @@ import java.util.*;
 class GridAI extends  BattlePlayer{
 
     MoveCardData defaultAttack = MoveCardData.getTestMove();
-    Queue<MoveCardData> selectedMoves = new ArrayDeque<>();
+    Queue<MoveCardData> selectedCards = new ArrayDeque<>();
     Random rand = new Random();
 
     public GridAI(Grid grid, BattleDisplayController battleDisplayController, List<FighterData> party) {
@@ -44,16 +44,16 @@ class GridAI extends  BattlePlayer{
     @Override
     public void handleTurnRequest() {
         super.handleTurnRequest();
-        selectedMoves.clear();
-        selectedMoves.addAll(movesList);
+        selectedCards.clear();
+        selectedCards.addAll(movesList);
     }
     public void handleMove(int dx, int dy){
         grid.movePlayer(this,dx,dy);
     }
 
     public void handleAttack(){
-        if(!selectedMoves.isEmpty()){
-            MoveCardData newMove = selectedMoves.poll();
+        if(!selectedCards.isEmpty()){
+            MoveCardData newMove = selectedCards.poll();
             handleAttack(newMove);
         }else
             handleAttack(defaultAttack);

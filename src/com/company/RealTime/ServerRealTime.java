@@ -120,24 +120,9 @@ class ServerSimulationLoop extends TimerTask {
                         BattlePlayer swapper = getPlayerFromTargetId(sm.swapperID);
                         if(swapper != null) {
                             swapper.handleSwap(sm.idToSwapWith);
+                            swapper.resetTurn();
                             broadcastMessage(newMessage);
                             waitList.remove(swapper);
-                        }
-                    }
-                }else if (newMessage.startsWith(BattleProtocol.turnConfirmHeader)) {
-                    String jsonToParse = newMessage.substring(BattleProtocol.turnConfirmHeader.length());
-                    TurnConfirmMessage tcm = gson.fromJson(jsonToParse, TurnConfirmMessage.class);
-                    if(tcm!= null) {
-                        BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
-                        if(targetPlayer != null){
-                            waitList.remove(targetPlayer);//check if this causes any problems
-                            System.out.println("removing " + targetPlayer.curFighter.Name + " remaining " + waitList.size());
-                            targetPlayer.resetTurn();
-                            String json =TurnChargeMessage.convertUpdateToMessage(new TurnChargeMessage[]{
-                                    new TurnChargeMessage(p1.calculateChargeFromTicks(tickDelay),p1.getId(),p1.readyForTurn()),
-                                    new TurnChargeMessage(p2.calculateChargeFromTicks(tickDelay),p2.getId(),p2.readyForTurn())});
-                            //System.out.println(json);
-                            broadcastMessage(json);
                         }
                     }
                 }
@@ -218,6 +203,16 @@ class ServerSimulationLoop extends TimerTask {
                             swapOrderReceiver.writeToConnection.println(SwapMessage.createSwapRequest(km.koId,false));
                             broadcastMessage(BattleProtocol.PauseOrderMessge);
                         }
+                    }else if (newMessage.startsWith(BattleProtocol.turnConfirmHeader)) {
+                        String jsonToParse = newMessage.substring(BattleProtocol.turnConfirmHeader.length());
+                        TurnConfirmMessage tcm = gson.fromJson(jsonToParse, TurnConfirmMessage.class);
+                        if(tcm!= null) {
+                            BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
+                            if(targetPlayer != null){
+                                System.out.println("removing " + targetPlayer.curFighter.Name + " remaining " + waitList.size());
+                                targetPlayer.resetTurn();
+                            }
+                        }
                     }
                     else
                         System.out.println("swap message parse fail");
@@ -246,27 +241,18 @@ class ServerSimulationLoop extends TimerTask {
     private void UpdateTurns() {
         if(p1 == null || p2 == null)
             return;// why is this even happening
-
-        p1.increaseTurn(p1.calculateChargeFromTicks(tickDelay));
-        p2.increaseTurn(p2.calculateChargeFromTicks(tickDelay));
-        String json =TurnChargeMessage.convertUpdateToMessage(new TurnChargeMessage[]{
-                new TurnChargeMessage(p1.getTurnCharge(),p1.getId(),p1.readyForTurn()),
-                new TurnChargeMessage(p2.getTurnCharge(),p2.getId(),p2.readyForTurn())});
+        List<TurnChargeMessage> messages = new ArrayList<>();
+        if(!p1.readyForTurn()) {
+            p1.increaseTurn(p1.calculateChargeFromTicks(tickDelay));
+            messages.add(new TurnChargeMessage(p1.getTurnCharge(),p1.getId(),p1.readyForTurn()));
+        }
+        if(!p2.readyForTurn()) {
+            p2.increaseTurn(p2.calculateChargeFromTicks(tickDelay));
+            messages.add(new TurnChargeMessage(p2.getTurnCharge(),p2.getId(),p2.readyForTurn()));
+        }
+        String json =TurnChargeMessage.convertUpdateToMessage(messages);
         //System.out.println(json);
         broadcastMessage(json);
-
-        if(p1.readyForTurn()) {
-            waitList.add(p1);
-            System.out.println("added " + p1.curFighter.Name);
-        }
-        if(p2.readyForTurn()) {
-            waitList.add(p2);
-            System.out.println("added " + p2.curFighter.Name);
-        }
-
-        if(p1.readyForTurn() || p2.readyForTurn()){
-            broadcastMessage(BattleProtocol.PauseOrderMessge);
-        }
     }
 
     public void stopSimulation(){
@@ -303,9 +289,9 @@ class ServerSimulationLoop extends TimerTask {
 
     public void simulateAttack(AttackMessage am){
         if(am.userID == p1.getId()){
-            am.addDamageTimers(simulatedLeftGrid,simulatedRightGrid,attacksToCheck);
+            am.toMoveCard().addDamageTimers(simulatedLeftGrid,simulatedRightGrid,p1.curFighter,attacksToCheck,am);
         }else if(am.userID == p2.getId()){
-            am.addDamageTimers(simulatedRightGrid,simulatedLeftGrid,attacksToCheck);
+            am.toMoveCard().addDamageTimers(simulatedRightGrid,simulatedLeftGrid,p2.curFighter,attacksToCheck,am);
         }else{
             System.out.println("simulation: invalid attack user id " + am.userID);
         }

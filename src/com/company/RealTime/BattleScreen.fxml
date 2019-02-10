@@ -18,6 +18,7 @@
       </ImageView>
       <AnchorPane style="-fx-background-color: transparent;">
          <children>
+            <ListView fx:id="CarcChoiceBox" focusTraversable="false" layoutX="362.0" layoutY="105.0" opacity="0.89" orientation="HORIZONTAL" prefHeight="101.0" prefWidth="551.0" AnchorPane.leftAnchor="362.0" AnchorPane.rightAnchor="367.0" />
             <ProgressBar fx:id="TurnBar" layoutX="455.0" layoutY="74.0" prefHeight="25.0" prefWidth="370.0" progress="0.68" />
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="92.0" prefWidth="276.0" style="-fx-background-color: #b3b8d3;" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="40.0">
                <children>
@@ -73,9 +74,9 @@
                   <Pane fx:id="enmeyGridParent" layoutX="168.0" prefHeight="257.0" prefWidth="550.0" />
                </children>
             </HBox>
-            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="780.0" spacing="30.0" style="-: #5c6c7c;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0">
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="661.0" spacing="30.0" style="-: #5c6c7c;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0">
                <children>
-                  <VBox fx:id="ChoiceBoxPane" alignment="TOP_CENTER" disable="true" prefHeight="652.0" prefWidth="780.0" spacing="20.0" style="-fx-background-color: #5c6c7c;" visible="false">
+                  <VBox fx:id="ChoiceBoxPane" alignment="TOP_CENTER" disable="true" prefHeight="272.0" prefWidth="780.0" spacing="20.0" style="-fx-background-color: #5c6c7c;" visible="false">
                      <children>
                         <Label text="Make your choice" textFill="WHITE">
                            <font>
@@ -92,24 +93,10 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </FlowPane>
-                        <Label layoutX="323.0" layoutY="61.0" prefHeight="43.0" prefWidth="155.0" text="Select Move:" textFill="WHITE">
-                           <font>
-                              <Font size="25.0" />
-                           </font>
-                        </Label>
-                        <FlowPane fx:id="MoveCardView" alignment="CENTER" columnHalignment="CENTER" hgap="50.0" layoutX="10.0" layoutY="124.0" prefHeight="218.0" prefWidth="780.0" vgap="30.0">
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </FlowPane>
                         <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
                      </children>
                   </VBox>
-                  <HBox fx:id="SelectedMoveBox" alignment="CENTER_LEFT" prefHeight="319.0" prefWidth="400.0" spacing="20.0" style="-fx-background-color: rgba(190,231,255,0.1);">
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                     </padding>
-                  </HBox>
+                  <ListView fx:id="selectedCardList" focusTraversable="false" opacity="0.89" orientation="HORIZONTAL" prefHeight="140.0" prefWidth="780.0" />
                </children>
                <padding>
                   <Insets bottom="30.0" top="30.0" />

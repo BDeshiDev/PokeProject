@@ -3,18 +3,27 @@ package com.company;
 import com.company.Exploration.PostBattleController;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import pokemap.MergedExploration;
+import sun.security.util.Length;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 public class TitleController implements PokeScreen {
     private Stage curStage;
@@ -24,7 +33,12 @@ public class TitleController implements PokeScreen {
     @FXML
     private BorderPane rootPane;
 
+    @FXML
+    private Pane scrollParent;
+
     static Scene titleScene;
+
+    ParallaxLayer testLayer;
 
     public TitleController()
     {
@@ -58,8 +72,8 @@ public class TitleController implements PokeScreen {
         //by setting this property to true, the audio will be played
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-
+        testLayer = new ParallaxLayer(new Image("Assets/SFX/clouds_BG.png"),384,scrollParent);
+        testLayer.start();
         curStage.setScene(titleScene);
     }
 
@@ -72,6 +86,7 @@ public class TitleController implements PokeScreen {
         MergedExploration me = new MergedExploration();
         me.begin(curStage,curSave,this);
         mediaPlayer.stop();
+        testLayer.stop();
     }
 
     public void testBattle(){
@@ -87,3 +102,4 @@ public class TitleController implements PokeScreen {
         battle.begin(curStage,ash,gary,this,new PostBattleController(),curSave);
     }
 }
+

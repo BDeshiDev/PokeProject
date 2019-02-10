@@ -3,6 +3,8 @@ package com.company.RealTime;
 import com.company.networking.BattleProtocol;
 import com.company.networking.JsonDataAble;
 
+import java.util.List;
+
 public class TurnChargeMessage {
     double chargeAmount;
     int targetId;
@@ -14,7 +16,7 @@ public class TurnChargeMessage {
         this.startTurn = startTurn;
     }
 
-    public static String convertUpdateToMessage(TurnChargeMessage[] updates){
+    public static String convertUpdateToMessage(List<TurnChargeMessage> updates){
         return BattleProtocol.createMessage(updates,BattleProtocol.TurnChargeHeader);
     }
 }

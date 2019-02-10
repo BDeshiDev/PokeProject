@@ -1,21 +1,18 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
-import javafx.geometry.Pos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.sql.Connection;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-import java.util.Random;
 
 /*
 * Supposed to be an offline version of the player... but our game won't work offline
@@ -23,13 +20,13 @@ import java.util.Random;
 class GridPlayer extends  BattlePlayer{
     Scene scene;
     boolean leftPressed = false,rightPressed = false,upPressed = false,downPressed = false,
-            zPressed = false,xPressed = false;
+            zPressed = false,xPressed = false,qPressed =false,wPressed = false,ePressed =false;
     BattleScreenController battleScreenController;
     ProgressBar turnProgressBar;
     boolean canCancelSwap = true;
 
-    protected Queue<MoveCardData> selectedMoves;
-    private MoveCardData defaultAttack = MoveCardData.getTestMove();
+    protected ObservableList<MoveCardData> selectedCards = FXCollections.observableArrayList();//moves that you use with x
+    private MoveCardData defaultAttack = MoveCardData.getTestMove();//move that you use with z
 
     public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
         super(playerImage,grid,uiDisplay,party);
@@ -45,7 +42,10 @@ class GridPlayer extends  BattlePlayer{
             swapButton.setOnAction(event ->handleSwapButtonClick(swapNo));
             parentPane.getChildren().add(swapButton);
         }
-        battleScreenController.getExitButton().setOnAction(event -> handleConfirmButton());
+        battleScreenController.getExitButton().setOnAction(event -> handleExitButton());
+
+        battleScreenController.getCarcChoiceBox().setItems(cardChoices);
+        battleScreenController.getSelectedCardList().setItems(selectedCards);
 
         addListeners(scene);
     }
@@ -63,40 +63,9 @@ class GridPlayer extends  BattlePlayer{
         turnProgressBar.setProgress(getTurnProgress());
     }
 
-    @Override
-    public void handleTurnRequest() {
-        super.handleTurnRequest();
-        battleScreenController.toggleChoiceBox(true);
-    }
-
-    @Override
-    public void setCurFighter(FighterData fd) {
-        super.setCurFighter(fd);
-
-        if(selectedMoves == null) {
-            selectedMoves = new ArrayDeque<>();
-            System.out.println("making queue");
-        }
-        selectedMoves.clear();
-
-        if(battleScreenController != null){
-            FlowPane p = battleScreenController.getMoveCardView();
-            p.getChildren().clear();
-            for (MoveCardData mcd:movesList) {
-                System.out.println("adding " + mcd.attackName);
-                Button moveUseButton = new Button("Add");
-                moveUseButton.setOnAction(e->{addMove(mcd);});
-
-                VBox vb= new VBox(20,new Label(mcd.attackName),new Label("power :" + mcd.damagePerHit),moveUseButton);
-                vb.setAlignment(Pos.CENTER);
-                vb.setStyle("-fx-background-color: #eaf6ff");
-                p.getChildren().add(vb);
-            }
-        }
-    }
 
     public void addMove(MoveCardData dataToUse){
-        selectedMoves.add(dataToUse);
+        selectedCards.add(dataToUse);
     }
 
     public void addListeners(Scene s){//the player should only move one tile at a time
@@ -134,6 +103,22 @@ class GridPlayer extends  BattlePlayer{
                         useNextSelectedMove();
                     xPressed = true;
                     break;
+                case Q:
+                    if(!qPressed )
+                        tryChooseCard(0);
+                    qPressed = true;
+                    break;
+                case W:
+                    if(!wPressed )
+                        tryChooseCard(1);
+                    wPressed = true;
+                    break;
+                case E:
+                    if(!ePressed )
+                        tryChooseCard(2);
+                    ePressed = true;
+                    break;
+
             }});
         s.setOnKeyReleased(e->{
             if(!canAct)
@@ -157,12 +142,21 @@ class GridPlayer extends  BattlePlayer{
                 case X:
                     xPressed  = false;
                     break;
+                case Q:
+                    qPressed = false;
+                    break;
+                case W:
+                    wPressed = false;
+                    break;
+                case E:
+                    ePressed = false;
+                    break;
                 case SPACE:
-                    handleMenuPressed();
+                    handleSwapPressed();
                     break;
             }});
     }
-    public void handleMenuPressed(){
+    public void handleSwapPressed(){
         System.out.println("Can't pause in non networked mode");
     }
     public void handleMove(int dx,int  dy){
@@ -170,13 +164,40 @@ class GridPlayer extends  BattlePlayer{
     }
 
     public void useNextSelectedMove(){
-        handleAttack(selectedMoves.poll());
+        MoveCardData moveToUse = null;
+        if(!selectedCards.isEmpty()){
+            moveToUse = selectedCards.get(0);
+            selectedCards.remove(0);
+        }
+        handleAttack(moveToUse);
     }
     public void handleAttack(MoveCardData moveToUse){
         System.out.println("can't attack in non networked mode...");
     }
 
-    public void handleConfirmButton(){ }
+    public void handleExitButton(){
+    }
+
+    @Override
+    public void setCurFighter(FighterData fd) {
+        super.setCurFighter(fd);
+        selectedCards.clear();
+    }
+
+    public void tryChooseCard(int choiceNo){
+        if(choiceNo >= cardChoices.size())
+            System.out.println("invalid choice " + choiceNo);
+        else if(selectedCards.size() >=3)
+            System.out.println("can't hold more than 3 cards");
+        else{
+            addMove(cardChoices.get(choiceNo));
+            cardChoices.clear();
+            handleTurnConfirm();
+        }
+    }
+
+    public void handleTurnConfirm(){
+    }
 
     @Override
     public void handleSwapRequest(boolean canCancel)

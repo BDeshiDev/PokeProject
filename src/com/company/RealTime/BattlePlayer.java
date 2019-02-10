@@ -1,6 +1,8 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -17,11 +19,12 @@ class BattlePlayer{
     protected boolean canAct = true;
 
     private double turnCharge = 0;
-    private final  double turnChargeThreshold = 6 * 1000;//you get a turn every 5000ms at max speed
+    private final  double turnChargeThreshold = 1 * 1000;//you get a turn every 5000ms at max speed
 
     FighterData curFighter;
     List<FighterData> party;
     List<MoveCardData> movesList = new ArrayList<>();
+    ObservableList<MoveCardData> cardChoices = FXCollections.observableArrayList();
 
     public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
@@ -47,8 +50,10 @@ class BattlePlayer{
     public void setCurFighter(FighterData fd){
         curFighter = fd;
         movesList.clear();
+        cardChoices.clear();
         for (MoveCardData rtmd:fd.moves) {
             movesList.add(rtmd);
+            System.out.println("adding " + rtmd.attackName);
         }
 
         if(uiDisplay != null)
@@ -89,11 +94,12 @@ class BattlePlayer{
     }
 
     public void handleSwap(int swapIndex){
-        if(swapIndex>=party.size()){
+        if(swapIndex>=party.size() || swapIndex < 0){
             System.out.println("swap index out of bounds " + swapIndex);
         }else{
-            if(party.get(swapIndex).canFight())
+            if(party.get(swapIndex).canFight()) {
                 setCurFighter(swapIndex);
+            }
             else
                 System.out.println("invalid swap due to insufficient hp");
         }
@@ -121,7 +127,7 @@ class BattlePlayer{
     }
 
     public void handleTurnRequest(){
-        System.out.println("base class can't handle turn request");
+        cardChoices.addAll(movesList);
     }
 
     public double calculateChargeFromTicks(int ticksToAdd){
