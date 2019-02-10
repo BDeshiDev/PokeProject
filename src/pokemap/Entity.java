@@ -83,7 +83,8 @@ public class Entity {
 
         this.getImageOfEntity().setImage(direction);
         if(map.isMoveValid(this.getEntityPosition(),dx,dy)&&
-        map.isInMap(new Position(posX+dx,posY+dy))) {
+        map.isInMap(new Position(posX+dx,posY+dy))
+        &&posX+dx>0&&posY+dy>0) {
             this.getImageOfEntity().relocate(posX + dx, posY + dy);
 //            System.out.println(posX+dx+" "+posY+dy);
             this.setEntityPosition(new Position(posX+dx,posY+dy));
@@ -125,28 +126,6 @@ public class Entity {
     }
 
     public double gettingPokemonProbability(Map map){
-//        int row=map.getRow(this.getEntityPosition().getY()+8);
-//        int col=map.getCol(this.getEntityPosition().getX()+8);
-//
-//        if(map.getMapAra()[row][col]=='G' &&flag==false) {
-//            flag=true;
-//            this.prevCol=col;
-//            this.prevRow=row;
-//        }
-//
-//        if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
-//            this.probability+=.01;
-//        }
-//
-//        if (map.getMapAra()[row][col]=='G'&&flag==true){
-//            this.prevCol=col;
-//            this.prevRow=row;
-//        }
-//
-//        if(map.getMapAra()[row][col]!='G') {
-//            flag=false;
-//            this.probability=0;
-//        }
         stackPane.setLayoutX(entityPosition.getX());
         stackPane.setLayoutY(entityPosition.getY()-4);
 

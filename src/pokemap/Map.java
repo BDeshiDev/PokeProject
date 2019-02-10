@@ -121,7 +121,6 @@ public class Map {
         System.out.println(mapAra[0].length);
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
-                ImageView imageView=new ImageView();
                 String tileImage="C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\tiles\\generic-rpg-tile02.png";
                 if(mapAra[row][col]==002||mapAra[row][col]==001) {
                     ImageView backGroundLayer =new ImageView(emptyTileImage);
@@ -132,18 +131,15 @@ public class Map {
                 else
                     tileImage=imageMap.get(mapAra[row][col]);
 
-                System.out.println(new File("Assets/MapImages/tiles/generic-rpg-tile01.png"));
+                System.out.println(mapAra[row][col]);
 
-                try {
-                    imageView.setImage(new Image(new FileInputStream("Assets/MapImages/tiles/generic-rpg-tile01.png")));
-                } catch (FileNotFoundException e) {
-                    System.out.println("file koi bal");
-                }finally {
-                    imageView.setImage(new Image("Assets/MapImages/Temp/emptyTile.png"));
-                }
+
+                ImageView imageView= null;
+                imageView = new ImageView(tileImage);
 
                 imageView.relocate(col*tileSize,row*tileSize);
                 group.getChildren().add(imageView);
+
             }
         }
         return group;
