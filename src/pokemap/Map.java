@@ -2,6 +2,7 @@ package pokemap;
 
 import com.company.networking.TrainerData;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
@@ -11,6 +12,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 
 import static javafx.scene.input.KeyCode.T;
 
@@ -21,6 +24,7 @@ public class Map {
     Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
     Image grassTile = new Image("Assets/MapImages/Temp/grassTile.png");
     public int tileSize ;
+    private static HashMap<Integer,String> imageMap;
 
     Position startPosition;
 
@@ -50,6 +54,20 @@ public class Map {
 
     public String[] possibleEncounters;
     public TrainerData[] trainerDatas;
+
+    static {
+        FileReader reader=null;
+        try {
+            reader=new FileReader("src/pokemap/imageHashMap.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("Load file failed");
+        }
+
+        Gson gson=new Gson();
+        Type mapType = new TypeToken<HashMap<Integer,String>>(){}.getType();
+        imageMap=gson.fromJson(reader,mapType);
+    }
+
 
 
     Map(File mapName)
@@ -110,24 +128,16 @@ public class Map {
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
                 ImageView imageView=new ImageView();
-                Image tileImage;
-                if(mapAra[row][col]==001) {
+                String tileImage;
+                if(true) {
                     ImageView backGroundLayer =new ImageView(emptyTileImage);
                     backGroundLayer.relocate(col*tileSize,row*tileSize);
                     group.getChildren().add(backGroundLayer);
-                    tileImage = treeImage;
-                }
-                else if(mapAra[row][col]==000)
-                   tileImage = emptyTileImage;
-                else if(mapAra[row][col]==002){
-                    ImageView backGroundLayer =new ImageView(emptyTileImage);
-                    backGroundLayer.relocate(col*tileSize,row*tileSize);
-                    group.getChildren().add(backGroundLayer);
-                    tileImage = grassTile;
+                    tileImage = imageMap.get(mapAra[row][col]);
                 }
                 else
                     tileImage=null;
-                imageView.setImage(tileImage);
+                imageView.setImage(new Image(tileImage));
                 imageView.relocate(col*tileSize,row*tileSize);
                 group.getChildren().add(imageView);
             }
