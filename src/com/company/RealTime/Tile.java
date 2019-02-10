@@ -1,5 +1,6 @@
 package com.company.RealTime;
 
+import com.company.Utilities.Animation.AnimationFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -33,9 +34,8 @@ public class Tile extends Pane {
             tileImage.relocate(getX(),getY());
             */
             animationView.relocate(getX()+tileSize/4.0,getY()+tileSize/4.0);//small offset
-            animationView.setScaleX(1);
-            animationView.setScaleY(1);
-            //gridParent.getChildren().addAll(tileImage, animationView);
+
+            AnimationFactory.getHotFixAnim().toSingleLoop(animationView).start();
 
             Label debugLabel = new Label(x+","+y);
             debugLabel.relocate(getX(),getY());

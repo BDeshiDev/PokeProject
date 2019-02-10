@@ -27,7 +27,7 @@ public class Grid {
         this.gridParentPane = gridParentPane;
         for(int i = 0 ; i < tileCountX ; i++){
             for(int j = 0 ; j < tileCountY ; j++){
-                grid[i][j] = new Tile(gridParentPane,0,j * tileCountY,tileSize,i,j);
+                grid[i][j] = new Tile(gridParentPane,0,250 +j * tileCountY,tileSize,i,j);
             }
         }
     }
