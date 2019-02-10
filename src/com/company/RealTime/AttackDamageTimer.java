@@ -1,22 +1,26 @@
 package com.company.RealTime;
 
+import com.company.Pokemon.Type;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AttackDamageTimer {
-    int maxDuration;//in milliseconds
-    int curTimer;
-    int damagePerHit;
     List<Tile> tilesToCheck;
-    boolean shouldStopAfterCollision = true;
+    AttackMessage attackMessage;
+    MoveCardData dataToUse;
 
-    public AttackDamageTimer(int maxDuration,  int damagePerHit, List<Tile> tilesToCheck, boolean shouldStopAfterCollision) {
-        this.maxDuration = maxDuration;
-        this.curTimer = 0;
-        this.damagePerHit = damagePerHit;
+    FighterData user;
+
+    int curTimer =0;
+
+    public AttackDamageTimer(List<Tile> tilesToCheck,FighterData user, AttackMessage attackMessage, MoveCardData dataToUse) {
         this.tilesToCheck = tilesToCheck;
-        this.shouldStopAfterCollision = shouldStopAfterCollision;
+        this.attackMessage = attackMessage;
+        this.dataToUse = dataToUse;
+        this.user = user;
     }
+
 
     public void applyDamage(BattlePlayer p1, BattlePlayer p2, int ticksToAdd, List<DamageMessage> damageMessages){
         curTimer += ticksToAdd;
@@ -31,15 +35,21 @@ public class AttackDamageTimer {
     }
 
     private void applyDamage(BattlePlayer p, List<DamageMessage> damageMessages, Tile t) {
-        if(shouldStopAfterCollision && tilesToCheck.contains(t))
+        if(p.getId() == attackMessage.userID && !dataToUse.canDamageUser)
+            return;
+        if(p.getId() != attackMessage.userID && !dataToUse.canDamageEnemy)
+            return;
+
+        if(dataToUse.shouldStopAfterCollision && tilesToCheck.contains(t))
             tilesToCheck.remove(t);
-        p.takeDamage(damagePerHit,false);
-        damageMessages.add(new DamageMessage(p.getId(),damagePerHit,!p.curFighter.canFight()));
+        int calculatedDamage = p.curFighter == null? 0 :p.curFighter.calculateDamage(user,dataToUse.elementType,dataToUse.damageType,dataToUse.baseDamage);
+        p.takeDamage(calculatedDamage,false);
+        damageMessages.add(new DamageMessage(p.getId(),calculatedDamage,!p.curFighter.canFight()));
     }
 
 
     public boolean shouldEnd(){
-        return curTimer >= maxDuration;
+        return curTimer >= dataToUse.attackDuration;
     }
 
 }

@@ -45,7 +45,7 @@ class GridAI extends  BattlePlayer{
     public void handleTurnRequest() {
         super.handleTurnRequest();
         selectedCards.clear();
-        selectedCards.add(movesList.get(rand.nextInt(movesList.size())));
+        selectedCards.addAll(movesList);
     }
     public void handleMove(int dx, int dy){
         grid.movePlayer(this,dx,dy);

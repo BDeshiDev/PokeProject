@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 /*
 * used for decoding strings between server and client
-* So that I don't have to type it by hand
+* So that I don't have to elementType it by hand
 * */
 public class BattleProtocol{
    public static String TrainerInfoRequest = "GIVE_TRAINER_INFO";

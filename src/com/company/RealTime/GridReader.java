@@ -74,14 +74,16 @@ class GridReader implements  Runnable{
                     AttackMessage am = gson.fromJson(jsonToParse,AttackMessage.class);
                     //System.out.println("animating attack named " + am.attackName);
                     if(player.getId() == am.userID){
-                        List<Tile> targets = am.getTargets(playerGrid,enemyGrid);
+                        MoveCardData mcd = am.toMoveCard();
+                        List<Tile> targets = mcd.getTargets(playerGrid,enemyGrid,am);
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getAnimByName(am.animName).toSingleLoop(t.animationView).start()));
+                            Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
                         }
                     }else if(enemy.getId() == am.userID){
-                        List<Tile> targets = am.getTargets(enemyGrid,playerGrid);
+                        MoveCardData mcd = am.toMoveCard();
+                        List<Tile> targets = mcd.getTargets(enemyGrid,playerGrid,am);
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getAnimByName(am.animName).toSingleLoop(t.animationView).start()));
+                            Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
                         }
                     }else{
                         System.out.println("invalid attack user id ");

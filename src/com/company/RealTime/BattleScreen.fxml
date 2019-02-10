@@ -76,7 +76,7 @@
             </HBox>
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="661.0" spacing="30.0" style="-: #5c6c7c;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="300.0">
                <children>
-                  <VBox fx:id="ChoiceBoxPane" alignment="TOP_CENTER" disable="true" prefHeight="272.0" prefWidth="780.0" spacing="20.0" style="-fx-background-color: #5c6c7c;">
+                  <VBox fx:id="ChoiceBoxPane" alignment="TOP_CENTER" disable="true" prefHeight="272.0" prefWidth="780.0" spacing="20.0" style="-fx-background-color: #5c6c7c;" visible="false">
                      <children>
                         <Label text="Make your choice" textFill="WHITE">
                            <font>

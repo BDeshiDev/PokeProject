@@ -289,9 +289,9 @@ class ServerSimulationLoop extends TimerTask {
 
     public void simulateAttack(AttackMessage am){
         if(am.userID == p1.getId()){
-            am.addDamageTimers(simulatedLeftGrid,simulatedRightGrid,attacksToCheck);
+            am.toMoveCard().addDamageTimers(simulatedLeftGrid,simulatedRightGrid,p1.curFighter,attacksToCheck,am);
         }else if(am.userID == p2.getId()){
-            am.addDamageTimers(simulatedRightGrid,simulatedLeftGrid,attacksToCheck);
+            am.toMoveCard().addDamageTimers(simulatedRightGrid,simulatedLeftGrid,p2.curFighter,attacksToCheck,am);
         }else{
             System.out.println("simulation: invalid attack user id " + am.userID);
         }

@@ -3,10 +3,10 @@ package com.company.Pokemon;
 public enum Type{
     Fire,Water,Electric,Ice,Rock,Ground,Grass,Bug,Dragon,
     Flying,Psychic,Dark,Fighting,Normal,Ghost,Steel,Poison,
-    None;//dummy for single type mons.Always put this at the end since that's how the array is structured
+    None;//dummy for single elementType mons.Always put this at the end since that's how the array is structured
 
     //choose between this or switch case
-    static double[][] weaknessTable ={//horizontal row = defending type, vertical = attack type
+    static double[][] weaknessTable ={//horizontal row = defending elementType, vertical = attack elementType
                 //fire,wate,elec,ice ,rock,grou,gras,bug,drag,Fly,Psyc,Dark,Figh,Norm,Ghos,Stee,Pois,none,
         /*fire  */{.5,   .5,   1,  2,  .5,   1,   2,   2,  .5,   1,  1,   1,   1,  1,  1,   1,   1,   1},
         /*water */{ 2,   .5,   1,  1,   2,   2,  .5,   1,  .5,   1,  1,   1,   1,  1,  1,   1,   1,   1},

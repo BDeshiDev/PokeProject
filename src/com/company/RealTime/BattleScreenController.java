@@ -4,6 +4,7 @@ import com.company.BattleDisplayController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -75,7 +76,6 @@ public class BattleScreenController {
         enemyDisplay = new BattleDisplayController(NameLabel1,lvLabel1,hpBar1,hpLabel1);
 
         Callback<ListView<MoveCardData>, ListCell<MoveCardData>> cellFactory = new Callback<ListView<MoveCardData>, ListCell<MoveCardData>>() {
-            private ImageView imageView = new ImageView();
             @Override
             public ListCell<MoveCardData> call(ListView<MoveCardData> lv) {
                 return new ListCell<MoveCardData>() {
@@ -87,14 +87,18 @@ public class BattleScreenController {
                             setGraphic(null);
                         } else {
                             // assume MyDataType.getSomeProperty() returns a string
-                            imageView.setImage(new Image("Assets/PokemonImages/PoGoImages/pika3d.png"));
-                            setText(item.attackName);
-                            setGraphic(new VBox(new ImageView(new Image("Assets/PokemonImages/PoGoImages/pika3d.png")),new Label(item.attackName)));
+                            ImageView iconImage = new ImageView(new Image(item.iconName));
+                            //iconImage.setScaleX(.25);
+                            //iconImage.setScaleY(.25);
+                            VBox cardBox = new VBox(0,iconImage,new Label(item.attackName));
+                            //cardBox.setPrefSize(40,400);
+                            setGraphic( cardBox);
                         }
                     }
                 };
             }
         };
+        CarcChoiceBox.setFixedCellSize(200);
         CarcChoiceBox.setCellFactory(cellFactory);
         selectedCardList.setCellFactory(cellFactory);
 

@@ -1,6 +1,8 @@
 package com.company.RealTime;
 
+import com.company.Pokemon.Moves.DamageType;
 import com.company.Pokemon.PokemonSaveData;
+import com.company.Pokemon.Type;
 import com.company.networking.TrainerData;
 
 import java.util.ArrayList;
@@ -9,24 +11,27 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FighterData {
-    public int att,def,spAtt,spDef,speed,stamina,maxHp;
+    public int att,def,spAtt,spDef,speed,maxHp;
     public final int maxSpeed = 10;
     public int curHp = maxHp;
     public String Name;
     public  String imageName;
     public MoveCardData[] moves;
+    Type t1,t2;
 
-    public FighterData(int att, int def, int spAtt, int spDef, int speed, int stamina, int maxHp, String name, String imageName, MoveCardData... moveNames) {
+    public FighterData(int att, int def, int spAtt, int spDef, int speed, int maxHp, String name, String imageName, Type t1, Type t2, MoveCardData... moves) {
         this.att = att;
         this.def = def;
         this.spAtt = spAtt;
         this.spDef = spDef;
         this.speed = speed;
-        this.stamina = stamina;
         this.maxHp = maxHp;
         Name = name;
         this.imageName = imageName;
-        moves =moveNames;
+        this.moves = moves;
+        this.t1 = t1;
+        this.t2 = t2;
+
         reset();
     }
 
@@ -54,7 +59,7 @@ public class FighterData {
     }
 
     public FighterData(FighterData other) {
-        this(other.att,other.def,other.spAtt,other.spDef,other.speed,other.stamina,other.maxHp,other.Name,other.imageName,other.moves);
+        this(other.att,other.def,other.spAtt,other.spDef,other.speed,other.maxHp,other.Name,other.imageName,other.t1,other.t2,other.moves);
     }
 
     public static List<FighterData> convertTrainerData(TrainerData td){
@@ -69,14 +74,36 @@ public class FighterData {
         return  retVal;
     }
     public static FighterData getDummy1(){
-        return  new FighterData(4,3,3,3,4,100,150,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",MoveCardData.getFlameThrower(),MoveCardData.getSlash());
+        return  new FighterData(4,3,3,3,4,150,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",
+                Type.Fire,Type.Flying,MoveCardData.getFlameThrower(),MoveCardData.getSlash());
     }
 
     public static FighterData getDummy2(){
-        return  new FighterData(3,3,3,3,2,100,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",MoveCardData.getBolt(),MoveCardData.getTestMove());
+        return  new FighterData(3,3,3,3,2,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",Type.Electric,Type.None,MoveCardData.getBolt(),MoveCardData.getTestMove());
     }
     public void reset(){
         curHp = maxHp;
+    }
+
+
+    public double getMoveModifier(MoveCardData move){
+        return  getMoveModifier(move.elementType);
+    }
+    public double getMoveModifier(Type other){
+        return t1.getModifier(other) * t2.getModifier(other);
+    }
+    public double getStabBoost(Type type){
+        double retVal = 1;
+        if(type == t1 || type == t2)
+            retVal *=1.5;
+        return  retVal;
+    }
+
+    public int calculateDamage(FighterData attacker, Type elementType, DamageType damageType,int baseDamage){//defender == this
+        double mod = this.getMoveModifier(elementType);
+        double stabBoost = attacker.getStabBoost(elementType);
+
+        return (int)Math.ceil(baseDamage * mod * stabBoost *damageType.getAttackBonus(attacker)/damageType.getDefenceBonus(this));//deal atleast 1 damage
     }
 
     @Override
