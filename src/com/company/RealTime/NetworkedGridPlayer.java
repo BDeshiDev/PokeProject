@@ -15,8 +15,8 @@ import java.util.List;
 class NetworkedGridPlayer extends  GridPlayer{
     NetworkConnection connection;
 
-    public NetworkedGridPlayer(ImageView playerImage, Grid grid, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
-        super(playerImage, grid, scene,battleScreenController, UI,fighters);
+    public NetworkedGridPlayer(ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
+        super(playerImage, grid, isOnLeft, scene,battleScreenController, UI,fighters);
         this.connection = connection;
     }
 
@@ -30,7 +30,7 @@ class NetworkedGridPlayer extends  GridPlayer{
         if(selectedMove == null){
             System.out.println("invalid move");
         }else{//convert and send the attack as a message
-            connection.writeToConnection.println(selectedMove.toMessage(getId(),curtile.x,curtile.y).toJsonData());
+            connection.writeToConnection.println(selectedMove.toMessage(getId(),isOnLeft,curtile.x,curtile.y).toJsonData());
         }
     }
 

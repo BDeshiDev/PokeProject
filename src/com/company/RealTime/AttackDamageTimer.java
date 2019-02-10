@@ -26,6 +26,7 @@ public class AttackDamageTimer {
         curTimer += ticksToAdd;
         for (int i = tilesToCheck.size()-1;i>=0;i--){
             Tile t = tilesToCheck.get(i);
+            System.out.println("tile to damage: "  +t.x + ","+ t.y);
             if(t==p1.curtile){// if player is in one of the tiles we can damage
                 applyDamage(p1, damageMessages, t);
             }if(t==p2.curtile){

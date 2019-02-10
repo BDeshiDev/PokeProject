@@ -76,7 +76,7 @@ public class ServerRealTime {
 class ServerSimulationLoop extends TimerTask {
     ConcurrentLinkedDeque<String> clientInputQueue;
     private NetworkConnection p1Connection , p2Connection;
-    private Grid simulatedLeftGrid,simulatedRightGrid;
+    private Grid simulatedGrid;
     private BattlePlayer p1,p2;
     private Timer timer;
 
@@ -92,15 +92,14 @@ class ServerSimulationLoop extends TimerTask {
         this.clientInputQueue = clientInputQueue;
         this.p1Connection = p1Connection;
         this.p2Connection = p2Connection;
-        this.simulatedLeftGrid = new Grid(null,false);
-        this.simulatedRightGrid = new Grid(null,true);
+        this.simulatedGrid = new Grid(null);
         this.timer = timer;
 
         timer.scheduleAtFixedRate(this,0,ServerSimulationLoop.tickDelay);
 
-        p1 = new BattlePlayer(null,simulatedLeftGrid,null,leftParty);
+        p1 = new BattlePlayer(null,simulatedGrid,true,null,leftParty);
         p1.setId(1);
-        p2 = new BattlePlayer(null,simulatedRightGrid,null,rightParty);
+        p2 = new BattlePlayer(null,simulatedGrid,false,null,rightParty);
         p2.setId(2);
 
         p1.init();
@@ -142,9 +141,14 @@ class ServerSimulationLoop extends TimerTask {
                     moveMessage mm = gson.fromJson(jsonToParse, moveMessage.class);
                     BattlePlayer moveTarget = getPlayerFromTargetId(mm.moveTargetId);
                     if (moveTarget != null) {
-                        if (simulatedLeftGrid.isMoveValid(moveTarget.curtile, mm.dx, mm.dy)) {
+                        int dx = mm.dx,dy= mm.dy;
+                        if(!moveTarget.isOnLeft)
+                            dx = -dx;
+                        if (simulatedGrid.isMoveValid(moveTarget.curtile,dx,dy,moveTarget.isOnLeft)) {
                             simulateMove(moveTarget, mm.dx, mm.dy);
                             messageToSend = newMessage;
+                        }else{
+                            System.out.println("move invalid :"+ mm.moveTargetId + " : from:"  +moveTarget.curtile.x +","+ moveTarget.curtile.y+ " Dir:" +dx + "," +dy);
                         }
                     } else {
                         System.out.println("Server simulation:: wrong move id : " + mm.moveTargetId);
@@ -269,16 +273,11 @@ class ServerSimulationLoop extends TimerTask {
         return null;
     }
     public void printSimulation() {
-        for (Tile[] tArr :simulatedLeftGrid.grid) {
+        for (Tile[] tArr :simulatedGrid.grid) {
             for(Tile t: tArr){
-                System.out.print(t +(t == p1.curtile?"p1":"  ") );
+                System.out.print(t +(t == p1.curtile?"p1":"  ") + (t == p2.curtile?"P2":"" ));
             }
             System.out.println();
-        }
-        for (Tile[] tArr :simulatedRightGrid.grid) {
-            for(Tile t: tArr){
-                System.out.println(t +(t == p2.curtile?"p2":"  ") );
-            }
         }
     }
 
@@ -289,9 +288,9 @@ class ServerSimulationLoop extends TimerTask {
 
     public void simulateAttack(AttackMessage am){
         if(am.userID == p1.getId()){
-            am.toMoveCard().addDamageTimers(simulatedLeftGrid,simulatedRightGrid,p1.curFighter,attacksToCheck,am);
+            am.toMoveCard().addDamageTimers(simulatedGrid,p1,attacksToCheck,am);
         }else if(am.userID == p2.getId()){
-            am.toMoveCard().addDamageTimers(simulatedRightGrid,simulatedLeftGrid,p2.curFighter,attacksToCheck,am);
+            am.toMoveCard().addDamageTimers(simulatedGrid,p2,attacksToCheck,am);
         }else{
             System.out.println("simulation: invalid attack user id " + am.userID);
         }

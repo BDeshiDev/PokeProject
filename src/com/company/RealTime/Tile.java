@@ -11,15 +11,13 @@ public class Tile extends Pane {
     int x,y;
     int tileSize;
     int xOffset,yOffset;
-    boolean isFlipped;
     ImageView tileImage;
     ImageView animationView;
 
 
-    public Tile(Pane gridParent,int xOffset, int yOffset ,  int tileSize,boolean isFlipped, int x, int y) {
+    public Tile(Pane gridParent,int xOffset, int yOffset ,  int tileSize, int x, int y) {
         this.x = x;
         this.y = y;
-        this.isFlipped = isFlipped;
         this.tileSize = tileSize;
         this.yOffset = yOffset;
         this.xOffset = xOffset;
@@ -34,24 +32,23 @@ public class Tile extends Pane {
             tileImage = new ImageView("Assets/MapImages/Temp/emptyTile.png");
             tileImage.relocate(getX(),getY());
             */
-            animationView.relocate(getX()+tileSize/4.0,getY()+tileSize/4.);//small offset
+            animationView.relocate(getX()+tileSize/4.0,getY()+tileSize/4.0);//small offset
             animationView.setScaleX(1);
             animationView.setScaleY(1);
             //gridParent.getChildren().addAll(tileImage, animationView);
-            /*
+
             Label debugLabel = new Label(x+","+y);
             debugLabel.relocate(getX(),getY());
             this.getChildren().add(debugLabel);
-             */
         }
     }
 
     public int getX(){
-        return xOffset +(isFlipped?-1:1)*tileSize * x;
+        return xOffset +tileSize * x;
     }
 
     public int getY(){
-        return tileSize * yOffset - tileSize * y;
+        return yOffset - tileSize * y;
     }
 
 

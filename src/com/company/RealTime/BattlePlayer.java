@@ -12,6 +12,7 @@ import java.util.List;
 class BattlePlayer{
     Tile curtile;
     Grid grid;
+    boolean isOnLeft;
     ImageView playerImage;
 
     private BattleDisplayController uiDisplay;
@@ -26,15 +27,16 @@ class BattlePlayer{
     List<MoveCardData> movesList = new ArrayList<>();
     ObservableList<MoveCardData> cardChoices = FXCollections.observableArrayList();
 
-    public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
+    public BattlePlayer(ImageView playerImage,Grid grid,boolean isOnLeft,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
         this.grid = grid;
         this.uiDisplay = uiDisplay;
         this.party = party;
-        grid.setPlayer(this);
+        this.isOnLeft = isOnLeft;
+        grid.setPlayer(this,isOnLeft);
 
         if(playerImage != null){
-            playerImage.setScaleX(grid.isFlipped?1:-1);
+            playerImage.setScaleX(isOnLeft?-1:1);
         }
     }
 
@@ -74,6 +76,7 @@ class BattlePlayer{
 
     public void takeDamage(int damage,boolean isGuaranteedKill){
         curFighter.takeDamage(damage,isGuaranteedKill);
+        System.out.println(curFighter.Name + " took " + damage + "damage");
         if(uiDisplay != null)
             uiDisplay.update(curFighter.curHp,curFighter.maxHp);
     }

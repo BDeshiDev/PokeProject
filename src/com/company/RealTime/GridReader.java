@@ -75,13 +75,13 @@ class GridReader implements  Runnable{
                     //System.out.println("animating attack named " + am.attackName);
                     if(player.getId() == am.userID){
                         MoveCardData mcd = am.toMoveCard();
-                        List<Tile> targets = mcd.getTargets(playerGrid,enemyGrid,am);
+                        List<Tile> targets = mcd.getTargets(playerGrid,am,getPlayerFromID(am.userID));
                         for (Tile t: targets) {
                             Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
                         }
                     }else if(enemy.getId() == am.userID){
                         MoveCardData mcd = am.toMoveCard();
-                        List<Tile> targets = mcd.getTargets(enemyGrid,playerGrid,am);
+                        List<Tile> targets = mcd.getTargets(enemyGrid,am,getPlayerFromID(am.userID));
                         for (Tile t: targets) {
                             Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
                         }

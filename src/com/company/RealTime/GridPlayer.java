@@ -28,8 +28,8 @@ class GridPlayer extends  BattlePlayer{
     protected ObservableList<MoveCardData> selectedCards = FXCollections.observableArrayList();//moves that you use with x
     private MoveCardData defaultAttack = MoveCardData.getTestMove();//move that you use with z
 
-    public GridPlayer(ImageView playerImage, Grid grid, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
-        super(playerImage,grid,uiDisplay,party);
+    public GridPlayer(ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
+        super(playerImage,grid,isOnLeft,uiDisplay,party);
         this.scene = scene;
         this.grid =grid;
         this.battleScreenController = battleScreenController;
