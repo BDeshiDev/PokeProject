@@ -80,13 +80,19 @@ class GridReader implements  Runnable{
                         MoveCardData mcd = am.toMoveCard();
                         List<Tile> targets = mcd.getTargets(playerGrid,am,getPlayerFromID(am.userID));
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
+                            Platform.runLater(()->{
+                                AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start();
+                                new MediaPlayer(new Media(new File(mcd.sfxName).toURI().toString())).setAutoPlay(true);
+                            });
                         }
                     }else if(enemy.getId() == am.userID){
                         MoveCardData mcd = am.toMoveCard();
                         List<Tile> targets = mcd.getTargets(enemyGrid,am,getPlayerFromID(am.userID));
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
+                            Platform.runLater(()->{
+                                AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start();
+                                new MediaPlayer(new Media(new File(mcd.sfxName).toURI().toString())).setAutoPlay(true);
+                            });
                         }
                     }else{
                         System.out.println("invalid attack userData id ");

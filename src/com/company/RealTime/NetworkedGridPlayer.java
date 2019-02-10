@@ -37,13 +37,15 @@ class NetworkedGridPlayer extends  GridPlayer{
     @Override
     public void handleSwapPressed() {
         super.handleSwapPressed();
+        if(!readyForTurn())
+            return;
         connection.writeToConnection.println(SwapMessage.createSwapRequest(getId(),true));
     }
 
 
     @Override
     public void handleSwapButtonClick(int index) {
-        super.handleSwapButtonClick(index);
+        super.handleSwapButtonClick(index);;
         FighterData monToSwapWith  =party.get(index);
         if(monToSwapWith.canFight() && monToSwapWith != curFighter) {
             connection.writeToConnection.println(SwapMessage.createSwapEventMessage(getId(), index,true));
