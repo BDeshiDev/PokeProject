@@ -26,7 +26,6 @@ public class ExicuteMap extends Application {
 
     boolean run,up,down,left,right;
     Directions direction;
-    Directions direction1;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Group group=forestMap.setMap();
