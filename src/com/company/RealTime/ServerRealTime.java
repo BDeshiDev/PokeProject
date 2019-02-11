@@ -76,7 +76,7 @@ public class ServerRealTime {
 class ServerSimulationLoop extends TimerTask {
     ConcurrentLinkedDeque<String> clientInputQueue;
     private NetworkConnection p1Connection , p2Connection;
-    private Grid simulatedLeftGrid,simulatedRightGrid;
+    private Grid simulatedGrid;
     private BattlePlayer p1,p2;
     private Timer timer;
 
@@ -84,6 +84,7 @@ class ServerSimulationLoop extends TimerTask {
 
     private List<AttackDamageTimer> attacksToCheck  = new ArrayList<AttackDamageTimer>();
     List<BattlePlayer> waitList = new ArrayList<>();//list of players we are waiting for
+    List<TurnChargeMessage> messages = new ArrayList<>();;
 
     public static int tickDelay = 20;//in ms
 
@@ -92,15 +93,14 @@ class ServerSimulationLoop extends TimerTask {
         this.clientInputQueue = clientInputQueue;
         this.p1Connection = p1Connection;
         this.p2Connection = p2Connection;
-        this.simulatedLeftGrid = new Grid(null,false);
-        this.simulatedRightGrid = new Grid(null,true);
+        this.simulatedGrid = new Grid(null);
         this.timer = timer;
 
         timer.scheduleAtFixedRate(this,0,ServerSimulationLoop.tickDelay);
 
-        p1 = new BattlePlayer(null,simulatedLeftGrid,null,leftParty);
+        p1 = new BattlePlayer(null,simulatedGrid,true,null,leftParty);
         p1.setId(1);
-        p2 = new BattlePlayer(null,simulatedRightGrid,null,rightParty);
+        p2 = new BattlePlayer(null,simulatedGrid,false,null,rightParty);
         p2.setId(2);
 
         p1.init();
@@ -119,9 +119,11 @@ class ServerSimulationLoop extends TimerTask {
                     if(sm!= null) {
                         BattlePlayer swapper = getPlayerFromTargetId(sm.swapperID);
                         if(swapper != null) {
-                            swapper.handleSwap(sm.idToSwapWith);
-                            swapper.resetTurn();
-                            broadcastMessage(newMessage);
+                            if(sm.idToSwapWith != -1){//essentially if the swap hasn't failed
+                                swapper.handleSwap(sm.idToSwapWith);
+                                swapper.resetTurn(1);
+                                broadcastMessage(newMessage);
+                            }
                             waitList.remove(swapper);
                         }
                     }
@@ -142,9 +144,14 @@ class ServerSimulationLoop extends TimerTask {
                     moveMessage mm = gson.fromJson(jsonToParse, moveMessage.class);
                     BattlePlayer moveTarget = getPlayerFromTargetId(mm.moveTargetId);
                     if (moveTarget != null) {
-                        if (simulatedLeftGrid.isMoveValid(moveTarget.curtile, mm.dx, mm.dy)) {
+                        int dx = mm.dx,dy= mm.dy;
+                        if(!moveTarget.isOnLeft)
+                            dx = -dx;
+                        if (simulatedGrid.isMoveValid(moveTarget.curtile,dx,dy,moveTarget.isOnLeft)) {
                             simulateMove(moveTarget, mm.dx, mm.dy);
                             messageToSend = newMessage;
+                        }else{
+                            System.out.println("move invalid :"+ mm.moveTargetId + " : from:"  +moveTarget.curtile.x +","+ moveTarget.curtile.y+ " Dir:" +dx + "," +dy);
                         }
                     } else {
                         System.out.println("Server simulation:: wrong move id : " + mm.moveTargetId);
@@ -209,8 +216,9 @@ class ServerSimulationLoop extends TimerTask {
                         if(tcm!= null) {
                             BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
                             if(targetPlayer != null){
-                                System.out.println("removing " + targetPlayer.curFighter.Name + " remaining " + waitList.size());
-                                targetPlayer.resetTurn();
+                                System.out.println("removing " + targetPlayer.curFighter.name + " remaining " + waitList.size());
+                                if(tcm.selectedMoves.size()>0)
+                                    targetPlayer.resetTurn(tcm.selectedMoves.get(tcm.selectedMoves.size() -1).chooseCost);
                             }
                         }
                     }
@@ -224,7 +232,7 @@ class ServerSimulationLoop extends TimerTask {
                 List<DamageMessage> damageUpdates = new ArrayList<>();
                 for (int i = attacksToCheck.size() - 1; i >= 0; i--) {
                     AttackDamageTimer adt = attacksToCheck.get(i);
-                    adt.applyDamage(p1, p2, tickDelay, damageUpdates);//warning this checks tiles by refrence so implementing tile.equals is a bad idea for now
+                    adt.applyDamage(p1, p2, tickDelay, damageUpdates,this);//warning this checks tiles by refrence so implementing tile.equals is a bad idea for now
                     if (adt.shouldEnd())
                         attacksToCheck.remove(i);
                 }
@@ -238,21 +246,25 @@ class ServerSimulationLoop extends TimerTask {
         }
     }
 
+    public void updateTurn(BattlePlayer player, double amount){
+        System.out.println("updating by anount " + amount);
+        player.increaseTurn(amount);
+        messages.add(new TurnChargeMessage(player.getTurnCharge(),player.getId(),player.readyForTurn()));
+    }
     private void UpdateTurns() {
         if(p1 == null || p2 == null)
             return;// why is this even happening
-        List<TurnChargeMessage> messages = new ArrayList<>();
+
         if(!p1.readyForTurn()) {
-            p1.increaseTurn(p1.calculateChargeFromTicks(tickDelay));
-            messages.add(new TurnChargeMessage(p1.getTurnCharge(),p1.getId(),p1.readyForTurn()));
+            updateTurn(p1,p1.calculateChargeFromTicks(tickDelay));
         }
         if(!p2.readyForTurn()) {
-            p2.increaseTurn(p2.calculateChargeFromTicks(tickDelay));
-            messages.add(new TurnChargeMessage(p2.getTurnCharge(),p2.getId(),p2.readyForTurn()));
+            updateTurn(p2,p2.calculateChargeFromTicks(tickDelay));
         }
         String json =TurnChargeMessage.convertUpdateToMessage(messages);
         //System.out.println(json);
         broadcastMessage(json);
+        messages.clear();
     }
 
     public void stopSimulation(){
@@ -269,16 +281,11 @@ class ServerSimulationLoop extends TimerTask {
         return null;
     }
     public void printSimulation() {
-        for (Tile[] tArr :simulatedLeftGrid.grid) {
+        for (Tile[] tArr :simulatedGrid.grid) {
             for(Tile t: tArr){
-                System.out.print(t +(t == p1.curtile?"p1":"  ") );
+                System.out.print(t +(t == p1.curtile?"p1":"  ") + (t == p2.curtile?"P2":"" ));
             }
             System.out.println();
-        }
-        for (Tile[] tArr :simulatedRightGrid.grid) {
-            for(Tile t: tArr){
-                System.out.println(t +(t == p2.curtile?"p2":"  ") );
-            }
         }
     }
 
@@ -289,11 +296,11 @@ class ServerSimulationLoop extends TimerTask {
 
     public void simulateAttack(AttackMessage am){
         if(am.userID == p1.getId()){
-            am.toMoveCard().addDamageTimers(simulatedLeftGrid,simulatedRightGrid,p1.curFighter,attacksToCheck,am);
+            am.toMoveCard().addDamageTimers(simulatedGrid,p1,attacksToCheck,am);
         }else if(am.userID == p2.getId()){
-            am.toMoveCard().addDamageTimers(simulatedRightGrid,simulatedLeftGrid,p2.curFighter,attacksToCheck,am);
+            am.toMoveCard().addDamageTimers(simulatedGrid,p2,attacksToCheck,am);
         }else{
-            System.out.println("simulation: invalid attack user id " + am.userID);
+            System.out.println("simulation: invalid attack userData id " + am.userID);
         }
 
     }

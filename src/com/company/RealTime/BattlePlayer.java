@@ -12,6 +12,7 @@ import java.util.List;
 class BattlePlayer{
     Tile curtile;
     Grid grid;
+    boolean isOnLeft;
     ImageView playerImage;
 
     private BattleDisplayController uiDisplay;
@@ -19,22 +20,23 @@ class BattlePlayer{
     protected boolean canAct = true;
 
     private double turnCharge = 0;
-    private final  double turnChargeThreshold = 1 * 1000;//you get a turn every 5000ms at max speed
+    private final  double turnChargeThreshold = 6 * 1000;//you get a turn every 5000ms at max speed
 
     FighterData curFighter;
     List<FighterData> party;
     List<MoveCardData> movesList = new ArrayList<>();
     ObservableList<MoveCardData> cardChoices = FXCollections.observableArrayList();
 
-    public BattlePlayer(ImageView playerImage,Grid grid,BattleDisplayController uiDisplay, List<FighterData> party) {
+    public BattlePlayer(ImageView playerImage,Grid grid,boolean isOnLeft,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
         this.grid = grid;
         this.uiDisplay = uiDisplay;
         this.party = party;
-        grid.setPlayer(this);
+        this.isOnLeft = isOnLeft;
+        grid.setPlayer(this,isOnLeft);
 
         if(playerImage != null){
-            playerImage.setScaleX(grid.isFlipped?1:-1);
+            playerImage.setScaleX(isOnLeft?-1:1);
         }
     }
 
@@ -42,18 +44,16 @@ class BattlePlayer{
         setCurFighter(party.get(0));
     }
 
-    public void resetTurn(){
-        turnCharge = 0;
+    public void resetTurn(double decreasePercentage){
+        turnCharge = Math.max(turnCharge - turnChargeThreshold * decreasePercentage,0);
     }
-
 
     public void setCurFighter(FighterData fd){
         curFighter = fd;
         movesList.clear();
         cardChoices.clear();
-        for (MoveCardData rtmd:fd.moves) {
-            movesList.add(rtmd);
-            System.out.println("adding " + rtmd.attackName);
+        for (String s:fd.moves) {
+            movesList.add(MoveCardData.getCardByName(s));
         }
 
         if(uiDisplay != null)
@@ -74,6 +74,7 @@ class BattlePlayer{
 
     public void takeDamage(int damage,boolean isGuaranteedKill){
         curFighter.takeDamage(damage,isGuaranteedKill);
+        System.out.println(curFighter.name + " took " + damage + "damage");
         if(uiDisplay != null)
             uiDisplay.update(curFighter.curHp,curFighter.maxHp);
     }
@@ -127,10 +128,13 @@ class BattlePlayer{
     }
 
     public void handleTurnRequest(){
+        cardChoices.clear();
         cardChoices.addAll(movesList);
     }
 
     public double calculateChargeFromTicks(int ticksToAdd){
+        if(curFighter == null)
+            return 0;
         return ticksToAdd * ((double)curFighter.speed / curFighter.maxSpeed);
     }
 

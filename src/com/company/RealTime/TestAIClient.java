@@ -46,15 +46,14 @@ public class TestAIClient extends Application {
             enemyData = ServerRealTime.getTrainerData(nc,gson);
         }
 
-        Grid playerGrid = new Grid(controller.getPlayerGridParent(),false);
-        Grid enemyGrid = new Grid(controller.getEnmeyGridParent(),true);
+        Grid grid = new Grid(controller.getPlayerGridParent());
 
         List<FighterData> playerParty = FighterData.convertTrainerData(trainerData);
         List<FighterData> enemyParty = FighterData.convertTrainerData(enemyData);
 
-        NetworkedGridAI ai = new NetworkedGridAI(playerGrid,nc ,controller.getPlayerDisplay(),controller.getTurnBar(),playerParty);
+        NetworkedGridAI ai = new NetworkedGridAI(grid,true,nc ,controller.getPlayerDisplay(),controller.getTurnBar(),playerParty);
 
-        BattlePlayer enemy = new BattlePlayer(new ImageView(),enemyGrid,controller.getEnemyDisplay(),enemyParty);
+        BattlePlayer enemy = new BattlePlayer(new ImageView(),grid,false,controller.getEnemyDisplay(),enemyParty);
         GridReader reader = new GridReader(nc,ai,enemy);
         new Thread(reader).start();
     }

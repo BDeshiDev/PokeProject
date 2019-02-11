@@ -12,13 +12,15 @@ class GridAI extends  BattlePlayer{
     Queue<MoveCardData> selectedCards = new ArrayDeque<>();
     Random rand = new Random();
 
-    public GridAI(Grid grid, BattleDisplayController battleDisplayController, List<FighterData> party) {
-        super(new ImageView(),grid,battleDisplayController,party);
+    public GridAI(Grid grid, boolean isOnLeft,BattleDisplayController battleDisplayController, List<FighterData> party) {
+        super(new ImageView(),grid,isOnLeft,battleDisplayController,party);
         this.grid = grid;
 
         new AnimationTimer(){
             int moveTimer = 0;
+            int moveDelay = 90;
             int attackTimer = 0;
+            int attackDelay = 120;
             int yDir = 1;
             @Override
             public void handle(long now) {
@@ -26,12 +28,12 @@ class GridAI extends  BattlePlayer{
                     return;
                 moveTimer++;
                 attackTimer++;
-                if(moveTimer>60){
+                if(moveTimer>moveDelay){
                     moveTimer=0;
                     if(curtile.y <= 0 || curtile.y >= 2)
                         yDir = -yDir;
-                    handleMove(0,yDir);
-                }else if(attackTimer > 120){
+                    handleMove(yDir,yDir);
+                }else if(attackTimer > attackDelay){
                     attackTimer = 0;
                     System.out.println("attackin");
                     handleAttack();

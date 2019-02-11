@@ -1,8 +1,5 @@
 package com.company.RealTime;
 
-import com.company.Pokemon.Type;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class AttackDamageTimer {
@@ -10,31 +7,34 @@ public class AttackDamageTimer {
     AttackMessage attackMessage;
     MoveCardData dataToUse;
 
-    FighterData user;
+    BattlePlayer user;
+    FighterData userData;
 
     int curTimer =0;
 
-    public AttackDamageTimer(List<Tile> tilesToCheck,FighterData user, AttackMessage attackMessage, MoveCardData dataToUse) {
+    public AttackDamageTimer(List<Tile> tilesToCheck, AttackMessage attackMessage, MoveCardData dataToUse, BattlePlayer user) {
         this.tilesToCheck = tilesToCheck;
         this.attackMessage = attackMessage;
         this.dataToUse = dataToUse;
         this.user = user;
+        this.userData = user.curFighter;
     }
 
 
-    public void applyDamage(BattlePlayer p1, BattlePlayer p2, int ticksToAdd, List<DamageMessage> damageMessages){
+    public void applyDamage(BattlePlayer p1, BattlePlayer p2, int ticksToAdd, List<DamageMessage> damageMessages,ServerSimulationLoop ssLoop){
         curTimer += ticksToAdd;
         for (int i = tilesToCheck.size()-1;i>=0;i--){
             Tile t = tilesToCheck.get(i);
+            System.out.println("tile to damage: "  +t.x + ","+ t.y);
             if(t==p1.curtile){// if player is in one of the tiles we can damage
-                applyDamage(p1, damageMessages, t);
+                applyDamage(p1, damageMessages, t,ssLoop);
             }if(t==p2.curtile){
-                applyDamage(p2,damageMessages,t);
+                applyDamage(p2,damageMessages,t,ssLoop);
             }
         }
     }
 
-    private void applyDamage(BattlePlayer p, List<DamageMessage> damageMessages, Tile t) {
+    private void applyDamage(BattlePlayer p, List<DamageMessage> damageMessages, Tile t,ServerSimulationLoop ssLoop) {
         if(p.getId() == attackMessage.userID && !dataToUse.canDamageUser)
             return;
         if(p.getId() != attackMessage.userID && !dataToUse.canDamageEnemy)
@@ -42,9 +42,14 @@ public class AttackDamageTimer {
 
         if(dataToUse.shouldStopAfterCollision && tilesToCheck.contains(t))
             tilesToCheck.remove(t);
-        int calculatedDamage = p.curFighter == null? 0 :p.curFighter.calculateDamage(user,dataToUse.elementType,dataToUse.damageType,dataToUse.baseDamage);
+        int calculatedDamage = p.curFighter == null? 0 :p.curFighter.calculateDamage(userData,dataToUse.elementType,dataToUse.damageType,dataToUse.baseDamage + (attackMessage.wasCharged?dataToUse.chargeBonus:0));
         p.takeDamage(calculatedDamage,false);
-        damageMessages.add(new DamageMessage(p.getId(),calculatedDamage,!p.curFighter.canFight()));
+
+        System.out.println("cahrge bonus: "+ (attackMessage.wasCharged?dataToUse.chargeBonus:0) );
+        double damageMod = p.curFighter.getMoveModifier(dataToUse.elementType);
+        ssLoop.updateTurn(user,dataToUse.calculatePowerUpRecovery(damageMod,attackMessage.wasCharged));
+
+        damageMessages.add(new DamageMessage(p.getId(),calculatedDamage,!p.curFighter.canFight(),damageMod));
     }
 
 

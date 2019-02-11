@@ -6,7 +6,10 @@ import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import com.google.gson.Gson;
 import javafx.application.Platform;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,18 +78,24 @@ class GridReader implements  Runnable{
                     //System.out.println("animating attack named " + am.attackName);
                     if(player.getId() == am.userID){
                         MoveCardData mcd = am.toMoveCard();
-                        List<Tile> targets = mcd.getTargets(playerGrid,enemyGrid,am);
+                        List<Tile> targets = mcd.getTargets(playerGrid,am,getPlayerFromID(am.userID));
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
+                            Platform.runLater(()->{
+                                AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start();
+                                new MediaPlayer(new Media(new File(mcd.sfxName).toURI().toString())).setAutoPlay(true);
+                            });
                         }
                     }else if(enemy.getId() == am.userID){
                         MoveCardData mcd = am.toMoveCard();
-                        List<Tile> targets = mcd.getTargets(enemyGrid,playerGrid,am);
+                        List<Tile> targets = mcd.getTargets(enemyGrid,am,getPlayerFromID(am.userID));
                         for (Tile t: targets) {
-                            Platform.runLater((()->AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start()));
+                            Platform.runLater(()->{
+                                AnimationFactory.getAnimByName(mcd.animName).toSingleLoop(t.animationView).start();
+                                new MediaPlayer(new Media(new File(mcd.sfxName).toURI().toString())).setAutoPlay(true);
+                            });
                         }
                     }else{
-                        System.out.println("invalid attack user id ");
+                        System.out.println("invalid attack userData id ");
                     }
                 }else if(readline.startsWith(BattleProtocol.DamageHeader)){
                     String jsonToParse = readline.substring(BattleProtocol.DamageHeader.length());
@@ -94,7 +103,17 @@ class GridReader implements  Runnable{
                     //System.out.println(jsonToParse);
                     for (DamageMessage dm:messages) {
                         BattlePlayer damageTarget = getPlayerFromID(dm.damagedPlayerID);
-                        Platform.runLater((()->damageTarget.takeDamage(dm)));
+                        Platform.runLater(()->{
+                            damageTarget.takeDamage(dm);
+                            Media hitSound=null;
+                            if(dm.damageMod >= 1.5)
+                                hitSound = new Media(new File("src/Assets/SFX/SuperHitSFX.mp3").toURI().toString());
+                            else if(dm.damageMod <= .5)
+                                hitSound = new Media(new File("src/Assets/SFX/weakHitSFX.mp3").toURI().toString());
+                            else
+                                hitSound = new Media(new File("src/Assets/SFX/NormalHItSFX.mp3").toURI().toString());
+                            new MediaPlayer(hitSound).setAutoPlay(true);
+                        });
                     }
                 }else if(readline.startsWith(BattleProtocol.PauseOrderMessge)){
                     Platform.runLater(()-> player.disableActions(true));
