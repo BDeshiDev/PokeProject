@@ -10,15 +10,16 @@ import javafx.scene.image.ImageView;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Map {
 
     Integer mapAra[][];
     Image treeImage = new Image("Assets/MapImages/Temp/smallTree.png");
-    Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
     Image grassTile = new Image("Assets/MapImages/Temp/grassTile.png");
     public int tileSize ;
     private static HashMap<Integer,String> imageMap;
+    Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
 
     Position startPosition;
 
@@ -95,7 +96,7 @@ public class Map {
         int row =getRow(position.getY() + dy+Entity.entityImageSize/2);
         int col = getCol(position.getX() + dx+Entity.entityImageSize/2);
        // System.out.println("Row="+row+"  Col="+col);
-        if(mapAra[row][col] == 001){
+        if(mapAra[row][col]%10 == 1||mapAra[row][col] == 999||mapAra[row][col]%10==6||mapAra[row][col]%10 == 4){
 //            System.out.println("Row="+row+"  Col="+col);
             return false;
         }
@@ -121,6 +122,7 @@ public class Map {
         System.out.println(mapAra[0].length);
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
+                if(mapAra[row][col]==999) continue;
                 String tileImage="C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\tiles\\generic-rpg-tile02.png";
                 if(mapAra[row][col]==002||mapAra[row][col]==001) {
                     ImageView backGroundLayer =new ImageView(emptyTileImage);
@@ -139,6 +141,11 @@ public class Map {
 
                 imageView.relocate(col*tileSize,row*tileSize);
                 group.getChildren().add(imageView);
+                if(mapAra[row][col]==005){
+                    ImageView grass=new ImageView("pokemap/tiles/generic-rpg-grass01.png");
+                    grass.relocate(col*tileSize,row*tileSize);
+                    if(new Random().nextInt(5)>2) group.getChildren().add(grass);
+                }
 
             }
         }

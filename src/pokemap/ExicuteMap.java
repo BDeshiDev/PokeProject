@@ -18,7 +18,7 @@ import java.util.Timer;
 
 public class ExicuteMap extends Application {
     Map forestMap=new Map(new File("src/pokemap/villagemap.txt"));
-    Entity player=new Entity(new Position(36,36),
+    Entity player=new Entity(new Position(20,20),
             new ImageView("Assets/MapImages/heroleft.png"));
 //    Entity mass1=new Entity(new Position(46,36),
 //            new ImageView("Assets/MapImages/heroup.png"));
