@@ -42,6 +42,8 @@ public class ButtonFactory {
         Button button=null;
         try {
             button=loader.load();
+            button.setPrefHeight(height);
+            button.setPrefWidth(width);
             AnchorPane anchorPane =(AnchorPane) button.getGraphic();
             Label label1=(Label)anchorPane.getChildren().get(0);
             label1.setText(m.getName());

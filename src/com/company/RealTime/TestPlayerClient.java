@@ -28,15 +28,13 @@ public class TestPlayerClient extends Application {
         BattleScreenController controller=loader.getController();
 
         primaryStage.setTitle("Player gridTest ");
-        Scene s = new Scene(root, 1200,800);
-        primaryStage.setScene(s);
+        Scene scene = new Scene(root, 1200,800);
+        primaryStage.setScene(scene);
         primaryStage.show();
 
         TrainerData trainerData = new TrainerData("Ash",new PokemonSaveData("Charizard", Level.maxLevel),new PokemonSaveData("Pikachu", Level.maxLevel));
         TrainerData enemyData = null;
-        Grid playerGrid = new Grid(controller.getPlayerGridParent(),false);
-        Grid enemyGrid = new Grid(controller.getEnmeyGridParent(),true);
-
+        Grid grid = new Grid(controller.getPlayerGridParent());
         Gson gson = new Gson();
         Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
         System.out.println("in ");
@@ -48,13 +46,11 @@ public class TestPlayerClient extends Application {
             enemyData = ServerRealTime.getTrainerData(nc,gson);
         }
 
-
         List<FighterData> playerParty = FighterData.convertTrainerData(trainerData);
         List<FighterData> enemyParty = FighterData.convertTrainerData(enemyData);
 
-
-        NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView(),playerGrid,s,controller.getPlayerDisplay(),playerParty,new NetworkConnection(socket),controller);
-        BattlePlayer enemy = new BattlePlayer(new ImageView(),enemyGrid,controller.getEnemyDisplay(),enemyParty);
+        NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView(),grid,true,scene,controller.getPlayerDisplay(),playerParty,new NetworkConnection(socket),controller);
+        BattlePlayer enemy = new BattlePlayer(new ImageView(),grid,false,controller.getEnemyDisplay(),enemyParty);
         GridReader reader = new GridReader(nc,player,enemy);
         new Thread(reader).start();
     }

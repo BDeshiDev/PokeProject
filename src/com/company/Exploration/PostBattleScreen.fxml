@@ -9,26 +9,23 @@
 
 <AnchorPane fx:id="endBattleScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../pokemap/cssfiles/titleButton.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <TextFlow fx:id="rewardScreen" prefHeight="187.0" prefWidth="571.0" style="-fx-background-color: rgba(255,255,255,0.14); -fx-background-image: title_Screen.gif;" visible="false" />
       <Label alignment="TOP_CENTER" layoutX="171.0" layoutY="38.0" prefHeight="87.0" prefWidth="258.0" text="Battle End" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="171.0" AnchorPane.topAnchor="38.0">
          <font>
             <Font size="46.0" />
          </font>
       </Label>
-      <ScrollPane layoutX="15.0" layoutY="125.0" prefHeight="192.0" prefViewportHeight="110.0" prefViewportWidth="571.0" prefWidth="573.0" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="125.0">
+      <ScrollPane layoutX="15.0" layoutY="125.0" opacity="0.63" prefHeight="192.0" prefViewportHeight="110.0" prefViewportWidth="571.0" prefWidth="573.0" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="125.0">
          <content>
-            <TextFlow fx:id="rewardScreen" layoutX="15.0" layoutY="125.0" prefHeight="187.0" prefWidth="571.0">
+            <VBox fx:id="TextParentPane" prefHeight="36.0" prefWidth="571.0">
                <children>
-                  <VBox fx:id="TextParentPane" prefHeight="36.0" prefWidth="571.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard gained 500 xp. Charizard levelled up!" wrappingWidth="557.58447265625">
-                           <font>
-                              <Font size="25.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </VBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Charizard gained 500 xp. Charizard levelled up!" wrappingWidth="557.58447265625">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Text>
                </children>
-            </TextFlow>
+            </VBox>
          </content>
       </ScrollPane>
       <Button fx:id="BackButton" layoutX="227.0" layoutY="323.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="148.0" text="Back to Exploration" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="225.0">

@@ -42,16 +42,16 @@ public class PokeSkill{
 
     public void handle() {
         pokemonImage.setImage(new Image(pokemon.frontImage));
-        expBar.setProgress(.5);
+        expBar.setProgress(pokemon.getXpRatio());
         hpBar.setProgress(pokemon.getHpRatio());
-        speed.setText("Speed    : "+"Ko to ko to??");
-        NextLevel.setText("Next Level : "+"ko to ko to??");
+        speed.setText("Speed    : "+pokemon.getSpeed());
+        NextLevel.setText("Next Level : "+pokemon.stats.level.getXpToNext());
         hp.setText("Hp    : "+pokemon.getCurHp());
-        attack.setText("Attack :  "+"ko to ko to??");
-        defence.setText("Defence :  "+"ko to ko to??");
-        spAttack.setText("Sp.Attack :  "+"ko to ko to??");
-        spDefence.setText("Sp.Defence :  "+"ko to ko to??");
+        attack.setText("Attack :  "+pokemon.getAtt());
+        defence.setText("Defence :  "+pokemon.getDef());
+        spAttack.setText("Sp.Attack :  "+pokemon.getSpAtt());
+        spDefence.setText("Sp.Defence :  "+pokemon.getSpDef());
         NameAndLevel.setText(pokemon.name+"    Level: "+pokemon.getLevel());
-        Exp.setText("Exp :   "+"ko to ko to??");
+        Exp.setText("Exp :   "+pokemon.getCurXp());
     }
 }

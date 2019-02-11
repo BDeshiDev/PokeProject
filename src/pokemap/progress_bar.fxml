@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane maxHeight="0.0" maxWidth="24.0" minHeight="0.0" minWidth="24.0" prefHeight="0.0" prefWidth="24.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ProgressBar fx:id="live" maxHeight="10.0" maxWidth="36.0" minHeight="10.0" minWidth="36.0" prefHeight="10.0" prefWidth="36.0" progress="0.0" stylesheets="@cssfiles/progressbar.css" />
+   </children>
+</StackPane>

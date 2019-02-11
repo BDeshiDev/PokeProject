@@ -6,46 +6,29 @@ import com.company.networking.JsonDataAble;
 import java.util.List;
 
 public class AttackMessage implements JsonDataAble {
-    String attackName;
-    String animName;
-    int userID;
-    int userPosX, userPosY;
-    int attackDuration;
-    int damagePerHit;
-    TargetPattern targetPattern;
-    boolean shouldTargetOwnGrid;
-    boolean shouldStopAfterCollision;
+    final String attackName;
+    final boolean wasUsedOnLeft;//was used by someone from left side
+    final boolean wasCharged;
+    final int userID;
+    final int userPosX, userPosY;
 
-    public AttackMessage(String attackName, String animName, int userID, int userPosX, int userPosY, int attackDuration, int damagePerHit, TargetPattern targetPattern, boolean shouldTargetOwnGrid, boolean shouldStopAfterCollision) {
+    public AttackMessage(String attackName, boolean wasUsedOnLeft, boolean wasCharged, int userID, int userPosX, int userPosY) {
         this.attackName = attackName;
-        this.animName = animName;
+        this.wasUsedOnLeft = wasUsedOnLeft;
+        this.wasCharged = wasCharged;
         this.userID = userID;
         this.userPosX = userPosX;
         this.userPosY = userPosY;
-        this.attackDuration = attackDuration;
-        this.damagePerHit = damagePerHit;
-        this.targetPattern = targetPattern;
-        this.shouldTargetOwnGrid = shouldTargetOwnGrid;
-        this.shouldStopAfterCollision = shouldStopAfterCollision;
-    }
-
-    public AttackMessage(MoveCardData rtmd, int userID, int userPosX, int userPosY){
-        this(rtmd.attackName,rtmd.animName,userID,userPosX,userPosY,rtmd.attackDuration,rtmd.damagePerHit,rtmd.targetPattern,rtmd.shouldTargetOwnGrid,rtmd.shouldStopAfterCollision);
     }
 
 
-    public List<Tile> getTargets(Grid userGrid, Grid enemyGrid){
-        int startx = shouldTargetOwnGrid?userPosX:enemyGrid.mirrorX(userPosX);
-        int starty = userPosY;
-        Grid targetGrid = shouldTargetOwnGrid?userGrid:enemyGrid;
 
-        return getTargets(targetGrid,startx,starty);
+    public AttackMessage(MoveCardData cardData, int userID, boolean wasUsedOnLeft,int userPosX, int userPosY){
+        this(cardData.attackName,wasUsedOnLeft,false,userID,userPosX,userPosY);
     }
 
-    private List<Tile> getTargets(Grid targetGrid,int startX, int startY){
-        System.out.println("get tiles from " + startX +"," +startY );
-        List<Tile> targets = targetPattern.getTargetTiles(targetGrid,startX,startY );
-        return targets;
+    public AttackMessage(MoveCardData cardData, int userID, boolean wasUsedOnLeft,boolean wasCharged,int userPosX, int userPosY){
+        this(cardData.attackName,wasUsedOnLeft,wasCharged,userID,userPosX,userPosY);
     }
 
     @Override
@@ -53,12 +36,7 @@ public class AttackMessage implements JsonDataAble {
         return BattleProtocol.createMessage(this,BattleProtocol.attackMessageHeader);
     }
 
-    public void addDamageTimers(Grid userGrid, Grid enemyGrid, List<AttackDamageTimer> attacksToCheck){
-        int startx = shouldTargetOwnGrid?3-userPosX:enemyGrid.mirrorX(userPosX);
-        int starty = userPosY;
-        Grid targetGrid = shouldTargetOwnGrid?userGrid:enemyGrid;
-        List<Tile> targets = getTargets(targetGrid,startx,starty);
-        attacksToCheck.add(new AttackDamageTimer(attackDuration,damagePerHit,targets,shouldStopAfterCollision));
+    public MoveCardData toMoveCard(){
+        return MoveCardData.getCardByName(attackName);
     }
-
 }

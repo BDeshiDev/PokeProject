@@ -4,20 +4,16 @@ import com.company.BattleDisplayController;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class NetworkedGridPlayer extends  GridPlayer{
     NetworkConnection connection;
 
-    public NetworkedGridPlayer(ImageView playerImage, Grid grid, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
-        super(playerImage, grid, scene,battleScreenController, UI,fighters);
+    public NetworkedGridPlayer(ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
+        super(playerImage, grid, isOnLeft, scene,battleScreenController, UI,fighters);
         this.connection = connection;
     }
 
@@ -31,20 +27,28 @@ class NetworkedGridPlayer extends  GridPlayer{
         if(selectedMove == null){
             System.out.println("invalid move");
         }else{//convert and send the attack as a message
-            connection.writeToConnection.println(selectedMove.toMessage(getId(),curtile.x,curtile.y).toJsonData());
+            connection.writeToConnection.println(selectedMove.toMessage(getId(),isOnLeft,curtile.x,curtile.y).toJsonData());
         }
     }
 
     @Override
-    public void handleMenuPressed() {
-        super.handleMenuPressed();
+    public void handleChargeAttack() {
+
+        connection.writeToConnection.println(getDefaultAttack().toMessage(getId(),isOnLeft,true,curtile.x,curtile.y).toJsonData());
+    }
+
+    @Override
+    public void handleSwapPressed() {
+        super.handleSwapPressed();
+        if(!readyForTurn())
+            return;
         connection.writeToConnection.println(SwapMessage.createSwapRequest(getId(),true));
     }
 
 
     @Override
     public void handleSwapButtonClick(int index) {
-        super.handleSwapButtonClick(index);
+        super.handleSwapButtonClick(index);;
         FighterData monToSwapWith  =party.get(index);
         if(monToSwapWith.canFight() && monToSwapWith != curFighter) {
             connection.writeToConnection.println(SwapMessage.createSwapEventMessage(getId(), index,true));
@@ -54,26 +58,23 @@ class NetworkedGridPlayer extends  GridPlayer{
                 System.out.print("can't fight");
             if(monToSwapWith == curFighter)
                 System.out.print("currently fighting");
-            System.out.println("Player:can't send invalid swap "+curFighter.Name +"with"+ monToSwapWith);
+            System.out.println("Player:can't send invalid swap "+curFighter.name +"with"+ monToSwapWith);
         }
     }
     @Override
-    public void handleConfirmButton() {
-        super.handleConfirmButton();
+    public void handleExitButton() {
+        super.handleExitButton();
         if(canCancelSwap) {
             battleScreenController.toggleChoiceBox(false);
-            HBox selectedMovesBox = battleScreenController.getSelectedMoveBox();
-            selectedMovesBox.getChildren().clear();
-            for (MoveCardData mcd:selectedMoves) {
-                VBox vb= new VBox(20,new Label(mcd.attackName),new Label("power :" + mcd.damagePerHit));
-                selectedMovesBox.getChildren().add(vb);
-            }
-            battleScreenController.toggleChoiceBox(false);
+            connection.writeToConnection.println(SwapMessage.createSwapFailMessage(getId()));
         }
-        connection.writeToConnection.println(new TurnConfirmMessage(getId(), new ArrayList<MoveCardData>(selectedMoves)).toJsonData());
     }
 
-
+    @Override
+    public void handleTurnConfirm() {
+        super.handleTurnConfirm();
+        connection.writeToConnection.println(new TurnConfirmMessage(getId(),new ArrayList<MoveCardData>(selectedCards)).toJsonData());
+    }
 
     public void handleKo(){
         connection.writeToConnection.println(new koMessage(getId()).toJsonData());

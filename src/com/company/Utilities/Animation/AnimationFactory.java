@@ -46,4 +46,10 @@ public class AnimationFactory {
 
     }
 
+    public static AnimationData getHotFixAnim(){//for whatever reason imageviews resize if they had no images previously,use this to avoid that
+        return  new AnimationData("Assets/Animations/blueExplosion.png", new Duration(70),
+                5 ,1, 6, 0, 0,113, 100);
+
+    }
+
 }

@@ -13,6 +13,7 @@
 <StackPane fx:id="stack" stylesheets="@../../pokemap/cssfiles/titleButton.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane fx:id="anchor" prefHeight="600.0" prefWidth="884.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" />
+      <Pane fx:id="scrollParent" prefHeight="200.0" prefWidth="200.0" />
       <VBox alignment="TOP_CENTER" prefHeight="407.0" prefWidth="900.0" spacing="300.0">
          <children>
             <Label fx:id="titleName" alignment="CENTER" prefHeight="134.0" prefWidth="1063.0" stylesheets="@../../pokemap/cssfiles/titleButton.css">

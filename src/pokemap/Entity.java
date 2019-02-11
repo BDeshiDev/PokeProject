@@ -1,13 +1,21 @@
 package pokemap;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+
+import java.io.IOException;
 
 public class Entity {
     private Position entityPosition;
     private transient ImageView imageOfEntity;
     public static int entityImageSize=16;
     private transient  Image front,back,left,right;
+    private StackPane stackPane;
+    private double live;
+
 
     private String frontImageName="Assets/MapImages/herodown.png",
             backImageName = "Assets/MapImages/heroup.png",
@@ -23,6 +31,20 @@ public class Entity {
         right = new Image(rightImageName);
         imageOfEntity.setImage(back);
         updateImagePosition();
+        try {
+            stackPane = new FXMLLoader(getClass().getResource("progress_bar.fxml")).load();
+            stackPane.setLayoutX(imageOfEntity.getLayoutX());
+            stackPane.setLayoutY(imageOfEntity.getLayoutY()-4);
+        } catch (IOException e) {
+            System.out.println("cant load progressbar");
+        }
+        live=1;
+        ProgressBar progressBar= (ProgressBar) stackPane.getChildren().get(0);
+        progressBar.setProgress(live);
+    }
+
+    public StackPane getProgress(){
+        return stackPane;
     }
 
     public Position getEntityPosition() {
@@ -61,7 +83,8 @@ public class Entity {
 
         this.getImageOfEntity().setImage(direction);
         if(map.isMoveValid(this.getEntityPosition(),dx,dy)&&
-        map.isInMap(new Position(posX+dx,posY+dy))) {
+        map.isInMap(new Position(posX+dx,posY+dy))
+        &&posX+dx>0&&posY+dy>0) {
             this.getImageOfEntity().relocate(posX + dx, posY + dy);
 //            System.out.println(posX+dx+" "+posY+dy);
             this.setEntityPosition(new Position(posX+dx,posY+dy));
@@ -69,22 +92,22 @@ public class Entity {
             int row=map.getRow(this.getEntityPosition().getY()+8);
             int col=map.getCol(this.getEntityPosition().getX()+8);
 
-            if(map.getMapAra()[row][col]=='G' &&flag==false) {
+            if(map.getMapAra()[row][col]==002 &&flag==false) {
                 flag=true;
                 this.prevCol=col;
                 this.prevRow=row;
             }
 
-            if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
+            if(map.getMapAra()[this.prevRow][this.prevCol]==002 && flag==true) {
                 this.probability+=.01;
             }
 
-            if (map.getMapAra()[row][col]=='G'&&flag==true){
+            if (map.getMapAra()[row][col]==002&&flag==true){
                 this.prevCol=col;
                 this.prevRow=row;
             }
 
-            if(map.getMapAra()[row][col]!='G') {
+            if(map.getMapAra()[row][col]!=002) {
                 flag=false;
                 this.probability=0;
             }
@@ -103,28 +126,8 @@ public class Entity {
     }
 
     public double gettingPokemonProbability(Map map){
-//        int row=map.getRow(this.getEntityPosition().getY()+8);
-//        int col=map.getCol(this.getEntityPosition().getX()+8);
-//
-//        if(map.getMapAra()[row][col]=='G' &&flag==false) {
-//            flag=true;
-//            this.prevCol=col;
-//            this.prevRow=row;
-//        }
-//
-//        if(map.getMapAra()[this.prevRow][this.prevCol]=='G' && flag==true) {
-//            this.probability+=.01;
-//        }
-//
-//        if (map.getMapAra()[row][col]=='G'&&flag==true){
-//            this.prevCol=col;
-//            this.prevRow=row;
-//        }
-//
-//        if(map.getMapAra()[row][col]!='G') {
-//            flag=false;
-//            this.probability=0;
-//        }
+        stackPane.setLayoutX(entityPosition.getX());
+        stackPane.setLayoutY(entityPosition.getY()-4);
 
         return this.probability;
 

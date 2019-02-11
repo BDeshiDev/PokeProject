@@ -2,33 +2,31 @@ package pokemap;
 
 import com.company.networking.TrainerData;
 import com.google.gson.Gson;
-import javafx.geometry.Pos;
+import com.google.gson.reflect.TypeToken;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
-import static javafx.scene.input.KeyCode.T;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 
 public class Map {
 
-    Character mapAra[][];
+    Integer mapAra[][];
     Image treeImage = new Image("Assets/MapImages/Temp/smallTree.png");
     Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
     Image grassTile = new Image("Assets/MapImages/Temp/grassTile.png");
     public int tileSize ;
+    private static HashMap<Integer,String> imageMap;
 
     Position startPosition;
 
-    public Character[][] getMapAra() {
+    public Integer[][] getMapAra() {
         return mapAra;
     }
 
-    public void setMapAra(Character[][] mapAra) {
+    public void setMapAra(Integer[][] mapAra) {
         this.mapAra = mapAra;
     }
 
@@ -50,6 +48,20 @@ public class Map {
 
     public String[] possibleEncounters;
     public TrainerData[] trainerDatas;
+
+    static {
+        FileReader reader=null;
+        try {
+            reader=new FileReader("src/pokemap/imageHashMap.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("Load file failed");
+        }
+
+        Gson gson=new Gson();
+        Type mapType = new TypeToken<HashMap<Integer,String>>(){}.getType();
+        imageMap=gson.fromJson(reader,mapType);
+    }
+
 
 
     Map(File mapName)
@@ -83,7 +95,7 @@ public class Map {
         int row =getRow(position.getY() + dy+Entity.entityImageSize/2);
         int col = getCol(position.getX() + dx+Entity.entityImageSize/2);
        // System.out.println("Row="+row+"  Col="+col);
-        if(mapAra[row][col] == 'T'){
+        if(mapAra[row][col] == 001){
 //            System.out.println("Row="+row+"  Col="+col);
             return false;
         }
@@ -109,27 +121,25 @@ public class Map {
         System.out.println(mapAra[0].length);
         for (int row = 0; row < (mapAra.length); row++) {
             for (int col = 0; col < (mapAra[0].length); col++) {
-                ImageView imageView=new ImageView();
-                Image tileImage;
-                if(mapAra[row][col]=='T') {
+                String tileImage="C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\tiles\\generic-rpg-tile02.png";
+                if(mapAra[row][col]==002||mapAra[row][col]==001) {
                     ImageView backGroundLayer =new ImageView(emptyTileImage);
                     backGroundLayer.relocate(col*tileSize,row*tileSize);
                     group.getChildren().add(backGroundLayer);
-                    tileImage = treeImage;
-                }
-                else if(mapAra[row][col]=='X')
-                   tileImage = emptyTileImage;
-                else if(mapAra[row][col]=='G'){
-                    ImageView backGroundLayer =new ImageView(emptyTileImage);
-                    backGroundLayer.relocate(col*tileSize,row*tileSize);
-                    group.getChildren().add(backGroundLayer);
-                    tileImage = grassTile;
+                    tileImage = imageMap.get(mapAra[row][col]);
                 }
                 else
-                    tileImage=null;
-                imageView.setImage(tileImage);
+                    tileImage=imageMap.get(mapAra[row][col]);
+
+                System.out.println(mapAra[row][col]);
+
+
+                ImageView imageView= null;
+                imageView = new ImageView(tileImage);
+
                 imageView.relocate(col*tileSize,row*tileSize);
                 group.getChildren().add(imageView);
+
             }
         }
         return group;

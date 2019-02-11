@@ -26,7 +26,7 @@ public class PokeInfo {
     ImageView pokemonImage;
 
     public void handle() {
-        pokemonName.setText("Pokemon Name:  "+pokemon.name);
+        pokemonName.setText("Pokemon name:  "+pokemon.name);
         pokemonType.setText("Type:  "+pokemon.t1+"    "+pokemon.t2);
         nameAndLevel.setText(pokemon.name+"    Level: "+pokemon.getLevel());
         pokemonImage.setImage(new Image(pokemon.frontImage));

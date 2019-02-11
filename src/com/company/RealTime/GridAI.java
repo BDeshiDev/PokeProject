@@ -9,16 +9,18 @@ import java.util.*;
 class GridAI extends  BattlePlayer{
 
     MoveCardData defaultAttack = MoveCardData.getTestMove();
-    Queue<MoveCardData> selectedMoves = new ArrayDeque<>();
+    Queue<MoveCardData> selectedCards = new ArrayDeque<>();
     Random rand = new Random();
 
-    public GridAI(Grid grid, BattleDisplayController battleDisplayController, List<FighterData> party) {
-        super(new ImageView(),grid,battleDisplayController,party);
+    public GridAI(Grid grid, boolean isOnLeft,BattleDisplayController battleDisplayController, List<FighterData> party) {
+        super(new ImageView(),grid,isOnLeft,battleDisplayController,party);
         this.grid = grid;
 
         new AnimationTimer(){
             int moveTimer = 0;
+            int moveDelay = 90;
             int attackTimer = 0;
+            int attackDelay = 120;
             int yDir = 1;
             @Override
             public void handle(long now) {
@@ -26,12 +28,12 @@ class GridAI extends  BattlePlayer{
                     return;
                 moveTimer++;
                 attackTimer++;
-                if(moveTimer>60){
+                if(moveTimer>moveDelay){
                     moveTimer=0;
                     if(curtile.y <= 0 || curtile.y >= 2)
                         yDir = -yDir;
-                    handleMove(0,yDir);
-                }else if(attackTimer > 120){
+                    handleMove(yDir,yDir);
+                }else if(attackTimer > attackDelay){
                     attackTimer = 0;
                     System.out.println("attackin");
                     handleAttack();
@@ -44,16 +46,16 @@ class GridAI extends  BattlePlayer{
     @Override
     public void handleTurnRequest() {
         super.handleTurnRequest();
-        selectedMoves.clear();
-        selectedMoves.addAll(movesList);
+        selectedCards.clear();
+        selectedCards.addAll(movesList);
     }
     public void handleMove(int dx, int dy){
         grid.movePlayer(this,dx,dy);
     }
 
     public void handleAttack(){
-        if(!selectedMoves.isEmpty()){
-            MoveCardData newMove = selectedMoves.poll();
+        if(!selectedCards.isEmpty()){
+            MoveCardData newMove = selectedCards.poll();
             handleAttack(newMove);
         }else
             handleAttack(defaultAttack);
