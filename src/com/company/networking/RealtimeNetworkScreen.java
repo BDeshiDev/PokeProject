@@ -1,14 +1,14 @@
 package com.company.networking;
 
+import com.company.*;
 import com.company.Pokemon.PokemonSaveData;
 import com.company.Pokemon.Stats.Level;
 import com.company.RealTime.*;
-import com.company.Settings;
-import com.company.TitleController;
-import com.company.networkedPostBattle;
 import com.google.gson.Gson;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -48,11 +48,25 @@ public  class RealtimeNetworkScreen extends NetWorkController  {
 
         getSlotCheckBox1().getSelectionModel().selectFirst();
         getSlotCheckBox2().getSelectionModel().select(1);
+
+        getSlotCheckBox1().setOnAction(event -> getIconView().setImage(new Image(FighterData.getByName(getSlotCheckBox1().getValue()).icon)));
+        getSlotCheckBox2().setOnAction(event -> getIconView1().setImage(new Image(FighterData.getByName(getSlotCheckBox2().getValue()).icon)));
+        getSlotCheckBox3().setOnAction(event -> getIconView2().setImage(new Image(FighterData.getByName(getSlotCheckBox3().getValue()).icon)));
+        getSlotCheckBox4().setOnAction(event -> getIconView3().setImage(new Image(FighterData.getByName(getSlotCheckBox4().getValue()).icon)));
+        getSlotCheckBox5().setOnAction(event -> getIconView4().setImage(new Image(FighterData.getByName(getSlotCheckBox5().getValue()).icon)));
+        getSlotCheckBox6().setOnAction(event -> getIconView5().setImage(new Image(FighterData.getByName(getSlotCheckBox6().getValue()).icon)));
+
     }
 
     @Override
     public void startBattle() {
 
+    }
+
+    @Override
+    public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
+        super.begin(primaryStage, s, prevScreen);
+        toggleInput(true);
     }
 
     public void transitionToResults(int battleResult){
@@ -63,6 +77,15 @@ public  class RealtimeNetworkScreen extends NetWorkController  {
             System.out.println("no post battle");
             System.exit(-1);
         }
+    }
+
+    public void toggleInput(boolean isIon){
+        getSlotCheckBox1().setDisable(!isIon);
+        getSlotCheckBox2().setDisable(!isIon);
+        getSlotCheckBox3().setDisable(!isIon);
+        getSlotCheckBox4().setDisable(!isIon);
+        getSlotCheckBox5().setDisable(!isIon);
+        getSlotCheckBox6().setDisable(!isIon);
     }
 
     @Override
@@ -77,6 +100,7 @@ public  class RealtimeNetworkScreen extends NetWorkController  {
             Socket socket = new Socket(getServerIPLabel().getText(), Settings.realTimePort);
             System.out.println("in ");
             NetworkConnection nc = new NetworkConnection(socket);
+            toggleInput(false);
             String readLine = nc.readFromConnection.readLine();
 
             if(readLine.startsWith(BattleProtocol.TrainerInfoRequest)){

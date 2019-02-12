@@ -38,7 +38,7 @@ public class AnimationTester extends Application {
         */
 
 
-        SpriteAnimation animation = AnimationFactory.getPlaceholder().toInfiniteLoop(animationViewer);
+        SpriteAnimation animation = AnimationFactory.getGrassAnim().toInfiniteLoop(animationViewer);
         animation.play();
 
 

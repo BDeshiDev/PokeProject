@@ -69,16 +69,80 @@ public class MoveCardData {
         temp = getSlash();
         cardMap.put(temp.attackName,temp);
 
-//        Gson gson=new Gson();
-//       try {
-//         JsonWriter writer = new JsonWriter(new FileWriter("src/com/company/RealTime/MoveCardFactory"));
-//           writer.setIndent("  ");
-//           gson.toJson(cardMap.values(),cardMap.values().getClass(), writer);
-//            writer.flush();
-//            writer.close();
-//        }catch (IOException ioe){
-//            System.out.println("write failed...");
-//        }
+        cardMap.put("Water Gun",new MoveCardData("Water Gun","Water","Assets/Animations/Icon/wind-blue-1.png","src/Assets/SFX/Water Gun.mp3",300,4,
+                Type.Water,DamageType.Special,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
+        cardMap.put("Surf",new MoveCardData("Surf","Water","Assets/Animations/Icon/wind-blue-1.png","src/Assets/SFX/Water Gun.mp3",600,40,
+                Type.Water,DamageType.Special,TargetPattern.column,true,true,false,3,3,3,70,
+                40,5));
+        cardMap.put("Ice beam",new MoveCardData("Ice beam","Ice","Assets/Animations/Icon/wind-blue-1.png","src/Assets/SFX/Ice Beam.mp3",600,30,
+                Type.Ice,DamageType.Special,TargetPattern.row,true,true,false,1,3,3,70,
+                40,5));
+        cardMap.put("Slam",new MoveCardData("Slam","Wind","Assets/Animations/Icon/wind-blue-1.png","src/Assets/SFX/Slam.mp3",600,35,
+                Type.Normal,DamageType.Physical,TargetPattern.column,true,true,false,1,3,3,50,
+                40,5));
+        cardMap.put("Scratch",new MoveCardData("Scratch","Wind","Assets/Animations/Icon/wind-blue-1.png","src/Assets/SFX/Slam.mp3",200,4,
+                Type.Normal,DamageType.Physical,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
+        cardMap.put("Vine Whip",new MoveCardData("Vine Whip","Grass","Assets/Animations/Icon/leaf-acid-3.png","src/Assets/SFX/Vine Whip.mp3",200,4,
+                Type.Grass,DamageType.Physical,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
+        cardMap.put("Vine Storm",new MoveCardData("Vine Storm","Grass","Assets/Animations/Icon/leaf-acid-3.png","src/Assets/SFX/Vine Whip.mp3",400,30,
+                Type.Grass,DamageType.Special,TargetPattern.column,true,true,false,1,3,3,50,
+                40,5));
+
+        cardMap.put("Poison Needle",new MoveCardData("Poison Needle","Poison","Assets/Animations/Icon/explosion-magenta-3.png","src/Assets/SFX/Poison Sting.mp3",400,30,
+                Type.Poison,DamageType.Physical,TargetPattern.row,true,true,false,1,2,3,50,
+                40,5));
+
+        cardMap.put("WhirlWind",new MoveCardData("WhirlWind","Wind","Assets/Animations/Icon/wind-sky-3.png","src/Assets/SFX/Gust.mp3",400,30,
+                Type.Flying,DamageType.Special,TargetPattern.column,true,true,false,3,2,3,50,
+                40,5));
+        cardMap.put("Wing Attack",new MoveCardData("Wing Attack","Wind","Assets/Animations/Icon/wind-sky-3.png","src/Assets/SFX/Gust.mp3",400,30,
+                Type.Flying,DamageType.Physical,TargetPattern.column,true,true,false,1,2,3,50,
+                40,5));
+
+        cardMap.put("Aerial Ace",new MoveCardData("Aerial Ace","Wind","Assets/Animations/Icon/wind-sky-3.png","src/Assets/SFX/Gust.mp3",400,30,
+                Type.Flying,DamageType.Physical,TargetPattern.row,true,true,false,1,2,3,50,
+                40,5));
+
+        cardMap.put("Psychic",new MoveCardData("Psychic","Psych","Assets/Animations/Icon/runes-magenta-3.png","src/Assets/SFX/Confusion.mp3",400,50,
+                Type.Psychic,DamageType.Special,TargetPattern.column,true,true,false,3,2,3,80,
+                40,5));
+
+        cardMap.put("PsyBeam",new MoveCardData("PsyBeam","Psych","Assets/Animations/Icon/runes-magenta-3.png","src/Assets/SFX/Confusion.mp3",400,35,
+                Type.Psychic,DamageType.Special,TargetPattern.row,true,true,false,2,2,3,80,
+                40,5));
+
+        cardMap.put("ShockWave",new MoveCardData("ShockWave","Bolt","Assets/Animations/Icon/lighting-royal-3.png","src/Assets/SFX/Thunder Shock.mp3",400,35,
+                Type.Electric,DamageType.Special,TargetPattern.row,true,true,false,2,2,3,80,
+                40,5));
+        cardMap.put("Punch",new MoveCardData("Punch","Wind","Assets/Animations/Icon/wind-blue-1.png","src/Assets/SFX/Slam.mp3",600,30,
+                Type.Normal,DamageType.Physical,TargetPattern.row,true,true,false,1,2,3,40,
+                40,5));
+        cardMap.put("Iron Tail",new MoveCardData("Slam","Wind","Assets/Animations/Icon/wind-blue-1.png","src/Assets/SFX/Slam.mp3",600,35,
+                Type.Steel,DamageType.Physical,TargetPattern.column,true,true,false,1,3,3,50,
+                40,5));
+
+
+        cardMap.put("Poison sting",new MoveCardData("Poison sting","Poison","Assets/Animations/Icon/explosion-magenta-3.png","src/Assets/SFX/Poison Sting.mp3",400,4,
+                Type.Poison,DamageType.Physical,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
+        cardMap.put("Gust",new MoveCardData("Gust","Wind","Assets/Animations/Icon/wind-sky-3.png","src/Assets/SFX/Gust.mp3",400,4,
+                Type.Flying,DamageType.Special,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
+
+        cardMap.put("Confusion",new MoveCardData("Confusion","Psych","Assets/Animations/Icon/runes-magenta-3.png","src/Assets/SFX/Confusion.mp3",400,4,
+                Type.Psychic,DamageType.Special,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
+
+        cardMap.put("Thunder Shock",new MoveCardData("Thunder Shock","Bolt","Assets/Animations/Icon/lighting-royal-3.png","src/Assets/SFX/Thunder Shock.mp3",400,4,
+                Type.Electric,DamageType.Special,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
+
+        cardMap.put("Ember",new MoveCardData("Ember","Flame Thrower","Assets/Animations/Icon/fireball-red-3.png","src/Assets/SFX/FlamethrowerSFX.mp3",400,4,
+                Type.Fire,DamageType.Special,TargetPattern.singleTile,true,true,false,3,3,3,100,
+                5,5));
     }
     public static MoveCardData  getCardByName(String name){
         return cardMap.getOrDefault(name,null);
@@ -91,17 +155,17 @@ public class MoveCardData {
     }
 
     public  static MoveCardData getFlameThrower(){
-        return  new MoveCardData("Flame Thrower","Flame Thrower", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
+        return  new MoveCardData("Flame Thrower","Flame Thrower", "Assets/Animations/Icon/fireball-red-3.png","src/Assets/SFX/FlamethrowerSFX.mp3",
                 400,20,Type.Fire,DamageType.Special,TargetPattern.row,
                 true,true,false,1,3,3,70,50,0);
     }
     public  static MoveCardData getSlash(){
-        return  new MoveCardData("Slash","Slash", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3", 200,15,
+        return  new MoveCardData("Slash","Slash", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/Slam.mp3", 200,15,
                 Type.Normal,DamageType.Physical,TargetPattern.column,
                 true,true,false,1,3,3,50,30,0);
     }
     public  static MoveCardData getBolt(){
-        return  new MoveCardData("ThunderBolt","Bolt", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
+        return  new MoveCardData("ThunderBolt","Bolt", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/Thunder Shock.mp3",
                 500,20,Type.Electric,DamageType.Physical,TargetPattern.column,
                 true,true,false,1,3,3,70,50,0);
     }

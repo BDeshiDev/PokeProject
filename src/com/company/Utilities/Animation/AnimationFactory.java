@@ -10,8 +10,14 @@ public class AnimationFactory {
         animMap.put("Flame Thrower",getFlameAnimation());
         animMap.put("Slash",getSlashAnimation());
         animMap.put("PokeChange",getPokeChangeAnim());
+        animMap.put("Water",getPokeChangeAnim());
         animMap.put("Bolt",getBoltAnim());
-        animMap.put("Default",getPlaceholder());
+        animMap.put("Ice",getIce());
+        animMap.put("Grass",getGrassAnim());
+        animMap.put("Poison",getPoison());
+        animMap.put("Psych",getPsych());
+        animMap.put("Wind",getWind());
+        animMap.put("Default", getGrassAnim());
     }
 
     public static AnimationData getAnimByName(String name){
@@ -40,11 +46,36 @@ public class AnimationFactory {
 
     }
 
-    public static AnimationData getPlaceholder(){
+    public static AnimationData getPoison(){
+        return  new AnimationData("Assets/Animations/poison.png", new Duration(700),
+                6 ,1, 6, 0, 0,117, 102);
+
+    }
+
+    public static AnimationData getPsych(){
+        return  new AnimationData("Assets/Animations/poison.png", new Duration(700),
+                6 ,1, 6, 0, 0,124, 124);
+
+    }
+
+    public static AnimationData getWind(){
+        return  new AnimationData("Assets/Animations/wind.png", new Duration(700),
+                5 ,1, 5, 0, 0,73, 81);
+
+    }
+
+    public static AnimationData getIce(){
+        return  new AnimationData("Assets/Animations/ice.png", new Duration(700),
+                5 ,1, 5, 0, 0,81, 72);
+
+    }
+
+    public static AnimationData getGrassAnim(){
         return  new AnimationData("Assets/Animations/grass.png", new Duration(700),
                 5 ,1, 6, 0, 0,81, 72);
 
     }
+
 
     public static AnimationData getHotFixAnim(){//for whatever reason imageviews resize if they had no images previously,use this to avoid that
         return  new AnimationData("Assets/Animations/blueExplosion.png", new Duration(70),

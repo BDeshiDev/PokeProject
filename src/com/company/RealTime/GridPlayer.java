@@ -1,6 +1,7 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import com.company.ButtonFactory;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -63,7 +65,8 @@ class GridPlayer extends  BattlePlayer{
 
         FlowPane parentPane = battleScreenController.getSwapParentPane();
         for (int i = 0; i < party.size();i++) {
-            Button swapButton = new Button(party.get(i).name);
+            Button swapButton = ButtonFactory.getSwapButton(300,100,party.get(i).name,new Image(party.get(i).icon));
+
             final  int swapNo = i;
             swapButton.setOnAction(event -> handleSwapButtonClick(swapNo));
             parentPane.getChildren().add(swapButton);
@@ -271,8 +274,8 @@ class GridPlayer extends  BattlePlayer{
                 cards c = loader.getController();
                 c.setCard(mcd);
                 parent.getChildren().add(n);
-                n.setScaleX(.6);
-                n.setScaleY(.6);
+                n.setScaleX(.8);
+                n.setScaleY(.8);
             } catch (IOException e) {
                 e.printStackTrace();
             }

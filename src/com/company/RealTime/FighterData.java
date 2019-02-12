@@ -61,6 +61,25 @@ public class FighterData {
         fighterMap.put(temp.name,temp);
         temp = getDummy2();
         fighterMap.put(temp.name,temp);
+        fighterMap.put("Blastoise",new FighterData(3,4,4,4,2,250,"Blastoise","Assets/PokemonImages/PoGoImages/balsto.png","Assets/PokemonImages/HdImages/BlastoiseHD.png",
+                Type.Water,Type.None,"Water Gun","Surf","Ice beam","Slam","Punch"));
+        fighterMap.put("Venasaur",new FighterData(4,3,4,4,3,200,"Venasaur","Assets/PokemonImages/PoGoImages/vena.png","Assets/PokemonImages/HdImages/venasaurHD.png",
+                Type.Grass,Type.Poison,"Vine Whip","Vine Storm","Slam","Poison Needle"));
+        fighterMap.put("Beedrill",new FighterData(5,2,2,3,4,140,"Beedrill","Assets/PokemonImages/PoGoImages/drill.png","Assets/PokemonImages/icons/pokemons/Breedril--.png",
+                Type.Bug,Type.Poison,"Poison sting","WhirlWind","Aerial Ace","Poison Needle"));
+        fighterMap.put("ButterFree",new FighterData(3,3,4,3,4,150,"ButterFree","Assets/PokemonImages/PoGoImages/butter.png","Assets/PokemonImages/icons/pokemons/butterICon.png",
+                Type.Bug,Type.Flying,"Poison sting","WhirlWind","PsyBeam","Poison Needle"));
+        fighterMap.put("Kadabra",new FighterData(1,1,5,4,5,140,"Kadabra","Assets/PokemonImages/PoGoImages/kadabra.png","Assets/PokemonImages/icons/pokemons/kadabraICon.png",
+                Type.Psychic,Type.None,"Confusion","Psychic","PsyBeam","ShockWave","Ice beam"));
+        fighterMap.put("Pidgey",new FighterData(2,2,2,2,3,90,"Pidgey","Assets/PokemonImages/PoGoImages/pidgey.png","Assets/PokemonImages/icons/pokemons/pidgeyIcon.png",
+                Type.Normal,Type.Flying,"Gust","WhirlWind"));
+        fighterMap.put("Pidgeotto",new FighterData(3,2,3,2,3,120,"Pidgeotto","Assets/PokemonImages/PoGoImages/pedgeto.png","Assets/PokemonImages/icons/pokemons/pudgeotICon.png",
+                Type.Normal,Type.Flying,"Gust","WhirlWind","Slam"));
+        fighterMap.put("Pidgeot",new FighterData(4,3,4,4,5,180,"Pidgeot","Assets/PokemonImages/PoGoImages/pidgeot.png","Assets/PokemonImages/HdImages/PidgeotHD.png",
+                Type.Normal,Type.Flying,"Gust","WhirlWind","Slam","Aerial Ace","Wing Attack"));
+        fighterMap.put("Raichu",new FighterData(3,3,5,4,4,200,"Raichu","Assets/PokemonImages/PoGoImages/raichu.png","Assets/PokemonImages/icons/pokemons/raichuICon.png",
+                Type.Electric,Type.None,"Thunder Shock","Iron Tail","Slam","ShockWave","Punch"));
+
 
 //       Gson gson=new Gson();
 //       try {
@@ -99,14 +118,14 @@ public class FighterData {
         return  retVal;
     }
     public static FighterData getDummy1(){
-        return  new FighterData(4,3,3,3,4,150,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",
+        return  new FighterData(4,3,5,3,4,180,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",
                 "Assets/PokemonImages/HdImages/CharizardHD.png",
-                Type.Fire,Type.Flying,"Test Attack","Flame Thrower","Slash");
+                Type.Fire,Type.Flying,"Ember","Flame Thrower","Slash","Punch","Aerial Ace","WhirlWind");
     }
 
     public static FighterData getDummy2(){
-        return  new FighterData(3,3,3,3,2,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",
-                "Assets/PokemonImages/HdImages/pikaHD.png",Type.Electric,Type.None,"Test Attack","ThunderBolt");
+        return  new FighterData(3,3,3,3,5,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",
+                "Assets/PokemonImages/icons/pokemons/pikaIcon.png",Type.Electric,Type.None,"Thunder Shock","Iron Tail","Slam","ShockWave");
     }
     public void reset(){
         curHp = maxHp;

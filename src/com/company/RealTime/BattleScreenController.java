@@ -110,6 +110,7 @@ public class BattleScreenController implements PokeScreen {
     public  void initialize(){
         playerDisplay = new BattleDisplayController(NameLabel,lvLabel,hpBar,hpLabel,iconPreview);
         enemyDisplay = new BattleDisplayController(NameLabel1,lvLabel1,hpBar1,hpLabel1,iconPreview1);
+        iconPreview.setScaleX(-1);
 
         lvLabel.setText("");//we won't have levels
         lvLabel1.setText("");
