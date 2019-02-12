@@ -2,12 +2,7 @@ package com.company.RealTime;
 
 import com.company.Pokemon.Moves.DamageType;
 import com.company.Pokemon.Type;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
-import javafx.scene.Node;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,23 +85,23 @@ public class MoveCardData {
     }
 
     public  static MoveCardData getTestMove (){
-        return  new MoveCardData("Test Attack","Default","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
+        return  new MoveCardData("Test Attack","Default", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
                 20,5,Type.None,DamageType.None,TargetPattern.singleTile,
                 true,true,false,1,3,3,100,20,10);
     }
 
     public  static MoveCardData getFlameThrower(){
-        return  new MoveCardData("Flame Thrower","Flame Thrower","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
+        return  new MoveCardData("Flame Thrower","Flame Thrower", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
                 400,20,Type.Fire,DamageType.Special,TargetPattern.row,
                 true,true,false,1,3,3,70,50,0);
     }
     public  static MoveCardData getSlash(){
-        return  new MoveCardData("Slash","Slash","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3", 200,15,
+        return  new MoveCardData("Slash","Slash", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3", 200,15,
                 Type.Normal,DamageType.Physical,TargetPattern.column,
                 true,true,false,1,3,3,50,30,0);
     }
     public  static MoveCardData getBolt(){
-        return  new MoveCardData("ThunderBolt","Bolt","Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
+        return  new MoveCardData("ThunderBolt","Bolt", "Assets/PokemonImages/icons/tempIcon.png","src/Assets/SFX/FlamethrowerSFX.mp3",
                 500,20,Type.Electric,DamageType.Physical,TargetPattern.column,
                 true,true,false,1,3,3,70,50,0);
     }

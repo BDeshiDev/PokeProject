@@ -1,4 +1,4 @@
-package ui_elements;
+package com.company.RealTime;
 
 import com.company.RealTime.MoveCardData;
 import javafx.fxml.FXML;
@@ -21,11 +21,7 @@ public class cards {
     private Label damageLabel;
 
     public void setCard(MoveCardData moveCardData) {
-        try {
-            cardImage.setImage(new Image(new FileInputStream(moveCardData.iconName)));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        cardImage.setImage(new Image(moveCardData.iconName));
         attackLabel.setText("Attack: "+moveCardData.attackName);
         damageLabel.setText("Power: "+moveCardData.baseDamage);
     }

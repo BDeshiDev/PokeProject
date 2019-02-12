@@ -24,7 +24,7 @@ public class Tile extends Pane {
         this.xOffset = xOffset;
         if(gridParent != null) {
             Rectangle r= new Rectangle(tileSize*.9,tileSize*.9);
-            r.setStyle("-fx-fill: rgba(178,197,220,0.31);");
+            r.setStyle("-fx-fill: rgba(189,209,233,0.16);");
             animationView = new ImageView();
             this.getChildren().addAll(r,animationView);
             gridParent.getChildren().addAll(this);

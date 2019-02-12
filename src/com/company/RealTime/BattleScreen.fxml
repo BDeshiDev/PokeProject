@@ -19,7 +19,7 @@
       </ImageView>
       <AnchorPane style="-fx-background-color: transparent;">
          <children>
-            <ListView fx:id="CarcChoiceBox" focusTraversable="false" layoutX="365.0" layoutY="146.0" opacity="0.89" orientation="HORIZONTAL" prefHeight="134.0" prefWidth="551.0" AnchorPane.leftAnchor="365.0" AnchorPane.rightAnchor="364.0" />
+            <ListView fx:id="CarcChoiceBox" focusTraversable="false" layoutX="322.0" layoutY="120.0" opacity="0.89" orientation="HORIZONTAL" prefHeight="158.0" prefWidth="594.0" style="-fx-background-radius: 10; -fx-background-color: rgba(255,255,255,0.31); -fx-padding: 0;" styleClass="..\..\..\pokemap\cssfiles\listview.css" AnchorPane.leftAnchor="322.0" AnchorPane.rightAnchor="364.0" />
             <HBox alignment="CENTER" layoutX="56.0" layoutY="14.0" spacing="30.0">
                <children>
                   <HBox layoutX="14.0" layoutY="34.0" prefHeight="105.0" prefWidth="408.0">
@@ -103,7 +103,7 @@
                </children>
             </HBox>
             <Pane fx:id="PlayerGridParent" layoutX="161.0" layoutY="252.0" prefHeight="384.0" prefWidth="550.0" AnchorPane.bottomAnchor="164.0" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="252.0" />
-            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="847.0" spacing="30.0" style="-: #5c6c7c;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="880.0" spacing="30.0" style="-: #5c6c7c;" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
                <children>
                   <VBox fx:id="ChoiceBoxPane" alignment="TOP_CENTER" disable="true" prefHeight="272.0" prefWidth="780.0" spacing="20.0" style="-fx-background-color: #5c6c7c;" visible="false">
                      <children>
@@ -125,12 +125,12 @@
                         <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
                      </children>
                   </VBox>
-                  <HBox prefHeight="156.0" prefWidth="880.0">
+                  <HBox prefHeight="247.0" prefWidth="880.0">
                      <children>
-                        <ListView fx:id="selectedCardList" focusTraversable="false" opacity="0.89" orientation="HORIZONTAL" prefHeight="105.0" prefWidth="605.0" />
+                        <ListView fx:id="selectedCardList" focusTraversable="false" orientation="HORIZONTAL" prefHeight="167.0" prefWidth="602.0" style="-fx-padding: 0; -fx-background-color: rgba(255,255,255,0.31);" stylesheets="@../../../pokemap/cssfiles/listview.css" />
                         <Pane fx:id="gridViewParent">
                            <children>
-                              <GridPane fx:id="playerGridPane" prefHeight="105.0" prefWidth="279.0" style="-fx-background-color: grey;">
+                              <GridPane fx:id="playerGridPane" alignment="CENTER" prefHeight="160.0" prefWidth="279.0" style="-fx-background-color: grey; -fx-alignment: center;">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

@@ -20,7 +20,7 @@ public class BattlePlayer{
     protected boolean canAct = true;
 
     private double turnCharge = 0;
-    private final  double turnChargeThreshold = 6 * 1000;//you get a turn every 5000ms at max speed
+    private final  double turnChargeThreshold = 1 * 1000;//you get a turn every 5000ms at max speed
 
     FighterData curFighter;
     List<FighterData> party;

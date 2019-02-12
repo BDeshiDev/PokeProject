@@ -5,6 +5,7 @@ import com.company.PokeScreen;
 import com.company.SaveData;
 import com.company.Settings;
 import com.company.Utilities.Debug.Debugger;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -107,21 +108,35 @@ public class BattleScreenController implements PokeScreen {
                     public void updateItem(MoveCardData item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item == null) {
-                            setText(null);
-                            setGraphic(null);
+//                            setText(null);
+//                            setGraphic(null);
                         } else {
-                            ImageView iconImage = new ImageView(new Image(item.iconName));
+
+                            if(getIndex() % 2 == 1)
+                                setStyle("-fx-background-color: rgba(170,170,170,0)");
+                            else
+                                setStyle("-fx-background-color: rgba(170,170,170,0)");
+
+                            FXMLLoader loader=new FXMLLoader(getClass().getResource("cards.fxml"));
+                            try {
+                                Node n  = loader.load();
+                                cards c = loader.getController();
+                                c.setCard(item);
+                                n.setScaleX(.6);n.setScaleY(.6);
+                                setGraphic( n);
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
+                            //ImageView iconImage = new ImageView(new Image(item.iconName));
                             //iconImage.setScaleX(.25);
                             //iconImage.setScaleY(.25);
-                            VBox cardBox = new VBox(0,iconImage,new Label(item.attackName));
+                            //VBox cardBox = new VBox(0,iconImage,new Label(item.attackName));
                             //cardBox.setPrefSize(40,400);
-                            setGraphic( cardBox);
                         }
                     }
                 };
             }
         };
-        CarcChoiceBox.setFixedCellSize(200);
         CarcChoiceBox.setCellFactory(cellFactory);
         selectedCardList.setCellFactory(cellFactory);
 

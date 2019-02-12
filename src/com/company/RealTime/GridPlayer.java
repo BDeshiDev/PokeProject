@@ -1,6 +1,7 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
