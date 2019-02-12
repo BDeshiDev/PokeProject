@@ -83,7 +83,7 @@ public class TitleController implements PokeScreen {
     }
 
     public void Start(){
-        MergedExploration me = new MergedExploration();
+        MergedExploration me = new MergedExploration(this);
         me.begin(curStage,curSave,this);
         mediaPlayer.stop();
         testLayer.stop();

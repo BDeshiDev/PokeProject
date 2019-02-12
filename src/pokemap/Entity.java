@@ -88,7 +88,7 @@ public class Entity {
             this.getImageOfEntity().relocate(posX + dx, posY + dy);
 //            System.out.println(posX+dx+" "+posY+dy);
             this.setEntityPosition(new Position(posX+dx,posY+dy));
-            System.out.println(this.gettingPokemonProbability(map));
+            //System.out.println(this.gettingPokemonProbability(map));
             int row=map.getRow(this.getEntityPosition().getY()+8);
             int col=map.getCol(this.getEntityPosition().getX()+8);
 

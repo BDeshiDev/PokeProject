@@ -44,6 +44,11 @@ public class NetworkController {
     @FXML
     private TextField playerNameField;
 
+    @FXML
+    private Label myIPLabel;
+
+    @FXML
+    private TextField serverIPLabel;
 
     private Stage primaryStage;
 
@@ -66,6 +71,9 @@ public class NetworkController {
 
         SlotCheckBox1.getSelectionModel().selectFirst();
         SlotCheckBox2.getSelectionModel().selectFirst();
+
+        myIPLabel.setText("172.26.11.207");
+
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -99,7 +107,7 @@ public class NetworkController {
 
     public void findHost(){
             try {
-                clientSocket = new Socket(InetAddress.getLocalHost(),ServerThread.portToUse);
+                clientSocket = new Socket(serverIPLabel.getText(),ServerThread.portToUse);
                 clientConnection  = new NetworkConnection(clientSocket);
                 Gson gson = new Gson();
 

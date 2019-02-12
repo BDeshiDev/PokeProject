@@ -1,8 +1,8 @@
 {
   "score": 0,
   "position": {
-    "x": 61,
-    "y": 36
+    "x": 71,
+    "y": 42
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -10,7 +10,7 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard45",
+        "name": "Charizard27",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
@@ -115,7 +115,7 @@
         }
       },
       {
-        "name": "Blastoise29",
+        "name": "Blastoise1",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
@@ -220,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur1",
+        "name": "Venasaur45",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,
@@ -280,6 +280,111 @@
             "accuracy": 100,
             "maxPp": 15,
             "curPp": 15,
+            "animationData": {
+              "imagePath": "Assets/Animations/4.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 102,
+              "height": 100
+            },
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+          },
+          {
+            "name": "Slam",
+            "type": "Normal",
+            "damageType": "Physical",
+            "power": 75,
+            "priority": 0,
+            "accuracy": 80,
+            "maxPp": 10,
+            "curPp": 10,
+            "animationData": {
+              "imagePath": "Assets/Animations/4.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 102,
+              "height": 100
+            },
+            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+          }
+        ],
+        "evoData": {
+          "lvRequirement": 999
+        }
+      },
+      {
+        "name": "Pidgeot8",
+        "t1": "Normal",
+        "t2": "Flying",
+        "uniqueId": 4,
+        "curHp": 158,
+        "stats": {
+          "level": {
+            "curLevel": 50,
+            "curXP": 0,
+            "xpToNext": 100000
+          },
+          "maxHp": {
+            "realVal": 158.0,
+            "baseVal": 6,
+            "CurVal": 158,
+            "MaxVal": 158
+          },
+          "attack": {
+            "realVal": 100.0,
+            "baseVal": 6,
+            "CurVal": 100,
+            "MaxVal": 100
+          },
+          "defence": {
+            "realVal": 95.0,
+            "baseVal": 6,
+            "CurVal": 95,
+            "MaxVal": 95
+          },
+          "spAttack": {
+            "realVal": 90.0,
+            "baseVal": 3,
+            "CurVal": 90,
+            "MaxVal": 90
+          },
+          "spDefence": {
+            "realVal": 90.0,
+            "baseVal": 6,
+            "CurVal": 90,
+            "MaxVal": 90
+          },
+          "speed": {
+            "realVal": 121.0,
+            "baseVal": 7,
+            "CurVal": 121,
+            "MaxVal": 121
+          }
+        },
+        "frontImage": "Assets/PokemonImages/HdImages/PidgeotHD.png",
+        "canFight": false,
+        "moves": [
+          {
+            "name": "Aerial Ace",
+            "type": "Flying",
+            "damageType": "Physical",
+            "power": 60,
+            "priority": 0,
+            "accuracy": 999,
+            "maxPp": 20,
+            "curPp": 20,
             "animationData": {
               "imagePath": "Assets/Animations/4.png",
               "duration": {

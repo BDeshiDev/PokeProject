@@ -24,9 +24,9 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="fightscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="fightscreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane layoutX="523.0" layoutY="30.0" prefHeight="90.0" prefWidth="310.0" style="-fx-background-color: #b3b8d3;" AnchorPane.leftAnchor="523.0" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="30.0">
+      <GridPane layoutX="819.0" layoutY="30.0" prefHeight="128.0" prefWidth="394.0" style="-fx-background-color: #b3b8d3;" AnchorPane.leftAnchor="819.0" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="30.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,13 +47,19 @@
             <Label fx:id="enemyNameLabel" prefHeight="20.0" prefWidth="191.0" text="Charizard" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="2">
                <padding>
                   <Insets left="10.0" />
-               </padding></Label>
+               </padding>
+               <font>
+                  <Font size="33.0" />
+               </font></Label>
             <ProgressBar fx:id="enemyHpBar" prefHeight="15.0" prefWidth="210.0" progress="1.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
             <Label fx:id="enemyHpLabel" prefHeight="17.0" prefWidth="117.0" text="          999/999" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="5" />
-            <Label fx:id="enemyLvLabel" prefHeight="17.0" prefWidth="97.0" text="LV.36" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+            <Label fx:id="enemyLvLabel" prefHeight="17.0" prefWidth="97.0" text="LV.36" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
          </children>
       </GridPane>
-      <GridPane layoutX="46.0" layoutY="30.0" prefHeight="90.0" prefWidth="310.0" style="-fx-background-color: #b3b8d3;" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="30.0">
+      <GridPane layoutX="46.0" layoutY="30.0" prefHeight="128.0" prefWidth="402.0" style="-fx-background-color: #b3b8d3;" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="30.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -75,37 +81,47 @@
                <padding>
                   <Insets left="10.0" />
                </padding>
+               <font>
+                  <Font size="32.0" />
+               </font>
             </Label>
             <ProgressBar fx:id="playerHpBar" prefHeight="15.0" prefWidth="210.0" progress="1.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
             <Label fx:id="playerHpLabel" prefHeight="17.0" prefWidth="117.0" text="          999/999" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="5" />
-            <Label fx:id="playerLvLabel" prefHeight="37.0" prefWidth="113.0" text="LV.36" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+            <Label fx:id="playerLvLabel" prefHeight="37.0" prefWidth="113.0" text="LV.36" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+               <font>
+                  <Font size="25.0" />
+               </font></Label>
          </children>
       </GridPane>
-      <AnchorPane layoutX="558.0" layoutY="139.0">
+      <HBox alignment="CENTER" layoutX="200.0" layoutY="242.0" spacing="400.0">
          <children>
-            <ImageView fx:id="enemyImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../Assets/PokemonImages/charz3.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="enemySideAnimationView" fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="45.0" />
+            <AnchorPane layoutX="81.0" layoutY="160.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="81.0">
+               <children>
+                  <ImageView fx:id="playerImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Assets/PokemonImages/backCharz.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="playerSideAnimationView" fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="558.0" layoutY="139.0">
+               <children>
+                  <ImageView fx:id="enemyImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Assets/PokemonImages/charz3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="enemySideAnimationView" fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="45.0" />
+               </children>
+            </AnchorPane>
          </children>
-      </AnchorPane>
-      <AnchorPane layoutX="81.0" layoutY="160.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="81.0">
-         <children>
-            <ImageView fx:id="playerImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../Assets/PokemonImages/backCharz.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="playerSideAnimationView" fitHeight="150.0" fitWidth="200.0" layoutX="20.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </AnchorPane>
-      <StackPane layoutY="400.0" prefHeight="189.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      </HBox>
+      <StackPane layoutY="400.0" prefHeight="256.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <HBox fx:id="playerFIghtBox" prefHeight="180.0" prefWidth="900.0">
                <children>
-                  <GridPane fx:id="playerMoveGrid" gridLinesVisible="true" prefHeight="180.0" prefWidth="630.0" style="-fx-background-color: #e8edd6;">
+                  <GridPane fx:id="playerMoveGrid" gridLinesVisible="true" prefHeight="263.0" prefWidth="992.0" style="-fx-background-color: #e8edd6;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -115,7 +131,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                   </GridPane>
-                  <GridPane prefHeight="180.0" prefWidth="278.0" style="-fx-background-color: #baf5bb;">
+                  <GridPane prefHeight="256.0" prefWidth="363.0" style="-fx-background-color: #baf5bb;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

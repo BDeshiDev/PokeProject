@@ -2,18 +2,22 @@ package pokemap;
 
 import com.company.*;
 import com.company.Exploration.*;
+import com.company.Utilities.Debug.Debugger;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -44,12 +48,18 @@ public class MergedExploration extends Application implements  PokeScreen{
     Stage primaryStage;
 
     PokeScreen prevScreen;
+    TitleController titleController;
     PostBattleController postBattleController = new PostBattleController();
+    PokemonStorageController storageController = new PokemonStorageController();
+
+    public MergedExploration(TitleController titleController) {
+        this.titleController = titleController;
+    }
 
     @Override
     public void exitScreen() {
         System.out.println("exiting exploration screen");
-        prevScreen.begin(primaryStage,currentSave,this);// essentially infinite
+        titleController.begin(primaryStage,currentSave,this);// essentially infinite
     }
 
     @Override
@@ -88,6 +98,7 @@ public class MergedExploration extends Application implements  PokeScreen{
         mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
 
         primaryStage.setTitle("Pokemon RGB");
         primaryStage.setScene(scene);
@@ -176,9 +187,16 @@ public class MergedExploration extends Application implements  PokeScreen{
                 case U:
                     exitScreen();
                     break;
+                case A:
+                    goToStorage();
+                    break;
             }
         }
     };
+
+    public void goToStorage(){
+        storageController.begin(primaryStage,currentSave,this);
+    }
 
 
     public void save(){

@@ -1,0 +1,41 @@
+[
+  {
+    "att": 3,
+    "def": 3,
+    "spAtt": 3,
+    "spDef": 3,
+    "speed": 2,
+    "maxHp": 150,
+    "maxSpeed": 10,
+    "curHp": 150,
+    "name": "Pikachu",
+    "imageName": "Assets/PokemonImages/PoGoImages/pika3d.png",
+    "defaultAttack": "Test Attack",
+    "moves": [
+      "ThunderBolt"
+    ],
+    "icon": "Assets/PokemonImages/HdImages/pikaHD.png",
+    "t1": "Electric",
+    "t2": "None"
+  },
+  {
+    "att": 4,
+    "def": 3,
+    "spAtt": 3,
+    "spDef": 3,
+    "speed": 4,
+    "maxHp": 150,
+    "maxSpeed": 10,
+    "curHp": 150,
+    "name": "Charizard",
+    "imageName": "Assets/PokemonImages/PoGoImages/charz3d.png",
+    "defaultAttack": "Test Attack",
+    "moves": [
+      "Flame Thrower",
+      "Slash"
+    ],
+    "icon": "Assets/PokemonImages/HdImages/CharizardHD.png",
+    "t1": "Fire",
+    "t2": "Flying"
+  }
+]

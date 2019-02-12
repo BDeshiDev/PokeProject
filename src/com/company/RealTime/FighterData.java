@@ -4,7 +4,14 @@ import com.company.Pokemon.Moves.DamageType;
 import com.company.Pokemon.PokemonSaveData;
 import com.company.Pokemon.Type;
 import com.company.networking.TrainerData;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.ImageView;
 
+import java.awt.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,9 +25,10 @@ public class FighterData {
     public final String imageName;
     public final String defaultAttack;
     public final String[] moves;
+    public final String icon;
     Type t1,t2;
 
-    public FighterData(int att, int def, int spAtt, int spDef, int speed, int maxHp, String name, String imageName, Type t1, Type t2,String defaultAttack, String... moves) {
+    public FighterData(int att, int def, int spAtt, int spDef, int speed, int maxHp, String name, String imageName, String icon, Type t1, Type t2, String defaultAttack, String... moves) {
         this.att = att;
         this.def = def;
         this.spAtt = spAtt;
@@ -31,11 +39,13 @@ public class FighterData {
         this.imageName = imageName;
         this.defaultAttack = defaultAttack;
         this.moves = moves;
+        this.icon = icon;
         this.t1 = t1;
         this.t2 = t2;
 
         reset();
     }
+
 
     public boolean canFight(){
         return  this.curHp>0;
@@ -53,6 +63,17 @@ public class FighterData {
         fighterMap.put(temp.name,temp);
         temp = getDummy2();
         fighterMap.put(temp.name,temp);
+
+//       Gson gson=new Gson();
+//       try {
+//         JsonWriter writer = new JsonWriter(new FileWriter("src/com/company/RealTime/fighterFactory"));
+//           writer.setIndent("  ");
+//           gson.toJson(fighterMap.values(),fighterMap.values().getClass(), writer);
+//            writer.flush();
+//            writer.close();
+//        }catch (IOException ioe){
+//            System.out.println("write failed...");
+//        }
     }
     public  static  FighterData getByName(String name){
         if(fighterMap.containsKey(name))
@@ -61,7 +82,7 @@ public class FighterData {
     }
 
     public FighterData(FighterData other) {
-        this(other.att,other.def,other.spAtt,other.spDef,other.speed,other.maxHp,other.name,other.imageName,other.t1,other.t2,other.defaultAttack,other.moves);
+        this(other.att,other.def,other.spAtt,other.spDef,other.speed,other.maxHp,other.name,other.imageName,other.icon,other.t1,other.t2,other.defaultAttack,other.moves);
     }
 
     public static List<FighterData> convertTrainerData(TrainerData td){
@@ -77,12 +98,13 @@ public class FighterData {
     }
     public static FighterData getDummy1(){
         return  new FighterData(4,3,3,3,4,150,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",
+                "Assets/PokemonImages/HdImages/CharizardHD.png",
                 Type.Fire,Type.Flying,"Test Attack","Flame Thrower","Slash");
     }
 
     public static FighterData getDummy2(){
         return  new FighterData(3,3,3,3,2,150,"Pikachu", "Assets/PokemonImages/PoGoImages/pika3d.png",
-                Type.Electric,Type.None,"Test Attack","ThunderBolt");
+                "Assets/PokemonImages/HdImages/pikaHD.png",Type.Electric,Type.None,"Test Attack","ThunderBolt");
     }
     public void reset(){
         curHp = maxHp;
