@@ -18,7 +18,7 @@
         [101,101,101,101,100,100,101,101,101,101,101,101,101]
         ],
 "possibleEncounters":
-        ["Charmander", "Pidgeot"],
+        ["Charmander", "Pidgeot","Kingler","Tauros","PsyDuck"],
 "trainerDatas":
         [
         {

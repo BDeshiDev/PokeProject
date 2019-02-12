@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -79,6 +80,10 @@ public abstract class NetWorkController implements PokeScreen {
 
     @FXML
     private Button localButton;
+
+    @FXML
+    private CheckBox AiLabel;
+
 
     MediaPlayer mediaPlayer;
 
@@ -190,7 +195,9 @@ public abstract class NetWorkController implements PokeScreen {
         return selectedTrainer;
     }
 
-
+    public CheckBox getAiLabel() {
+        return AiLabel;
+    }
 
     public Stage primaryStage;
     Scene networkScene;

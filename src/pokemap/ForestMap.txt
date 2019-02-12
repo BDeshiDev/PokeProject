@@ -19,7 +19,7 @@
         [001,001,001,001,001,000,000,001,001,001,001,001,001]
         ],
 "possibleEncounters":
-        ["Charmander", "Pidgeot"],
+        ["Charmander", "Pidgeot","Beedrill","Pidgey","Pidgeoto","ButterFree","Pikachu"],
 "trainerDatas":
         [
         {

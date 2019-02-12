@@ -17,7 +17,7 @@
                <children>
                   <Button fx:id="exitScreenButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0" text="Go Back" />
                   <TextField fx:id="playerNameField" prefHeight="60.0" prefWidth="403.0" promptText="&quot;enter player name&quot;" />
-                  <Button fx:id="serverLaunchButton" mnemonicParsing="false" prefHeight="55.0" prefWidth="187.0" text="Launch Server" />
+                  <Button fx:id="serverLaunchButton" disable="true" mnemonicParsing="false" prefHeight="55.0" prefWidth="187.0" text="Launch Server" visible="false" />
                </children>
                <VBox.margin>
                   <Insets right="40.0" />
@@ -87,6 +87,11 @@
                      <children>
                         <TextField fx:id="serverIPLabel" alignment="CENTER" layoutX="396.0" prefHeight="87.0" prefWidth="468.0" promptText="Enter ip address of server" />
                         <Button fx:id="localButton" alignment="CENTER" layoutX="917.0" layoutY="18.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="180.0" text="Use localhost" />
+                        <CheckBox fx:id="AiLabel" layoutX="120.0" layoutY="27.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="210.0" text="is AI Controlled">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </CheckBox>
                      </children>
                   </Pane>
                   <Button fx:id="StartButton" alignment="CENTER" mnemonicParsing="false" prefHeight="61.0" prefWidth="180.0" text="Start" />

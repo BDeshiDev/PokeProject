@@ -113,9 +113,16 @@ public  class RealtimeNetworkScreen extends NetWorkController  {
 
             BattleScreenController bsc= new BattleScreenController();
             Grid grid = new Grid(bsc.getPlayerGridParent());
-            NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView(),grid,true,bsc.battleScene,bsc.getPlayerDisplay(),playerParty,new NetworkConnection(socket),bsc);
-            BattlePlayer enemy = new BattlePlayer(new ImageView(),grid,false,bsc.getEnemyDisplay(),enemyParty);
-            GridReader reader = new GridReader(nc,player,enemy,this);
+            GridReader reader;
+            if(getAiLabel().isSelected()){
+                NetworkedGridAI player = new NetworkedGridAI(grid,true,nc ,bsc.getPlayerDisplay(),bsc.getTurnBar(),playerParty);
+                BattlePlayer enemy = new BattlePlayer(new ImageView(), grid, false, bsc.getEnemyDisplay(), enemyParty);
+                reader = new GridReader(nc, player, enemy, this);
+            }else {
+                NetworkedGridPlayer player = new NetworkedGridPlayer(new ImageView(), grid, true, bsc.battleScene, bsc.getPlayerDisplay(), playerParty, new NetworkConnection(socket), bsc);
+                BattlePlayer enemy = new BattlePlayer(new ImageView(), grid, false, bsc.getEnemyDisplay(), enemyParty);
+                reader = new GridReader(nc, player, enemy, this);
+            }
             bsc.begin(primaryStage,getCurSave(),getTitleController());
 
             new Thread(reader).start();
