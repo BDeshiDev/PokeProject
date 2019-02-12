@@ -38,12 +38,10 @@ public class BattleScreenController implements PokeScreen {
     private ImageView iconPreview;
 
     @FXML
-    private Pane gridViewParent;
+    private VBox gridViewParent;
     @FXML
     private VBox ChoiceBoxPane;
 
-    @FXML
-    private ListView<MoveCardData> CarcChoiceBox;
 
     @FXML
     private ProgressBar hpBar;
@@ -78,14 +76,27 @@ public class BattleScreenController implements PokeScreen {
     @FXML
     private Label lvLabel1;
 
-    @FXML
-    private ListView<MoveCardData> selectedCardList;
 
     @FXML
     private ProgressBar TurnBar;
 
     @FXML
     private GridPane playerGridPane;
+
+
+    @FXML
+    private HBox cardChoiceParent;
+
+    @FXML
+    private HBox slectedCardParent;
+
+    public HBox getCardChoiceParent() {
+        return cardChoiceParent;
+    }
+
+    public HBox getSlectedCardParent() {
+        return slectedCardParent;
+    }
 
     BattleDisplayController playerDisplay;
     BattleDisplayController enemyDisplay;
@@ -99,46 +110,6 @@ public class BattleScreenController implements PokeScreen {
     public  void initialize(){
         playerDisplay = new BattleDisplayController(NameLabel,lvLabel,hpBar,hpLabel,iconPreview);
         enemyDisplay = new BattleDisplayController(NameLabel1,lvLabel1,hpBar1,hpLabel1,iconPreview1);
-
-        Callback<ListView<MoveCardData>, ListCell<MoveCardData>> cellFactory = new Callback<ListView<MoveCardData>, ListCell<MoveCardData>>() {
-            @Override
-            public ListCell<MoveCardData> call(ListView<MoveCardData> lv) {
-                return new ListCell<MoveCardData>() {
-                    @Override
-                    public void updateItem(MoveCardData item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null) {
-//                            setText(null);
-//                            setGraphic(null);
-                        } else {
-
-                            if(getIndex() % 2 == 1)
-                                setStyle("-fx-background-color: rgba(170,170,170,0)");
-                            else
-                                setStyle("-fx-background-color: rgba(170,170,170,0)");
-
-                            FXMLLoader loader=new FXMLLoader(getClass().getResource("cards.fxml"));
-                            try {
-                                Node n  = loader.load();
-                                cards c = loader.getController();
-                                c.setCard(item);
-                                n.setScaleX(.6);n.setScaleY(.6);
-                                setGraphic( n);
-                            }catch (IOException e){
-                                e.printStackTrace();
-                            }
-                            //ImageView iconImage = new ImageView(new Image(item.iconName));
-                            //iconImage.setScaleX(.25);
-                            //iconImage.setScaleY(.25);
-                            //VBox cardBox = new VBox(0,iconImage,new Label(item.attackName));
-                            //cardBox.setPrefSize(40,400);
-                        }
-                    }
-                };
-            }
-        };
-        CarcChoiceBox.setCellFactory(cellFactory);
-        selectedCardList.setCellFactory(cellFactory);
 
         lvLabel.setText("");//we won't have levels
         lvLabel1.setText("");
@@ -181,14 +152,6 @@ public class BattleScreenController implements PokeScreen {
         if(prevScreen == null)
             System.exit(-5);
         prevScreen.begin(primaryStage, s,null);
-    }
-
-    public ListView<MoveCardData> getCarcChoiceBox() {
-        return CarcChoiceBox;
-    }
-
-    public ListView<MoveCardData> getSelectedCardList() {
-        return selectedCardList;
     }
 
     public void toggleChoiceBox(boolean shouldBeOn){

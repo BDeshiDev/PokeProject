@@ -4,14 +4,18 @@ import com.company.BattleDisplayController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +32,7 @@ class GridPlayer extends  BattlePlayer{
     boolean canCancelSwap = true;
 
     protected ObservableList<MoveCardData> selectedCards = FXCollections.observableArrayList();//moves that you use with x
-    ListView<MoveCardData> cardChoiceBox;
+    HBox cardChoiceParent ,selectedCardParent;
 
     private MoveCardData defaultAttack;//move that you use with z
     private Rectangle[][] myGridView;
@@ -66,13 +70,12 @@ class GridPlayer extends  BattlePlayer{
         }
         battleScreenController.getExitButton().setOnAction(event -> handleExitButton());
 
-        cardChoiceBox =battleScreenController.getCarcChoiceBox();
-        cardChoiceBox.setItems(cardChoices);
-        cardChoiceBox.setVisible(false);
-        battleScreenController.getSelectedCardList().setItems(selectedCards);
+        cardChoiceParent = battleScreenController.getCardChoiceParent();
+        selectedCardParent = battleScreenController.getSlectedCardParent();
 
         addListeners(scene);
     }
+
 
     @Override
     public void updateTurn(double amount) {
@@ -99,6 +102,7 @@ class GridPlayer extends  BattlePlayer{
 
     public void addMove(MoveCardData dataToUse){
         selectedCards.add(dataToUse);
+        updateChoiceView(selectedCardParent,selectedCards);
     }
 
     public void addListeners(Scene s){//the player should only move one tile at a time
@@ -210,6 +214,7 @@ class GridPlayer extends  BattlePlayer{
             moveToUse = selectedCards.get(0);
             selectedCards.remove(0);
             updateGridView();
+            updateChoiceView(selectedCardParent,selectedCards);
         }
         handleAttack(moveToUse);
     }
@@ -227,6 +232,9 @@ class GridPlayer extends  BattlePlayer{
     public void setCurFighter(FighterData fd) {
         super.setCurFighter(fd);
         selectedCards.clear();
+
+        updateChoiceView(cardChoiceParent,cardChoices);
+        updateChoiceView(selectedCardParent,selectedCards);
         defaultAttack = MoveCardData.getCardByName(fd.defaultAttack);
     }
 
@@ -238,6 +246,9 @@ class GridPlayer extends  BattlePlayer{
         else{
             addMove(cardChoices.get(choiceNo));
             cardChoices.clear();
+
+            updateChoiceView(cardChoiceParent,cardChoices);
+            updateChoiceView(selectedCardParent,selectedCards);
             updateGridView();
             handleTurnConfirm();
         }
@@ -246,7 +257,26 @@ class GridPlayer extends  BattlePlayer{
     @Override
     public void handleTurnRequest() {
         super.handleTurnRequest();
-        cardChoiceBox.setVisible(true);
+
+        updateChoiceView(cardChoiceParent,cardChoices);
+        cardChoiceParent.setVisible(true);
+    }
+
+    private void updateChoiceView(HBox parent,List<MoveCardData> cardsToUpdateFrom) {
+        parent.getChildren().clear();
+        for (MoveCardData mcd : cardsToUpdateFrom) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("cards.fxml"));
+            try {
+                Node n = loader.load();
+                cards c = loader.getController();
+                c.setCard(mcd);
+                parent.getChildren().add(n);
+                n.setScaleX(.6);
+                n.setScaleY(.6);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void updateGridView(){
@@ -293,7 +323,7 @@ class GridPlayer extends  BattlePlayer{
     }
 
     public void handleTurnConfirm(){
-        cardChoiceBox.setVisible(false);
+        cardChoiceParent.setVisible( false);
     }
 
     @Override
