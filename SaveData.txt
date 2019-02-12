@@ -1,8 +1,13 @@
 {
   "score": 0,
   "position": {
-    "x": 80,
-    "y": 23
+<<<<<<<<< Temporary merge branch 1
+    "x": 4,
+    "y": 32
+=========
+    "x": 191,
+    "y": 170
+>>>>>>>>> Temporary merge branch 2
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -10,7 +15,11 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard14",
+<<<<<<<<< Temporary merge branch 1
+        "name": "Charizard19",
+=========
+        "name": "Charizard40",
+>>>>>>>>> Temporary merge branch 2
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
@@ -115,7 +124,11 @@
         }
       },
       {
-        "name": "Blastoise29",
+<<<<<<<<< Temporary merge branch 1
+        "name": "Blastoise42",
+=========
+        "name": "Blastoise17",
+>>>>>>>>> Temporary merge branch 2
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
@@ -220,7 +233,11 @@
         }
       },
       {
-        "name": "Venasaur7",
+<<<<<<<<< Temporary merge branch 1
+        "name": "Venasaur35",
+=========
+        "name": "Venasaur5",
+>>>>>>>>> Temporary merge branch 2
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,
@@ -327,5 +344,5 @@
     ],
     "name": "Ash"
   },
-  "mapName": "src/pokemap/ForestMap.txt"
+  "mapName": "src/pokemap/watermap.txt"
 }

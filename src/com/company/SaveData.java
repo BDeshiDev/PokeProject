@@ -34,7 +34,7 @@ public class SaveData {
 
     public static SaveData newGameData(){
         return new SaveData(null, new pcTrainer("Ash",PokemonFactory.getCharizard().toPokemon(),
-                PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getVenasaur().toPokemon()),"src/pokemap/ForestMap.txt");
+                PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getVenasaur().toPokemon()),"src/pokemap/villagemap.txt");
     }
 
 }
