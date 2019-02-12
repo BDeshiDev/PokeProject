@@ -15,7 +15,7 @@
         [101,102,102,101,100,100,101,100,100,100,102,102,102],
         [101,102,102,101,100,100,101,100,100,100,102,102,102],
         [101,102,102,101,100,100,101,100,100,100,102,102,102],
-        [101,101,101,101,100,100,100,100,100,100,101,101,101]
+        [101,101,101,101,100,100,101,101,101,101,101,101,101]
         ],
 "possibleEncounters":
         ["Charmander", "Pidgeot"],
@@ -46,8 +46,105 @@
         ],
 "startPosition":
          {
-            "x":35,
-            "y":35
+            "x":68,
+            "y":183
          },
+"enemies": [
+    {
+      "trainerData": {
+        "pokemonSaves": [
+          {
+            "name": "Charizard",
+            "level": 50
+          }
+        ]
+      },
+      "dir": "RIGHT",
+      "dirChangeTimer": 0,
+      "dirChangeCooldown": 600,
+      "entityPosition": {
+        "x": 20,
+        "y": 60
+      },
+      "frontImageName": "Assets/MapImages/herodown.png",
+      "backImageName": "Assets/MapImages/heroup.png",
+      "leftImageName": "Assets/MapImages/heroleft.png",
+      "rightImageName": "Assets/MapImages/heroright.png",
+      "probability": 0.0,
+      "grassStartRow": 0,
+      "grassStartCol": 0,
+      "prevRow": 0,
+      "prevCol": 0,
+      "flag": false
+    }
+  ],
+  "gates": [
+    {
+      "mapName": "src/pokemap/ForestMap.txt",
+      "entityPosition": {
+        "x": 57,
+        "y": 204
+      },
+      "frontImageName": "Assets/MapImages/herodown.png",
+      "backImageName": "Assets/MapImages/heroup.png",
+      "leftImageName": "Assets/MapImages/heroleft.png",
+      "rightImageName": "Assets/MapImages/heroright.png",
+      "probability": 0.0,
+      "grassStartRow": 0,
+      "grassStartCol": 0,
+      "prevRow": 0,
+      "prevCol": 0,
+      "flag": false
+    },{
+            "mapName": "src/pokemap/ForestMap.txt",
+            "entityPosition": {
+              "x": 67,
+              "y": 204
+            },
+            "frontImageName": "Assets/MapImages/herodown.png",
+            "backImageName": "Assets/MapImages/heroup.png",
+            "leftImageName": "Assets/MapImages/heroleft.png",
+            "rightImageName": "Assets/MapImages/heroright.png",
+            "probability": 0.0,
+            "grassStartRow": 0,
+            "grassStartCol": 0,
+            "prevRow": 0,
+            "prevCol": 0,
+            "flag": false
+          },{
+                  "mapName": "src/pokemap/ForestMap.txt",
+                  "entityPosition": {
+                    "x": 77,
+                    "y": 204
+                  },
+                  "frontImageName": "Assets/MapImages/herodown.png",
+                  "backImageName": "Assets/MapImages/heroup.png",
+                  "leftImageName": "Assets/MapImages/heroleft.png",
+                  "rightImageName": "Assets/MapImages/heroright.png",
+                  "probability": 0.0,
+                  "grassStartRow": 0,
+                  "grassStartCol": 0,
+                  "prevRow": 0,
+                  "prevCol": 0,
+                  "flag": false
+                },{
+                                   "mapName": "src/pokemap/ForestMap.txt",
+                                   "entityPosition": {
+                                     "x": 85,
+                                     "y": 204
+                                   },
+                                   "frontImageName": "Assets/MapImages/herodown.png",
+                                   "backImageName": "Assets/MapImages/heroup.png",
+                                   "leftImageName": "Assets/MapImages/heroleft.png",
+                                   "rightImageName": "Assets/MapImages/heroright.png",
+                                   "probability": 0.0,
+                                   "grassStartRow": 0,
+                                   "grassStartCol": 0,
+                                   "prevRow": 0,
+                                   "prevCol": 0,
+                                   "flag": false
+                                 }
+    ],
+
 "probabilty":0
 }

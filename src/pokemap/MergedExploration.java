@@ -28,17 +28,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
 public class MergedExploration extends Application implements  PokeScreen{
-    String mapLocation = "C:\\Users\\USER\\IdeaProjects\\PokeProject\\src\\pokemap\\ForestMap.txt";
+
     Map forestMap;
     String explorationBGM = "src/Assets/mapBGM.mp3";
 
     PlayerEntity player;
-    EnemyEntity enemy=new EnemyEntity(new TrainerData("gfgfg","Charizard"),new Position(36,36),new ImageView("Assets/MapImages/heroleft.png"));
-
     MediaPlayer mediaPlayer;
 
     boolean run,up,down,left,right;
@@ -70,22 +70,51 @@ public class MergedExploration extends Application implements  PokeScreen{
         begin(primaryStage,SaveData.newGameData(),this);
     }
 
+
+    List<EnemyEntity> enemyEntities = new ArrayList<>();
+    List<MapTransitionEntity> gates = new ArrayList<>();
+
     public void begin(Stage primaryStage,SaveData saveData,PokeScreen prevScreen){
         this.primaryStage = primaryStage;
         this.currentSave = saveData;
         this.prevScreen = prevScreen;
 
+        Media media=new Media(new File(explorationBGM).toURI().toString());
+        mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+
         System.out.println(currentSave.mapName);
         forestMap =new Map(new File(currentSave.mapName));
-        if(currentSave.position == null)
+        if(currentSave.position == null) {
             currentSave.position = forestMap.startPosition;
+            System.out.println("current "  + currentSave.position);
+        }
         player =new PlayerEntity(currentSave, new ImageView());
-        //player.setEntityPosition(forestMap.getStartPosition());
+        player.setEntityPosition(currentSave.position);
         player.resetProbablity();
 
         Group group=forestMap.setMap();
-        group.getChildren().addAll(player.getImageOfEntity(),player.getProgress());
+        group.getChildren().addAll(player.getImageOfEntity());
+
+        enemyEntities.clear();
+
+        for (EnemyEntity ee: forestMap.enemies) {
+            EnemyEntity newEnemy =new EnemyEntity(ee.trainerData,ee.getEntityPosition(),new ImageView("Assets/MapImages/heroleft.png"));
+            enemyEntities.add(newEnemy);
+            group.getChildren().add(newEnemy.getImageOfEntity());
+        }
+
+        gates.clear();
+        for (MapTransitionEntity gate: forestMap.gates) {
+            MapTransitionEntity g = new MapTransitionEntity(gate.getEntityPosition(),gate.mapName);
+            gates.add(g);
+            group.getChildren().add(g.getImageOfEntity());
+        }
         PerspectiveCamera camera=new PerspectiveCamera(true);
+
+        player.getPcTrainer().heal();
 
         camera.layoutXProperty().bind(player.getImageOfEntity().layoutXProperty());
         camera.layoutYProperty().bind(player.getImageOfEntity().layoutYProperty());
@@ -100,11 +129,8 @@ public class MergedExploration extends Application implements  PokeScreen{
 
         addListeners(scene);
         timer.start();
-        Media media=new Media(new File(explorationBGM).toURI().toString());
-        mediaPlayer=new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
+        save();
 
         primaryStage.setTitle("Pokemon RGB");
         primaryStage.setScene(scene);
@@ -129,8 +155,15 @@ public class MergedExploration extends Application implements  PokeScreen{
     }
 
     AnimationTimer timer=new AnimationTimer() {
-        int enemyBattleCooldown = 60*10;
+        int enemyBattleCooldown = 60*2;
         int enemyBattleTimer = 0;
+
+        @Override
+        public void start() {
+            super.start();
+            enemyBattleTimer = 0;
+        }
+
         @Override
         public void handle(long now) {
             int dx=0,dy=0;
@@ -146,22 +179,26 @@ public class MergedExploration extends Application implements  PokeScreen{
             enemyBattleTimer++;
             player.Shift(forestMap,dx,dy,direction);
 
-            enemy.tryDirChange();
-            enemy.randomShift(forestMap);
-            if(Math.abs(player.getEntityPosition().getX()-enemy.getEntityPosition().getX())==1 ||
-                    Math.abs(player.getEntityPosition().getY()-enemy.getEntityPosition().getY())==1 &&
-                    enemyBattleTimer >= enemyBattleCooldown)
-                System.out.println("Fight Fight");
+            for (EnemyEntity ee :enemyEntities) {
+                ee.tryDirChange();
+                ee.randomShift(forestMap);
+                if(Entity.intersects(player, ee) & enemyBattleTimer >= enemyBattleCooldown) {
+                    fightEnemy(ee);
+                    return;
+                }
+            }
+
+            for (MapTransitionEntity g :gates) {
+                if(Entity.intersects(player, g) & enemyBattleTimer >= enemyBattleCooldown) {
+                    moveMaps(g);
+                    return;
+                }
+            }
+
 
             if(player.gettingPokemonProbability(forestMap) >=1){
                 player.resetProbablity();
                 save();
-                if(testingAgainstTrainers){
-                    int randIndex = new Random().nextInt(forestMap.trainerDatas.length);
-                    aiTrainer enemy = new aiTrainer(forestMap.trainerDatas[randIndex]);
-                    System.out.println("fighting " + enemy.name);
-                    startBattle(enemy);
-                }else {
                     int randIndex = new Random().nextInt(forestMap.possibleEncounters.length);
                     WildMon wildmon = new WildMon(PokemonFactory.getMonByName(forestMap.possibleEncounters[randIndex]));
                     if(wildmon == null) {
@@ -170,12 +207,29 @@ public class MergedExploration extends Application implements  PokeScreen{
                         System.out.println("fighting " + wildmon.getName());
                         startBattle(wildmon);
                     }
-                }
+
             }
 
 
         }
     };
+
+    public void fightEnemy(EnemyEntity enemy){
+        System.out.println("Fight Fight");
+        int randIndex = new Random().nextInt(forestMap.trainerDatas.length);
+        aiTrainer newChallenger = new aiTrainer(enemy.trainerData);
+        System.out.println("fighting " + newChallenger.name);
+        startBattle(newChallenger);
+    }
+
+    public void moveMaps(MapTransitionEntity gate){
+        System.out.println("transferring");
+        stopExploration();
+        currentSave.mapName = gate.mapName;
+        currentSave.position = null;
+        save(null);
+        load();
+    }
     EventHandler<KeyEvent> pressEvent = new EventHandler<KeyEvent>() {
         @Override
         public void handle(KeyEvent event) {
@@ -210,6 +264,9 @@ public class MergedExploration extends Application implements  PokeScreen{
                 case A:
                     goToStorage();
                     break;
+                case P:
+                    System.out.println("player at " + player.getEntityPosition());
+                    break;
             }
         }
     };
@@ -220,8 +277,8 @@ public class MergedExploration extends Application implements  PokeScreen{
     }
 
 
-    public void save(){
-        currentSave.updateSaveLocally(player.getEntityPosition(),player.getPcTrainer());
+    public void save(Position p ){
+        currentSave.updateSaveLocally(p,player.getPcTrainer());
         System.out.println("auto saved");
         Gson gson = new Gson();
         try {
@@ -233,6 +290,9 @@ public class MergedExploration extends Application implements  PokeScreen{
         }catch (IOException ioe){
             System.out.println("save failed");
         }
+    }
+    public void save(){
+        save(player.getEntityPosition());
     }
 
     public void load(){
@@ -248,6 +308,7 @@ public class MergedExploration extends Application implements  PokeScreen{
 
     public void startBattle(aiTrainer enemy){
         stopExploration();
+        save();
         BattleController bc =new BattleController();
         bc.begin(primaryStage,player.getPcTrainer(),enemy,this,postBattleController,currentSave);
     }

@@ -11,7 +11,7 @@ public class EnemyEntity extends Entity {
     TrainerData trainerData;
     Directions dir;
     int dirChangeTimer = 0;
-    int dirChangeCooldown = 0;
+    int dirChangeCooldown = 600;
 
 
     public EnemyEntity(TrainerData trainerData, Position entityPosition, ImageView imageOfEntity) {

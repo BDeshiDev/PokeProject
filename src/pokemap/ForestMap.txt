@@ -3,7 +3,7 @@
 "mapAra":
 
         [
-        [001,001,001,001,001,001,000,001,001,104,999,999,999],
+        [001,001,001,001,001,001,001,000,000,104,999,999,999],
         [002,000,000,000,000,000,001,002,002,999,999,999,999],
         [002,002,001,001,001,002,001,002,002,999,999,999,999],
         [002,002,001,002,001,002,001,000,000,999,999,999,999],
@@ -12,11 +12,11 @@
         [001,002,002,002,001,002,002,000,000,002,002,002,002],
         [001,002,002,002,001,001,001,001,001,001,001,001,001],
         [001,000,002,000,000,002,001,002,002,002,002,002,002],
-        [001,309,999,999,000,002,001,002,002,000,109,999,999],
-        [001,999,999,999,000,000,001,002,002,000,999,999,999],
-        [001,999,999,999,000,000,001,002,002,000,999,999,999],
-        [001,999,999,999,000,000,001,002,002,000,999,999,999],
-        [001,000,000,000,000,000,000,002,002,002,000,000,000]
+        [001,309,999,999,000,002,000,002,002,000,109,999,999],
+        [001,999,999,999,000,000,000,002,002,000,999,999,999],
+        [001,999,999,999,000,000,000,002,002,000,999,999,999],
+        [001,999,999,999,000,000,000,002,002,000,999,999,999],
+        [001,001,001,001,001,000,000,001,001,001,001,001,001]
         ],
 "possibleEncounters":
         ["Charmander", "Pidgeot"],
@@ -47,8 +47,153 @@
         ],
 "startPosition":
          {
-            "x":12,
-            "y":32
+            "x":85,
+            "y":189
          },
+"enemies": [
+    {
+      "trainerData": {
+        "pokemonSaves": [
+          {
+            "name": "Charizard",
+            "level": 50
+          }
+        ]
+      },
+      "dir": "RIGHT",
+      "dirChangeTimer": 0,
+      "dirChangeCooldown": 600,
+      "entityPosition": {
+        "x": 20,
+        "y": 20
+      },
+      "frontImageName": "Assets/MapImages/herodown.png",
+      "backImageName": "Assets/MapImages/heroup.png",
+      "leftImageName": "Assets/MapImages/heroleft.png",
+      "rightImageName": "Assets/MapImages/heroright.png",
+      "probability": 0.0,
+      "grassStartRow": 0,
+      "grassStartCol": 0,
+      "prevRow": 0,
+      "prevCol": 0,
+      "flag": false
+    }
+  ],
+  "gates": [
+    {
+      "mapName": "src/pokemap/villagemap.txt",
+      "entityPosition": {
+        "x": 80,
+        "y": 204
+      },
+      "frontImageName": "Assets/MapImages/herodown.png",
+      "backImageName": "Assets/MapImages/heroup.png",
+      "leftImageName": "Assets/MapImages/heroleft.png",
+      "rightImageName": "Assets/MapImages/heroright.png",
+      "probability": 0.0,
+      "grassStartRow": 0,
+      "grassStartCol": 0,
+      "prevRow": 0,
+      "prevCol": 0,
+      "flag": false
+    },
+    {
+          "mapName": "src/pokemap/villagemap.txt",
+          "entityPosition": {
+            "x": 100,
+            "y": 204
+          },
+          "frontImageName": "Assets/MapImages/herodown.png",
+          "backImageName": "Assets/MapImages/heroup.png",
+          "leftImageName": "Assets/MapImages/heroleft.png",
+          "rightImageName": "Assets/MapImages/heroright.png",
+          "probability": 0.0,
+          "grassStartRow": 0,
+          "grassStartCol": 0,
+          "prevRow": 0,
+          "prevCol": 0,
+          "flag": false
+    },
+    {
+          "mapName": "src/pokemap/villagemap.txt",
+          "entityPosition": {
+            "x": 90,
+            "y": 204
+          },
+          "frontImageName": "Assets/MapImages/herodown.png",
+          "backImageName": "Assets/MapImages/heroup.png",
+          "leftImageName": "Assets/MapImages/heroleft.png",
+          "rightImageName": "Assets/MapImages/heroright.png",
+          "probability": 0.0,
+          "grassStartRow": 0,
+          "grassStartCol": 0,
+          "prevRow": 0,
+          "prevCol": 0,
+          "flag": false
+    },
+    {
+               "mapName": "src/pokemap/watermap.txt",
+               "entityPosition": {
+                 "x": 128,
+                 "y": 1
+               },
+               "playerStartPos": {
+                             "x": 80,
+                             "y": 0
+                           },
+               "frontImageName": "Assets/MapImages/herodown.png",
+               "backImageName": "Assets/MapImages/heroup.png",
+               "leftImageName": "Assets/MapImages/heroleft.png",
+               "rightImageName": "Assets/MapImages/heroright.png",
+               "probability": 0.0,
+               "grassStartRow": 0,
+               "grassStartCol": 0,
+               "prevRow": 0,
+               "prevCol": 0,
+               "flag": false
+    },
+    {
+               "mapName": "src/pokemap/watermap.txt",
+               "entityPosition": {
+                 "x": 118,
+                 "y": 1
+               },
+               "playerStartPos": {
+                             "x": 80,
+                             "y": 0
+                           },
+               "frontImageName": "Assets/MapImages/herodown.png",
+               "backImageName": "Assets/MapImages/heroup.png",
+               "leftImageName": "Assets/MapImages/heroleft.png",
+               "rightImageName": "Assets/MapImages/heroright.png",
+               "probability": 0.0,
+               "grassStartRow": 0,
+               "grassStartCol": 0,
+               "prevRow": 0,
+               "prevCol": 0,
+               "flag": false
+    },
+    {
+               "mapName": "src/pokemap/watermap.txt",
+               "entityPosition": {
+                 "x": 108,
+                 "y": 1
+               },
+               "playerStartPos": {
+                             "x": 80,
+                             "y": 0
+                           },
+               "frontImageName": "Assets/MapImages/herodown.png",
+               "backImageName": "Assets/MapImages/heroup.png",
+               "leftImageName": "Assets/MapImages/heroleft.png",
+               "rightImageName": "Assets/MapImages/heroright.png",
+               "probability": 0.0,
+               "grassStartRow": 0,
+               "grassStartCol": 0,
+               "prevRow": 0,
+               "prevCol": 0,
+               "flag": false
+    }
+    ],
 "probabilty":0
 }

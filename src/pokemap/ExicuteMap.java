@@ -29,8 +29,9 @@ public class ExicuteMap extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Group group=forestMap.setMap();
-        group.getChildren().addAll(player.getImageOfEntity(),player.getProgress());
-        group.getChildren().addAll(enemy.getImageOfEntity(),enemy.getProgress());
+        group.getChildren().addAll(player.getImageOfEntity());
+        group.getChildren().addAll(enemy.getImageOfEntity());
+
         PerspectiveCamera camera=new PerspectiveCamera(true);
         camera.layoutXProperty().bind(player.getImageOfEntity().layoutXProperty());
         camera.layoutYProperty().bind(player.getImageOfEntity().layoutYProperty());
@@ -100,7 +101,7 @@ public class ExicuteMap extends Application {
                 timeDelta=timenow-previousTime;
 
              player.Shift(forestMap,dx,dy,direction);
-
+             System.out.println("enemy " + enemy.getEntityPosition());
              enemy.tryDirChange();
              enemy.randomShift(forestMap);
              if(Math.abs(player.getEntityPosition().getX()-enemy.getEntityPosition().getX())==1 ||

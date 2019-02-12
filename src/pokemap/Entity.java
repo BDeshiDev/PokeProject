@@ -13,10 +13,13 @@ public class Entity {
     private transient ImageView imageOfEntity;
     public static int entityImageSize=16;
     private transient  Image front,back,left,right;
-    private StackPane stackPane;
-    private double live;
 
-
+    public static boolean intersects(Entity e1, Entity e2){
+       double dx = e1.getEntityPosition().getX()-e2.getEntityPosition().getX();
+       double dy = e1.getEntityPosition().getY()-e2.getEntityPosition().getY();
+        //System.out.println("dist " + dx *dx+  " "+ dy * dy);
+       return (dx *dx + dy * dy) <=70 ;
+    }
     private String frontImageName="Assets/MapImages/herodown.png",
             backImageName = "Assets/MapImages/heroup.png",
             leftImageName = "Assets/MapImages/heroleft.png",
@@ -31,20 +34,6 @@ public class Entity {
         right = new Image(rightImageName);
         imageOfEntity.setImage(back);
         updateImagePosition();
-        try {
-            stackPane = new FXMLLoader(getClass().getResource("progress_bar.fxml")).load();
-            stackPane.setLayoutX(imageOfEntity.getLayoutX());
-            stackPane.setLayoutY(imageOfEntity.getLayoutY()-4);
-        } catch (IOException e) {
-            System.out.println("cant load progressbar");
-        }
-        live=1;
-        ProgressBar progressBar= (ProgressBar) stackPane.getChildren().get(0);
-        progressBar.setProgress(live);
-    }
-
-    public StackPane getProgress(){
-        return stackPane;
     }
 
     public Position getEntityPosition() {
@@ -126,11 +115,7 @@ public class Entity {
     }
 
     public double gettingPokemonProbability(Map map){
-        stackPane.setLayoutX(entityPosition.getX());
-        stackPane.setLayoutY(entityPosition.getY()-4);
-
         return this.probability;
-
     }
 
 

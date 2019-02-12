@@ -11,7 +11,7 @@ public class SaveData {
     private int score;
     public Position position = null;
     public pcTrainer pcTrainer;
-    public final  String mapName;
+    public  String mapName;
 
 
     public SaveData(Position position, pcTrainer pcTrainer, String mapName) {
