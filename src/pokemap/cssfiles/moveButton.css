@@ -1,25 +1,25 @@
 .button {
-    -fx-background-color: black; /* Green */
+    -fx-background-color: rgba(34, 34, 34, 0.6); /* Green */
     -fx-background-radius: 20;
 }
 
 .button:pressed{
-    -fx-background-color: darkred;
+    -fx-background-color: rgba(155, 148, 115, 0.38);
     -fx-translate-x: 5;
     -fx-rotate: 5;
 }
 
 #moveName{
-    -fx-text-fill: white;
-    -fx-background-color: darkblue;
+    -fx-text-fill: grey;
+    -fx-background-color: #cae65a;
 }
 
 #moveType{
-    -fx-text-fill: white;
-    -fx-background-color: pink;
+    -fx-text-fill: black;
+    -fx-background-color: #ffd07a;
 }
 
 #power{
     -fx-text-fill: white;
-    -fx-background-color: green;
+    -fx-background-color: #45807e;
 }

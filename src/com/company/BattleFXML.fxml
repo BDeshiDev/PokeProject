@@ -51,7 +51,7 @@
                <font>
                   <Font size="33.0" />
                </font></Label>
-            <ProgressBar fx:id="enemyHpBar" prefHeight="15.0" prefWidth="210.0" progress="1.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+            <ProgressBar fx:id="enemyHpBar" prefHeight="15.0" prefWidth="210.0" progress="1.0" stylesheets="@../../pokemap/cssfiles/progressbar.css" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
             <Label fx:id="enemyHpLabel" prefHeight="17.0" prefWidth="117.0" text="          999/999" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="5" />
             <Label fx:id="enemyLvLabel" prefHeight="17.0" prefWidth="97.0" text="LV.36" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
                <font>
@@ -85,7 +85,7 @@
                   <Font size="32.0" />
                </font>
             </Label>
-            <ProgressBar fx:id="playerHpBar" prefHeight="15.0" prefWidth="210.0" progress="1.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
+            <ProgressBar fx:id="playerHpBar" prefHeight="15.0" prefWidth="210.0" progress="1.0" stylesheets="@../../pokemap/cssfiles/progressbar.css" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="2" />
             <Label fx:id="playerHpLabel" prefHeight="17.0" prefWidth="117.0" text="          999/999" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="5" />
             <Label fx:id="playerLvLabel" prefHeight="37.0" prefWidth="113.0" text="LV.36" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
                <font>

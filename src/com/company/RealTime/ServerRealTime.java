@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class ServerRealTime {
     public static void main(String[] args) {
         try {
-            ServerSocket serverSocket = new ServerSocket(Settings.realTimePort, 10, InetAddress.getByName("192.168.1.1"));
+            ServerSocket serverSocket = new ServerSocket(Settings.realTimePort, 10, InetAddress.getByName("127.0.0.1"));
             while (true){
                 Socket newClient= serverSocket.accept();
                 System.out.println("accepted 1");

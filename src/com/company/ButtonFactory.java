@@ -8,8 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
 import java.beans.EventHandler;
 import java.io.IOException;
 
@@ -25,14 +26,29 @@ public class ButtonFactory {
 
     public static Button getSwapButton(int width, int height, Pokemon p){
         //load the fxml file here
-        Button b = new Button(p.name);
-        b.setPrefWidth(width);
-        b.setPrefHeight(height);
-        b.setStyle("    -fx-background-color: #b3d57a;\n" +
-                "    -fx-background-radius: 30;\n" +
-                "    -fx-background-insets: .5;");
+//        Button b = new Button(p.name);
+//        b.setPrefWidth(width);
+//        b.setPrefHeight(height);
+//        b.setStyle("    -fx-background-color: #b3d57a;\n" +
+//                "    -fx-background-radius: 30;\n" +
+//                "    -fx-background-insets: .5;");
+        FXMLLoader loader=new FXMLLoader(ButtonFactory.class.getResource("swapbutton.fxml"));
 
-        return b;
+        Button button=null;
+        try {
+            button = loader.load();
+            button.setPrefHeight(height);
+            button.setPrefWidth(width);
+            AnchorPane anchorPane =(AnchorPane) button.getGraphic();
+            ImageView imageView=(ImageView)anchorPane.getChildren().get(0);
+            imageView.setImage(new Image(p.frontImage));
+            Label label2=(Label)anchorPane.getChildren().get(1);
+            label2.setText(p.name);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return button;
     }
 
     public static Button getMoveButton(int width, int height, Move m){
