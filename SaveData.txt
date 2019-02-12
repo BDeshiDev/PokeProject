@@ -1,8 +1,8 @@
 {
   "score": 0,
   "position": {
-    "x": 191,
-    "y": 170
+    "x": 36,
+    "y": 94
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -10,7 +10,7 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard40",
+        "name": "Charizard16",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
@@ -115,7 +115,7 @@
         }
       },
       {
-        "name": "Blastoise17",
+        "name": "Blastoise1",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
@@ -220,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur5",
+        "name": "Venasaur7",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,
@@ -327,5 +327,5 @@
     ],
     "name": "Ash"
   },
-  "mapName": "src/pokemap/watermap.txt"
+  "mapName": "src/pokemap/ForestMap.txt"
 }

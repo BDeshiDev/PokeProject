@@ -29,8 +29,6 @@ public class TitleController implements PokeScreen {
     private SaveData curSave;
     MediaPlayer mediaPlayer;
 
-    @FXML
-    private Button turnBatttleButton;
 
     @FXML
     private StackPane stack;
@@ -81,11 +79,6 @@ public class TitleController implements PokeScreen {
         curStage = primaryStage;
         this.curSave = s;
         String path = "src/Assets/titleBGM.mp3";
-
-        turnBatttleButton.setOnAction(event -> {
-            networkScree.begin(curStage,curSave,this);
-            mediaPlayer.stop();
-        });
 
         realBattleButton.setOnAction(event -> {
             realNetwork.begin(curStage,curSave,this);

@@ -14,9 +14,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import sun.security.x509.AVA;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -76,6 +79,8 @@ public abstract class NetWorkController implements PokeScreen {
 
     @FXML
     private Button localButton;
+
+    MediaPlayer mediaPlayer;
 
     public ComboBox<String> getSlotCheckBox1() {
         return SlotCheckBox1;
@@ -224,6 +229,11 @@ public abstract class NetWorkController implements PokeScreen {
         this.curSave =s;
         this.prevScreen = prevScreen;
 
+        Media media=new Media(new File("src/Assets/The Arrival (BATTLE II).mp3").toURI().toString());
+        mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
         primaryStage.setTitle("networkScreen");
         primaryStage.setScene(networkScene);
     }
@@ -232,6 +242,7 @@ public abstract class NetWorkController implements PokeScreen {
 
     public void exitScreen() {
         System.out.println( "exiting");
+        mediaPlayer.stop();
         if(titleController == null){
             System.out.println("no prev screen");
             System.exit(-1);

@@ -8,6 +8,7 @@ import com.company.TitleController;
 import com.company.networkedPostBattle;
 import com.google.gson.Gson;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public  class RealtimeNetworkScreen extends NetWorkController  {
     networkedPostBattle postBattleScreen;
+
     public RealtimeNetworkScreen(TitleController titleController, networkedPostBattle postBattleScreen) {
         super(titleController,false);
         this.postBattleScreen = postBattleScreen;

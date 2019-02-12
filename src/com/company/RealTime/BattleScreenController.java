@@ -16,9 +16,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +93,7 @@ public class BattleScreenController implements PokeScreen {
     Stage primaryStage;
     SaveData s;
     PokeScreen prevScreen;
+    MediaPlayer mediaPlayer;
 
     public  void initialize(){
         playerDisplay = new BattleDisplayController(NameLabel,lvLabel,hpBar,hpLabel,iconPreview);
@@ -144,13 +148,21 @@ public class BattleScreenController implements PokeScreen {
         this.prevScreen = prevScreen;
         this.s=s;
 
+        Media media=new Media(new File("src/Assets/battleBGM.mp3").toURI().toString());
+        mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
         primaryStage.setTitle("Real time battle");
         primaryStage.setScene(battleScene);
+
+
         primaryStage.show();
     }
 
     @Override
     public void exitScreen() {
+        mediaPlayer.stop();
         if(prevScreen == null)
             System.exit(-5);
         prevScreen.begin(primaryStage, s,null);

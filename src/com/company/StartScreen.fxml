@@ -29,12 +29,7 @@
                         <Font size="21.0" />
                      </font>
                   </Button>
-                  <Button fx:id="turnBatttleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="networked battle (turnBased)" wrapText="true">
-                     <font>
-                        <Font size="21.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="realBattleButton" layoutX="272.0" layoutY="10.0" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="networked battle (realTime)" wrapText="true">
+                  <Button fx:id="realBattleButton" layoutX="272.0" layoutY="10.0" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="networked battle " textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="21.0" />
                      </font>
