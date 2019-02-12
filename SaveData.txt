@@ -1,7 +1,7 @@
 {
   "score": 0,
   "position": {
-    "x": 10,
+    "x": 4,
     "y": 32
   },
   "pcTrainer": {
@@ -10,11 +10,11 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard28",
+        "name": "Charizard19",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
-        "curHp": 8,
+        "curHp": 153,
         "stats": {
           "level": {
             "curLevel": 50,
@@ -69,7 +69,7 @@
             "priority": 0,
             "accuracy": 100,
             "maxPp": 15,
-            "curPp": 13,
+            "curPp": 15,
             "animationData": {
               "imagePath": "Assets/Animations/11 - Copie.png",
               "duration": {
@@ -93,7 +93,7 @@
             "priority": 0,
             "accuracy": 999,
             "maxPp": 20,
-            "curPp": 17,
+            "curPp": 20,
             "animationData": {
               "imagePath": "Assets/Animations/4.png",
               "duration": {
@@ -115,7 +115,7 @@
         }
       },
       {
-        "name": "Blastoise4",
+        "name": "Blastoise42",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
@@ -220,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur6",
+        "name": "Venasaur35",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,

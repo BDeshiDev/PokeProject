@@ -28,7 +28,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <Button fx:id="BackButton" layoutX="227.0" layoutY="323.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="148.0" text="Back to Exploration" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="225.0">
+      <Button fx:id="BackButton" layoutX="225.0" layoutY="337.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="148.0" style="-fx-opacity: 3;" text="Back to Exploration" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="225.0">
          <font>
             <Font size="15.0" />
          </font>
