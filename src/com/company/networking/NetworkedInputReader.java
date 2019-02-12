@@ -22,8 +22,6 @@ class NetworkedInputReader implements  Runnable{
             try {
                 while(!readingEnemy.canStopReading){
                     String readLine = reader.readLine();
-                    if(readLine == null)
-                        break;
                     System.out.println("networker reads: " +readLine);
                     if(readLine.startsWith(BattleProtocol.AttackCommandHeader)){
                         String jsonToRead = readLine.substring(BattleProtocol.AttackCommandHeader.length());
@@ -39,8 +37,9 @@ class NetworkedInputReader implements  Runnable{
                         System.out.println("wrong message from networked opponent");
                         //readingEnemy.readFailed = true;
                 }}
-            }catch(Exception e){
+            }catch(IOException | NullPointerException e ){
                 e.printStackTrace();
+                readingEnemy.readFailed = true;
                 System.out.println("Failed to read enemy input from server");
             }
 

@@ -17,4 +17,10 @@ public class NetworkConnection {
             System.out.println("failed to setup connection");
         }
     }
+
+    public void close() throws  IOException{
+        socket.close();
+        writeToConnection.close();
+        readFromConnection.close();
+    }
 }

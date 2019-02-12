@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-class BattlePlayer{
+public class BattlePlayer{
     Tile curtile;
     Grid grid;
     boolean isOnLeft;

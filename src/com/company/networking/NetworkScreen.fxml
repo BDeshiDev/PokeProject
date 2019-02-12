@@ -17,6 +17,7 @@
                <children>
                   <Button fx:id="exitScreenButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="160.0" text="Go Back" />
                   <TextField fx:id="playerNameField" prefHeight="60.0" prefWidth="403.0" promptText="&quot;enter player name&quot;" />
+                  <Button fx:id="serverLaunchButton" mnemonicParsing="false" prefHeight="55.0" prefWidth="187.0" text="Launch Server" />
                </children>
                <VBox.margin>
                   <Insets right="40.0" />
@@ -85,9 +86,10 @@
                   <Pane>
                      <children>
                         <TextField fx:id="serverIPLabel" alignment="CENTER" layoutX="396.0" prefHeight="87.0" prefWidth="468.0" promptText="Enter ip address of server" />
+                        <Button fx:id="localButton" alignment="CENTER" layoutX="917.0" layoutY="18.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="180.0" text="Use localhost" />
                      </children>
                   </Pane>
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#findHost" prefHeight="61.0" prefWidth="180.0" text="Start" />
+                  <Button fx:id="StartButton" alignment="CENTER" mnemonicParsing="false" prefHeight="61.0" prefWidth="180.0" text="Start" />
                </children>
             </VBox>
          </children>

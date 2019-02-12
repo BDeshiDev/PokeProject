@@ -4,6 +4,7 @@ import com.company.Utilities.Animation.AnimationFactory;
 import com.company.Utilities.Animation.SpriteAnimation;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
+import com.company.networking.RealtimeNetworkScreen;
 import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.scene.media.Media;
@@ -14,22 +15,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class GridReader implements  Runnable{
+public class GridReader implements  Runnable{
     NetworkConnection nc;
     Grid playerGrid;
     Grid enemyGrid;
     BattlePlayer player;
     BattlePlayer enemy;
+    RealtimeNetworkScreen networkScreen;
 
     List<SpriteAnimation> currentlyPlayingAnimations = new ArrayList<>();// use this to stop playing animations when needed
 
 
-    public GridReader(NetworkConnection nc,BattlePlayer player,BattlePlayer enemy) {
+    public GridReader(NetworkConnection nc, BattlePlayer player, BattlePlayer enemy,  RealtimeNetworkScreen networkScreen) {
         this.nc = nc;
         this.enemy = enemy;
         this.player = player;
         this.playerGrid = player.grid;
         this.enemyGrid = enemy.grid;
+        this.networkScreen = networkScreen;
+
+        networkScreen.getPrimaryStage().setOnCloseRequest(event -> {
+            networkScreen.getPrimaryStage().setOnCloseRequest(null);
+            nc.writeToConnection.println(BattleProtocol.battleFailSignal);
+            try {
+                nc.close();
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("unable to close socket connection on client");
+            }
+        });
 
         player.init();
         enemy.init();
@@ -132,9 +146,15 @@ class GridReader implements  Runnable{
                 }
                 else if(readline.startsWith(BattleProtocol.WinSignal)){
                     System.out.println("you win");
+                    Platform.runLater(()->networkScreen.transitionToResults(1));
                     break;
                 }else if(readline.startsWith(BattleProtocol.LoseSignal)){
                     System.out.println("you lose");
+                    Platform.runLater(()->networkScreen.transitionToResults(-1));
+                    break;
+                }else if(readline.startsWith(BattleProtocol.battleFailSignal)){
+                    System.out.println("Battle cancelled");
+                    Platform.runLater(()->networkScreen.transitionToResults(0));
                     break;
                 }else{
                     System.out.println("wrong message format  "+ readline);

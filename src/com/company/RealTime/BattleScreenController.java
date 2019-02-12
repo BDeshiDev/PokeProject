@@ -1,20 +1,29 @@
 package com.company.RealTime;
 
 import com.company.BattleDisplayController;
+import com.company.PokeScreen;
+import com.company.SaveData;
+import com.company.Settings;
+import com.company.Utilities.Debug.Debugger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BattleScreenController {
+public class BattleScreenController implements PokeScreen {
     @FXML
     private Label NameLabel;
 
@@ -76,6 +85,12 @@ public class BattleScreenController {
 
     BattleDisplayController playerDisplay;
     BattleDisplayController enemyDisplay;
+
+    public Scene battleScene;
+    Stage primaryStage;
+    SaveData s;
+    PokeScreen prevScreen;
+
     public  void initialize(){
         playerDisplay = new BattleDisplayController(NameLabel,lvLabel,hpBar,hpLabel,iconPreview);
         enemyDisplay = new BattleDisplayController(NameLabel1,lvLabel1,hpBar1,hpLabel1,iconPreview1);
@@ -91,7 +106,6 @@ public class BattleScreenController {
                             setText(null);
                             setGraphic(null);
                         } else {
-                            // assume MyDataType.getSomeProperty() returns a string
                             ImageView iconImage = new ImageView(new Image(item.iconName));
                             //iconImage.setScaleX(.25);
                             //iconImage.setScaleY(.25);
@@ -109,6 +123,37 @@ public class BattleScreenController {
 
         lvLabel.setText("");//we won't have levels
         lvLabel1.setText("");
+    }
+
+    public BattleScreenController() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("BattleScreen.fxml"));
+        loader.setController(this);
+        try {
+            Parent root =loader.load();
+            battleScene =new Scene(root, Settings.windowWidth,Settings.windowLength);
+            Debugger.out("battle constructed");
+        }catch (IOException ioe){
+            System.out.println("couldn't create battle screen");
+            System.exit(-1);
+        }
+    }
+
+    @Override
+    public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
+        this.primaryStage = primaryStage;
+        this.prevScreen = prevScreen;
+        this.s=s;
+
+        primaryStage.setTitle("Real time battle");
+        primaryStage.setScene(battleScene);
+        primaryStage.show();
+    }
+
+    @Override
+    public void exitScreen() {
+        if(prevScreen == null)
+            System.exit(-5);
+        prevScreen.begin(primaryStage, s,null);
     }
 
     public ListView<MoveCardData> getCarcChoiceBox() {

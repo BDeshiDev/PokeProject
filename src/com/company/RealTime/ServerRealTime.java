@@ -15,46 +15,56 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ServerRealTime {
+
+    static  String hostName = "192.168.1.1";
+    static boolean isLocal = true;
+
     public static void main(String[] args) {
         try {
-            ServerSocket serverSocket = new ServerSocket(Settings.realTimePort, 10, InetAddress.getByName("192.168.1.1"));
+            ServerSocket serverSocket = new ServerSocket(Settings.realTimePort, 10, isLocal?InetAddress.getByName("127.0.0.1"):InetAddress.getByName(hostName));
             while (true){
-                Socket newClient= serverSocket.accept();
-                System.out.println("accepted 1");
-                Socket newClient2= serverSocket.accept();
-                System.out.println("accepted 2");
-                NetworkConnection p1 = new NetworkConnection(newClient);
-                NetworkConnection p2 = new NetworkConnection(newClient2);
-                //requst and transfer info
-                p1.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
-                p2.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
-                Gson gson = new Gson();
-                TrainerData t1Info = getTrainerData(p1,gson);
-                TrainerData t2Info = getTrainerData(p2,gson);
-
-                p1.writeToConnection.println(t2Info.toJsonData());
-                p2.writeToConnection.println(t1Info.toJsonData());
-
-                p1.writeToConnection.println(BattleProtocol.createMessage(new setIdMessage(1,2),BattleProtocol.setIdMessageHeader));
-                p2.writeToConnection.println(BattleProtocol.createMessage(new setIdMessage(2,1),BattleProtocol.setIdMessageHeader));
-
-                ConcurrentLinkedDeque<String> inputQueue = new ConcurrentLinkedDeque<>();
-                Timer simTimer = new Timer("simulation timer");
-                ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2,simTimer,FighterData.convertTrainerData(t1Info),FighterData.convertTrainerData(t2Info));
-
-                ServerReader serverThread1 = new ServerReader(p1,p2,inputQueue,1);
-                Thread st = new Thread(serverThread1);
-                st.start();
-                ServerReader serverThread2 = new ServerReader(p2,p1,inputQueue,2);
-                Thread st2 = new Thread(serverThread2);
-                st2.start();
+                createServers(serverSocket);
             }
         }catch (IOException ioe){
             ioe.printStackTrace();
             System.out.println("could not open server socket");
         }
+    }
+
+
+    public static  void createServers(ServerSocket ss) throws IOException{
+        Socket newClient= ss.accept();
+        System.out.println("accepted 1");
+        Socket newClient2= ss.accept();
+        System.out.println("accepted 2");
+        NetworkConnection p1 = new NetworkConnection(newClient);
+        NetworkConnection p2 = new NetworkConnection(newClient2);
+        //requst and transfer info
+        p1.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
+        p2.writeToConnection.println(BattleProtocol.TrainerInfoRequest);
+        Gson gson = new Gson();
+        TrainerData t1Info = getTrainerData(p1,gson);
+        TrainerData t2Info = getTrainerData(p2,gson);
+
+        p1.writeToConnection.println(t2Info.toJsonData());
+        p2.writeToConnection.println(t1Info.toJsonData());
+
+        p1.writeToConnection.println(BattleProtocol.createMessage(new setIdMessage(1,2),BattleProtocol.setIdMessageHeader));
+        p2.writeToConnection.println(BattleProtocol.createMessage(new setIdMessage(2,1),BattleProtocol.setIdMessageHeader));
+
+        ConcurrentLinkedDeque<String> inputQueue = new ConcurrentLinkedDeque<>();
+        Timer simTimer = new Timer("simulation timer");
+        ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2,simTimer,FighterData.convertTrainerData(t1Info),FighterData.convertTrainerData(t2Info));
+
+        ServerReader serverThread1 = new ServerReader(p1,p2,inputQueue,1);
+        Thread st = new Thread(serverThread1);
+        st.start();
+        ServerReader serverThread2 = new ServerReader(p2,p1,inputQueue,2);
+        Thread st2 = new Thread(serverThread2);
+        st2.start();
     }
 
     public static  TrainerData getTrainerData(NetworkConnection sender,Gson gson){
@@ -210,20 +220,22 @@ class ServerSimulationLoop extends TimerTask {
                             swapOrderReceiver.writeToConnection.println(SwapMessage.createSwapRequest(km.koId,false));
                             broadcastMessage(BattleProtocol.PauseOrderMessge);
                         }
-                    }else if (newMessage.startsWith(BattleProtocol.turnConfirmHeader)) {
-                        String jsonToParse = newMessage.substring(BattleProtocol.turnConfirmHeader.length());
-                        TurnConfirmMessage tcm = gson.fromJson(jsonToParse, TurnConfirmMessage.class);
-                        if(tcm!= null) {
-                            BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
-                            if(targetPlayer != null){
-                                System.out.println("removing " + targetPlayer.curFighter.name + " remaining " + waitList.size());
-                                if(tcm.selectedMoves.size()>0)
-                                    targetPlayer.resetTurn(tcm.selectedMoves.get(tcm.selectedMoves.size() -1).chooseCost);
-                            }
+                }else if (newMessage.startsWith(BattleProtocol.turnConfirmHeader)) {
+                    String jsonToParse = newMessage.substring(BattleProtocol.turnConfirmHeader.length());
+                    TurnConfirmMessage tcm = gson.fromJson(jsonToParse, TurnConfirmMessage.class);
+                    if(tcm!= null) {
+                        BattlePlayer targetPlayer = getPlayerFromTargetId(tcm.id);
+                        if(targetPlayer != null){
+                            System.out.println("removing " + targetPlayer.curFighter.name + " remaining " + waitList.size());
+                            if(tcm.selectedMoves.size()>0)
+                                targetPlayer.resetTurn(tcm.selectedMoves.get(tcm.selectedMoves.size() -1).chooseCost);
                         }
                     }
-                    else
-                        System.out.println("swap message parse fail");
+                }else if(newMessage.startsWith(BattleProtocol.battleFailSignal)){
+                    broadcastMessage(BattleProtocol.battleFailSignal);
+                    stopSimulation();
+                } else
+                    System.out.println("swap message parse fail");
                 if (messageToSend != null) {
                     broadcastMessage(newMessage);
                 }
@@ -316,6 +328,8 @@ class ServerReader implements  Runnable{
     ConcurrentLinkedDeque<String> inputQueue;
     int id;
 
+    AtomicBoolean hasReadFailed;
+
     public ServerReader(NetworkConnection p1, NetworkConnection p2, ConcurrentLinkedDeque<String> inputQueue, int id) {
         this.p1 = p1;
         this.p2 = p2;
@@ -335,9 +349,10 @@ class ServerReader implements  Runnable{
 
                 inputQueue.push(readLine);
             }
-            //System.out.println("closing socket");
+            // System.out.println("closing socket");
             // serverSocket.close();
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println("unable to get read in readThread#"+id);
         }
     }
