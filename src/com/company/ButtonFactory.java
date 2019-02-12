@@ -51,6 +51,27 @@ public class ButtonFactory {
         return button;
     }
 
+    public static Button getSwapButton(int width, int height, Pokemon p,Image image){
+        FXMLLoader loader=new FXMLLoader(ButtonFactory.class.getResource("swapbutton.fxml"));
+
+        Button button=null;
+        try {
+            button = loader.load();
+            button.setPrefHeight(height);
+            button.setPrefWidth(width);
+            AnchorPane anchorPane =(AnchorPane) button.getGraphic();
+            ImageView imageView=(ImageView)anchorPane.getChildren().get(0);
+            imageView.setImage(image);
+            Label label2=(Label)anchorPane.getChildren().get(1);
+            label2.setText(p.name);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return button;
+    }
+
+
     public static Button getMoveButton(int width, int height, Move m){
 
         FXMLLoader loader=new FXMLLoader(ButtonFactory.class.getResource("Buttons.fxml"));
