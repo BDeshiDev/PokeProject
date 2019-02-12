@@ -36,7 +36,7 @@ public class TestAIClient extends Application {
         TrainerData enemyData = null;
 
         Gson gson = new Gson();
-        Socket socket = new Socket(InetAddress.getLocalHost(),Settings.realTimePort);
+        Socket socket = new Socket("192.168.1.1",Settings.realTimePort);
         System.out.println("in ");
         NetworkConnection nc = new NetworkConnection(socket);
         String readLine = nc.readFromConnection.readLine();
