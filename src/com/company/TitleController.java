@@ -3,15 +3,20 @@ package com.company;
 import com.company.Exploration.PostBattleController;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
+import com.company.networking.NetworkController;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -31,14 +36,30 @@ public class TitleController implements PokeScreen {
     MediaPlayer mediaPlayer;
 
     @FXML
-    private BorderPane rootPane;
+    private Button turnBatttleButton;
+
+    @FXML
+    private StackPane stack;
+
+    @FXML
+    private Label titleName;
+
+    @FXML
+    private AnchorPane anchor;
+
+    @FXML
+    private Button realBattleButton;
 
     @FXML
     private Pane scrollParent;
 
+    @FXML
+    private Button StartButton;
+
     static Scene titleScene;
 
     ParallaxLayer testLayer;
+    NetworkController networkScree = new NetworkController(this);
 
     public TitleController()
     {
@@ -62,6 +83,11 @@ public class TitleController implements PokeScreen {
         curStage = primaryStage;
         this.curSave = s;
         String path = "src/Assets/titleBGM.mp3";
+
+        turnBatttleButton.setOnAction(event -> {
+            networkScree.begin(curStage,curSave,this);
+            mediaPlayer.stop();
+        });
 
         //Instantiating Media class
         Media media = new Media(new File(path).toURI().toString());

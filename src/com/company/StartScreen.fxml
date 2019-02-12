@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -21,11 +22,28 @@
                   <Font size="87.0" />
                </font>
             </Label>
-            <Button fx:id="StartButton" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="Start">
-               <font>
-                  <Font size="56.0" />
-               </font>
-            </Button>
+            <HBox alignment="CENTER" prefHeight="124.0" prefWidth="900.0" spacing="20.0">
+               <children>
+                  <Button fx:id="StartButton" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="Start New Game" wrapText="true">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="turnBatttleButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="networked battle (turnBased)" wrapText="true">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="realBattleButton" layoutX="272.0" layoutY="10.0" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="networked battle (realTime)" wrapText="true">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
          </children>
       </VBox>
    </children>

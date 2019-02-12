@@ -1,25 +1,32 @@
 package com.company.networking;
 
 import com.company.*;
+import com.company.Utilities.Debug.Debugger;
 import com.google.gson.Gson;
 import javafx.application.Platform;
+
+import java.io.IOException;
 import java.net.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class NetworkController {
+public class NetworkController implements  PokeScreen{
     Socket clientSocket;
     NetworkConnection clientConnection;
 
@@ -45,14 +52,72 @@ public class NetworkController {
     private TextField playerNameField;
 
     @FXML
-    private Label myIPLabel;
-
-    @FXML
     private TextField serverIPLabel;
 
+    @FXML
+    private ImageView iconView;
+
+    @FXML
+    private ImageView iconView1;
+
+    @FXML
+    private ImageView iconView5;
+
+    @FXML
+    private ImageView iconView4;
+
+    @FXML
+    private ImageView iconView3;
+
+    @FXML
+    private ImageView iconView2;
+
+    @FXML
+    private Button exitScreenButton;
+
+
     private Stage primaryStage;
+    Scene networkScene;
+    PokeScreen prevScreen;
+    SaveData curSave;
 
+    TitleController titleController;
 
+    public NetworkController(TitleController titleController) {
+        this.titleController= titleController;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NetworkScreen.fxml"));
+        loader.setController(this);
+        try {
+            networkScene =new Scene(loader.load(), Settings.windowWidth,Settings.windowLength);
+            Debugger.out("networkscene constructed");
+            exitScreenButton.setOnAction(event -> exitScreen());
+        }catch (IOException ioe){
+            System.out.println("couldn't create networkscene screen");
+            System.exit(-1);
+        }
+    }
+
+    @Override
+    public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
+        this.primaryStage = primaryStage;
+        this.curSave =s;
+        this.prevScreen = prevScreen;
+
+        primaryStage.setTitle("networkScreen");
+        primaryStage.setScene(networkScene);
+    }
+
+    @Override
+    public void exitScreen() {
+        System.out.println( "exiting");
+        if(titleController == null){
+            System.out.println("no prev screen");
+            System.exit(-1);
+        }else{
+            titleController.begin(primaryStage,curSave,null);
+        }
+    }
 
     TrainerData enemyData = null;
     TrainerData selectedTrainer = null;
@@ -71,9 +136,6 @@ public class NetworkController {
 
         SlotCheckBox1.getSelectionModel().selectFirst();
         SlotCheckBox2.getSelectionModel().selectFirst();
-
-        myIPLabel.setText("172.26.11.207");
-
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -86,7 +148,7 @@ public class NetworkController {
         }else{
             System.out.println("setting stage");
             sendMessage(BattleProtocol.battleStartSignal);
-            bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer, clientConnection),new NetworkedEnemy(enemyData,clientConnection));
+            bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer, clientConnection),new NetworkedEnemy(enemyData,clientConnection),this,null,curSave);
             enemyData = null;
             System.out.println("set stage");
         }

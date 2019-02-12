@@ -15,9 +15,9 @@ public class ServerThread implements  Runnable {
         this.serverSocket = serverSocket;
     }
 
-    public ServerThread() {
+    public ServerThread(boolean isLocal) {
         try {
-            serverSocket = new ServerSocket(portToUse, 10,InetAddress.getByName(wifiAddress));
+            serverSocket = new ServerSocket(portToUse, 10,isLocal? InetAddress.getByName(localHost):InetAddress.getByName(wifiAddress));
         }catch (Exception e){
             System.out.println("unable to create server");
         }

@@ -423,7 +423,11 @@ public class BattleController {
 
             if(postBattleScreen == null) {
                 System.out.println("postBattle screen is null... exiting battle screen");
-                System.exit(-555);
+                if(prevScreen == null) {
+                    System.out.println("prev screen null too");
+                    System.exit(-1);
+                }else
+                    prevScreen.begin(curStage,curSave,null);
             }
             else
                 postBattleScreen.begin(curStage,curSave,prevScreen);
@@ -440,7 +444,11 @@ public class BattleController {
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = false;
     }
-    public void begin(Stage curStage, NetworkedPlayer pcTrainer, NetworkedEnemy enemy) {
+    public void begin(Stage curStage, NetworkedPlayer pcTrainer, NetworkedEnemy enemy,PokeScreen prevScreen,PokeScreen postBattleScreen,SaveData curSave) {
+        this.prevScreen = prevScreen;
+        this.postBattleScreen = postBattleScreen;
+        this.curSave = curSave;
+
         beginPrep(curStage,pcTrainer,enemy);
         canRun = canUseItems = false;
     }

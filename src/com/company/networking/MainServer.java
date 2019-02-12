@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 public class MainServer {
     public static void main(String[] args) {
         try {
-            ServerThread serverThread = new ServerThread();
+            ServerThread serverThread = new ServerThread(true);
             Thread st =new Thread(serverThread);
             st.start();
         }catch(Exception e){
