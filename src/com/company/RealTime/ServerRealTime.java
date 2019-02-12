@@ -7,15 +7,13 @@ import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
 import com.company.networking.TrainerData;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -259,9 +257,29 @@ class ServerSimulationLoop extends TimerTask {
             }
         }
     }
-
+    //use this somewhere
     public void updateRecords(String p1,String p2,int battleResult,int time){
         BattleRecord newRecord = new BattleRecord(p1,p2,time,battleResult > 0? p1: (battleResult < 0 ? p2 : "none"));
+        Gson gson=new Gson();;
+
+        FileReader fr=null;
+        try {
+            fr=new FileReader(new File("src/BattleRecords"));
+        } catch (FileNotFoundException e) {
+            System.out.println("Cant load records file");
+        }
+        BattleRecord[]  datas=gson.fromJson(fr,BattleRecord[].class);
+        List<BattleRecord> finalRecords = new ArrayList<BattleRecord>(Arrays.asList(datas));
+        finalRecords.add(newRecord);
+        try {
+            JsonWriter writer = new JsonWriter(new FileWriter("src/BattleRecords"));
+            writer.setIndent("  ");
+            gson.toJson(finalRecords,finalRecords.getClass(), writer);
+            writer.flush();
+            writer.close();
+        }catch (IOException ioe){
+            System.out.println("write failed...");
+        }
         //continue here
     }
 
