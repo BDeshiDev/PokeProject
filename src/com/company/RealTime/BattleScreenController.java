@@ -19,6 +19,12 @@ public class BattleScreenController {
     private Label NameLabel;
 
     @FXML
+    private ImageView iconPreview1;
+
+    @FXML
+    private ImageView iconPreview;
+
+    @FXML
     private Pane gridViewParent;
     @FXML
     private VBox ChoiceBoxPane;
@@ -71,8 +77,8 @@ public class BattleScreenController {
     BattleDisplayController playerDisplay;
     BattleDisplayController enemyDisplay;
     public  void initialize(){
-        playerDisplay = new BattleDisplayController(NameLabel,lvLabel,hpBar,hpLabel);
-        enemyDisplay = new BattleDisplayController(NameLabel1,lvLabel1,hpBar1,hpLabel1);
+        playerDisplay = new BattleDisplayController(NameLabel,lvLabel,hpBar,hpLabel,iconPreview);
+        enemyDisplay = new BattleDisplayController(NameLabel1,lvLabel1,hpBar1,hpLabel1,iconPreview1);
 
         Callback<ListView<MoveCardData>, ListCell<MoveCardData>> cellFactory = new Callback<ListView<MoveCardData>, ListCell<MoveCardData>>() {
             @Override

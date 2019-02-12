@@ -1,8 +1,8 @@
 {
   "score": 0,
   "position": {
-    "x": 191,
-    "y": 83
+    "x": 61,
+    "y": 36
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -10,11 +10,11 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard0",
+        "name": "Charizard45",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
-        "curHp": 66,
+        "curHp": 153,
         "stats": {
           "level": {
             "curLevel": 50,
@@ -69,7 +69,7 @@
             "priority": 0,
             "accuracy": 100,
             "maxPp": 15,
-            "curPp": 13,
+            "curPp": 15,
             "animationData": {
               "imagePath": "Assets/Animations/11 - Copie.png",
               "duration": {
@@ -93,7 +93,7 @@
             "priority": 0,
             "accuracy": 999,
             "maxPp": 20,
-            "curPp": 19,
+            "curPp": 20,
             "animationData": {
               "imagePath": "Assets/Animations/4.png",
               "duration": {
@@ -115,11 +115,11 @@
         }
       },
       {
-        "name": "Blastoise20",
+        "name": "Blastoise29",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
-        "curHp": 94,
+        "curHp": 154,
         "stats": {
           "level": {
             "curLevel": 50,
@@ -174,7 +174,7 @@
             "priority": 0,
             "accuracy": 100,
             "maxPp": 15,
-            "curPp": 14,
+            "curPp": 15,
             "animationData": {
               "imagePath": "Assets/Animations/4.png",
               "duration": {
@@ -220,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur14",
+        "name": "Venasaur1",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,

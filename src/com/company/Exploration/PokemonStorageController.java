@@ -1,6 +1,8 @@
 package com.company.Exploration;
 
+import com.company.PokeScreen;
 import com.company.Pokemon.Pokemon;
+import com.company.SaveData;
 import com.company.Settings;
 import com.company.Utilities.Debug.Debugger;
 import javafx.collections.FXCollections;
@@ -8,6 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -18,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PokemonStorageController {
+public class PokemonStorageController implements PokeScreen {
     @FXML
     private HBox partyPane;
 
@@ -32,6 +35,37 @@ public class PokemonStorageController {
     public ArrayList<Pokemon> party;
 
     boolean wantsToExit;
+    PokeScreen prevScreen;
+    SaveData curSave;
+    Stage primaryStage;
+    Scene storageScene;
+
+    public PokemonStorageController() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PokemonStorageScreen.fxml"));
+        loader.setController(this);
+        try {
+            Parent root =loader.load();
+            storageScene =new Scene(root,Settings.windowWidth,Settings.windowLength);
+            Debugger.out("storage constructed");
+        }catch (IOException ioe){
+            System.out.println("couldn't create storage screen");
+            System.exit(-1);
+        }
+    }
+
+    @Override
+    public void begin(Stage primaryStage, SaveData s, PokeScreen prevScreen) {
+        curSave = s;
+        this.prevScreen = prevScreen;
+        this.primaryStage = primaryStage;
+        primaryStage.setScene(storageScene);
+        begin(primaryStage,s.pcTrainer.getParty());
+    }
+
+    @Override
+    public void exitScreen() {
+        prevScreen.begin(primaryStage,curSave,this);
+    }
 
     public void begin(Stage primaryStage, ArrayList<Pokemon> party){
         this.party = party;
@@ -110,7 +144,7 @@ public class PokemonStorageController {
     }
 
     public void tryToExit(){
-        wantsToExit = true;
+        exitScreen();
     }
 
     public boolean readyToExit(){

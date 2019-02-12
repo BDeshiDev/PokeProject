@@ -15,7 +15,7 @@ public class ServerThread implements  Runnable {
 
     public ServerThread() {
         try {
-            serverSocket = new ServerSocket(portToUse, 10, InetAddress.getLocalHost());
+            serverSocket = new ServerSocket(portToUse, 10,InetAddress.getByName("172.26.11.207"));
         }catch (Exception e){
             System.out.println("unable to create server");
         }

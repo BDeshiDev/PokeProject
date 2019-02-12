@@ -8,8 +8,6 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 import com.company.Pokemon.Pokemon;
-import com.company.Utilities.Animation.AnimationFactory;
-import com.company.Utilities.Animation.Tester.AnimationTester;
 import com.company.Utilities.Debug.Debugger;
 import com.company.Utilities.TextHandler.LineStream;
 import com.company.networking.NetworkedEnemy;

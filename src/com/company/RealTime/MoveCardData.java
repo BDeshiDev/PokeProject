@@ -2,8 +2,12 @@ package com.company.RealTime;
 
 import com.company.Pokemon.Moves.DamageType;
 import com.company.Pokemon.Type;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonWriter;
 import javafx.scene.Node;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,6 +73,17 @@ public class MoveCardData {
         cardMap.put(temp.attackName,temp);
         temp = getSlash();
         cardMap.put(temp.attackName,temp);
+
+//        Gson gson=new Gson();
+//       try {
+//         JsonWriter writer = new JsonWriter(new FileWriter("src/com/company/RealTime/MoveCardFactory"));
+//           writer.setIndent("  ");
+//           gson.toJson(cardMap.values(),cardMap.values().getClass(), writer);
+//            writer.flush();
+//            writer.close();
+//        }catch (IOException ioe){
+//            System.out.println("write failed...");
+//        }
     }
     public static MoveCardData  getCardByName(String name){
         return cardMap.getOrDefault(name,null);
