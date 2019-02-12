@@ -34,6 +34,11 @@
                         <Font size="21.0" />
                      </font>
                   </Button>
+                  <Button fx:id="recordsButton" layoutX="470.0" layoutY="10.0" mnemonicParsing="false" onAction="#Start" prefHeight="126.0" prefWidth="262.0" stylesheets="@../../pokemap/cssfiles/titleButton.css" text="Records" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets />

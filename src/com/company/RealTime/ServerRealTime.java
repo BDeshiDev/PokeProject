@@ -1,5 +1,7 @@
 package com.company.RealTime;
 
+import com.company.BattleRecord;
+import com.company.BattleRecordsController;
 import com.company.Settings;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
@@ -256,6 +258,11 @@ class ServerSimulationLoop extends TimerTask {
                 }
             }
         }
+    }
+
+    public void updateRecords(String p1,String p2,int battleResult,int time){
+        BattleRecord newRecord = new BattleRecord(p1,p2,time,battleResult > 0? p1: (battleResult < 0 ? p2 : "none"));
+        //continue here
     }
 
     public void updateTurn(BattlePlayer player, double amount){
