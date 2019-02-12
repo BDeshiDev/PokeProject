@@ -9,9 +9,9 @@ import pokemap.Position;
 * */
 public class SaveData {
     private int score;
-    public Position position;
+    public Position position = null;
     public pcTrainer pcTrainer;
-    public final  String mapName;
+    public  String mapName;
 
 
     public SaveData(Position position, pcTrainer pcTrainer, String mapName) {
@@ -33,7 +33,7 @@ public class SaveData {
     }
 
     public static SaveData newGameData(){
-        return new SaveData(new Position(36,36), new pcTrainer("Ash",PokemonFactory.getCharizard().toPokemon(),
+        return new SaveData(null, new pcTrainer("Ash",PokemonFactory.getCharizard().toPokemon(),
                 PokemonFactory.getBlastoise().toPokemon(),PokemonFactory.getVenasaur().toPokemon()),"src/pokemap/ForestMap.txt");
     }
 

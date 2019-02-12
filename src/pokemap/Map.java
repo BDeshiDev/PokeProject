@@ -3,6 +3,7 @@ package pokemap;
 import com.company.networking.TrainerData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonWriter;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,11 +16,11 @@ import java.util.Random;
 public class Map {
 
     Integer mapAra[][];
-    Image treeImage = new Image("Assets/MapImages/Temp/smallTree.png");
-    Image grassTile = new Image("Assets/MapImages/Temp/grassTile.png");
+    transient Image treeImage = new Image("Assets/MapImages/Temp/smallTree.png");
+    transient Image grassTile = new Image("Assets/MapImages/Temp/grassTile.png");
     public int tileSize ;
-    private static HashMap<Integer,String> imageMap;
-    Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
+    transient private static HashMap<Integer,String> imageMap;
+    transient Image emptyTileImage =new Image("Assets/MapImages/Temp/emptyTile.png");
 
     Position startPosition;
 
@@ -49,6 +50,9 @@ public class Map {
 
     public String[] possibleEncounters;
     public TrainerData[] trainerDatas;
+
+    EnemyEntity[] enemies;
+    MapTransitionEntity[] gates;
 
     static {
         FileReader reader=null;
@@ -82,6 +86,8 @@ public class Map {
         this.trainerDatas = map.trainerDatas;
         this.tileSize=map.tileSize;
         this.startPosition=map.startPosition;
+        this.enemies = map.enemies;
+        this.gates = map.gates;
     }
 
     public int getRow(int x){

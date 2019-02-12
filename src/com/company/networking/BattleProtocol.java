@@ -28,6 +28,7 @@ public class BattleProtocol{
    public static  String koMessage = "GOT_KO'D";
    public static  String TurnChargeHeader = "TURN_CHARGE_UPDATE";
    public static  String turnConfirmHeader = "TURN_CONFIRMED";
+   public static String battleFailSignal = "BATTLE_FAIL";
 
    public static Gson gson = new Gson();
 

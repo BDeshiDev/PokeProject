@@ -45,3 +45,8 @@
 .scroll-pane{
     -fx-background: rgba(255, 255, 255, 0.02);
 }
+
+#network{
+    -fx-background-image: url("images.png");
+    -fx-background-size: cover;
+}

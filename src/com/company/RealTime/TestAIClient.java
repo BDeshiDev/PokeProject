@@ -2,9 +2,13 @@ package com.company.RealTime;
 
 import com.company.Pokemon.PokemonSaveData;
 import com.company.Pokemon.Stats.Level;
+import com.company.SaveData;
 import com.company.Settings;
+import com.company.TitleController;
+import com.company.networkedPostBattle;
 import com.company.networking.BattleProtocol;
 import com.company.networking.NetworkConnection;
+import com.company.networking.RealtimeNetworkScreen;
 import com.company.networking.TrainerData;
 import com.google.gson.Gson;
 import javafx.application.Application;
@@ -24,19 +28,14 @@ public class TestAIClient extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("BattleScreen.fxml"));
-        Parent root = loader.load();
-        BattleScreenController controller=loader.getController();
-
-        primaryStage.setTitle("ai gridTest ");
-        primaryStage.setScene(new Scene(root,1200,800));
-        primaryStage.show();
+        BattleScreenController controller = new BattleScreenController();
+        controller.begin(primaryStage, SaveData.newGameData(),new TitleController());
 
         TrainerData trainerData = new TrainerData("Gory",new PokemonSaveData("Pikachu", Level.maxLevel),new PokemonSaveData("Charizard", Level.maxLevel));
         TrainerData enemyData = null;
 
         Gson gson = new Gson();
-        Socket socket = new Socket("192.168.1.1",Settings.realTimePort);
+        Socket socket = new Socket("127.0.0.1",Settings.realTimePort);
         System.out.println("in ");
         NetworkConnection nc = new NetworkConnection(socket);
         String readLine = nc.readFromConnection.readLine();
@@ -54,7 +53,7 @@ public class TestAIClient extends Application {
         NetworkedGridAI ai = new NetworkedGridAI(grid,true,nc ,controller.getPlayerDisplay(),controller.getTurnBar(),playerParty);
 
         BattlePlayer enemy = new BattlePlayer(new ImageView(),grid,false,controller.getEnemyDisplay(),enemyParty);
-        GridReader reader = new GridReader(nc,ai,enemy);
+        GridReader reader = new GridReader(nc,ai,enemy,new RealtimeNetworkScreen(new TitleController(),new networkedPostBattle()));
         new Thread(reader).start();
     }
 

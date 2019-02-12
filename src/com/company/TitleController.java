@@ -3,27 +3,26 @@ package com.company;
 import com.company.Exploration.PostBattleController;
 import com.company.Pokemon.Pokemon;
 import com.company.Utilities.Debug.Debugger;
-import javafx.animation.AnimationTimer;
+import com.company.networking.NetworkedPlayer;
+import com.company.networking.RealtimeNetworkScreen;
+import com.company.networking.turnedNetWorkController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import pokemap.MergedExploration;
-import sun.security.util.Length;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
 
 public class TitleController implements PokeScreen {
     private Stage curStage;
@@ -31,14 +30,34 @@ public class TitleController implements PokeScreen {
     MediaPlayer mediaPlayer;
 
     @FXML
-    private BorderPane rootPane;
+    private Button turnBatttleButton;
+
+    @FXML
+    private StackPane stack;
+
+    @FXML
+    private Label titleName;
+
+    @FXML
+    private AnchorPane anchor;
+
+    @FXML
+    private Button realBattleButton;
 
     @FXML
     private Pane scrollParent;
 
+    @FXML
+    private Button StartButton;
+
+    MergedExploration me = new MergedExploration(this);
+
     static Scene titleScene;
 
     ParallaxLayer testLayer;
+    turnedNetWorkController networkScree = new turnedNetWorkController(this);
+    networkedPostBattle networkedPostBattle = new networkedPostBattle();
+    RealtimeNetworkScreen realNetwork = new RealtimeNetworkScreen(this,networkedPostBattle);
 
     public TitleController()
     {
@@ -63,6 +82,16 @@ public class TitleController implements PokeScreen {
         this.curSave = s;
         String path = "src/Assets/titleBGM.mp3";
 
+        turnBatttleButton.setOnAction(event -> {
+            networkScree.begin(curStage,curSave,this);
+            mediaPlayer.stop();
+        });
+
+        realBattleButton.setOnAction(event -> {
+            realNetwork.begin(curStage,curSave,this);
+            mediaPlayer.stop();
+        });
+
         //Instantiating Media class
         Media media = new Media(new File(path).toURI().toString());
 
@@ -83,7 +112,6 @@ public class TitleController implements PokeScreen {
     }
 
     public void Start(){
-        MergedExploration me = new MergedExploration(this);
         me.begin(curStage,curSave,this);
         mediaPlayer.stop();
         testLayer.stop();

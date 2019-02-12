@@ -1,11 +1,19 @@
 package com.company.networking;
-import com.company.AttackCommand;
-import com.company.BattleCommand;
+import com.company.*;
 import com.company.Pokemon.Moves.Move;
 import com.company.Pokemon.Pokemon;
-import com.company.pcTrainer;
+import com.company.Pokemon.PokemonSaveData;
+import com.company.Pokemon.Stats.Level;
+import com.company.RealTime.*;
+import com.google.gson.Gson;
+import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Collection;
+import java.util.List;
 
 public class NetworkedPlayer extends pcTrainer {
     PrintWriter writer;
@@ -43,3 +51,4 @@ public class NetworkedPlayer extends pcTrainer {
             writer.println(battleCommand.toJsonData());
     }
 }
+

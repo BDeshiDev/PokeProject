@@ -3,55 +3,45 @@ package com.company.networking;
 import com.company.*;
 import com.google.gson.Gson;
 import javafx.application.Platform;
+
+import java.io.IOException;
 import java.net.*;
 import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class NetworkController {
+public class turnedNetWorkController extends  NetWorkController{
     Socket clientSocket;
     NetworkConnection clientConnection;
 
-    @FXML
-    private ComboBox<String> SlotCheckBox1;
 
-    @FXML
-    private ComboBox<String> SlotCheckBox2;
+    public  Stage primaryStage;
+    Scene networkScene;
+    PokeScreen prevScreen;
+    SaveData curSave;
 
-    @FXML
-    private ComboBox<String> SlotCheckBox3;
+    TitleController titleController;
 
-    @FXML
-    private ComboBox<String> SlotCheckBox4;
+    public turnedNetWorkController(TitleController titleController) {
+        super(titleController);;
+    }
 
-    @FXML
-    private ComboBox<String> SlotCheckBox5;
 
-    @FXML
-    private ComboBox<String> SlotCheckBox6;
 
-    @FXML
-    private TextField playerNameField;
-
-    @FXML
-    private Label myIPLabel;
-
-    @FXML
-    private TextField serverIPLabel;
-
-    private Stage primaryStage;
-
+    public void launchServer(){
+        System.out.println("launch server");
+        new Thread(()->{
+        try {
+            ServerThread.createServer(true);
+            System.out.println("server completed");
+        }catch (IOException sfe){
+            System.out.println("server fail on this client");
+        }
+        }).start();
+    }
 
 
     TrainerData enemyData = null;
@@ -60,20 +50,18 @@ public class NetworkController {
     BattleController bc = new BattleController();;
 
     @FXML
+    @Override
     public void initialize() {
         Collection<String> nameStrings = PokemonFactory.getAllMonsByName();
-        SlotCheckBox1.getItems().addAll(nameStrings);
-        SlotCheckBox2.getItems().addAll(nameStrings);
-        SlotCheckBox3.getItems().addAll(nameStrings);
-        SlotCheckBox4.getItems().addAll(nameStrings);
-        SlotCheckBox5.getItems().addAll(nameStrings);
-        SlotCheckBox6.getItems().addAll(nameStrings);
+        getSlotCheckBox1().getItems().addAll(nameStrings);
+        getSlotCheckBox2().getItems().addAll(nameStrings);
+        getSlotCheckBox3().getItems().addAll(nameStrings);
+        getSlotCheckBox4().getItems().addAll(nameStrings);
+        getSlotCheckBox5().getItems().addAll(nameStrings);
+        getSlotCheckBox6().getItems().addAll(nameStrings);
 
-        SlotCheckBox1.getSelectionModel().selectFirst();
-        SlotCheckBox2.getSelectionModel().selectFirst();
-
-        myIPLabel.setText("172.26.11.207");
-
+        getSlotCheckBox1().getSelectionModel().selectFirst();
+        getSlotCheckBox2().getSelectionModel().selectFirst();
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -86,33 +74,22 @@ public class NetworkController {
         }else{
             System.out.println("setting stage");
             sendMessage(BattleProtocol.battleStartSignal);
-            bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer, clientConnection),new NetworkedEnemy(enemyData,clientConnection));
+            bc.begin(primaryStage,new NetworkedPlayer(selectedTrainer, clientConnection),new NetworkedEnemy(enemyData,clientConnection),this,null,curSave);
             enemyData = null;
             System.out.println("set stage");
         }
     }
 
-    public void sendMessage(String messageToSend){
-        if(clientConnection == null){
-            System.out.println("connect first");
-            return;
-        }
-        try {
-            clientConnection.writeToConnection.println(messageToSend);
-            System.out.println("message sent");
-        }catch (Exception e){
-            System.out.println("send fail");
-        }
-    }
 
     public void findHost(){
+        System.out.println("finding host");
             try {
-                clientSocket = new Socket(serverIPLabel.getText(),ServerThread.portToUse);
+                clientSocket = new Socket(getServerIPLabel().getText(),ServerThread.portToUse);
                 clientConnection  = new NetworkConnection(clientSocket);
                 Gson gson = new Gson();
 
-                selectedTrainer = new TrainerData(playerNameField.getText(),SlotCheckBox1.getValue(),SlotCheckBox2.getValue(),SlotCheckBox3.getValue()
-                        ,SlotCheckBox4.getValue(),SlotCheckBox5.getValue(),SlotCheckBox6.getValue());
+                selectedTrainer = new TrainerData(getPlayerNameField().getText(),getSlotCheckBox1().getValue(),getSlotCheckBox2().getValue(),getSlotCheckBox3().getValue()
+                        ,getSlotCheckBox4().getValue(),getSlotCheckBox5().getValue(),getSlotCheckBox6().getValue());
 
                 Task readTask =new Task() {
                     @Override
@@ -141,9 +118,12 @@ public class NetworkController {
                 Thread rt = new Thread(readTask);
                 rt.setDaemon(true);
                 rt.start();
-            }catch(Exception e) {
-                e.printStackTrace();
+            }catch(UnknownHostException uoe) {
+                uoe.printStackTrace();
                 System.out.println("couldn't find host");
+            }catch(IOException ioe) {
+                ioe.printStackTrace();
+                System.out.println("client io error");
             }
     }
 }

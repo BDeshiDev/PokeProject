@@ -12,9 +12,7 @@ import javafx.scene.image.ImageView;
 import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 public class FighterData {
@@ -75,8 +73,12 @@ public class FighterData {
 //            System.out.println("write failed...");
 //        }
     }
+
+    public static Collection<String> getAll(){
+        return fighterMap.keySet();
+    }
     public  static  FighterData getByName(String name){
-        if(fighterMap.containsKey(name))
+        if(name != null && fighterMap.containsKey(name))
             return  new FighterData(fighterMap.get(name));
         return null;
     }
@@ -92,7 +94,7 @@ public class FighterData {
             if(fd!= null)
                 retVal.add(fd);
             else
-                System.err.println("pokemon name " + ps.name + " has no fighter data");
+                System.out.println("pokemon name " + ps.name + " has no fighter data");
         }
         return  retVal;
     }

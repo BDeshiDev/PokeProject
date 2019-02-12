@@ -1,22 +1,16 @@
 package com.company.networking;
 
-import com.company.PokeTab;
-import com.company.Settings;
+import com.company.SaveData;
+import com.company.TitleController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class NetworkTester extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("NetworkScreen.fxml"));
-        Scene scene=new Scene(loader.load(), Settings.windowWidth,Settings.windowLength);
-        NetworkController nc = loader.getController();
-        nc.setPrimaryStage(primaryStage);
-        primaryStage.setTitle("networkTest");
-        primaryStage.setScene(scene);
+        turnedNetWorkController nc = new turnedNetWorkController(new TitleController());
+        nc.begin(primaryStage, SaveData.newGameData(),null);
+        primaryStage.setTitle("networkScreen");
         primaryStage.show();
     }
 

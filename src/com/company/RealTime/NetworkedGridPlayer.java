@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-class NetworkedGridPlayer extends  GridPlayer{
+ public class NetworkedGridPlayer extends  GridPlayer{
     NetworkConnection connection;
 
     public NetworkedGridPlayer(ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
