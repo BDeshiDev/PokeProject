@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="savebtton" mnemonicParsing="false" text="save" />
+      <Button fx:id="loadbutton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="load" />
+      <Button fx:id="storebutton" layoutX="10.0" layoutY="41.0" mnemonicParsing="false" text="storage" />
+      <Button fx:id="exitButton" layoutX="10.0" layoutY="72.0" mnemonicParsing="false" text="exit" />
+   </children>
+</VBox>
