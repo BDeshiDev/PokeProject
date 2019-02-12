@@ -17,12 +17,12 @@ import java.io.File;
 import java.util.Timer;
 
 public class ExicuteMap extends Application {
-    Map forestMap=new Map(new File("src/pokemap/villagemap.txt"));
+    Map forestMap=new Map(new File("src/pokemap/ForestMap.txt"));
     Entity player=new Entity(new Position(20,20),
             new ImageView("Assets/MapImages/heroleft.png"));
 //    Entity mass1=new Entity(new Position(46,36),
 //            new ImageView("Assets/MapImages/heroup.png"));
-    EnemyEntity enemy=new EnemyEntity(new TrainerData("gfgfg","Carizard"),new Position(36,36),new ImageView("Assets/MapImages/heroleft.png"));
+    EnemyEntity enemy=new EnemyEntity(new TrainerData("gfgfg","Charizard"),new Position(36,36),new ImageView("Assets/MapImages/heroleft.png"));
 
     boolean run,up,down,left,right;
     Directions direction;
@@ -99,14 +99,10 @@ public class ExicuteMap extends Application {
                 Long timenow=System.currentTimeMillis();
                 timeDelta=timenow-previousTime;
 
-                if(timeDelta>=500L){
-                    enemy.setRandomDirection();
-                    previousTime=System.currentTimeMillis();
-                }
-
-
              player.Shift(forestMap,dx,dy,direction);
-             enemy.Shift(forestMap,enemy.getRandomDx(),enemy.getRandomDy(),enemy.getRandomDirection());
+
+             enemy.tryDirChange();
+             enemy.randomShift(forestMap);
              if(Math.abs(player.getEntityPosition().getX()-enemy.getEntityPosition().getX())==1 ||
                      Math.abs(player.getEntityPosition().getY()-enemy.getEntityPosition().getY())==1)
                  System.out.println("Fight Fight");

@@ -3,6 +3,7 @@ package pokemap;
 import com.company.*;
 import com.company.Exploration.*;
 import com.company.Utilities.Debug.Debugger;
+import com.company.networking.TrainerData;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
 import javafx.animation.AnimationTimer;
@@ -36,6 +37,8 @@ public class MergedExploration extends Application implements  PokeScreen{
     String explorationBGM = "src/Assets/mapBGM.mp3";
 
     PlayerEntity player;
+    EnemyEntity enemy=new EnemyEntity(new TrainerData("gfgfg","Charizard"),new Position(36,36),new ImageView("Assets/MapImages/heroleft.png"));
+
     MediaPlayer mediaPlayer;
 
     boolean run,up,down,left,right;
@@ -74,7 +77,10 @@ public class MergedExploration extends Application implements  PokeScreen{
 
         System.out.println(currentSave.mapName);
         forestMap =new Map(new File(currentSave.mapName));
+        if(currentSave.position == null)
+            currentSave.position = forestMap.startPosition;
         player =new PlayerEntity(currentSave, new ImageView());
+        //player.setEntityPosition(forestMap.getStartPosition());
         player.resetProbablity();
 
         Group group=forestMap.setMap();
@@ -123,6 +129,8 @@ public class MergedExploration extends Application implements  PokeScreen{
     }
 
     AnimationTimer timer=new AnimationTimer() {
+        int enemyBattleCooldown = 60*10;
+        int enemyBattleTimer = 0;
         @Override
         public void handle(long now) {
             int dx=0,dy=0;
@@ -134,7 +142,17 @@ public class MergedExploration extends Application implements  PokeScreen{
                 dx *= runSpeed;
                 dy *= runSpeed;
             }
+
+            enemyBattleTimer++;
             player.Shift(forestMap,dx,dy,direction);
+
+            enemy.tryDirChange();
+            enemy.randomShift(forestMap);
+            if(Math.abs(player.getEntityPosition().getX()-enemy.getEntityPosition().getX())==1 ||
+                    Math.abs(player.getEntityPosition().getY()-enemy.getEntityPosition().getY())==1 &&
+                    enemyBattleTimer >= enemyBattleCooldown)
+                System.out.println("Fight Fight");
+
             if(player.gettingPokemonProbability(forestMap) >=1){
                 player.resetProbablity();
                 save();
@@ -154,6 +172,8 @@ public class MergedExploration extends Application implements  PokeScreen{
                     }
                 }
             }
+
+
         }
     };
     EventHandler<KeyEvent> pressEvent = new EventHandler<KeyEvent>() {
@@ -195,6 +215,7 @@ public class MergedExploration extends Application implements  PokeScreen{
     };
 
     public void goToStorage(){
+        stopExploration();
         storageController.begin(primaryStage,currentSave,this);
     }
 

@@ -50,6 +50,8 @@ public class TitleController implements PokeScreen {
     @FXML
     private Button StartButton;
 
+    MergedExploration me = new MergedExploration(this);
+
     static Scene titleScene;
 
     ParallaxLayer testLayer;
@@ -110,7 +112,6 @@ public class TitleController implements PokeScreen {
     }
 
     public void Start(){
-        MergedExploration me = new MergedExploration(this);
         me.begin(curStage,curSave,this);
         mediaPlayer.stop();
         testLayer.stop();

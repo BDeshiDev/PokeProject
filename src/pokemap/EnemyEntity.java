@@ -10,6 +10,9 @@ import java.util.Random;
 public class EnemyEntity extends Entity {
     TrainerData trainerData;
     Directions dir;
+    int dirChangeTimer = 0;
+    int dirChangeCooldown = 0;
+
 
     public EnemyEntity(TrainerData trainerData, Position entityPosition, ImageView imageOfEntity) {
         super(entityPosition, imageOfEntity);
@@ -25,6 +28,18 @@ public class EnemyEntity extends Entity {
         else if (randomInt==2) dir=Directions.UP;
         else if(randomInt==3) dir=Directions.DOWN;
         else dir=null;
+    }
+
+    public void tryDirChange(){
+        dirChangeTimer++;
+        if(dirChangeTimer >= dirChangeCooldown){
+            dirChangeTimer = 0;
+            setRandomDirection();
+        }
+    }
+
+    public void randomShift(Map forestMap){
+        Shift(forestMap,getRandomDx(),getRandomDy(),getRandomDirection());
     }
 
     public int getRandomDx() {
