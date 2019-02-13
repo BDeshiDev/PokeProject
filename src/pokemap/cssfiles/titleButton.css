@@ -39,7 +39,7 @@
     -fx-background-color: #88c87a;
 }
 #endBattleScreen{
-    -fx-background-image: url("endpage.gif");
+    -fx-background-image: url("th.jpeg");
     -fx-background-size: cover;
 }
 .scroll-pane{
@@ -50,3 +50,8 @@
     -fx-background-image: url("images.png");
     -fx-background-size: cover;
 }
+#record{
+    -fx-background-image: url("rec.jpeg");
+    -fx-background-size: cover;
+}
+
