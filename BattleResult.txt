@@ -2,5 +2,88 @@
   "totalXp": 500,
   "playerWon": true,
   "hasRun": false,
-  "caughtMons": []
+  "caughtMons": [
+    {
+      "name": "Charmander",
+      "t1": "Fire",
+      "t2": "None",
+      "uniqueId": 8,
+      "curHp": 114,
+      "stats": {
+        "level": {
+          "curLevel": 50,
+          "curXP": 0,
+          "xpToNext": 100000
+        },
+        "maxHp": {
+          "realVal": 114.0,
+          "baseVal": 12,
+          "CurVal": 114,
+          "MaxVal": 114
+        },
+        "attack": {
+          "realVal": 72.0,
+          "baseVal": 6,
+          "CurVal": 72,
+          "MaxVal": 72
+        },
+        "defence": {
+          "realVal": 63.0,
+          "baseVal": 6,
+          "CurVal": 63,
+          "MaxVal": 63
+        },
+        "spAttack": {
+          "realVal": 83.0,
+          "baseVal": 7,
+          "CurVal": 83,
+          "MaxVal": 83
+        },
+        "spDefence": {
+          "realVal": 70.0,
+          "baseVal": 7,
+          "CurVal": 70,
+          "MaxVal": 70
+        },
+        "speed": {
+          "realVal": 85.0,
+          "baseVal": 7,
+          "CurVal": 85,
+          "MaxVal": 85
+        }
+      },
+      "frontImage": "Assets/PokemonImages/HdImages/CharmanderHD.png",
+      "canFight": false,
+      "moves": [
+        {
+          "name": "Flame Thrower",
+          "type": "Fire",
+          "damageType": "Special",
+          "power": 85,
+          "priority": 0,
+          "accuracy": 100,
+          "maxPp": 15,
+          "curPp": 15,
+          "animationData": {
+            "imagePath": "Assets/Animations/11 - Copie.png",
+            "duration": {
+              "millis": 500.0
+            },
+            "count": 4,
+            "maxLoops": 1,
+            "columns": 4,
+            "offsetX": 0,
+            "offsetY": 0,
+            "width": 82,
+            "height": 100
+          },
+          "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+        }
+      ],
+      "evoData": {
+        "monToEvolveTo": "Charmeleon",
+        "lvRequirement": 16
+      }
+    }
+  ]
 }

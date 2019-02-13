@@ -1,8 +1,8 @@
 {
   "score": 0,
   "position": {
-    "x": 87,
-    "y": 28
+    "x": 12,
+    "y": 32
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -107,7 +107,55 @@
               "width": 102,
               "height": 100
             },
+            "sfxName": "src/Assets/SFX/Slam.mp3"
+          },
+          {
+            "name": "Fire Blast",
+            "type": "Fire",
+            "damageType": "Special",
+            "power": 120,
+            "priority": 0,
+            "accuracy": 100,
+            "maxPp": 20,
+            "curPp": 20,
+            "animationData": {
+              "imagePath": "Assets/Animations/11 - Copie.png",
+              "duration": {
+                "millis": 500.0
+              },
+              "count": 4,
+              "maxLoops": 1,
+              "columns": 4,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 82,
+              "height": 100
+            },
             "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+          },
+          {
+            "name": "Wing Attack",
+            "type": "Flying",
+            "damageType": "Physical",
+            "power": 80,
+            "priority": 0,
+            "accuracy": 100,
+            "maxPp": 20,
+            "curPp": 20,
+            "animationData": {
+              "imagePath": "Assets/Animations/wind.png",
+              "duration": {
+                "millis": 700.0
+              },
+              "count": 5,
+              "maxLoops": 1,
+              "columns": 5,
+              "offsetX": 0,
+              "offsetY": 0,
+              "width": 73,
+              "height": 81
+            },
+            "sfxName": "src/Assets/SFX/Slam.mp3"
           }
         ],
         "evoData": {
@@ -176,19 +224,19 @@
             "maxPp": 15,
             "curPp": 15,
             "animationData": {
-              "imagePath": "Assets/Animations/4.png",
+              "imagePath": "Assets/Animations/ice.png",
               "duration": {
-                "millis": 500.0
+                "millis": 700.0
               },
               "count": 5,
               "maxLoops": 1,
               "columns": 5,
               "offsetX": 0,
               "offsetY": 0,
-              "width": 102,
-              "height": 100
+              "width": 81,
+              "height": 72
             },
-            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/Water Gun.mp3"
           },
           {
             "name": "Slam",
@@ -200,19 +248,19 @@
             "maxPp": 10,
             "curPp": 10,
             "animationData": {
-              "imagePath": "Assets/Animations/4.png",
+              "imagePath": "Assets/Animations/wind.png",
               "duration": {
-                "millis": 500.0
+                "millis": 700.0
               },
               "count": 5,
               "maxLoops": 1,
               "columns": 5,
               "offsetX": 0,
               "offsetY": 0,
-              "width": 102,
-              "height": 100
+              "width": 73,
+              "height": 81
             },
-            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/Slam.mp3"
           }
         ],
         "evoData": {
@@ -293,7 +341,7 @@
               "width": 102,
               "height": 100
             },
-            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/Vine Whip.mp3"
           },
           {
             "name": "Slam",
@@ -305,19 +353,19 @@
             "maxPp": 10,
             "curPp": 10,
             "animationData": {
-              "imagePath": "Assets/Animations/4.png",
+              "imagePath": "Assets/Animations/wind.png",
               "duration": {
-                "millis": 500.0
+                "millis": 700.0
               },
               "count": 5,
               "maxLoops": 1,
               "columns": 5,
               "offsetX": 0,
               "offsetY": 0,
-              "width": 102,
-              "height": 100
+              "width": 73,
+              "height": 81
             },
-            "sfxName": "src/Assets/SFX/FlamethrowerSFX.mp3"
+            "sfxName": "src/Assets/SFX/Slam.mp3"
           }
         ],
         "evoData": {
@@ -327,5 +375,5 @@
     ],
     "name": "Ash"
   },
-  "mapName": "src/pokemap/ForestMap.txt"
+  "mapName": "src/pokemap/villagemap.txt"
 }
