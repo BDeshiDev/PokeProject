@@ -105,29 +105,38 @@
             <Pane fx:id="PlayerGridParent" layoutX="161.0" layoutY="252.0" prefHeight="384.0" prefWidth="550.0" AnchorPane.bottomAnchor="164.0" AnchorPane.leftAnchor="161.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="252.0" />
             <VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="880.0" spacing="30.0" style="-: #5c6c7c;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
                <children>
-                  <VBox fx:id="ChoiceBoxPane" alignment="TOP_CENTER" disable="true" maxHeight="880.0" maxWidth="880.0" prefHeight="517.0" prefWidth="880.0" spacing="10.0" style="-fx-background-color: rgba(132,154,178,0.16);" visible="false">
+                  <StackPane>
                      <children>
-                        <Label text="Make your choice" textFill="WHITE">
-                           <font>
-                              <Font name="Consolas" size="26.0" />
-                           </font>
-                        </Label>
-                        <Label prefHeight="43.0" prefWidth="155.0" text="Swap with:" textFill="WHITE">
-                           <font>
-                              <Font size="25.0" />
-                           </font>
-                        </Label>
-                        <FlowPane fx:id="SwapParentPane" alignment="CENTER" columnHalignment="CENTER" hgap="50.0" prefHeight="182.0" prefWidth="780.0" vgap="30.0">
+                        <ImageView fx:id="loadingImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../../../Assets/loadingFinal.gif" />
+                           </image>
+                        </ImageView>
+                        <VBox fx:id="ChoiceBoxPane" alignment="TOP_CENTER" disable="true" maxHeight="880.0" maxWidth="880.0" prefHeight="517.0" prefWidth="880.0" spacing="10.0" style="-fx-background-color: rgba(132,154,178,0.16);" visible="false">
+                           <children>
+                              <Label text="Make your choice" textFill="WHITE">
+                                 <font>
+                                    <Font name="Consolas" size="26.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="43.0" prefWidth="155.0" text="Swap with:" textFill="WHITE">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Label>
+                              <FlowPane fx:id="SwapParentPane" alignment="CENTER" columnHalignment="CENTER" hgap="50.0" prefHeight="182.0" prefWidth="780.0" vgap="30.0">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </FlowPane>
+                              <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
+                           </children>
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="10.0" top="10.0" />
                            </padding>
-                        </FlowPane>
-                        <Button fx:id="exitButton" mnemonicParsing="false" text="Exit" />
+                        </VBox>
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
+                  </StackPane>
                   <HBox prefHeight="199.0" prefWidth="880.0">
                      <children>
                         <HBox fx:id="slectedCardParent" alignment="CENTER_LEFT" prefHeight="197.0" prefWidth="602.0" style="-fx-background-color: rgba(255,255,255,0.31);" />

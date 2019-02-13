@@ -61,9 +61,9 @@ public class FighterData {
         fighterMap.put(temp.name,temp);
         temp = getDummy2();
         fighterMap.put(temp.name,temp);
-        fighterMap.put("Blastoise",new FighterData(3,4,4,4,2,250,"Blastoise","Assets/PokemonImages/PoGoImages/balsto.png","Assets/PokemonImages/HdImages/BlastoiseHD.png",
+        fighterMap.put("Blastoise",new FighterData(3,4,4,4,2,250,"Blastoise","Assets/PokemonImages/PoGoImages/balsto.png","Assets/PokemonImages/icons/pokemons/blastIcon.png",
                 Type.Water,Type.None,"Water Gun","Surf","Ice beam","Slam","Punch"));
-        fighterMap.put("Venasaur",new FighterData(4,3,4,4,3,200,"Venasaur","Assets/PokemonImages/PoGoImages/vena.png","Assets/PokemonImages/HdImages/venasaurHD.png",
+        fighterMap.put("Venasaur",new FighterData(4,3,4,4,3,200,"Venasaur","Assets/PokemonImages/PoGoImages/vena.png","Assets/PokemonImages/icons/pokemons/venaIcon.png",
                 Type.Grass,Type.Poison,"Vine Whip","Vine Storm","Slam","Poison Needle"));
         fighterMap.put("Beedrill",new FighterData(5,2,2,3,4,140,"Beedrill","Assets/PokemonImages/PoGoImages/drill.png","Assets/PokemonImages/icons/pokemons/Breedril--.png",
                 Type.Bug,Type.Poison,"Poison sting","WhirlWind","Aerial Ace","Poison Needle"));
@@ -119,7 +119,7 @@ public class FighterData {
     }
     public static FighterData getDummy1(){
         return  new FighterData(4,3,5,3,4,180,"Charizard", "Assets/PokemonImages/PoGoImages/charz3d.png",
-                "Assets/PokemonImages/HdImages/CharizardHD.png",
+                "Assets/PokemonImages/icons/pokemons/CharzIcon.png",
                 Type.Fire,Type.Flying,"Ember","Flame Thrower","Slash","Punch","Aerial Ace","WhirlWind");
     }
 

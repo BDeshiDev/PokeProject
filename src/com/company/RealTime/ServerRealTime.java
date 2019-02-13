@@ -24,14 +24,20 @@ public class ServerRealTime {
 
     public static void main(String[] args) {
         try {
-            ServerSocket serverSocket = new ServerSocket(Settings.realTimePort, 10, isLocal?InetAddress.getByName("127.0.0.1"):InetAddress.getByName(hostName));
+            ServerSocket serverSocket = new ServerSocket(Settings.realTimePort, 10, isLocal ? InetAddress.getByName("127.0.0.1") : InetAddress.getByName(hostName));
             while (true){
-                createServers(serverSocket);
+                try {
+                    createServers(serverSocket);
+                }catch (IOException ioe){
+                    ioe.printStackTrace();
+                    System.out.println("could not open server socket");
+                }
             }
         }catch (IOException ioe){
-            ioe.printStackTrace();
-            System.out.println("could not open server socket");
+            System.out.println("unable to open server socket");
+            System.exit(-1);
         }
+
     }
 
 
@@ -57,7 +63,7 @@ public class ServerRealTime {
 
         ConcurrentLinkedDeque<String> inputQueue = new ConcurrentLinkedDeque<>();
         Timer simTimer = new Timer("simulation timer");
-        ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2,simTimer,FighterData.convertTrainerData(t1Info),FighterData.convertTrainerData(t2Info));
+        ServerSimulationLoop ssLoop = new ServerSimulationLoop(inputQueue,p1,p2,simTimer,t1Info.name,FighterData.convertTrainerData(t1Info),t2Info.name,FighterData.convertTrainerData(t2Info));
 
         ServerReader serverThread1 = new ServerReader(p1,p2,inputQueue,1);
         Thread st = new Thread(serverThread1);
@@ -97,20 +103,24 @@ class ServerSimulationLoop extends TimerTask {
     List<TurnChargeMessage> messages = new ArrayList<>();;
 
     public static int tickDelay = 20;//in ms
+    public final  long startTime;
 
 
-    public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection,Timer timer,List<FighterData> leftParty,List<FighterData> rightParty) {
+    public ServerSimulationLoop(ConcurrentLinkedDeque<String> clientInputQueue, NetworkConnection p1Connection, NetworkConnection p2Connection,Timer timer,
+                                String name1,List<FighterData> leftParty,String name2,List<FighterData> rightParty) {
         this.clientInputQueue = clientInputQueue;
         this.p1Connection = p1Connection;
         this.p2Connection = p2Connection;
         this.simulatedGrid = new Grid(null);
         this.timer = timer;
 
+        startTime =System.nanoTime();
+
         timer.scheduleAtFixedRate(this,0,ServerSimulationLoop.tickDelay);
 
-        p1 = new BattlePlayer(null,simulatedGrid,true,null,leftParty);
+        p1 = new BattlePlayer(name1,null,simulatedGrid,true,null,leftParty);
         p1.setId(1);
-        p2 = new BattlePlayer(null,simulatedGrid,false,null,rightParty);
+        p2 = new BattlePlayer(name2,null,simulatedGrid,false,null,rightParty);
         p2.setId(2);
 
         p1.init();
@@ -205,6 +215,7 @@ class ServerSimulationLoop extends TimerTask {
                                 }else{
                                     p1Connection.writeToConnection.println(BattleProtocol.LoseSignal);
                                     p2Connection.writeToConnection.println(BattleProtocol.WinSignal);
+                                    updateRecords(p2.name,p2.name,-1,System.nanoTime());
                                     stopSimulation();
                                 }
                             } else if (km.koId == p2.getId()) {
@@ -214,6 +225,7 @@ class ServerSimulationLoop extends TimerTask {
                                 }else{
                                     p2Connection.writeToConnection.println(BattleProtocol.LoseSignal);
                                     p1Connection.writeToConnection.println(BattleProtocol.WinSignal);
+                                    updateRecords(p2.name,p2.name,1,System.nanoTime());
                                     stopSimulation();
                                 }
                             }
@@ -233,6 +245,7 @@ class ServerSimulationLoop extends TimerTask {
                     }
                 }else if(newMessage.startsWith(BattleProtocol.battleFailSignal)){
                     broadcastMessage(BattleProtocol.battleFailSignal);
+                    updateRecords(p1.name,p2.name,0,System.nanoTime());
                     stopSimulation();
                 } else
                     System.out.println("swap message parse fail");
@@ -258,8 +271,8 @@ class ServerSimulationLoop extends TimerTask {
         }
     }
     //use this somewhere
-    public void updateRecords(String p1,String p2,int battleResult,int time){
-        BattleRecord newRecord = new BattleRecord(p1,p2,time,battleResult > 0? p1: (battleResult < 0 ? p2 : "none"));
+    public void updateRecords(String p1,String p2,int battleResult,long time){
+        BattleRecord newRecord = new BattleRecord(p1,p2,(int) ((time - startTime)/1000000000),battleResult > 0? p1: (battleResult < 0 ? p2 : "none"));
         Gson gson=new Gson();;
 
         FileReader fr=null;

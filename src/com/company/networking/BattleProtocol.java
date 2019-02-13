@@ -29,7 +29,7 @@ public class BattleProtocol{
    public static  String TurnChargeHeader = "TURN_CHARGE_UPDATE";
    public static  String turnConfirmHeader = "TURN_CONFIRMED";
    public static String battleFailSignal = "BATTLE_FAIL";
-
+   public static String battleEndHeader = "BATTLE_END";
    public static Gson gson = new Gson();
 
    public static String createMessage(Object objectToConvert, String... headers){

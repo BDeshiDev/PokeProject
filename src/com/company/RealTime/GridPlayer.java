@@ -52,8 +52,8 @@ class GridPlayer extends  BattlePlayer{
     boolean isChargeDisabled = false;
 
 
-    public GridPlayer(ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
-        super(playerImage,grid,isOnLeft,uiDisplay,party);
+    public GridPlayer(String name,ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene,BattleScreenController battleScreenController, BattleDisplayController uiDisplay, List<FighterData> party) {
+        super(name,playerImage,grid,isOnLeft,uiDisplay,party);
         this.scene = scene;
         this.grid =grid;
         this.battleScreenController = battleScreenController;
@@ -91,6 +91,12 @@ class GridPlayer extends  BattlePlayer{
         super.resetTurn(decreasePercentage);
         System.out.println("reset to ");
         turnProgressBar.setProgress(getTurnProgress());
+    }
+
+    @Override
+    public void disableActions(boolean shouldDisable) {
+        super.disableActions(shouldDisable);
+        battleScreenController.getLoadingImage().setVisible(shouldDisable);
     }
 
     @Override

@@ -12,8 +12,8 @@ class GridAI extends  BattlePlayer{
     Queue<MoveCardData> selectedCards = new ArrayDeque<>();
     Random rand = new Random();
 
-    public GridAI(Grid grid, boolean isOnLeft,BattleDisplayController battleDisplayController, List<FighterData> party) {
-        super(new ImageView(),grid,isOnLeft,battleDisplayController,party);
+    public GridAI(String name,Grid grid, boolean isOnLeft,BattleDisplayController battleDisplayController, List<FighterData> party) {
+        super(name,new ImageView(),grid,isOnLeft,battleDisplayController,party);
         this.grid = grid;
 
         new AnimationTimer(){

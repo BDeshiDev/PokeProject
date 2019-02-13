@@ -12,8 +12,8 @@ import java.util.List;
  public class NetworkedGridPlayer extends  GridPlayer{
     NetworkConnection connection;
 
-    public NetworkedGridPlayer(ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
-        super(playerImage, grid, isOnLeft, scene,battleScreenController, UI,fighters);
+    public NetworkedGridPlayer(String name,ImageView playerImage, Grid grid,boolean isOnLeft, Scene scene, BattleDisplayController UI, List<FighterData> fighters, NetworkConnection connection, BattleScreenController battleScreenController) {
+        super(name,playerImage, grid, isOnLeft, scene,battleScreenController, UI,fighters);
         this.connection = connection;
     }
 

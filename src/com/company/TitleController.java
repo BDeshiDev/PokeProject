@@ -55,7 +55,6 @@ public class TitleController implements PokeScreen {
 
     static Scene titleScene;
 
-    ParallaxLayer testLayer;
     turnedNetWorkController networkScree = new turnedNetWorkController(this);
     networkedPostBattle networkedPostBattle = new networkedPostBattle();
     RealtimeNetworkScreen realNetwork = new RealtimeNetworkScreen(this,networkedPostBattle);
@@ -101,8 +100,6 @@ public class TitleController implements PokeScreen {
         //by setting this property to true, the audio will be played
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        testLayer = new ParallaxLayer(new Image("Assets/SFX/clouds_BG.png"),384,scrollParent);
-        testLayer.start();
         curStage.setScene(titleScene);
     }
 
@@ -114,7 +111,6 @@ public class TitleController implements PokeScreen {
     public void Start(){
         me.begin(curStage,curSave,this);
         mediaPlayer.stop();
-        testLayer.stop();
     }
 
     public void testBattle(){

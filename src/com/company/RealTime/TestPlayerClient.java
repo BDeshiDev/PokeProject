@@ -47,8 +47,8 @@ public class TestPlayerClient extends Application {
         List<FighterData> playerParty = FighterData.convertTrainerData(trainerData);
         List<FighterData> enemyParty = FighterData.convertTrainerData(enemyData);
 
-        NetworkedGridPlayer player  = new NetworkedGridPlayer(new ImageView(),grid,true,controller.battleScene,controller.getPlayerDisplay(),playerParty,new NetworkConnection(socket),controller);
-        BattlePlayer enemy = new BattlePlayer(new ImageView(),grid,false,controller.getEnemyDisplay(),enemyParty);
+        NetworkedGridPlayer player  = new NetworkedGridPlayer(trainerData.name,new ImageView(),grid,true,controller.battleScene,controller.getPlayerDisplay(),playerParty,new NetworkConnection(socket),controller);
+        BattlePlayer enemy = new BattlePlayer(enemyData.name,new ImageView(),grid,false,controller.getEnemyDisplay(),enemyParty);
         GridReader reader = new GridReader(nc,player,enemy,new RealtimeNetworkScreen(new TitleController(), new networkedPostBattle()));
         new Thread(reader).start();
     }

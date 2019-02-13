@@ -76,6 +76,8 @@ public class BattleScreenController implements PokeScreen {
     @FXML
     private Label lvLabel1;
 
+    @FXML
+    private ImageView loadingImage;
 
     @FXML
     private ProgressBar TurnBar;
@@ -187,6 +189,10 @@ public class BattleScreenController implements PokeScreen {
 
     public BattleDisplayController getEnemyDisplay() {
         return enemyDisplay;
+    }
+
+    public ImageView getLoadingImage() {
+        return loadingImage;
     }
 
     public GridPane getPlayerGridPane() {

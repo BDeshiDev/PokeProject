@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 public class BattlePlayer{
+    String name;
     Tile curtile;
     Grid grid;
     boolean isOnLeft;
@@ -21,16 +22,17 @@ public class BattlePlayer{
     protected boolean canAct = true;
 
     private double turnCharge = 0;
-    private final  double turnChargeThreshold = 1 * 1000;//you get a turn every 5000ms at max speed
+    private final  double turnChargeThreshold = 6 * 1000;//you get a turn every 5000ms at max speed
 
     FighterData curFighter;
     List<FighterData> party;
     List<MoveCardData> movesList = new ArrayList<>();
     ObservableList<MoveCardData> cardChoices = FXCollections.observableArrayList();
 
-    public BattlePlayer(ImageView playerImage,Grid grid,boolean isOnLeft,BattleDisplayController uiDisplay, List<FighterData> party) {
+    public BattlePlayer(String name,ImageView playerImage,Grid grid,boolean isOnLeft,BattleDisplayController uiDisplay, List<FighterData> party) {
         this.playerImage = playerImage;
         this.grid = grid;
+        this.name = name;
         this.uiDisplay = uiDisplay;
         this.party = party;
         this.isOnLeft = isOnLeft;
@@ -92,7 +94,7 @@ public class BattlePlayer{
 
     public void disableActions(boolean shouldDisable){
         canAct = !shouldDisable;
-        System.out.println("player is no longer disabled");
+        System.out.println("player is no  disabled:" + shouldDisable);
     }
 
     public void handleSwap(int swapIndex){

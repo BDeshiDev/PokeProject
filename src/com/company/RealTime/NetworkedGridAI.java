@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Random;
 
 public class NetworkedGridAI extends  GridAI{
+
     NetworkConnection connection;
     ProgressBar turnProgressBar;
 
-    public NetworkedGridAI(Grid grid,boolean isOnLeft, NetworkConnection connection, BattleDisplayController UI,ProgressBar turnProgressBar, List<FighterData> party) {
-        super(grid,isOnLeft,UI,party);
+    public NetworkedGridAI(String name,Grid grid,boolean isOnLeft, NetworkConnection connection, BattleDisplayController UI,ProgressBar turnProgressBar, List<FighterData> party) {
+        super(name,grid,isOnLeft,UI,party);
         this.connection = connection;
         this.turnProgressBar = turnProgressBar;
     }

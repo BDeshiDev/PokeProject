@@ -1,50 +1,20 @@
 [
   {
-    "p1": "Ash",
-    "p2": "Paul",
+    "p1": "cvc",
+    "p2": "dfdfd",
     "elapsedTime": 500,
-    "winner": "Paul"
+    "winner": "none"
   },
   {
-    "p1": "Ash",
-    "p2": "Paul",
-    "elapsedTime": 500,
-    "winner": "Paul"
+    "p1": "Rei",
+    "p2": "Rei",
+    "elapsedTime": 30,
+    "winner": "Rei"
   },
   {
-    "p1": "Ash",
-    "p2": "Paul",
-    "elapsedTime": 500,
-    "winner": "Paul"
-  },
-  {
-    "p1": "Ash",
-    "p2": "Paul",
-    "elapsedTime": 500,
-    "winner": "Paul"
-  },
-  {
-    "p1": "Ash",
-    "p2": "Paul",
-    "elapsedTime": 500,
-    "winner": "Paul"
-  },
-  {
-    "p1": "Ash",
-    "p2": "Paul",
-    "elapsedTime": 500,
-    "winner": "Paul"
-  },
-  {
-    "p1": "Ash",
-    "p2": "Paul",
-    "elapsedTime": 500,
-    "winner": "Paul"
-  },
-  {
-    "p1": "Ash",
-    "p2": "Paul",
-    "elapsedTime": 500,
-    "winner": "Paul"
+    "p1": "",
+    "p2": "",
+    "elapsedTime": 3,
+    "winner": "none"
   }
 ]

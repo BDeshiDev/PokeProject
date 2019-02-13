@@ -46,9 +46,6 @@ public  class RealtimeNetworkScreen extends NetWorkController  {
         getSlotCheckBox5().getItems().addAll(nameStrings);
         getSlotCheckBox6().getItems().addAll(nameStrings);
 
-        getSlotCheckBox1().getSelectionModel().selectFirst();
-        getSlotCheckBox2().getSelectionModel().select(1);
-
         getSlotCheckBox1().setOnAction(event -> getIconView().setImage(new Image(FighterData.getByName(getSlotCheckBox1().getValue()).icon)));
         getSlotCheckBox2().setOnAction(event -> getIconView1().setImage(new Image(FighterData.getByName(getSlotCheckBox2().getValue()).icon)));
         getSlotCheckBox3().setOnAction(event -> getIconView2().setImage(new Image(FighterData.getByName(getSlotCheckBox3().getValue()).icon)));
@@ -56,6 +53,10 @@ public  class RealtimeNetworkScreen extends NetWorkController  {
         getSlotCheckBox5().setOnAction(event -> getIconView4().setImage(new Image(FighterData.getByName(getSlotCheckBox5().getValue()).icon)));
         getSlotCheckBox6().setOnAction(event -> getIconView5().setImage(new Image(FighterData.getByName(getSlotCheckBox6().getValue()).icon)));
 
+        getSlotCheckBox1().getSelectionModel().selectFirst();
+        getIconView().setImage(new Image(FighterData.getByName(getSlotCheckBox1().getValue()).icon));
+        getSlotCheckBox2().getSelectionModel().select(1);
+        getIconView1().setImage(new Image(FighterData.getByName(getSlotCheckBox2().getValue()).icon));
     }
 
     @Override
@@ -115,12 +116,12 @@ public  class RealtimeNetworkScreen extends NetWorkController  {
             Grid grid = new Grid(bsc.getPlayerGridParent());
             GridReader reader;
             if(getAiLabel().isSelected()){
-                NetworkedGridAI player = new NetworkedGridAI(grid,true,nc ,bsc.getPlayerDisplay(),bsc.getTurnBar(),playerParty);
-                BattlePlayer enemy = new BattlePlayer(new ImageView(), grid, false, bsc.getEnemyDisplay(), enemyParty);
+                NetworkedGridAI player = new NetworkedGridAI(trainerData.name,grid,true,nc ,bsc.getPlayerDisplay(),bsc.getTurnBar(),playerParty);
+                BattlePlayer enemy = new BattlePlayer(enemyData.name,new ImageView(), grid, false, bsc.getEnemyDisplay(), enemyParty);
                 reader = new GridReader(nc, player, enemy, this);
             }else {
-                NetworkedGridPlayer player = new NetworkedGridPlayer(new ImageView(), grid, true, bsc.battleScene, bsc.getPlayerDisplay(), playerParty, new NetworkConnection(socket), bsc);
-                BattlePlayer enemy = new BattlePlayer(new ImageView(), grid, false, bsc.getEnemyDisplay(), enemyParty);
+                NetworkedGridPlayer player = new NetworkedGridPlayer(trainerData.name,new ImageView(), grid, true, bsc.battleScene, bsc.getPlayerDisplay(), playerParty, new NetworkConnection(socket), bsc);
+                BattlePlayer enemy = new BattlePlayer(enemyData.name,new ImageView(), grid, false, bsc.getEnemyDisplay(), enemyParty);
                 reader = new GridReader(nc, player, enemy, this);
             }
             bsc.begin(primaryStage,getCurSave(),getTitleController());
