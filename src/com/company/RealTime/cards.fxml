@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="120.0" style="-fx-background-radius: 10; -fx-background-color: #381338;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui_elements.cards">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="120.0" style="-fx-background-radius: 10; -fx-background-color: #381338;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.RealTime.cards">
    <children>
       <ImageView fx:id="cardImage" fitHeight="93.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="attackLabel" prefHeight="29.0" prefWidth="119.0" style="-fx-background-color: #72bfdc; -fx-background-radius: 10;" text="Attack" />

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-class NetworkedGridAI extends  GridAI{
+public class NetworkedGridAI extends  GridAI{
     NetworkConnection connection;
     ProgressBar turnProgressBar;
 

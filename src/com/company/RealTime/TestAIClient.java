@@ -34,8 +34,7 @@ public class TestAIClient extends Application {
         TrainerData trainerData = new TrainerData("Gory",new PokemonSaveData("Pikachu", Level.maxLevel),new PokemonSaveData("Charizard", Level.maxLevel));
         TrainerData enemyData = null;
 
-        Gson gson = new Gson();
-        Socket socket = new Socket("127.0.0.1",Settings.realTimePort);
+        Gson gson = new Gson();Socket socket = new Socket("127.0.0.1",Settings.realTimePort);
         System.out.println("in ");
         NetworkConnection nc = new NetworkConnection(socket);
         String readLine = nc.readFromConnection.readLine();

@@ -48,6 +48,9 @@ public class TitleController implements PokeScreen {
     @FXML
     private Button StartButton;
 
+    @FXML
+    private Button recordsButton;
+
     MergedExploration me = new MergedExploration(this);
 
     static Scene titleScene;
@@ -56,6 +59,7 @@ public class TitleController implements PokeScreen {
     turnedNetWorkController networkScree = new turnedNetWorkController(this);
     networkedPostBattle networkedPostBattle = new networkedPostBattle();
     RealtimeNetworkScreen realNetwork = new RealtimeNetworkScreen(this,networkedPostBattle);
+    BattleRecordsController recorder = new BattleRecordsController();
 
     public TitleController()
     {
@@ -83,6 +87,9 @@ public class TitleController implements PokeScreen {
         realBattleButton.setOnAction(event -> {
             realNetwork.begin(curStage,curSave,this);
             mediaPlayer.stop();
+        });
+        recordsButton.setOnAction(event -> {
+            recorder.begin(curStage,curSave,this);
         });
 
         //Instantiating Media class

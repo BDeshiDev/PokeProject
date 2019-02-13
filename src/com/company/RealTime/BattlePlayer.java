@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BattlePlayer{
     Tile curtile;
@@ -20,7 +21,7 @@ public class BattlePlayer{
     protected boolean canAct = true;
 
     private double turnCharge = 0;
-    private final  double turnChargeThreshold = 6 * 1000;//you get a turn every 5000ms at max speed
+    private final  double turnChargeThreshold = 1 * 1000;//you get a turn every 5000ms at max speed
 
     FighterData curFighter;
     List<FighterData> party;
@@ -128,8 +129,15 @@ public class BattlePlayer{
     }
 
     public void handleTurnRequest(){
-        cardChoices.clear();
-        cardChoices.addAll(movesList);
+        Random r = new Random();
+        if(cardChoices.isEmpty()) {
+            if (movesList.size() > 0)
+                cardChoices.add(movesList.get(r.nextInt(movesList.size())));
+            if (movesList.size() > 1)
+                cardChoices.add(movesList.get(r.nextInt(movesList.size())));
+            if (movesList.size() > 2)
+                cardChoices.add(movesList.get(r.nextInt(movesList.size())));
+        }
     }
 
     public double calculateChargeFromTicks(int ticksToAdd){
