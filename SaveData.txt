@@ -1,8 +1,8 @@
 {
   "score": 0,
   "position": {
-    "x": 36,
-    "y": 94
+    "x": 87,
+    "y": 28
   },
   "pcTrainer": {
     "canCancelSwap": true,
@@ -10,7 +10,7 @@
     "hasSwapped": false,
     "party": [
       {
-        "name": "Charizard16",
+        "name": "Charizard",
         "t1": "Fire",
         "t2": "Flying",
         "uniqueId": 1,
@@ -115,7 +115,7 @@
         }
       },
       {
-        "name": "Blastoise1",
+        "name": "Blastoise",
         "t1": "Water",
         "t2": "None",
         "uniqueId": 2,
@@ -220,7 +220,7 @@
         }
       },
       {
-        "name": "Venasaur7",
+        "name": "Venasaur",
         "t1": "Grass",
         "t2": "Poison",
         "uniqueId": 3,
